@@ -1,0 +1,41 @@
+{
+  "name": "firefox-launch",
+  "version": "1.0.0",
+  "description": "Extenision that enables the user to launch Firefox from the other browser",
+  "main": "background.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "mocha test/*.js",
+    "lint": "eslint src test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mozilla/firefox-launch.git"
+  },
+  "keywords": [
+    "firefox",
+    "addon",
+    "chrome",
+    "edge"
+  ],
+  "author": "mozilla",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mozilla/firefox-launch/issues"
+  },
+  "homepage": "https://github.com/mozilla/firefox-launch#readme",
+  "devDependencies": {
+    "chai": "^4.3.10",
+    "chrome-types": "^0.1.246",
+    "eslint": "^8.54.0",
+    "mocha": "^10.2.0",
+    "sinon": "^17.0.1",
+    "sinon-chai": "^3.7.0",
+    "webextensions-jsdom": "^1.4.1"
+  },
+  "dependencies": {
+    "eslint-plugin-no-unsanitized": "^4.0.2"
+  }
+}

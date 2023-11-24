@@ -4,7 +4,7 @@ let isCurrentTabValidUrlScheme = false;
 
 function setIsFirefoxDefault(value) {
   isFirefoxDefault = value;
-  chrome.storage.sync.set({ isFirefoxDefault: value });
+  chrome.storage.sync.set({isFirefoxDefault: value});
 }
 
 chrome.storage.sync.get(["isFirefoxDefault"], (result) => {
@@ -16,25 +16,25 @@ chrome.storage.sync.get(["isFirefoxDefault"], (result) => {
 });
 
 // ------ Icon ------
-function changeIcon() {
-  let iconPath = isFirefoxDefault
-    ? {
-        32: "images/firefox32.png",
-      }
-    : {
-        32: "images/private32.png",
-      };
+function updateToolbarIcon() {
+  let iconPath = isFirefoxDefault ?
+    {
+      32: "images/firefox32.png",
+    } :
+    {
+      32: "images/private32.png",
+    };
   if (!isCurrentTabValidUrlScheme) {
-    iconPath = isFirefoxDefault
-      ? {
-          32: "images/firefox32grey.png",
-        }
-      : {
-          32: "images/private32grey.png",
-        };
+    iconPath = isFirefoxDefault ?
+      {
+        32: "images/firefox32grey.png",
+      } :
+      {
+        32: "images/private32grey.png",
+      };
   }
 
-  chrome.action.setIcon({ path: iconPath });
+  chrome.action.setIcon({path: iconPath});
 }
 
 // ------ Context Menu ------
@@ -51,7 +51,7 @@ function initContextMenu() {
     title: "Launch this page in Firefox Private Browsing",
     contexts: ["action"],
   });
-  changeIcon();
+  updateToolbarIcon();
 }
 
 chrome.contextMenus.onClicked.addListener((info, tab) => {
@@ -62,7 +62,6 @@ chrome.contextMenus.onClicked.addListener((info, tab) => {
       checked: isFirefoxDefault,
     });
     setIsFirefoxDefault(!isFirefoxDefault);
-    changeIcon();
     if (isFirefoxDefault) {
       chrome.contextMenus.update("alternativeLaunchContextMenu", {
         title: "Launch this page in Firefox Private Browsing",
@@ -72,6 +71,7 @@ chrome.contextMenus.onClicked.addListener((info, tab) => {
         title: "Launch this page in Firefox",
       });
     }
+    updateToolbarIcon();
   } else if (info.menuItemId === "alternativeLaunchContextMenu") {
     launchFirefox(tab, !isFirefoxDefault);
   }
@@ -83,7 +83,7 @@ chrome.runtime.onInstalled.addListener(() => {
 });
 
 // ------ Storage listeners ------
-chrome.storage.sync.onChanged.addListener((changes, namespace) => {
+chrome.storage.sync.onChanged.addListener((changes) => {
   if (changes.isFirefoxDefault !== undefined) {
     setIsFirefoxDefault(changes.isFirefoxDefault.newValue);
   }
@@ -93,9 +93,9 @@ chrome.storage.sync.onChanged.addListener((changes, namespace) => {
 function launchFirefox(tab, launchDefaultBrowsing) {
   if (isCurrentTabValidUrlScheme) {
     if (launchDefaultBrowsing) {
-      chrome.tabs.update(tab.id, { url: "firefox:" + tab.url });
+      chrome.tabs.update(tab.id, {url: "firefox:" + tab.url});
     } else {
-      chrome.tabs.update(tab.id, { url: "firefox-private:" + tab.url });
+      chrome.tabs.update(tab.id, {url: "firefox-private:" + tab.url});
     }
   }
 }
@@ -112,7 +112,7 @@ function checkAndUpdateURLScheme(tab) {
   } else {
     isCurrentTabValidUrlScheme = false;
   }
-  changeIcon();
+  updateToolbarIcon();
 }
 
 chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
@@ -128,3 +128,12 @@ chrome.tabs.onActivated.addListener((activeInfo) => {
     checkAndUpdateURLScheme(tab);
   });
 });
+
+// eslint-disable-next-line no-undef
+module.exports = {
+  setIsFirefoxDefault,
+  updateToolbarIcon,
+  initContextMenu,
+  launchFirefox,
+  checkAndUpdateURLScheme,
+};
