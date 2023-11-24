@@ -1,5 +1,5 @@
 // -------- Initialization ------
-let isFirefoxDefault;
+let isFirefoxDefault = true;
 let isCurrentTabValidUrlScheme = false;
 
 function setIsFirefoxDefault(value) {
@@ -44,7 +44,7 @@ function initContextMenu() {
     title: "Always use Firefox Private Browsing",
     contexts: ["action"],
     type: "checkbox",
-    checked: isFirefoxDefault || false,
+    checked: !isFirefoxDefault,
   });
   chrome.contextMenus.create({
     id: "alternativeLaunchContextMenu",
@@ -54,12 +54,11 @@ function initContextMenu() {
   updateToolbarIcon();
 }
 
-chrome.contextMenus.onClicked.addListener((info, tab) => {
-  // change the icon and the context menu title
+function handleContextMenuClick(info, tab) {
   if (info.menuItemId === "changeDefaultLaunchContextMenu") {
     chrome.contextMenus.update("changeDefaultLaunchContextMenu", {
       type: "checkbox",
-      checked: !isFirefoxDefault,
+      checked: isFirefoxDefault,
     });
     setIsFirefoxDefault(!isFirefoxDefault);
     if (isFirefoxDefault) {
@@ -75,6 +74,10 @@ chrome.contextMenus.onClicked.addListener((info, tab) => {
   } else if (info.menuItemId === "alternativeLaunchContextMenu") {
     launchFirefox(tab, !isFirefoxDefault);
   }
+}
+
+chrome.contextMenus.onClicked.addListener((info, tab) => {
+  handleContextMenuClick(info, tab);
 });
 
 // ------ Installation ------
@@ -130,3 +133,4 @@ chrome.tabs.onActivated.addListener((activeInfo) => {
 });
 
 chrome.initContextMenu = initContextMenu;
+chrome.handleContextMenuClick = handleContextMenuClick;
