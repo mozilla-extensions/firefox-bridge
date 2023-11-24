@@ -134,3 +134,6 @@ chrome.tabs.onActivated.addListener((activeInfo) => {
 
 chrome.initContextMenu = initContextMenu;
 chrome.handleContextMenuClick = handleContextMenuClick;
+chrome.setIsFirefoxDefault = setIsFirefoxDefault;
+chrome.launchFirefox = launchFirefox;
+chrome.checkAndUpdateURLScheme = checkAndUpdateURLScheme;

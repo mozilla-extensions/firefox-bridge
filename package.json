@@ -8,7 +8,8 @@
   },
   "scripts": {
     "test": "mocha test/**/*.js",
-    "lint": "eslint src test"
+    "lint": "eslint src test",
+    "coverage": "nyc --reporter=html --reporter=text mocha --reporter=progress test/setup.js test/**/*.test.js --timeout 60000"
   },
   "repository": {
     "type": "git",
@@ -31,6 +32,7 @@
     "chrome-types": "^0.1.246",
     "eslint": "^8.54.0",
     "mocha": "^10.2.0",
+    "nyc": "^15.1.0",
     "sinon": "^17.0.1",
     "sinon-chai": "^3.7.0",
     "webextensions-jsdom": "^0.18.1"
