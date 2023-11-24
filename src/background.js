@@ -44,7 +44,7 @@ function initContextMenu() {
     title: "Always use Firefox Private Browsing",
     contexts: ["action"],
     type: "checkbox",
-    checked: !isFirefoxDefault,
+    checked: isFirefoxDefault || false,
   });
   chrome.contextMenus.create({
     id: "alternativeLaunchContextMenu",
@@ -59,7 +59,7 @@ chrome.contextMenus.onClicked.addListener((info, tab) => {
   if (info.menuItemId === "changeDefaultLaunchContextMenu") {
     chrome.contextMenus.update("changeDefaultLaunchContextMenu", {
       type: "checkbox",
-      checked: isFirefoxDefault,
+      checked: !isFirefoxDefault,
     });
     setIsFirefoxDefault(!isFirefoxDefault);
     if (isFirefoxDefault) {
@@ -129,11 +129,4 @@ chrome.tabs.onActivated.addListener((activeInfo) => {
   });
 });
 
-// eslint-disable-next-line no-undef
-module.exports = {
-  setIsFirefoxDefault,
-  updateToolbarIcon,
-  initContextMenu,
-  launchFirefox,
-  checkAndUpdateURLScheme,
-};
+chrome.initContextMenu = initContextMenu;
