@@ -4,7 +4,7 @@ describe("Toolbar Context Menu", () => {
   describe("initContextMenu()", () => {
     it("should create the context menu", async () => {
       global.chrome.initContextMenu();
-      expect(global.chrome.contextMenus.create).to.have.been.calledTwice;
+      expect(global.chrome.contextMenus.create.callCount).to.equal(6);
       expect(global.chrome.contextMenus.create).to.have.been.calledWith({
         id: "changeDefaultLaunchContextMenu",
         title: "Always use Firefox Private Browsing",
@@ -16,6 +16,26 @@ describe("Toolbar Context Menu", () => {
         id: "alternativeLaunchContextMenu",
         title: "Launch this page in Firefox Private Browsing",
         contexts: ["action"],
+      });
+      expect(global.chrome.contextMenus.create).to.have.been.calledWith({
+        id: "launchInFirefox",
+        title: "Launch this page in Firefox",
+        contexts: ["page"],
+      });
+      expect(global.chrome.contextMenus.create).to.have.been.calledWith({
+        id: "launchInFirefoxPrivate",
+        title: "Launch this page in Firefox Private Browsing",
+        contexts: ["page"],
+      });
+      expect(global.chrome.contextMenus.create).to.have.been.calledWith({
+        id: "launchInFirefoxLink",
+        title: "Launch this link in Firefox",
+        contexts: ["link"],
+      });
+      expect(global.chrome.contextMenus.create).to.have.been.calledWith({
+        id: "launchInFirefoxPrivateLink",
+        title: "Launch this link in Firefox Private Browsing",
+        contexts: ["link"],
       });
 
     });
@@ -45,6 +65,64 @@ describe("Toolbar Context Menu", () => {
       });
       expect(global.chrome.contextMenus.update).to.have.been.calledWith("alternativeLaunchContextMenu", {
         title: "Launch this page in Firefox Private Browsing",
+      });
+    });
+
+    it("should launch firefox in the alternative launch mode to default", async () => {
+      global.chrome.setIsFirefoxDefault(true);
+      global.chrome.setIsCurrentTabValidUrlScheme(true);
+      global.chrome.handleContextMenuClick({menuItemId: "alternativeLaunchContextMenu"}, {id: 1, url: "https://basicurl.com"});
+      expect(global.chrome.tabs.update).to.have.been.calledOnce;
+      expect(global.chrome.tabs.update).to.have.been.calledWith(1, {
+        url: "firefox-private:https://basicurl.com",
+      });
+
+      global.chrome.setIsFirefoxDefault(false);
+      global.chrome.setIsCurrentTabValidUrlScheme(true);
+      global.chrome.handleContextMenuClick({menuItemId: "alternativeLaunchContextMenu"}, {id: 1, url: "https://basicurl.com"});
+      expect(global.chrome.tabs.update).to.have.been.calledTwice;
+      expect(global.chrome.tabs.update).to.have.been.calledWith(1, {
+        url: "firefox:https://basicurl.com",
+      });
+    });
+
+    it("should launch firefox in normal mode from the page context", async () => {
+      global.chrome.setIsFirefoxDefault(true);
+      global.chrome.setIsCurrentTabValidUrlScheme(true);
+      global.chrome.handleContextMenuClick({menuItemId: "launchInFirefox"}, {id: 1, url: "https://basicurl.com"});
+      expect(global.chrome.tabs.update).to.have.been.calledOnce;
+      expect(global.chrome.tabs.update).to.have.been.calledWith(1, {
+        url: "firefox:https://basicurl.com",
+      });
+    });
+
+    it("should launch firefox in private mode from the page context", async () => {
+      global.chrome.setIsFirefoxDefault(false);
+      global.chrome.setIsCurrentTabValidUrlScheme(true);
+      global.chrome.handleContextMenuClick({menuItemId: "launchInFirefoxPrivate"}, {id: 1, url: "https://basicurl.com"});
+      expect(global.chrome.tabs.update).to.have.been.calledOnce;
+      expect(global.chrome.tabs.update).to.have.been.calledWith(1, {
+        url: "firefox-private:https://basicurl.com",
+      });
+    });
+
+    it("should launch firefox in normal mode from the link context", async () => {
+      global.chrome.setIsFirefoxDefault(true);
+      global.chrome.setIsCurrentTabValidUrlScheme(true);
+      global.chrome.handleContextMenuClick({menuItemId: "launchInFirefoxLink"}, {id: 1, url: "https://basicurl.com"});
+      expect(global.chrome.tabs.update).to.have.been.calledOnce;
+      expect(global.chrome.tabs.update).to.have.been.calledWith(1, {
+        url: "firefox:https://basicurl.com",
+      });
+    });
+
+    it("should launch firefox in private mode from the link context", async () => {
+      global.chrome.setIsFirefoxDefault(false);
+      global.chrome.setIsCurrentTabValidUrlScheme(true);
+      global.chrome.handleContextMenuClick({menuItemId: "launchInFirefoxPrivateLink"}, {id: 1, url: "https://basicurl.com"});
+      expect(global.chrome.tabs.update).to.have.been.calledOnce;
+      expect(global.chrome.tabs.update).to.have.been.calledWith(1, {
+        url: "firefox-private:https://basicurl.com",
       });
     });
   });
