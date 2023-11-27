@@ -87,8 +87,10 @@ chrome.runtime.onInstalled.addListener(() => {
 
 // ------ Storage listeners ------
 chrome.storage.sync.onChanged.addListener((changes) => {
-  isFirefoxDefault = changes.isFirefoxDefault.newValue;
-  updateToolbarIcon();
+  if (changes.isFirefoxDefault !== undefined) {
+    isFirefoxDefault = changes.isFirefoxDefault.newValue;
+    updateToolbarIcon();
+  }
 });
 
 // ------ Launching Firefox ------
