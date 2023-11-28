@@ -7,7 +7,7 @@
     "test": "test"
   },
   "scripts": {
-    "test": "nyc --reporter=text mocha --reporter-progress test/**/*.js",
+    "test": "nyc --reporter=text mocha --reporter-progress test/setup.js test/**/*.js",
     "lint": "eslint src test",
     "coverage": "nyc --reporter=lcov mocha test/setup.js test/**/*.test.js --timeout 60000"
   },

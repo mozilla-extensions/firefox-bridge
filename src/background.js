@@ -52,6 +52,29 @@ function initContextMenu() {
     contexts: ["action"],
   });
   updateToolbarIcon();
+
+  // page context menu
+  chrome.contextMenus.create({
+    id: "launchInFirefox",
+    title: "Launch this page in Firefox",
+    contexts: ["page"],
+  });
+  chrome.contextMenus.create({
+    id: "launchInFirefoxPrivate",
+    title: "Launch this page in Firefox Private Browsing",
+    contexts: ["page"],
+  });
+
+  chrome.contextMenus.create({
+    id: "launchInFirefoxLink",
+    title: "Launch this link in Firefox",
+    contexts: ["link"],
+  });
+  chrome.contextMenus.create({
+    id: "launchInFirefoxPrivateLink",
+    title: "Launch this link in Firefox Private Browsing",
+    contexts: ["link"],
+  });
 }
 
 function handleContextMenuClick(info, tab) {
@@ -72,7 +95,12 @@ function handleContextMenuClick(info, tab) {
     }
     updateToolbarIcon();
   } else if (info.menuItemId === "alternativeLaunchContextMenu") {
+    // launch in the opposite mode to the default
     launchFirefox(tab, !isFirefoxDefault);
+  } else if (info.menuItemId === "launchInFirefox" || info.menuItemId === "launchInFirefoxLink") {
+    launchFirefox(tab, true);
+  } else if (info.menuItemId === "launchInFirefoxPrivate" || info.menuItemId === "launchInFirefoxPrivateLink") {
+    launchFirefox(tab, false);
   }
 }
 
