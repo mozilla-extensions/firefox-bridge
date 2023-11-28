@@ -1,0 +1,29 @@
+version: 2.1
+
+orbs:
+  node: circleci/node@5.1.0
+  codecov: codecov/codecov@3.2.5
+
+jobs:
+  tests:
+    docker:
+      - image: cimg/node:20.0.0
+
+    steps:
+      - checkout
+      
+      - run:
+          name: Install Dependencies
+          command: npm i
+      
+      - run:
+          name: Run Tests
+          command: npm run coverage
+
+      - codecov/upload:
+          file: ./coverage/lcov.info
+
+workflows:
+  tests:
+    jobs:
+      - tests
