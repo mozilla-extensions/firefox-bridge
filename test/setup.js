@@ -62,6 +62,5 @@ global.afterEach(() => {
   global.chrome.tabs.onActivated.addListener.reset();
   global.chrome.tabs.onCreated.addListener.reset();
   global.chrome.runtime.onInstalled.addListener.reset();
-  global.chrome.storage.sync.onChanged.addListener.reset();
   global.chrome.contextMenus.onClicked.addListener.reset();
 });
