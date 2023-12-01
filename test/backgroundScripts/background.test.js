@@ -225,4 +225,31 @@ describe("background.js", () => {
       expect(global.chrome.getIsCurrentTabValidUrlScheme()).to.be.true;
     });
   });
+
+  describe("handleHotkeyPress()", () => {
+
+    it("should launch firefox in normal mode", async () => {
+      global.chrome.setIsCurrentTabValidUrlScheme(true);
+      global.chrome.handleHotkeyPress("launchFirefox", {id: 1, url: "https://addons.mozilla.org/en-CA/firefox/extensions/"});
+      expect(global.chrome.tabs.update).to.have.been.calledOnce;
+      expect(global.chrome.tabs.update).to.have.been.calledWith(1, {
+        url: "firefox:https://addons.mozilla.org/en-CA/firefox/extensions/",
+      });
+    });
+
+    it("should launch firefox in private mode", async () => {
+      global.chrome.setIsCurrentTabValidUrlScheme(true);
+      global.chrome.handleHotkeyPress("launchFirefoxPrivate", {id: 1, url: "https://addons.mozilla.org/en-CA/firefox/extensions/"});
+      expect(global.chrome.tabs.update).to.have.been.calledOnce;
+      expect(global.chrome.tabs.update).to.have.been.calledWith(1, {
+        url: "firefox-private:https://addons.mozilla.org/en-CA/firefox/extensions/",
+      });
+    });
+
+    it("should do nothing if the command is not recognized", async () => {
+      global.chrome.setIsCurrentTabValidUrlScheme(true);
+      global.chrome.handleHotkeyPress("notvalid", {id: 1, url: "https://addons.mozilla.org/en-CA/firefox/extensions/"});
+      expect(global.chrome.tabs.update).to.not.have.been.called;
+    });
+  });
 });
