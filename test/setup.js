@@ -45,8 +45,20 @@ global.chrome = {
       addListener: sinon.stub(),
     },
     update: sinon.stub(),
-  }
+  },
+  commands: {
+    onCommand: {
+      addListener: sinon.stub(),
+    },
+  },
+  i18n: {
+    getMessage: sinon.stub(),
+  },
 };
+// replace underscores with spaces
+global.chrome.i18n.getMessage.callsFake((key) => key.replace(/_/g, " "));
+
+// load background script now
 require(path.join(__dirname, "../src/background.js"));
 
 global.afterEach(() => {
@@ -62,6 +74,5 @@ global.afterEach(() => {
   global.chrome.tabs.onActivated.addListener.reset();
   global.chrome.tabs.onCreated.addListener.reset();
   global.chrome.runtime.onInstalled.addListener.reset();
-  global.chrome.storage.sync.onChanged.addListener.reset();
   global.chrome.contextMenus.onClicked.addListener.reset();
 });

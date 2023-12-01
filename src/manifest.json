@@ -14,10 +14,12 @@
     "contextMenus",
     "activeTab",
     "tabs",
-    "storage"
+    "storage",
+    "commands"
   ],
   "background": {
-    "service_worker": "background.js"
+    "service_worker": "background.js",
+    "type": "module"
   },
   "action": {
     "default_icon": {
@@ -27,5 +29,20 @@
       "96": "images/firefox96.png",
       "128": "images/firefox128.png"
     }
-  }
+  },
+  "commands": {
+    "launchFirefox": {
+      "suggested_key": {
+        "default": "Ctrl+Shift+F"
+      },
+      "description": "Launch Firefox"
+    },
+    "launchFirefoxPrivate": {
+      "suggested_key": {
+        "default": "Ctrl+Shift+P"
+      },
+      "description": "Launch Firefox Private Browsing"
+    }
+  },
+  "default_locale": "en"
 }
