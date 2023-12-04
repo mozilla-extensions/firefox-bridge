@@ -11,13 +11,13 @@ function checkAndUpdateURLScheme(tab) {
     isCurrentTabValidUrlScheme = false;
   }
 }
-  
+
 function launchFirefox(tab, launchDefaultBrowsing) {
   if (isCurrentTabValidUrlScheme) {
     if (launchDefaultBrowsing) {
-      chrome.tabs.update(tab.id, {url: "firefox:" + tab.url});
+      chrome.tabs.update(tab.id, { url: "firefox:" + tab.url });
     } else {
-      chrome.tabs.update(tab.id, {url: "firefox-private:" + tab.url});
+      chrome.tabs.update(tab.id, { url: "firefox-private:" + tab.url });
     }
   }
 }
@@ -36,10 +36,12 @@ function initContextMenu(isFirefoxDefault) {
   });
   chrome.contextMenus.create({
     id: "alternativeLaunchContextMenu",
-    title: chrome.i18n.getMessage("Launch_this_page_in_Firefox_Private_Browsing"),
+    title: chrome.i18n.getMessage(
+      "Launch_this_page_in_Firefox_Private_Browsing"
+    ),
     contexts: ["action"],
   });
-  
+
   // page context menu
   chrome.contextMenus.create({
     id: "launchInFirefox",
@@ -48,10 +50,12 @@ function initContextMenu(isFirefoxDefault) {
   });
   chrome.contextMenus.create({
     id: "launchInFirefoxPrivate",
-    title: chrome.i18n.getMessage("Launch_this_page_in_Firefox_Private_Browsing"),
+    title: chrome.i18n.getMessage(
+      "Launch_this_page_in_Firefox_Private_Browsing"
+    ),
     contexts: ["page"],
   });
-  
+
   chrome.contextMenus.create({
     id: "launchInFirefoxLink",
     title: chrome.i18n.getMessage("Launch_this_link_in_Firefox"),
@@ -59,11 +63,13 @@ function initContextMenu(isFirefoxDefault) {
   });
   chrome.contextMenus.create({
     id: "launchInFirefoxPrivateLink",
-    title: chrome.i18n.getMessage("Launch_this_link_in_Firefox_Private_Browsing"),
+    title: chrome.i18n.getMessage(
+      "Launch_this_link_in_Firefox_Private_Browsing"
+    ),
     contexts: ["link"],
   });
 }
-  
+
 function handleContextMenuClick(info, tab, isFirefoxDefault) {
   if (info.menuItemId === "changeDefaultLaunchContextMenu") {
     chrome.contextMenus.update("changeDefaultLaunchContextMenu", {
@@ -76,17 +82,25 @@ function handleContextMenuClick(info, tab, isFirefoxDefault) {
       });
     } else {
       chrome.contextMenus.update("alternativeLaunchContextMenu", {
-        title: chrome.i18n.getMessage("Launch_this_page_in_Firefox_Private_Browsing"),
+        title: chrome.i18n.getMessage(
+          "Launch_this_page_in_Firefox_Private_Browsing"
+        ),
       });
     }
-    chrome.storage.sync.set({isFirefoxDefault: !isFirefoxDefault});
+    chrome.storage.sync.set({ isFirefoxDefault: !isFirefoxDefault });
     updateToolbarIcon(isFirefoxDefault);
   } else if (info.menuItemId === "alternativeLaunchContextMenu") {
     // launch in the opposite mode to the default
     launchFirefox(tab, !isFirefoxDefault);
-  } else if (info.menuItemId === "launchInFirefox" || info.menuItemId === "launchInFirefoxLink") {
+  } else if (
+    info.menuItemId === "launchInFirefox" ||
+    info.menuItemId === "launchInFirefoxLink"
+  ) {
     launchFirefox(tab, true);
-  } else if (info.menuItemId === "launchInFirefoxPrivate" || info.menuItemId === "launchInFirefoxPrivateLink") {
+  } else if (
+    info.menuItemId === "launchInFirefoxPrivate" ||
+    info.menuItemId === "launchInFirefoxPrivateLink"
+  ) {
     launchFirefox(tab, false);
   }
 }
@@ -95,26 +109,26 @@ function handleContextMenuClick(info, tab, isFirefoxDefault) {
 //            Toolbar Icon Logic
 // -------------------------------------------
 function updateToolbarIcon(isFirefoxDefault) {
-  let iconPath = isFirefoxDefault ?
-    {
+  let iconPath = isFirefoxDefault
+    ? {
       32: "images/firefox32.png",
-    } :
-    {
+    }
+    : {
       32: "images/private32.png",
     };
   if (!isCurrentTabValidUrlScheme) {
-    iconPath = isFirefoxDefault?
-      {
+    iconPath = isFirefoxDefault
+      ? {
         32: "images/firefox32grey.png",
-      } :
-      {
+      }
+      : {
         32: "images/private32grey.png",
       };
   }
-  
-  chrome.action.setIcon({path: iconPath});
+
+  chrome.action.setIcon({ path: iconPath });
 }
-  
+
 // -------------------------------------------
 //              Hotkey Logic
 // -------------------------------------------
@@ -146,6 +160,7 @@ chrome.contextMenus.onClicked.addListener(async (info, tab) => {
 });
 
 chrome.runtime.onInstalled.addListener(async () => {
+  chrome.tabs.create({ url: "welcome.html" });
   const isFirefoxDefault = await getIsFirefoxDefault();
   initContextMenu(isFirefoxDefault);
   updateToolbarIcon(isFirefoxDefault);
@@ -180,7 +195,7 @@ chrome.tabs.onActivated.addListener((activeInfo) => {
 
 chrome.commands.onCommand.addListener((command) => {
   console.log("Command:", command);
-  chrome.tabs.query({active: true, currentWindow: true}, (tabs) => {
+  chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
     handleHotkeyPress(command, tabs[0]);
   });
 });

@@ -1,7 +1,13 @@
 {
-    "Always_use_Firefox_Private_Browsing": {"message": "Always use Firefox Private Browsing"},
-    "Launch_this_page_in_Firefox_Private_Browsing": {"message": "Launch this page in Firefox Private Browsing"},
-    "Launch_this_page_in_Firefox": {"message": "Launch this page in Firefox"},
-    "Launch_this_link_in_Firefox_Private_Browsing": {"message": "Launch this link in Firefox Private Browsing"},
-    "Launch_this_link_in_Firefox": {"message": "Launch this link in Firefox"} 
+  "Always_use_Firefox_Private_Browsing": {
+    "message": "Always use Firefox Private Browsing"
+  },
+  "Launch_this_page_in_Firefox_Private_Browsing": {
+    "message": "Launch this page in Firefox Private Browsing"
+  },
+  "Launch_this_page_in_Firefox": { "message": "Launch this page in Firefox" },
+  "Launch_this_link_in_Firefox_Private_Browsing": {
+    "message": "Launch this link in Firefox Private Browsing"
+  },
+  "Launch_this_link_in_Firefox": { "message": "Launch this link in Firefox" }
 }
