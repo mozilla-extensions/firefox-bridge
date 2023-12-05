@@ -3,7 +3,6 @@ function loadLocalizedMessages() {
   document.getElementById("firefox-not-installed-error-heading").innerText = chrome.i18n.getMessage("notInstalledErrorHeading");
   document.getElementById("firefox-not-installed-error-message").innerText = chrome.i18n.getMessage("notInstalledErrorText");
   document.getElementById("firefox-not-installed-error-button").innerText = chrome.i18n.getMessage("notInstalledErrorAction");
-
 }
 
 function isFirefoxInstalled() {
@@ -28,9 +27,17 @@ async function showNotInstalledError() {
 }
 
 function handleInstallFirefox() {
-  console.log("installing firefox");
   chrome.tabs.create({ url: "https://www.mozilla.org/firefox/" });
 }
 
 document.addEventListener("DOMContentLoaded", loadLocalizedMessages);
 document.addEventListener("DOMContentLoaded", showNotInstalledError);
+
+// -------------------------------------------
+//                  Exports
+// -------------------------------------------
+chrome.welcome = {
+  handleInstallFirefox,
+  showNotInstalledError,
+  isFirefoxInstalled,
+};

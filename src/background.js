@@ -227,17 +227,19 @@ chrome.commands.onCommand.addListener((command) => {
 // -------------------------------------------
 //              Exports
 // -------------------------------------------
-chrome.launchFirefox = launchFirefox;
-chrome.checkAndUpdateURLScheme = checkAndUpdateURLScheme;
-chrome.updateToolbarIcon = updateToolbarIcon;
-chrome.handleHotkeyPress = handleHotkeyPress;
-chrome.initContextMenu = initContextMenu;
-chrome.handleContextMenuClick = handleContextMenuClick;
-chrome.getIsFirefoxDefault = getIsFirefoxDefault;
-chrome.getIsFirefoxInstalled = getIsFirefoxInstalled;
-chrome.setIsCurrentTabValidUrlScheme = (value) => {
-  isCurrentTabValidUrlScheme = value;
-};
-chrome.getIsCurrentTabValidUrlScheme = () => {
-  return isCurrentTabValidUrlScheme;
+chrome.background = {
+  launchFirefox,
+  checkAndUpdateURLScheme,
+  updateToolbarIcon,
+  handleHotkeyPress,
+  initContextMenu,
+  handleContextMenuClick,
+  getIsFirefoxDefault,
+  getIsFirefoxInstalled,
+  setIsCurrentTabValidUrlScheme: (value) => {
+    isCurrentTabValidUrlScheme = value;
+  },
+  getIsCurrentTabValidUrlScheme: () => {
+    return isCurrentTabValidUrlScheme;
+  },
 };
