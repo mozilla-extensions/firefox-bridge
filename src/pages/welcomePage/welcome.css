@@ -5,6 +5,7 @@
     border-radius: 5px;
     width: 95%;
     text-align: center;
+    display: none;
 }
 
 .welcome-header {

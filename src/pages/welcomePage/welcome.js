@@ -7,19 +7,19 @@ function loadLocalizedMessages() {
 }
 
 function isFirefoxInstalled() {
-  return chrome.storage.local.get("isFirefoxInstalled", (result) => {
-    if (result.isFirefoxInstalled === undefined) {
-      console.log("isFirefoxInstalled is undefined");
-      return false;
-    } else {
-      console.log("isFirefoxInstalled is defined");
-      return result.isFirefoxInstalled;
-    }
+  return new Promise((resolve) => {
+    chrome.storage.local.get(["isFirefoxInstalled"], (result) => {
+      if (result.isFirefoxInstalled === undefined) {
+        resolve(false);
+      } else {
+        resolve(result.isFirefoxInstalled);
+      }
+    });
   });
 }
 
-function showNotInstalledError() {
-  if (isFirefoxInstalled()) {
+async function showNotInstalledError() {
+  if (await isFirefoxInstalled()) {
     document.getElementById("firefox-not-installed-error").style.display = "none";
   } else {
     document.getElementById("firefox-not-installed-error").style.display = "block";

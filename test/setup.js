@@ -22,6 +22,10 @@ global.chrome = {
       },
       set: sinon.stub(),
     },
+    local: {
+      get: sinon.stub(),
+      set: sinon.stub(),
+    },
   },
   runtime: {
     onInstalled: {
@@ -45,6 +49,7 @@ global.chrome = {
       addListener: sinon.stub(),
     },
     update: sinon.stub(),
+    create: sinon.stub(),
   },
   commands: {
     onCommand: {
@@ -67,8 +72,11 @@ global.afterEach(() => {
   global.chrome.contextMenus.update.reset();
   global.chrome.storage.sync.get.reset();
   global.chrome.storage.sync.set.reset();
+  global.chrome.storage.local.get.reset();
+  global.chrome.storage.local.set.reset();
   global.chrome.action.setIcon.reset();
   global.chrome.tabs.update.reset();
+  global.chrome.tabs.create.reset();
   global.chrome.action.onClicked.addListener.reset();
   global.chrome.tabs.onUpdated.addListener.reset();
   global.chrome.tabs.onActivated.addListener.reset();

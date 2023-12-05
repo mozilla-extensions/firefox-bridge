@@ -1,10 +1,26 @@
 require("../setup.js");
 
+const setIsFirefoxDefault = (isFirefoxDefault) => {
+  global.chrome.storage.sync.get.callsFake((key, callback) => {
+    callback({isFirefoxDefault});
+  });
+};
+
+const setIsFirefoxInstalled = (isFirefoxInstalled) => {
+  global.chrome.storage.local.get.callsFake((key, callback) => {
+    callback({isFirefoxInstalled});
+  });
+};
+
 describe("background.js", () => {
+  beforeEach(() => {
+    setIsFirefoxInstalled(true);
+  });
+
   describe("initContextMenu()", () => {
     it("should create the context menu", async () => {
-      const isFirefoxDefault = true;
-      global.chrome.initContextMenu(isFirefoxDefault);
+      setIsFirefoxDefault(true);
+      await global.chrome.initContextMenu();
       expect(global.chrome.contextMenus.create.callCount).to.equal(6);
       expect(global.chrome.contextMenus.create).to.have.been.calledWith({
         id: "changeDefaultLaunchContextMenu",
@@ -44,8 +60,8 @@ describe("background.js", () => {
 
   describe("handleContextMenuClick()", () => {
     it("should change the default launch mode to private", async () => {
-      const isFirefoxDefault = true;
-      global.chrome.handleContextMenuClick({menuItemId: "changeDefaultLaunchContextMenu"}, {}, isFirefoxDefault);
+      setIsFirefoxDefault(true);
+      await global.chrome.handleContextMenuClick({menuItemId: "changeDefaultLaunchContextMenu"}, {});
       expect(global.chrome.contextMenus.update).to.have.been.calledTwice;
       expect(global.chrome.contextMenus.update).to.have.been.calledWith("changeDefaultLaunchContextMenu", {
         type: "checkbox",
@@ -58,8 +74,8 @@ describe("background.js", () => {
     });
 
     it("should change the default launch mode to normal", async () => {
-      const isFirefoxDefault = false;
-      global.chrome.handleContextMenuClick({menuItemId: "changeDefaultLaunchContextMenu"}, {}, isFirefoxDefault);
+      setIsFirefoxDefault(false);
+      await global.chrome.handleContextMenuClick({menuItemId: "changeDefaultLaunchContextMenu"}, {});
       expect(global.chrome.contextMenus.update).to.have.been.calledTwice;
       expect(global.chrome.contextMenus.update).to.have.been.calledWith("changeDefaultLaunchContextMenu", {
         type: "checkbox",
@@ -71,16 +87,17 @@ describe("background.js", () => {
     });
 
     it("should launch firefox in the alternative launch mode to default", async () => {
-      const isFirefoxDefault = true;
+      setIsFirefoxDefault(true);
       global.chrome.setIsCurrentTabValidUrlScheme(true);
-      global.chrome.handleContextMenuClick({menuItemId: "alternativeLaunchContextMenu"}, {id: 1, url: "https://basicurl.com"}, isFirefoxDefault);
+      await global.chrome.handleContextMenuClick({menuItemId: "alternativeLaunchContextMenu"}, {id: 1, url: "https://basicurl.com"});
       expect(global.chrome.tabs.update).to.have.been.calledOnce;
       expect(global.chrome.tabs.update).to.have.been.calledWith(1, {
         url: "firefox-private:https://basicurl.com",
       });
 
+      setIsFirefoxDefault(false);
       global.chrome.setIsCurrentTabValidUrlScheme(true);
-      global.chrome.handleContextMenuClick({menuItemId: "alternativeLaunchContextMenu"}, {id: 1, url: "https://basicurl.com"}, !isFirefoxDefault);
+      await global.chrome.handleContextMenuClick({menuItemId: "alternativeLaunchContextMenu"}, {id: 1, url: "https://basicurl.com"});
       expect(global.chrome.tabs.update).to.have.been.calledTwice;
       expect(global.chrome.tabs.update).to.have.been.calledWith(1, {
         url: "firefox:https://basicurl.com",
@@ -88,9 +105,9 @@ describe("background.js", () => {
     });
 
     it("should launch firefox in normal mode from the page context", async () => {
-      const isFirefoxDefault = true;
+      setIsFirefoxDefault(true);
       global.chrome.setIsCurrentTabValidUrlScheme(true);
-      global.chrome.handleContextMenuClick({menuItemId: "launchInFirefox"}, {id: 1, url: "https://basicurl.com"}, isFirefoxDefault);
+      await global.chrome.handleContextMenuClick({menuItemId: "launchInFirefox"}, {id: 1, url: "https://basicurl.com"});
       expect(global.chrome.tabs.update).to.have.been.calledOnce;
       expect(global.chrome.tabs.update).to.have.been.calledWith(1, {
         url: "firefox:https://basicurl.com",
@@ -98,9 +115,9 @@ describe("background.js", () => {
     });
 
     it("should launch firefox in private mode from the page context", async () => {
-      const isFirefoxDefault = false;
+      setIsFirefoxDefault(true);
       global.chrome.setIsCurrentTabValidUrlScheme(true);
-      global.chrome.handleContextMenuClick({menuItemId: "launchInFirefoxPrivate"}, {id: 1, url: "https://basicurl.com"}, isFirefoxDefault);
+      await global.chrome.handleContextMenuClick({menuItemId: "launchInFirefoxPrivate"}, {id: 1, url: "https://basicurl.com"});
       expect(global.chrome.tabs.update).to.have.been.calledOnce;
       expect(global.chrome.tabs.update).to.have.been.calledWith(1, {
         url: "firefox-private:https://basicurl.com",
@@ -108,9 +125,9 @@ describe("background.js", () => {
     });
 
     it("should launch firefox in normal mode from the link context", async () => {
-      const isFirefoxDefault = true;
+      setIsFirefoxDefault(true);
       global.chrome.setIsCurrentTabValidUrlScheme(true);
-      global.chrome.handleContextMenuClick({menuItemId: "launchInFirefoxLink"}, {id: 1, url: "https://basicurl.com"}, isFirefoxDefault);
+      await global.chrome.handleContextMenuClick({menuItemId: "launchInFirefoxLink"}, {id: 1, url: "https://basicurl.com"});
       expect(global.chrome.tabs.update).to.have.been.calledOnce;
       expect(global.chrome.tabs.update).to.have.been.calledWith(1, {
         url: "firefox:https://basicurl.com",
@@ -118,9 +135,9 @@ describe("background.js", () => {
     });
 
     it("should launch firefox in private mode from the link context", async () => {
-      const isFirefoxDefault = false;
+      setIsFirefoxDefault(true);
       global.chrome.setIsCurrentTabValidUrlScheme(true);
-      global.chrome.handleContextMenuClick({menuItemId: "launchInFirefoxPrivateLink"}, {id: 1, url: "https://basicurl.com"}, isFirefoxDefault);
+      await global.chrome.handleContextMenuClick({menuItemId: "launchInFirefoxPrivateLink"}, {id: 1, url: "https://basicurl.com"});
       expect(global.chrome.tabs.update).to.have.been.calledOnce;
       expect(global.chrome.tabs.update).to.have.been.calledWith(1, {
         url: "firefox-private:https://basicurl.com",
@@ -130,9 +147,9 @@ describe("background.js", () => {
 
   describe("updateToolbarIcon()", () => {
     it("should update the toolbar icon to firefox icon grey colour", async () => {
-      const isFirefoxDefault = true;
+      setIsFirefoxDefault(true);
       global.chrome.setIsCurrentTabValidUrlScheme(false);
-      global.chrome.updateToolbarIcon(isFirefoxDefault);
+      await global.chrome.updateToolbarIcon();
       expect(global.chrome.action.setIcon).to.have.been.calledOnce;
       expect(global.chrome.action.setIcon).to.have.been.calledWith({
         path: {
@@ -142,9 +159,9 @@ describe("background.js", () => {
     });
 
     it("should update the toolbar icon to private browsing icon grey colour", async () => {
-      const isFirefoxDefault = false;
+      setIsFirefoxDefault(false);
       global.chrome.setIsCurrentTabValidUrlScheme(false);
-      global.chrome.updateToolbarIcon(isFirefoxDefault);
+      await global.chrome.updateToolbarIcon();
       expect(global.chrome.action.setIcon).to.have.been.calledOnce;
       expect(global.chrome.action.setIcon).to.have.been.calledWith({
         path: {
@@ -154,9 +171,9 @@ describe("background.js", () => {
     });
 
     it("should update the toolbar icon to firefox icon", async () => {
-      const isFirefoxDefault = true;
+      setIsFirefoxDefault(true);
       global.chrome.setIsCurrentTabValidUrlScheme(true);
-      global.chrome.updateToolbarIcon(isFirefoxDefault);
+      await global.chrome.updateToolbarIcon();
       expect(global.chrome.action.setIcon).to.have.been.calledOnce;
       expect(global.chrome.action.setIcon).to.have.been.calledWith({
         path: {
@@ -166,9 +183,9 @@ describe("background.js", () => {
     });
 
     it("should update the toolbar icon to private browsing icon", async () => {
-      const isFirefoxDefault = false;
+      setIsFirefoxDefault(false);
       global.chrome.setIsCurrentTabValidUrlScheme(true);
-      global.chrome.updateToolbarIcon(isFirefoxDefault);
+      await global.chrome.updateToolbarIcon();
       expect(global.chrome.action.setIcon).to.have.been.calledOnce;
       expect(global.chrome.action.setIcon).to.have.been.calledWith({
         path: {
@@ -180,9 +197,9 @@ describe("background.js", () => {
 
   describe("launchFirefox()", () => {
     it("should launch firefox in private mode", async () => {
-      const isFirefoxDefault = false;
       global.chrome.setIsCurrentTabValidUrlScheme(true);
-      global.chrome.launchFirefox({id: 1, url: "https://addons.mozilla.org/en-CA/firefox/extensions/"}, isFirefoxDefault);
+      const result = await global.chrome.launchFirefox({id: 1, url: "https://addons.mozilla.org/en-CA/firefox/extensions/"}, false);
+      expect(result).to.equal(true);
       expect(global.chrome.tabs.update).to.have.been.calledOnce;
       expect(global.chrome.tabs.update).to.have.been.calledWith(1, {
         url: "firefox-private:https://addons.mozilla.org/en-CA/firefox/extensions/",
@@ -190,36 +207,50 @@ describe("background.js", () => {
     });
 
     it("should launch firefox in normal mode", async () => {
-      const isFirefoxDefault = true;
       global.chrome.setIsCurrentTabValidUrlScheme(true);
-      global.chrome.launchFirefox({id: 1, url: "https://addons.mozilla.org/en-CA/firefox/extensions/"}, isFirefoxDefault);
+      const result = await global.chrome.launchFirefox({id: 1, url: "https://addons.mozilla.org/en-CA/firefox/extensions/"}, true);
+      expect(result).to.equal(true);
       expect(global.chrome.tabs.update).to.have.been.calledOnce;
       expect(global.chrome.tabs.update).to.have.been.calledWith(1, {
         url: "firefox:https://addons.mozilla.org/en-CA/firefox/extensions/",
       });
     });
+
+    it("should not launch firefox if the url scheme is not valid", async () => {
+      global.chrome.setIsCurrentTabValidUrlScheme(false);
+      const result = await global.chrome.launchFirefox({id: 1, url: "https://addons.mozilla.org/en-CA/firefox/extensions/"}, true);
+      expect(result).to.equal(false);
+      expect(global.chrome.tabs.update).to.not.have.been.called;
+    });
+
+    it("should not launch firefox if firefox is not installed", async () => {
+      setIsFirefoxInstalled(false);
+      const result = await global.chrome.launchFirefox({id: 1, url: "https://addons.mozilla.org/en-CA/firefox/extensions/"}, true);
+      expect(result).to.equal(false);
+      expect(global.chrome.tabs.update).to.not.have.been.called;
+    });
   });
 
   describe("checkAndUpdateURLScheme()", () => {
-    it("should set the current tab url scheme to be false if it is undefined", async () => {
+    it("should set the current tab url scheme to be false if it is undefined", () => {
       global.chrome.setIsCurrentTabValidUrlScheme(true);
       global.chrome.checkAndUpdateURLScheme({id: 1});
       expect(global.chrome.getIsCurrentTabValidUrlScheme()).to.be.false;
     });
 
-    it("should set the current tab url scheme to be false if it is not http or file", async () => {
+    it("should set the current tab url scheme to be false if it is not http or file", () => {
       global.chrome.setIsCurrentTabValidUrlScheme(true);
       global.chrome.checkAndUpdateURLScheme({id: 1, url: "about:blank"});
       expect(global.chrome.getIsCurrentTabValidUrlScheme()).to.be.false;
     });
 
-    it("should set the current tab url scheme to be true if it is http", async () => {
+    it("should set the current tab url scheme to be true if it is http", () => {
       global.chrome.setIsCurrentTabValidUrlScheme(false);
       global.chrome.checkAndUpdateURLScheme({id: 1, url: "http://www.google.com"});
       expect(global.chrome.getIsCurrentTabValidUrlScheme()).to.be.true;
     });
 
-    it("should set the current tab url scheme to be true if it is file", async () => {
+    it("should set the current tab url scheme to be true if it is file", () => {
       global.chrome.setIsCurrentTabValidUrlScheme(false);
       global.chrome.checkAndUpdateURLScheme({id: 1, url: "file://C:/Users"});
       expect(global.chrome.getIsCurrentTabValidUrlScheme()).to.be.true;
@@ -230,7 +261,7 @@ describe("background.js", () => {
 
     it("should launch firefox in normal mode", async () => {
       global.chrome.setIsCurrentTabValidUrlScheme(true);
-      global.chrome.handleHotkeyPress("launchFirefox", {id: 1, url: "https://addons.mozilla.org/en-CA/firefox/extensions/"});
+      await global.chrome.handleHotkeyPress("launchFirefox", {id: 1, url: "https://addons.mozilla.org/en-CA/firefox/extensions/"});
       expect(global.chrome.tabs.update).to.have.been.calledOnce;
       expect(global.chrome.tabs.update).to.have.been.calledWith(1, {
         url: "firefox:https://addons.mozilla.org/en-CA/firefox/extensions/",
@@ -239,7 +270,7 @@ describe("background.js", () => {
 
     it("should launch firefox in private mode", async () => {
       global.chrome.setIsCurrentTabValidUrlScheme(true);
-      global.chrome.handleHotkeyPress("launchFirefoxPrivate", {id: 1, url: "https://addons.mozilla.org/en-CA/firefox/extensions/"});
+      await global.chrome.handleHotkeyPress("launchFirefoxPrivate", {id: 1, url: "https://addons.mozilla.org/en-CA/firefox/extensions/"});
       expect(global.chrome.tabs.update).to.have.been.calledOnce;
       expect(global.chrome.tabs.update).to.have.been.calledWith(1, {
         url: "firefox-private:https://addons.mozilla.org/en-CA/firefox/extensions/",
@@ -248,7 +279,7 @@ describe("background.js", () => {
 
     it("should do nothing if the command is not recognized", async () => {
       global.chrome.setIsCurrentTabValidUrlScheme(true);
-      global.chrome.handleHotkeyPress("notvalid", {id: 1, url: "https://addons.mozilla.org/en-CA/firefox/extensions/"});
+      await global.chrome.handleHotkeyPress("notvalid", {id: 1, url: "https://addons.mozilla.org/en-CA/firefox/extensions/"});
       expect(global.chrome.tabs.update).to.not.have.been.called;
     });
   });
