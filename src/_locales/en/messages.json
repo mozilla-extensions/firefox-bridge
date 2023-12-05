@@ -9,5 +9,17 @@
   "Launch_this_link_in_Firefox_Private_Browsing": {
     "message": "Launch this link in Firefox Private Browsing"
   },
-  "Launch_this_link_in_Firefox": { "message": "Launch this link in Firefox" }
+  "Launch_this_link_in_Firefox": { "message": "Launch this link in Firefox" },
+  "welcomeHeading": {
+    "message": "Welcome to Firefox Launch"
+  },
+  "notInstalledErrorHeading": {
+    "message": "Firefox is not installed"
+  },
+  "notInstalledErrorText": {
+    "message": "Firefox Launch requires Firefox to be installed on your computer."
+  },
+  "notInstalledErrorAction": {
+    "message": "Download Firefox"
+  }
 }

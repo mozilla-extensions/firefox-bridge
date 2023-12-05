@@ -1,4 +1,19 @@
 // -------------------------------------------
+//          Firefox is Installed Logic
+// -------------------------------------------
+function isFirefoxInstalled() {
+  chrome.storage.local.get("isFirefoxInstalled", (result) => {
+    if (result.isFirefoxInstalled === undefined) {
+      // perform logic to check if Firefox is installed
+      chrome.storage.local.set({ isFirefoxInstalled: false }); // placeholder
+      return false;
+    } else {
+      return result.isFirefoxInstalled;
+    }
+  });
+} 
+
+// -------------------------------------------
 //          Browser Launching Logic
 // -------------------------------------------
 let isCurrentTabValidUrlScheme = false;
@@ -13,6 +28,11 @@ function checkAndUpdateURLScheme(tab) {
 }
 
 function launchFirefox(tab, launchDefaultBrowsing) {
+  if (!isFirefoxInstalled()) {
+    chrome.tabs.create({ url: "https://www.mozilla.org/firefox/" });
+    return;
+  }
+
   if (isCurrentTabValidUrlScheme) {
     if (launchDefaultBrowsing) {
       chrome.tabs.update(tab.id, { url: "firefox:" + tab.url });
@@ -160,7 +180,8 @@ chrome.contextMenus.onClicked.addListener(async (info, tab) => {
 });
 
 chrome.runtime.onInstalled.addListener(async () => {
-  chrome.tabs.create({ url: "welcome.html" });
+  isFirefoxInstalled(); // call this to let the welcome page know if Firefox is installed
+  chrome.tabs.create({ url: "pages/welcomePage/welcome.html" });
   const isFirefoxDefault = await getIsFirefoxDefault();
   initContextMenu(isFirefoxDefault);
   updateToolbarIcon(isFirefoxDefault);

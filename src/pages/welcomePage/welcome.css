@@ -1,0 +1,15 @@
+.firefox-not-installed-error {
+    background-color: black;
+    color: white;
+    padding: 20px;
+    border-radius: 5px;
+    width: 95%;
+    text-align: center;
+}
+
+.welcome-header {
+    font-size: 30px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    text-align: center;
+}
