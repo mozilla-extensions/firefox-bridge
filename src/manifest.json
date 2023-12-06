@@ -10,13 +10,7 @@
     "96": "images/firefox96.png",
     "128": "images/firefox128.png"
   },
-  "permissions": [
-    "contextMenus",
-    "activeTab",
-    "tabs",
-    "storage",
-    "commands"
-  ],
+  "permissions": ["contextMenus", "activeTab", "tabs", "storage", "commands", "notifications"],
   "background": {
     "service_worker": "background.js",
     "type": "module"

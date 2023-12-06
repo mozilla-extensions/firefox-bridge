@@ -5,8 +5,10 @@ global.sinon = require("sinon");
 global.expect = chai.expect;
 chai.use(sinonChai);
 
+// -------------------------------------
+//               Mocks
+// -------------------------------------
 global.chrome = {
-  isTestEnv: true,
   contextMenus: {
     create: sinon.stub(),
     update: sinon.stub(),
@@ -20,6 +22,10 @@ global.chrome = {
       onChanged: {
         addListener: sinon.stub(),
       },
+      set: sinon.stub(),
+    },
+    local: {
+      get: sinon.stub(),
       set: sinon.stub(),
     },
   },
@@ -45,6 +51,7 @@ global.chrome = {
       addListener: sinon.stub(),
     },
     update: sinon.stub(),
+    create: sinon.stub(),
   },
   commands: {
     onCommand: {
@@ -55,24 +62,30 @@ global.chrome = {
     getMessage: sinon.stub(),
   },
 };
-// replace underscores with spaces
-global.chrome.i18n.getMessage.callsFake((key) => key.replace(/_/g, " "));
 
-// load background script now
-require(path.join(__dirname, "../src/background.js"));
+global.document = {
+  addEventListener: sinon.stub(),
+};
+
+function resetStubs(obj) {
+  for (const prop in obj) {
+    if (typeof obj[prop] === "object") {
+      resetStubs(obj[prop]);
+    } else if (obj[prop].reset) {
+      obj[prop].reset();
+    }
+  }
+}
 
 global.afterEach(() => {
-  // reset stubs
-  global.chrome.contextMenus.create.reset();
-  global.chrome.contextMenus.update.reset();
-  global.chrome.storage.sync.get.reset();
-  global.chrome.storage.sync.set.reset();
-  global.chrome.action.setIcon.reset();
-  global.chrome.tabs.update.reset();
-  global.chrome.action.onClicked.addListener.reset();
-  global.chrome.tabs.onUpdated.addListener.reset();
-  global.chrome.tabs.onActivated.addListener.reset();
-  global.chrome.tabs.onCreated.addListener.reset();
-  global.chrome.runtime.onInstalled.addListener.reset();
-  global.chrome.contextMenus.onClicked.addListener.reset();
+  resetStubs(global.chrome);
+  resetStubs(global.document);
 });
+
+
+// -------------------------------------
+//           Scripts to test
+// -------------------------------------
+require(path.join(__dirname, "../src/background.js"));
+require(path.join(__dirname, "../src/pages/welcomePage/welcome.js"));
+

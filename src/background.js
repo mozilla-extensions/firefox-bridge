@@ -1,4 +1,20 @@
 // -------------------------------------------
+//          Firefox is Installed Logic
+// -------------------------------------------
+function getIsFirefoxInstalled() {
+  return new Promise((resolve) => {
+    chrome.storage.local.get(["isFirefoxInstalled"], (result) => {
+      if (result.isFirefoxInstalled === undefined) {
+        chrome.storage.local.set({ isFirefoxInstalled: true });
+        resolve(true);
+      } else {
+        resolve(result.isFirefoxInstalled);
+      }
+    });
+  });
+} 
+
+// -------------------------------------------
 //          Browser Launching Logic
 // -------------------------------------------
 let isCurrentTabValidUrlScheme = false;
@@ -11,35 +27,44 @@ function checkAndUpdateURLScheme(tab) {
     isCurrentTabValidUrlScheme = false;
   }
 }
-  
-function launchFirefox(tab, launchDefaultBrowsing) {
+
+async function launchFirefox(tab, launchDefaultBrowsing) {
+  if (! await getIsFirefoxInstalled()) {
+    chrome.tabs.create({ url: "https://www.mozilla.org/firefox/" });
+    return false;
+  }
+
   if (isCurrentTabValidUrlScheme) {
     if (launchDefaultBrowsing) {
-      chrome.tabs.update(tab.id, {url: "firefox:" + tab.url});
+      chrome.tabs.update(tab.id, { url: "firefox:" + tab.url });
     } else {
-      chrome.tabs.update(tab.id, {url: "firefox-private:" + tab.url});
+      chrome.tabs.update(tab.id, { url: "firefox-private:" + tab.url });
     }
+    return true;
   }
+  return false;
 }
 
 // -------------------------------------------
 //            Context Menu Logic
 // -------------------------------------------
-function initContextMenu(isFirefoxDefault) {
+async function initContextMenu() {
   // action context menu
   chrome.contextMenus.create({
     id: "changeDefaultLaunchContextMenu",
     title: chrome.i18n.getMessage("Always_use_Firefox_Private_Browsing"),
     contexts: ["action"],
     type: "checkbox",
-    checked: !isFirefoxDefault,
+    checked: !await getIsFirefoxDefault(),
   });
   chrome.contextMenus.create({
     id: "alternativeLaunchContextMenu",
-    title: chrome.i18n.getMessage("Launch_this_page_in_Firefox_Private_Browsing"),
+    title: chrome.i18n.getMessage(
+      "Launch_this_page_in_Firefox_Private_Browsing"
+    ),
     contexts: ["action"],
   });
-  
+
   // page context menu
   chrome.contextMenus.create({
     id: "launchInFirefox",
@@ -48,10 +73,12 @@ function initContextMenu(isFirefoxDefault) {
   });
   chrome.contextMenus.create({
     id: "launchInFirefoxPrivate",
-    title: chrome.i18n.getMessage("Launch_this_page_in_Firefox_Private_Browsing"),
+    title: chrome.i18n.getMessage(
+      "Launch_this_page_in_Firefox_Private_Browsing"
+    ),
     contexts: ["page"],
   });
-  
+
   chrome.contextMenus.create({
     id: "launchInFirefoxLink",
     title: chrome.i18n.getMessage("Launch_this_link_in_Firefox"),
@@ -59,12 +86,15 @@ function initContextMenu(isFirefoxDefault) {
   });
   chrome.contextMenus.create({
     id: "launchInFirefoxPrivateLink",
-    title: chrome.i18n.getMessage("Launch_this_link_in_Firefox_Private_Browsing"),
+    title: chrome.i18n.getMessage(
+      "Launch_this_link_in_Firefox_Private_Browsing"
+    ),
     contexts: ["link"],
   });
 }
-  
-function handleContextMenuClick(info, tab, isFirefoxDefault) {
+
+async function handleContextMenuClick(info, tab) {
+  const isFirefoxDefault = await getIsFirefoxDefault();
   if (info.menuItemId === "changeDefaultLaunchContextMenu") {
     chrome.contextMenus.update("changeDefaultLaunchContextMenu", {
       type: "checkbox",
@@ -76,60 +106,68 @@ function handleContextMenuClick(info, tab, isFirefoxDefault) {
       });
     } else {
       chrome.contextMenus.update("alternativeLaunchContextMenu", {
-        title: chrome.i18n.getMessage("Launch_this_page_in_Firefox_Private_Browsing"),
+        title: chrome.i18n.getMessage(
+          "Launch_this_page_in_Firefox_Private_Browsing"
+        ),
       });
     }
-    chrome.storage.sync.set({isFirefoxDefault: !isFirefoxDefault});
-    updateToolbarIcon(isFirefoxDefault);
+    chrome.storage.sync.set({ isFirefoxDefault: !isFirefoxDefault });
+    updateToolbarIcon();
   } else if (info.menuItemId === "alternativeLaunchContextMenu") {
     // launch in the opposite mode to the default
-    launchFirefox(tab, !isFirefoxDefault);
-  } else if (info.menuItemId === "launchInFirefox" || info.menuItemId === "launchInFirefoxLink") {
-    launchFirefox(tab, true);
-  } else if (info.menuItemId === "launchInFirefoxPrivate" || info.menuItemId === "launchInFirefoxPrivateLink") {
-    launchFirefox(tab, false);
+    await launchFirefox(tab, !isFirefoxDefault);
+  } else if (
+    info.menuItemId === "launchInFirefox" ||
+    info.menuItemId === "launchInFirefoxLink"
+  ) {
+    await launchFirefox(tab, true);
+  } else if (
+    info.menuItemId === "launchInFirefoxPrivate" ||
+    info.menuItemId === "launchInFirefoxPrivateLink"
+  ) {
+    await launchFirefox(tab, false);
   }
 }
 
 // -------------------------------------------
 //            Toolbar Icon Logic
 // -------------------------------------------
-function updateToolbarIcon(isFirefoxDefault) {
-  let iconPath = isFirefoxDefault ?
-    {
+async function updateToolbarIcon() {
+  let iconPath = await getIsFirefoxDefault()
+    ? {
       32: "images/firefox32.png",
-    } :
-    {
+    }
+    : {
       32: "images/private32.png",
     };
   if (!isCurrentTabValidUrlScheme) {
-    iconPath = isFirefoxDefault?
-      {
+    iconPath = await getIsFirefoxDefault()
+      ? {
         32: "images/firefox32grey.png",
-      } :
-      {
+      }
+      : {
         32: "images/private32grey.png",
       };
   }
-  
-  chrome.action.setIcon({path: iconPath});
+
+  chrome.action.setIcon({ path: iconPath });
 }
-  
+
 // -------------------------------------------
 //              Hotkey Logic
 // -------------------------------------------
-function handleHotkeyPress(command, tab) {
+async function handleHotkeyPress(command, tab) {
   if (command === "launchFirefox") {
-    launchFirefox(tab, true);
+    await launchFirefox(tab, true);
   } else if (command === "launchFirefoxPrivate") {
-    launchFirefox(tab, false);
+    await launchFirefox(tab, false);
   }
 }
 
 // -------------------------------------------
 //             Event Listeners
 // -------------------------------------------
-async function getIsFirefoxDefault() {
+function getIsFirefoxDefault() {
   return new Promise((resolve) => {
     chrome.storage.sync.get(["isFirefoxDefault"], (result) => {
       if (result.isFirefoxDefault === undefined) {
@@ -141,19 +179,20 @@ async function getIsFirefoxDefault() {
   });
 }
 
-chrome.contextMenus.onClicked.addListener(async (info, tab) => {
-  handleContextMenuClick(info, tab, await getIsFirefoxDefault());
+chrome.contextMenus.onClicked.addListener((info, tab) => {
+  handleContextMenuClick(info, tab);
 });
 
 chrome.runtime.onInstalled.addListener(async () => {
-  const isFirefoxDefault = await getIsFirefoxDefault();
-  initContextMenu(isFirefoxDefault);
-  updateToolbarIcon(isFirefoxDefault);
+  await getIsFirefoxInstalled(); // call this to let the welcome page know if Firefox is installed
+  chrome.tabs.create({ url: "pages/welcomePage/welcome.html" });
+  await initContextMenu();
+  await updateToolbarIcon();
 });
 
-chrome.storage.sync.onChanged.addListener(async (changes) => {
+chrome.storage.sync.onChanged.addListener((changes) => {
   if (changes.isFirefoxDefault !== undefined) {
-    updateToolbarIcon(await getIsFirefoxDefault());
+    updateToolbarIcon();
   }
 });
 
@@ -161,26 +200,26 @@ chrome.action.onClicked.addListener(async (tab) => {
   launchFirefox(tab, await getIsFirefoxDefault());
 });
 
-chrome.tabs.onUpdated.addListener(async (tabId, changeInfo, tab) => {
+chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
   checkAndUpdateURLScheme(tab);
-  updateToolbarIcon(await getIsFirefoxDefault());
+  updateToolbarIcon();
 });
 
-chrome.tabs.onCreated.addListener(async (tab) => {
+chrome.tabs.onCreated.addListener((tab) => {
   checkAndUpdateURLScheme(tab);
-  updateToolbarIcon(await getIsFirefoxDefault());
+  updateToolbarIcon();
 });
 
 chrome.tabs.onActivated.addListener((activeInfo) => {
-  chrome.tabs.get(activeInfo.tabId, async (tab) => {
+  chrome.tabs.get(activeInfo.tabId, (tab) => {
     checkAndUpdateURLScheme(tab);
-    updateToolbarIcon(await getIsFirefoxDefault());
+    updateToolbarIcon();
   });
 });
 
 chrome.commands.onCommand.addListener((command) => {
   console.log("Command:", command);
-  chrome.tabs.query({active: true, currentWindow: true}, (tabs) => {
+  chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
     handleHotkeyPress(command, tabs[0]);
   });
 });
@@ -188,16 +227,19 @@ chrome.commands.onCommand.addListener((command) => {
 // -------------------------------------------
 //              Exports
 // -------------------------------------------
-chrome.launchFirefox = launchFirefox;
-chrome.checkAndUpdateURLScheme = checkAndUpdateURLScheme;
-chrome.updateToolbarIcon = updateToolbarIcon;
-chrome.handleHotkeyPress = handleHotkeyPress;
-chrome.initContextMenu = initContextMenu;
-chrome.handleContextMenuClick = handleContextMenuClick;
-chrome.getIsFirefoxDefault = getIsFirefoxDefault;
-chrome.setIsCurrentTabValidUrlScheme = (value) => {
-  isCurrentTabValidUrlScheme = value;
-};
-chrome.getIsCurrentTabValidUrlScheme = () => {
-  return isCurrentTabValidUrlScheme;
+chrome.background = {
+  launchFirefox,
+  checkAndUpdateURLScheme,
+  updateToolbarIcon,
+  handleHotkeyPress,
+  initContextMenu,
+  handleContextMenuClick,
+  getIsFirefoxDefault,
+  getIsFirefoxInstalled,
+  setIsCurrentTabValidUrlScheme: (value) => {
+    isCurrentTabValidUrlScheme = value;
+  },
+  getIsCurrentTabValidUrlScheme: () => {
+    return isCurrentTabValidUrlScheme;
+  },
 };
