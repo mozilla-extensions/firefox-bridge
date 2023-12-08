@@ -21,5 +21,8 @@
   },
   "notInstalledErrorAction": {
     "message": "Download Firefox"
+  },
+  "Manage_My_Firefox_Sites": {
+    "message": "Manage My Firefox Sites"
   }
 }

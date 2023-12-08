@@ -87,5 +87,5 @@ global.afterEach(() => {
 //           Scripts to test
 // -------------------------------------
 require(path.join(__dirname, "../src/background.js"));
-require(path.join(__dirname, "../src/pages/welcomePage/welcome.js"));
+require(path.join(__dirname, "../src/pages/welcomePage/script.js"));
 

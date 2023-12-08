@@ -5,6 +5,7 @@ function getIsFirefoxInstalled() {
   return new Promise((resolve) => {
     chrome.storage.local.get(["isFirefoxInstalled"], (result) => {
       if (result.isFirefoxInstalled === undefined) {
+        // placeholder
         chrome.storage.local.set({ isFirefoxInstalled: true });
         resolve(true);
       } else {
@@ -64,6 +65,11 @@ async function initContextMenu() {
     ),
     contexts: ["action"],
   });
+  chrome.contextMenus.create({
+    id: "manageExternalSitesContextMenu",
+    title: chrome.i18n.getMessage("Manage_My_Firefox_Sites"),
+    contexts: ["action"],
+  });
 
   // page context menu
   chrome.contextMenus.create({
@@ -93,26 +99,30 @@ async function initContextMenu() {
   });
 }
 
+function handleChangeDefaultLaunchContextMenuClick(isFirefoxDefault) {
+  chrome.contextMenus.update("changeDefaultLaunchContextMenu", {
+    type: "checkbox",
+    checked: isFirefoxDefault,
+  });
+  if (isFirefoxDefault) {
+    chrome.contextMenus.update("alternativeLaunchContextMenu", {
+      title: chrome.i18n.getMessage("Launch_this_page_in_Firefox"),
+    });
+  } else {
+    chrome.contextMenus.update("alternativeLaunchContextMenu", {
+      title: chrome.i18n.getMessage(
+        "Launch_this_page_in_Firefox_Private_Browsing"
+      ),
+    });
+  }
+  chrome.storage.sync.set({ isFirefoxDefault: !isFirefoxDefault });
+  updateToolbarIcon();
+}
+
 async function handleContextMenuClick(info, tab) {
   const isFirefoxDefault = await getIsFirefoxDefault();
   if (info.menuItemId === "changeDefaultLaunchContextMenu") {
-    chrome.contextMenus.update("changeDefaultLaunchContextMenu", {
-      type: "checkbox",
-      checked: isFirefoxDefault,
-    });
-    if (isFirefoxDefault) {
-      chrome.contextMenus.update("alternativeLaunchContextMenu", {
-        title: chrome.i18n.getMessage("Launch_this_page_in_Firefox"),
-      });
-    } else {
-      chrome.contextMenus.update("alternativeLaunchContextMenu", {
-        title: chrome.i18n.getMessage(
-          "Launch_this_page_in_Firefox_Private_Browsing"
-        ),
-      });
-    }
-    chrome.storage.sync.set({ isFirefoxDefault: !isFirefoxDefault });
-    updateToolbarIcon();
+    handleChangeDefaultLaunchContextMenuClick(isFirefoxDefault);
   } else if (info.menuItemId === "alternativeLaunchContextMenu") {
     // launch in the opposite mode to the default
     await launchFirefox(tab, !isFirefoxDefault);
@@ -126,6 +136,10 @@ async function handleContextMenuClick(info, tab) {
     info.menuItemId === "launchInFirefoxPrivateLink"
   ) {
     await launchFirefox(tab, false);
+  } else if (info.menuItemId === "manageExternalSitesContextMenu") {
+    chrome.tabs.create({
+      url: "pages/myFirefoxSites/index.html",
+    });
   }
 }
 
@@ -185,9 +199,13 @@ chrome.contextMenus.onClicked.addListener((info, tab) => {
 
 chrome.runtime.onInstalled.addListener(async () => {
   await getIsFirefoxInstalled(); // call this to let the welcome page know if Firefox is installed
-  chrome.tabs.create({ url: "pages/welcomePage/welcome.html" });
+  chrome.tabs.create({ url: "pages/welcomePage/index.html" });
   await initContextMenu();
   await updateToolbarIcon();
+  // dev
+  chrome.tabs.create({
+    url: "pages/myFirefoxSites/index.html",
+  });
 });
 
 chrome.storage.sync.onChanged.addListener((changes) => {

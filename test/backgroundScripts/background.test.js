@@ -23,7 +23,7 @@ describe("background.js", () => {
     it("should create the context menu", async () => {
       setIsFirefoxDefault(true);
       await global.chrome.background.initContextMenu();
-      expect(global.chrome.contextMenus.create.callCount).to.equal(6);
+      expect(global.chrome.contextMenus.create.callCount).to.equal(7);
       expect(global.chrome.contextMenus.create).to.have.been.calledWith({
         id: "changeDefaultLaunchContextMenu",
         title: "Always use Firefox Private Browsing",
@@ -55,6 +55,11 @@ describe("background.js", () => {
         id: "launchInFirefoxPrivateLink",
         title: "Launch this link in Firefox Private Browsing",
         contexts: ["link"],
+      });
+      expect(global.chrome.contextMenus.create).to.have.been.calledWith({
+        id: "manageExternalSitesContextMenu",
+        title: "Manage My Firefox Sites",
+        contexts: ["action"],
       });
 
     });
