@@ -13,7 +13,7 @@ function getIsFirefoxInstalled() {
       }
     });
   });
-} 
+}
 
 // -------------------------------------------
 //          Browser Launching Logic
@@ -30,7 +30,8 @@ function checkAndUpdateURLScheme(tab) {
 }
 
 async function launchFirefox(tab, launchDefaultBrowsing) {
-  if (! await getIsFirefoxInstalled()) {
+  console.log("launching firefox with params", tab, launchDefaultBrowsing);
+  if (!(await getIsFirefoxInstalled())) {
     chrome.tabs.create({ url: "https://www.mozilla.org/firefox/" });
     return false;
   }
@@ -41,6 +42,7 @@ async function launchFirefox(tab, launchDefaultBrowsing) {
     } else {
       chrome.tabs.update(tab.id, { url: "firefox-private:" + tab.url });
     }
+    console.log("launched firefox");
     return true;
   }
   return false;
@@ -56,7 +58,7 @@ async function initContextMenu() {
     title: chrome.i18n.getMessage("Always_use_Firefox_Private_Browsing"),
     contexts: ["action"],
     type: "checkbox",
-    checked: !await getIsFirefoxDefault(),
+    checked: !(await getIsFirefoxDefault()),
   });
   chrome.contextMenus.create({
     id: "alternativeLaunchContextMenu",
@@ -147,7 +149,7 @@ async function handleContextMenuClick(info, tab) {
 //            Toolbar Icon Logic
 // -------------------------------------------
 async function updateToolbarIcon() {
-  let iconPath = await getIsFirefoxDefault()
+  let iconPath = (await getIsFirefoxDefault())
     ? {
       32: "images/firefox32.png",
     }
@@ -155,7 +157,7 @@ async function updateToolbarIcon() {
       32: "images/private32.png",
     };
   if (!isCurrentTabValidUrlScheme) {
-    iconPath = await getIsFirefoxDefault()
+    iconPath = (await getIsFirefoxDefault())
       ? {
         32: "images/firefox32grey.png",
       }
@@ -175,6 +177,40 @@ async function handleHotkeyPress(command, tab) {
     await launchFirefox(tab, true);
   } else if (command === "launchFirefoxPrivate") {
     await launchFirefox(tab, false);
+  }
+}
+
+// -------------------------------------------
+//          Auto Launch Logic
+// -------------------------------------------
+const launchingTabIds = {};
+
+function getExternalSites() {
+  return new Promise((resolve) => {
+    chrome.storage.sync.get(["firefoxSites"], (result) => {
+      if (result.firefoxSites === undefined) {
+        resolve([]);
+      } else {
+        resolve(result.firefoxSites);
+      }
+    });
+  });
+}
+
+async function maybeAutoLaunchFirefox(tab) {
+  if (launchingTabIds[tab.id]) {
+    return false;
+  }
+  const externalSites = await getExternalSites();
+  console.log(externalSites);
+  for (const site of externalSites) {
+    // replace . with \. and * with .*
+    const siteRegex = new RegExp(site.url.replace(/\./g, "\\.").replace(/\*+/g, ".*"));
+    if (siteRegex.test(tab.url)) {
+      launchingTabIds[tab.id] = true;
+      await launchFirefox(tab, !site.isPrivate);
+      return true;
+    }
   }
 }
 
@@ -218,14 +254,26 @@ chrome.action.onClicked.addListener(async (tab) => {
   launchFirefox(tab, await getIsFirefoxDefault());
 });
 
-chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
+chrome.tabs.onUpdated.addListener(async (tabId, changeInfo, tab) => {
   checkAndUpdateURLScheme(tab);
   updateToolbarIcon();
+  const launched = await maybeAutoLaunchFirefox(tab);
+  if (launched) {
+    setTimeout(() => {
+      chrome.tabs.remove(tab.id);
+    }, 1500);
+  }
 });
 
-chrome.tabs.onCreated.addListener((tab) => {
+chrome.tabs.onCreated.addListener(async (tab) => {
   checkAndUpdateURLScheme(tab);
   updateToolbarIcon();
+  const launched = await maybeAutoLaunchFirefox(tab);
+  if (launched) {
+    setTimeout(() => {
+      chrome.tabs.remove(tab.id);
+    }, 1500);
+  }
 });
 
 chrome.tabs.onActivated.addListener((activeInfo) => {
