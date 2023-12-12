@@ -17,7 +17,7 @@ function addErrorToEntry(entryDivId) {
   urlInput.style.border = "1px solid red";
   const errorMessage = document.createElement("p");
   errorMessage.className = "error";
-  errorMessage.innerText = "Please enter a valid URL";
+  errorMessage.innerText = "Invalid URL. Please check the entry and try again.";
   entryDiv.appendChild(errorMessage);
 }
 

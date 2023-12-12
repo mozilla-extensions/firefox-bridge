@@ -61,6 +61,11 @@ global.chrome = {
   i18n: {
     getMessage: sinon.stub(),
   },
+  webRequest: {
+    onBeforeRequest: {
+      addListener: sinon.stub(),
+    },
+  },
 };
 
 global.document = {

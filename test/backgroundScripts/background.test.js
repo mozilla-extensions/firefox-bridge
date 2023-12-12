@@ -23,7 +23,7 @@ describe("background.js", () => {
     it("should create the context menu", async () => {
       setIsFirefoxDefault(true);
       await global.chrome.background.initContextMenu();
-      expect(global.chrome.contextMenus.create.callCount).to.equal(7);
+      expect(global.chrome.contextMenus.create.callCount).to.equal(10);
       expect(global.chrome.contextMenus.create).to.have.been.calledWith({
         id: "changeDefaultLaunchContextMenu",
         title: "Always use Firefox Private Browsing",
@@ -69,11 +69,7 @@ describe("background.js", () => {
     it("should change the default launch mode to private", async () => {
       setIsFirefoxDefault(true);
       await global.chrome.background.handleContextMenuClick({menuItemId: "changeDefaultLaunchContextMenu"}, {});
-      expect(global.chrome.contextMenus.update).to.have.been.calledTwice;
-      expect(global.chrome.contextMenus.update).to.have.been.calledWith("changeDefaultLaunchContextMenu", {
-        type: "checkbox",
-        checked: true,
-      });
+      expect(global.chrome.contextMenus.update).to.have.been.calledOnce;
       expect(global.chrome.contextMenus.update).to.have.been.calledWith("alternativeLaunchContextMenu", {
         title: "Launch this page in Firefox",
       });
@@ -83,11 +79,7 @@ describe("background.js", () => {
     it("should change the default launch mode to normal", async () => {
       setIsFirefoxDefault(false);
       await global.chrome.background.handleContextMenuClick({menuItemId: "changeDefaultLaunchContextMenu"}, {});
-      expect(global.chrome.contextMenus.update).to.have.been.calledTwice;
-      expect(global.chrome.contextMenus.update).to.have.been.calledWith("changeDefaultLaunchContextMenu", {
-        type: "checkbox",
-        checked: false,
-      });
+      expect(global.chrome.contextMenus.update).to.have.been.calledOnce
       expect(global.chrome.contextMenus.update).to.have.been.calledWith("alternativeLaunchContextMenu", {
         title: "Launch this page in Firefox Private Browsing",
       });
