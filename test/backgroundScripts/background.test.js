@@ -61,6 +61,29 @@ describe("background.js", () => {
         title: "Manage My Firefox Sites",
         contexts: ["action"],
       });
+      expect(global.chrome.contextMenus.create).to.have.been.calledWith({
+        id: "manageExternalSitesContextMenu",
+        title: "Manage My Firefox Sites",
+        contexts: ["action"],
+      });
+      expect(global.chrome.contextMenus.create).to.have.been.calledWith({
+        id: "separator",
+        type: "separator",
+        contexts: ["action"],
+      });
+      expect(global.chrome.contextMenus.create).to.have.been.calledWith({
+        id: "addCurrentSiteContextMenu",
+        title: "Add this site to My Firefox Sites",
+        contexts: ["action"],
+        enabled: false,
+      });
+      expect(global.chrome.contextMenus.create).to.have.been.calledWith({
+        id: "autoRedirectCheckboxContextMenu",
+        title: "auto redirect my firefox sites",
+        contexts: ["action"],
+        type: "checkbox",
+        checked: true,
+      });
 
     });
   });
