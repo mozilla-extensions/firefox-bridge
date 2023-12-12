@@ -52,7 +52,7 @@ async function refreshDeclarativeNetRequestRules() {
     const url = entry.url.replace(/\./g, "\\.").replace(/\*+/g, ".*");
     const rule = {
       id: entry.id,
-      priority: 1,
+      priority: entry.isPrivate ? 1 : 2,
       action: {
         type: "block",
         redirect: {
@@ -83,6 +83,7 @@ async function handleAutoRedirect(webRequestDetails) {
   }
 
   const sites = await getExternalSites();
+  sites.sort((a, b) => b.isPrivate - a.isPrivate); // sort by private first
   for (const site of sites) {
     // replace . with \. and * with .* and force http(s)://
     const siteRegex = new RegExp(
@@ -95,6 +96,7 @@ async function handleAutoRedirect(webRequestDetails) {
           ? "firefox-private:" + webRequestDetails.url
           : "firefox:" + webRequestDetails.url,
       });
+      return;
     }
   }
 }
