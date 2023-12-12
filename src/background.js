@@ -23,10 +23,53 @@ function getIsAutoRedirect() {
     chrome.storage.sync.get(["isAutoRedirect"], (result) => {
       if (result.isAutoRedirect === undefined) {
         resolve(true);
+        chrome.storage.sync.set({ isAutoRedirect: true });
       } else {
         resolve(result.isAutoRedirect);
       }
     });
+  });
+}
+
+function getExternalSites() {
+  return new Promise((resolve) => {
+    chrome.storage.sync.get(["firefoxSites"], (result) => {
+      if (result.firefoxSites === undefined) {
+        resolve([]);
+      } else {
+        resolve(result.firefoxSites);
+      }
+    });
+  });
+}
+
+async function refreshDeclarativeNetRequestRules() {
+  const oldRules = await chrome.declarativeNetRequest.getDynamicRules();
+  const newRules = [];
+  const entries = await getExternalSites();
+
+  for (const entry of entries) {
+    const url = entry.url.replace(/\./g, "\\.").replace(/\*+/g, ".*");
+    const rule = {
+      id: entry.id,
+      priority: 1,
+      action: {
+        type: "block",
+        redirect: {
+          regexSubstitution: entry.isPrivate ? "firefox-private:\\0" : "firefox:\\0",
+        },
+      },
+      condition: {
+        regexFilter: `http(s)?://${url}`,
+        resourceTypes: ["main_frame"],
+      },
+    };
+    newRules.push(rule);
+  }
+
+  chrome.declarativeNetRequest.updateDynamicRules({
+    removeRuleIds: oldRules.map((rule) => rule.id),
+    addRules: newRules,
   });
 }
 
@@ -170,23 +213,19 @@ function handleChangeDefaultLaunchContextMenuClick(isFirefoxDefault) {
 
 async function handleAutoRedirectCheckboxContextMenuClick() {
   const isAutoRedirect = await getIsAutoRedirect();
-  chrome.storage.sync.set({ isAutoRedirect: !isAutoRedirect });
 
   // If disabling, remove all rules and keep them in storage
   // If enabling, add all rules from storage
   if (isAutoRedirect) {
-    const rules = await chrome.declarativeNetRequest.getDynamicRules();
-    chrome.storage.sync.set({ dynamicRules: rules });
     chrome.declarativeNetRequest.updateDynamicRules({
-      removeRuleIds: rules.map((rule) => rule.id),
+      removeRuleIds: (await chrome.declarativeNetRequest.getDynamicRules()).map(
+        (rule) => rule.id
+      ),
     });
   } else {
-    chrome.storage.sync.get(["dynamicRules"], (result) => {
-      chrome.declarativeNetRequest.updateDynamicRules({
-        addRules: result.dynamicRules,
-      });
-    });
+    await refreshDeclarativeNetRequestRules();
   }
+  chrome.storage.sync.set({ isAutoRedirect: !isAutoRedirect });
 }
 
 async function handleContextMenuClick(info, tab) {
@@ -251,21 +290,6 @@ async function handleHotkeyPress(command, tab) {
 }
 
 // -------------------------------------------
-//          Auto Launch Logic
-// -------------------------------------------
-function getExternalSites() {
-  return new Promise((resolve) => {
-    chrome.storage.sync.get(["firefoxSites"], (result) => {
-      if (result.firefoxSites === undefined) {
-        resolve([]);
-      } else {
-        resolve(result.firefoxSites);
-      }
-    });
-  });
-}
-
-// -------------------------------------------
 //             Event Listeners
 // -------------------------------------------
 function getIsFirefoxDefault() {
@@ -306,9 +330,11 @@ chrome.webRequest.onBeforeRequest.addListener(
   }
 );
 
-chrome.storage.sync.onChanged.addListener((changes) => {
+chrome.storage.sync.onChanged.addListener(async (changes) => {
   if (changes.isFirefoxDefault !== undefined) {
     updateToolbarIcon();
+  } else if (changes.firefoxSites !== undefined && await getIsAutoRedirect()) {
+    refreshDeclarativeNetRequestRules();
   }
 });
 

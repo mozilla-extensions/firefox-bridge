@@ -45,35 +45,6 @@ function validateEntry(entry) {
   return urlPattern.test(entry.url);
 }
 
-async function refreshDeclarativeNetRequestRules() {
-  const oldRules = await chrome.declarativeNetRequest.getDynamicRules();
-  const newRules = [];
-
-  for (const entry of entries) {
-    const url = entry.url.replace(/\./g, "\\.").replace(/\*+/g, ".*");
-    const rule = {
-      id: entry.id,
-      priority: 1,
-      action: {
-        type: "block",
-        redirect: {
-          regexSubstitution: entry.isPrivate ? "firefox-private:\\0" : "firefox:\\0",
-        },
-      },
-      condition: {
-        regexFilter: `http(s)?://${url}`,
-        resourceTypes: ["main_frame"],
-      },
-    };
-    newRules.push(rule);
-  }
-
-  chrome.declarativeNetRequest.updateDynamicRules({
-    removeRuleIds: oldRules.map((rule) => rule.id),
-    addRules: newRules,
-  });
-}
-
 function saveEntry() {
   let urlInput = document.getElementById("url");
   let entry = {
@@ -84,7 +55,6 @@ function saveEntry() {
 
   if (validateEntry(entry)) {
     entries.push(entry);
-    refreshDeclarativeNetRequestRules();
     chrome.storage.sync.set({ firefoxSites: entries }, function() {
       renderEntries();
     });
@@ -97,7 +67,6 @@ function saveEntry() {
 
 function deleteEntry(entryToDelete) {
   entries = entries.filter((entry) => entry.id !== entryToDelete.id);
-  refreshDeclarativeNetRequestRules();
   chrome.storage.sync.set({ firefoxSites: entries }, function() {
     renderEntries();
     return true;
@@ -118,7 +87,6 @@ function updateEntry(entryToUpdate) {
   }
 
   removeErrorFromEntry(entryToUpdate.id);
-  refreshDeclarativeNetRequestRules();
   chrome.storage.sync.set({ firefoxSites: entries }, function() {
     renderEntries();
     return true;
