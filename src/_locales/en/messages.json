@@ -24,5 +24,8 @@
   },
   "Manage_My_Firefox_Sites": {
     "message": "Manage My Firefox Sites"
+  },
+  "auto_redirect_my_firefox_sites": {
+    "message": "Auto-redirect My Firefox Sites"
   }
 }

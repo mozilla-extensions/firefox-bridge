@@ -1,8 +1,8 @@
 let entries = [];
 
 function getUnusedID() {
-  if (entries.length === 0) {
-    return 0;
+  if (!entries || entries.length === 0) {
+    return 1;
   }
   const lastEntry = entries[entries.length - 1];
   return lastEntry.id + 1;
@@ -45,7 +45,35 @@ function validateEntry(entry) {
   return urlPattern.test(entry.url);
 }
 
-// Function to save new entry
+async function refreshDeclarativeNetRequestRules() {
+  const oldRules = await chrome.declarativeNetRequest.getDynamicRules();
+  const newRules = [];
+
+  for (const entry of entries) {
+    const url = entry.url.replace(/\./g, "\\.").replace(/\*+/g, ".*");
+    const rule = {
+      id: entry.id,
+      priority: 1,
+      action: {
+        type: "block",
+        redirect: {
+          regexSubstitution: entry.isPrivate ? "firefox-private:\\0" : "firefox:\\0",
+        },
+      },
+      condition: {
+        regexFilter: `http(s)?://${url}`,
+        resourceTypes: ["main_frame"],
+      },
+    };
+    newRules.push(rule);
+  }
+
+  chrome.declarativeNetRequest.updateDynamicRules({
+    removeRuleIds: oldRules.map((rule) => rule.id),
+    addRules: newRules,
+  });
+}
+
 function saveEntry() {
   let urlInput = document.getElementById("url");
   let entry = {
@@ -56,6 +84,7 @@ function saveEntry() {
 
   if (validateEntry(entry)) {
     entries.push(entry);
+    refreshDeclarativeNetRequestRules();
     chrome.storage.sync.set({ firefoxSites: entries }, function() {
       renderEntries();
     });
@@ -68,6 +97,7 @@ function saveEntry() {
 
 function deleteEntry(entryToDelete) {
   entries = entries.filter((entry) => entry.id !== entryToDelete.id);
+  refreshDeclarativeNetRequestRules();
   chrome.storage.sync.set({ firefoxSites: entries }, function() {
     renderEntries();
     return true;
@@ -85,10 +115,10 @@ function updateEntry(entryToUpdate) {
   if (!validateEntry(entry)) {
     addErrorToEntry(entryToUpdate.id);
     return;
-  } else {
-    removeErrorFromEntry(entryToUpdate.id);
   }
 
+  removeErrorFromEntry(entryToUpdate.id);
+  refreshDeclarativeNetRequestRules();
   chrome.storage.sync.set({ firefoxSites: entries }, function() {
     renderEntries();
     return true;
@@ -97,7 +127,7 @@ function updateEntry(entryToUpdate) {
 
 function fetchAndRenderEntries() {
   chrome.storage.sync.get("firefoxSites", function(data) {
-    entries = data.firefoxSites;
+    entries = data.firefoxSites || [];
     renderEntries();
   });
 }
@@ -105,7 +135,7 @@ function fetchAndRenderEntries() {
 function renderEntries() {
   document.getElementById("entryList").innerHTML = "";
 
-  if (entries.length === 0) {
+  if (!entries || entries.length === 0) {
     const noEntriesMessage = document.createElement("p");
     noEntriesMessage.innerText = "You have not defined any Firefox sites yet";
     document.getElementById("entryList").appendChild(noEntriesMessage);
