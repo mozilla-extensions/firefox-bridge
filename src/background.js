@@ -99,6 +99,17 @@ async function handleAutoRedirect(webRequestDetails) {
   }
 }
 
+function restoreOriginalUrlBeforeRedirect(tabId) {
+  chrome.storage.local.get(["originalUrlBeforeRedirect"], (result) => {
+    if (result.originalUrlBeforeRedirect !== undefined) {
+      chrome.tabs.update(tabId, {
+        url: result.originalUrlBeforeRedirect,
+      });
+      chrome.storage.local.remove(["originalUrlBeforeRedirect"]);
+    }
+  });
+}
+
 // -------------------------------------------
 //          Browser Launching Logic
 // -------------------------------------------
@@ -133,6 +144,36 @@ async function launchFirefox(tab, launchDefaultBrowsing) {
 // -------------------------------------------
 //            Context Menu Logic
 // -------------------------------------------
+function getCurrentTabSLD() {
+  return new Promise((resolve) => {
+    chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+      const currentTab = tabs[0];
+      if (currentTab.url === undefined || !currentTab.url.startsWith("http")) resolve("");
+
+      try {
+        const url = new URL(tabs[0].url);
+        resolve(url.hostname.split(".").slice(-2).join("."));
+      } catch (e) {
+        resolve("");
+      }
+    });
+  });
+}
+
+async function updateAddCurrentSiteContextMenu() {
+  if (await getCurrentTabSLD() !== "") {
+    chrome.contextMenus.update("addCurrentSiteContextMenu", {
+      title: chrome.i18n.getMessage("Add_this_site_to_My_Firefox_Sites").replace("[SLD]", await getCurrentTabSLD()),
+      enabled: true
+    });
+  } else {
+    chrome.contextMenus.update("addCurrentSiteContextMenu", {
+      title: chrome.i18n.getMessage("Add_this_site_to_My_Firefox_Sites").replace("[SLD] ", ""),
+      enabled: false
+    });
+  }
+}
+
 async function initContextMenu() {
   // action context menu
   chrome.contextMenus.create({
@@ -155,9 +196,10 @@ async function initContextMenu() {
     contexts: ["action"],
   });
   chrome.contextMenus.create({
-    id: "manageExternalSitesContextMenu",
-    title: chrome.i18n.getMessage("Manage_My_Firefox_Sites"),
+    id: "addCurrentSiteContextMenu",
+    title: chrome.i18n.getMessage("Add_this_site_to_My_Firefox_Sites").replace("[SLD] ", ""),
     contexts: ["action"],
+    enabled: false
   });
   chrome.contextMenus.create({
     id: "autoRedirectCheckboxContextMenu",
@@ -165,6 +207,11 @@ async function initContextMenu() {
     contexts: ["action"],
     type: "checkbox",
     checked: await getIsAutoRedirect(),
+  });
+  chrome.contextMenus.create({
+    id: "manageExternalSitesContextMenu",
+    title: chrome.i18n.getMessage("Manage_My_Firefox_Sites"),
+    contexts: ["action"],
   });
 
   // page context menu
@@ -323,6 +370,7 @@ chrome.runtime.onInstalled.addListener(async () => {
 chrome.webRequest.onBeforeRequest.addListener(
   async (details) => {
     await handleAutoRedirect(details);
+    restoreOriginalUrlBeforeRedirect(details.tabId);
   },
   {
     urls: ["<all_urls>"],
@@ -345,17 +393,20 @@ chrome.action.onClicked.addListener(async (tab) => {
 chrome.tabs.onUpdated.addListener(async (tabId, changeInfo, tab) => {
   checkAndUpdateURLScheme(tab);
   updateToolbarIcon();
+  updateAddCurrentSiteContextMenu();
 });
 
 chrome.tabs.onCreated.addListener(async (tab) => {
   checkAndUpdateURLScheme(tab);
   updateToolbarIcon();
+  updateAddCurrentSiteContextMenu();
 });
 
 chrome.tabs.onActivated.addListener((activeInfo) => {
   chrome.tabs.get(activeInfo.tabId, (tab) => {
     checkAndUpdateURLScheme(tab);
     updateToolbarIcon();
+    updateAddCurrentSiteContextMenu();
   });
 });
 

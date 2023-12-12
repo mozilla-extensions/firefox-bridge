@@ -27,5 +27,8 @@
   },
   "auto_redirect_my_firefox_sites": {
     "message": "Auto-redirect My Firefox Sites"
+  },
+  "add_this_site_to_my_firefox_sites": {
+    "message": "Add [SLD] to My Firefox Sites"
   }
 }
