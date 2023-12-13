@@ -24,6 +24,7 @@ import {
 } from "../../src/backgroundScripts/contextMenus.js";
 import { handleHotkeyPress } from "../../src/backgroundScripts/hotkeys.js";
 
+/* global global */
 global.chrome = {
   testEnv: true,
   contextMenus: {
