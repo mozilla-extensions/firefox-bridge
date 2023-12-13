@@ -1,4 +1,5 @@
 {
+  "type": "module",
   "name": "firefox-launch",
   "version": "1.0.0",
   "description": "Extenision that enables the user to launch Firefox from the other browser",
@@ -7,7 +8,7 @@
     "test": "test"
   },
   "scripts": {
-    "test": "nyc --reporter=text mocha --reporter-progress test/setup.js test/**/*.js",
+    "test": "nyc --reporter=text mocha --reporter-progress test/setup.js test/**/*.test.js --timeout 60000",
     "lint": "eslint src test",
     "coverage": "nyc --reporter=lcov mocha test/setup.js test/**/*.test.js --timeout 60000"
   },

@@ -6,7 +6,8 @@
   "env": {
     "browser": true,
     "webextensions": true,
-    "es6": true
+    "es6": true,
+    "worker": true
   },
   "plugins": ["no-unsanitized"],
   "extends": "eslint:recommended",

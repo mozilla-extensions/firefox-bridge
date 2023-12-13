@@ -22,7 +22,7 @@
   ],
   "host_permissions": ["<all_urls>"],
   "background": {
-    "service_worker": "background.js",
+    "service_worker": "backgroundScripts/background.js",
     "type": "module"
   },
   "action": {

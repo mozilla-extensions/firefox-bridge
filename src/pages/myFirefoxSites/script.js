@@ -17,7 +17,7 @@ function addErrorToEntry(entryDivId) {
   urlInput.style.border = "1px solid red";
   const errorMessage = document.createElement("p");
   errorMessage.className = "error";
-  errorMessage.innerText = "Invalid URL. Please check the entry and try again.";
+  errorMessage.innerText = "Invalid or duplicated URL. Please check the entry and try again.";
   entryDiv.appendChild(errorMessage);
 }
 
@@ -42,7 +42,16 @@ function validateEntry(entry) {
   );
 
   entry.url = entry.url.replace(/\*+/g, "*"); // replace all groups of * with a single *
-  return urlPattern.test(entry.url);
+  if (!urlPattern.test(entry.url)) {
+    return false;
+  }
+
+  // ensure the url does not already exist
+  const existingEntry = entries.find((e) => e.url === entry.url);
+  if (existingEntry && existingEntry.id !== entry.id) {
+    return false;
+  }
+  return true;
 }
 
 function saveEntry() {
