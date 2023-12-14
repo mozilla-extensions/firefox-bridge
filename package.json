@@ -1,15 +1,16 @@
 {
+  "type": "module",
   "name": "firefox-launch",
   "version": "1.0.0",
   "description": "Extenision that enables the user to launch Firefox from the other browser",
-  "main": "background.js",
+  "main": "backgroundScripts/background.js",
   "directories": {
     "test": "test"
   },
   "scripts": {
-    "test": "nyc --reporter=text mocha --reporter-progress test/setup.js test/**/*.js",
+    "test": "npm run lint && c8 mocha test/**/*.test.js",
     "lint": "eslint src test",
-    "coverage": "nyc --reporter=lcov mocha test/setup.js test/**/*.test.js --timeout 60000"
+    "coverage": "c8 report --reporter=lcov --reporter=text"
   },
   "repository": {
     "type": "git",
@@ -28,12 +29,12 @@
   },
   "homepage": "https://github.com/mozilla/firefox-launch#readme",
   "devDependencies": {
+    "c8": "^8.0.1",
     "chai": "^4.3.10",
     "chrome-types": "^0.1.246",
     "eslint": "^8.54.0",
     "eslint-plugin-no-unsanitized": "^4.0.2",
     "mocha": "^10.2.0",
-    "nyc": "^15.1.0",
     "sinon": "^17.0.1",
     "sinon-chai": "^3.7.0",
     "webextensions-jsdom": "^1.4.1"

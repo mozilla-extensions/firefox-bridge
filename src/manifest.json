@@ -10,9 +10,19 @@
     "96": "images/firefox96.png",
     "128": "images/firefox128.png"
   },
-  "permissions": ["contextMenus", "activeTab", "tabs", "storage", "commands", "notifications"],
+  "permissions": [
+    "contextMenus",
+    "activeTab",
+    "tabs",
+    "storage",
+    "commands",
+    "notifications",
+    "declarativeNetRequest",
+    "webRequest"
+  ],
+  "host_permissions": ["<all_urls>"],
   "background": {
-    "service_worker": "background.js",
+    "service_worker": "backgroundScripts/background.js",
     "type": "module"
   },
   "action": {
