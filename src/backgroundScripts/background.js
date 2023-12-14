@@ -72,17 +72,3 @@ chrome.commands.onCommand.addListener((command) => {
     handleHotkeyPress(command, tabs[0]);
   });
 });
-
-export default {
-  getIsFirefoxInstalled,
-  getIsFirefoxDefault,
-  getIsAutoRedirect,
-  initContextMenu,
-  handleContextMenuClick,
-  handleAutoRedirect,
-  refreshDeclarativeNetRequestRules,
-  launchFirefox,
-  checkAndUpdateURLScheme,
-  handleHotkeyPress,
-  updateToolbarIcon,
-};

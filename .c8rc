@@ -1,5 +1,6 @@
 {
   "include": ["src/**/*.js"],
+  "exclude": ["src/backgroundScripts/background.js"],
   "reporter": ["text", "lcov"],
   "report-dir": "./coverage",
   "all": true
