@@ -1,18 +1,17 @@
 // shared imports
-import { getIsFirefoxInstalled } from "./getters.js";
 import { initContextMenu, handleContextMenuClick } from "./contextMenus.js";
 // import { handleAutoRedirect, refreshDeclarativeNetRequestRules } from "./autoRedirect.js";
-import { launchFirefox, checkAndUpdateURLScheme } from "./launchBrowser.js";
+import { checkAndUpdateURLScheme } from "./validTab.js";
 import { handleHotkeyPress } from "./hotkeys.js";
 import { updateToolbarIcon } from "./actionButton.js";
 
-// interface imports
-import { getIsFirefoxDefault } from "../../chromium/interfaces/getIcon.js";
+// // interface imports
+import { getIsFirefoxDefault, getIsFirefoxInstalled } from "../../chromium/interfaces/getIcon.js";
+import { launchBrowser } from "../../chromium/interfaces/launchBrowser.js";
 
 export function initSharedListeners() {
 
   chrome.runtime.onInstalled.addListener(async () => {
-    await getIsFirefoxInstalled(); // call this to let the welcome page know if Firefox is installed
     // await getIsAutoRedirect(); // resolve to true on fresh install
     chrome.tabs.create({ url: "../shared/pages/welcomePage/index.html" });
     await initContextMenu();
@@ -45,7 +44,7 @@ export function initSharedListeners() {
   });
 
   chrome.action.onClicked.addListener(async (tab) => {
-    launchFirefox(tab, await getIsFirefoxDefault());
+    launchBrowser(tab, await getIsFirefoxDefault());
   });
 
   chrome.tabs.onUpdated.addListener(async (tabId, changeInfo, tab) => {

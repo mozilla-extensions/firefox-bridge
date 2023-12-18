@@ -1,4 +1,4 @@
-import { launchFirefox } from "./launchBrowser.js";
+import { launchBrowser } from "../../chromium/interfaces/launchBrowser.js";
 
 import { applyPlatformContextMenus, handlePlatformContextMenuClick } from "../../chromium/interfaces/contextMenus.js";
   
@@ -26,12 +26,12 @@ export async function handleContextMenuClick(info, tab) {
     info.menuItemId === "launchInFirefox" ||
       info.menuItemId === "launchInFirefoxLink"
   ) {
-    await launchFirefox(tab, true);
+    await launchBrowser(tab, true);
   } else if (
     info.menuItemId === "launchInFirefoxPrivate" ||
       info.menuItemId === "launchInFirefoxPrivateLink"
   ) {
-    await launchFirefox(tab, false);
+    await launchBrowser(tab, false);
   } else {
     await handlePlatformContextMenuClick(info, tab);
   }

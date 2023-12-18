@@ -1,3 +1,17 @@
+export function getIsFirefoxInstalled() {
+  return new Promise((resolve) => {
+    chrome.storage.local.get(["isFirefoxInstalled"], (result) => {
+      if (result.isFirefoxInstalled === undefined) {
+        // placeholder
+        chrome.storage.local.set({ isFirefoxInstalled: true });
+        resolve(true);
+      } else {
+        resolve(result.isFirefoxInstalled);
+      }
+    });
+  });
+}
+
 export function getIsFirefoxDefault() {
   return new Promise((resolve) => {
     chrome.storage.sync.get(["isFirefoxDefault"], (result) => {

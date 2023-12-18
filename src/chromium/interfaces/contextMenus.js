@@ -1,7 +1,7 @@
 import { getIsFirefoxDefault } from "./getIcon.js";
 
 import { updateToolbarIcon } from "../../shared/backgroundScripts/actionButton.js";
-import { launchFirefox } from "../../shared/backgroundScripts/launchBrowser.js";
+import { launchBrowser } from "./launchBrowser.js";
 
 export async function applyPlatformContextMenus() {
   // action context menu
@@ -88,6 +88,6 @@ export async function handlePlatformContextMenuClick(info, tab){
     await handleChangeDefaultLaunchContextMenuClick();
   } else if (info.menuItemId === "alternativeLaunchContextMenu") {
     // launch in the opposite mode to the default
-    await launchFirefox(tab, !isFirefoxDefault);
+    await launchBrowser(tab, !isFirefoxDefault);
   }
 }
