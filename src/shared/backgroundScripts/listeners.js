@@ -1,13 +1,9 @@
 // shared imports
 import { initContextMenu, handleContextMenuClick } from "./contextMenus.js";
-// import { handleAutoRedirect, refreshDeclarativeNetRequestRules } from "./autoRedirect.js";
 import { checkAndUpdateURLScheme } from "./validTab.js";
 import { handleHotkeyPress } from "./hotkeys.js";
 import { updateToolbarIcon } from "./actionButton.js";
-
-// // interface imports
-import { getIsFirefoxDefault, getIsFirefoxInstalled } from "../../chromium/interfaces/getIcon.js";
-import { launchBrowser } from "../../chromium/interfaces/launchBrowser.js";
+// import { handleAutoRedirect, refreshDeclarativeNetRequestRules } from "./autoRedirect.js";
 
 export function initSharedListeners() {
 
@@ -22,54 +18,49 @@ export function initSharedListeners() {
     await handleContextMenuClick(info, tab);
   });
 
-
-  //   chrome.webRequest.onBeforeRequest.addListener(
-  //     async (details) => {
-  //       await handleAutoRedirect(details);
-  //     },
-  //     {
-  //       urls: ["<all_urls>"],
-  //       types: ["main_frame"],
-  //     }
-  //   );
-
-  chrome.storage.sync.onChanged.addListener(async (changes) => {
-    if (changes.isFirefoxDefault !== undefined) {
-      updateToolbarIcon();
-    } 
-    // if (changes.firefoxSites !== undefined && await getIsAutoRedirect()) {
-    //   console.log("refreshing rules");
-    //   refreshDeclarativeNetRequestRules();
-    // }
-  });
-
-  chrome.action.onClicked.addListener(async (tab) => {
-    launchBrowser(tab, await getIsFirefoxDefault());
-  });
-
-  chrome.tabs.onUpdated.addListener(async (tabId, changeInfo, tab) => {
-    checkAndUpdateURLScheme(tab);
-    updateToolbarIcon();
-    // updateAddCurrentSiteToMySitesContextMenu();
-  });
-
-  chrome.tabs.onCreated.addListener(async (tab) => {
-    checkAndUpdateURLScheme(tab);
-    updateToolbarIcon();
-    // updateAddCurrentSiteToMySitesContextMenu();
-  });
-
-  chrome.tabs.onActivated.addListener((activeInfo) => {
-    chrome.tabs.get(activeInfo.tabId, (tab) => {
-      checkAndUpdateURLScheme(tab);
-      updateToolbarIcon();
-    //   updateAddCurrentSiteToMySitesContextMenu();
-    });
-  });
-
   chrome.commands.onCommand.addListener((command) => {
     chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
       handleHotkeyPress(command, tabs[0]);
     });
   });
 }
+
+chrome.tabs.onUpdated.addListener(async (tabId, changeInfo, tab) => {
+  checkAndUpdateURLScheme(tab);
+  updateToolbarIcon();
+  // updateAddCurrentSiteToMySitesContextMenu();
+});
+
+chrome.tabs.onCreated.addListener(async (tab) => {
+  checkAndUpdateURLScheme(tab);
+  updateToolbarIcon();
+  // updateAddCurrentSiteToMySitesContextMenu();
+});
+
+chrome.tabs.onActivated.addListener((activeInfo) => {
+  chrome.tabs.get(activeInfo.tabId, (tab) => {
+    checkAndUpdateURLScheme(tab);
+    updateToolbarIcon();
+  //   updateAddCurrentSiteToMySitesContextMenu();
+  });
+});
+
+chrome.storage.sync.onChanged.addListener(async (changes) => {
+  if (changes.isFirefoxDefault !== undefined) {
+    updateToolbarIcon();
+  } 
+  // if (changes.firefoxSites !== undefined && await getIsAutoRedirect()) {
+  //   console.log("refreshing rules");
+  //   refreshDeclarativeNetRequestRules();
+  // }
+});
+
+//   chrome.webRequest.onBeforeRequest.addListener(
+//     async (details) => {
+//       await handleAutoRedirect(details);
+//     },
+//     {
+//       urls: ["<all_urls>"],
+//       types: ["main_frame"],
+//     }
+//   );
