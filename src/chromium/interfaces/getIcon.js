@@ -13,11 +13,11 @@ export function getIsFirefoxDefault() {
 export async function getDefaultIconPath() {
   if (await getIsFirefoxDefault()) {
     return {
-      32: "../images/firefox/firefox32.png",
+      32: chrome.runtime.getURL("images/firefox/firefox32.png"),
     };
   } else {
     return {
-      32: "../images/firefox-private/private32.png",
+      32: chrome.runtime.getURL("images/firefox-private/private32.png"),
     };
   }
 }
@@ -25,11 +25,11 @@ export async function getDefaultIconPath() {
 export async function getGreyedIconPath() {
   if (await getIsFirefoxDefault()) {
     return {
-      32: "../images/firefox/firefox32grey.png",
+      32: chrome.runtime.getURL("images/firefox/firefox32grey.png"),
     };
   } else {
     return {
-      32: "../images/firefox-private/private32grey.png",
+      32: chrome.runtime.getURL("images/firefox-private/private32grey.png"),
     };
   }
 }

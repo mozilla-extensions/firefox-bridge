@@ -65,6 +65,7 @@ export async function applyPlatformContextMenus() {
 }
 
 export async function handleChangeDefaultLaunchContextMenuClick() {
+  console.log("changing default");
   const isFirefoxDefault = await getIsFirefoxDefault();
   if (isFirefoxDefault) {
     chrome.contextMenus.update("alternativeLaunchContextMenu", {
@@ -78,7 +79,7 @@ export async function handleChangeDefaultLaunchContextMenuClick() {
     });
   }
   chrome.storage.sync.set({ isFirefoxDefault: !isFirefoxDefault });
-  updateToolbarIcon();
+  await updateToolbarIcon();
 }
 
 export async function handlePlatformContextMenuClick(info, tab){
