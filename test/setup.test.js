@@ -3,7 +3,7 @@ import { beforeEach, afterEach } from "mocha";
 
 import {
   isCurrentTabValidUrlScheme,
-} from "../src/backgroundScripts/launchBrowser.js";
+} from "../src/chromium/backgroundScripts/launchBrowser.js";
 
 /* global global */
 global.chrome = {

@@ -3,7 +3,7 @@ import { describe, it } from "mocha";
 
 import { setIsFirefoxDefault, setIsAutoRedirect, setCurrentTabURL, setExternalSites, setIsFirefoxInstalled } from "../setup.test.js";
 
-import { getCurrentTabSLD, getExternalSites, getIsAutoRedirect, getIsFirefoxDefault, getIsFirefoxInstalled } from "../../src/backgroundScripts/getters.js";
+import { getCurrentTabSLD, getExternalSites, getIsAutoRedirect, getIsFirefoxDefault, getIsFirefoxInstalled } from "../../src/chromium/backgroundScripts/getters.js";
 
 describe("getIsFirefoxDefault()", () => {
   it("should return true if firefox is the default browser", async () => {

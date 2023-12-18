@@ -2,14 +2,14 @@ import { expect } from "chai";
 import { describe, it } from "mocha";
 
 import { setCurrentTabURL, setIsFirefoxDefault } from "../setup.test.js";
-import { setIsCurrentTabValidUrlScheme } from "../../src/backgroundScripts/launchBrowser.js";
+import { setIsCurrentTabValidUrlScheme } from "../../src/chromium/backgroundScripts/launchBrowser.js";
 
 import {
   initContextMenu,
   handleChangeDefaultLaunchContextMenuClick,
   handleContextMenuClick,
   updateAddCurrentSiteToMySitesContextMenu,
-} from "../../src/backgroundScripts/contextMenus.js";
+} from "../../src/chromium/backgroundScripts/contextMenus.js";
 
 
 describe("initContextMenu()", () => {

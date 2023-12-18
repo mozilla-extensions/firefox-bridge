@@ -2,9 +2,9 @@ import { expect } from "chai";
 import { describe, it } from "mocha";
 
 import { setIsFirefoxInstalled, getIsCurrentTabValidUrlScheme } from "../setup.test.js";
-import { setIsCurrentTabValidUrlScheme } from "../../src/backgroundScripts/launchBrowser.js";
+import { setIsCurrentTabValidUrlScheme } from "../../src/chromium/backgroundScripts/launchBrowser.js";
 
-import { launchFirefox, checkAndUpdateURLScheme } from "../../src/backgroundScripts/launchBrowser.js";
+import { launchFirefox, checkAndUpdateURLScheme } from "../../src/chromium/backgroundScripts/launchBrowser.js";
 
 
 describe("launchFirefox()", () => {

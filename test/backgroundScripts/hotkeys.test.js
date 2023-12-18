@@ -1,9 +1,9 @@
 import { expect } from "chai";
 import { describe, it } from "mocha";
 
-import { setIsCurrentTabValidUrlScheme } from "../../src/backgroundScripts/launchBrowser.js";
+import { setIsCurrentTabValidUrlScheme } from "../../src/chromium/backgroundScripts/launchBrowser.js";
 
-import { handleHotkeyPress } from "../../src/backgroundScripts/hotkeys.js";
+import { handleHotkeyPress } from "../../src/chromium/backgroundScripts/hotkeys.js";
 
 describe("handleHotkeyPress()", () => {
   it("should launch firefox in normal mode", async () => {

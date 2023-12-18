@@ -16,6 +16,8 @@ chrome.runtime.onInstalled.addListener(async () => {
   chrome.tabs.create({
     url: "pages/myFirefoxSites/index.html",
   });
+
+  console.log(chrome.runtime.getManifest().minimum_chrome_version);
 });
 
 chrome.contextMenus.onClicked.addListener(async (info, tab) => {
