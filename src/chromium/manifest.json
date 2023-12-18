@@ -24,7 +24,7 @@
   ],
   "host_permissions": ["<all_urls>"],
   "background": {
-    "service_worker": "backgroundScripts/background.js",
+    "service_worker": "shared/backgroundScripts/background.js",
     "type": "module"
   },
   "action": {

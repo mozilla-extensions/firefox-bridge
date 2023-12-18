@@ -1,23 +1,13 @@
-import { getIsFirefoxDefault } from "./getters.js";
 import { isCurrentTabValidUrlScheme } from "./launchBrowser.js";
 
+import { getDefaultIconPath, getGreyedIconPath } from "../../chromium/interfaces/getIcon.js";
+
 export async function updateToolbarIcon() {
-  let iconPath = (await getIsFirefoxDefault())
-    ? {
-      32: "../images/firefox32.png",
-    }
-    : {
-      32: "../images/private32.png",
-    };
+  let iconPath = await getDefaultIconPath();
   if (!isCurrentTabValidUrlScheme) {
-    iconPath = (await getIsFirefoxDefault())
-      ? {
-        32: "../images/firefox32grey.png",
-      }
-      : {
-        32: "../images/private32grey.png",
-      };
+    iconPath = await getGreyedIconPath();
   }
   
+  console.log("iconPath", iconPath);
   chrome.action.setIcon({ path: iconPath });
 }

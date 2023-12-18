@@ -30,7 +30,6 @@
   },
   "homepage": "https://github.com/mozilla/firefox-launch#readme",
   "devDependencies": {
-    "archiver": "^6.0.1",
     "c8": "^8.0.1",
     "chai": "^4.3.10",
     "chrome-types": "^0.1.246",

@@ -15,7 +15,7 @@
   ],
   "host_permissions": ["<all_urls>"],
   "background": {
-    "scripts": ["backgroundScripts/background.js"],
+    "scripts": ["shared/backgroundScripts/background.js"],
     "type": "module"
   },
   "commands": {
@@ -25,5 +25,6 @@
       },
       "description": "Launch External Browser"
     }
-  }
+  },
+  "default_locale": "en"
 }

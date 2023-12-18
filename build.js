@@ -1,6 +1,23 @@
 import fs from "fs";
 import path from "path";
 
+function replaceInterfaceImportsInFiles(filePath) {
+  const file = fs.readFileSync(filePath, "utf8");
+  const result = file.replace(/\.\.\/\.\.\/chromium\/interfaces/g, "../../interfaces");
+  fs.writeFileSync(filePath, result, "utf8");
+}
+
+function replaceInterfaceImportsInFolders(dir) {
+  fs.readdirSync(dir).forEach((file) => {
+    const filePath = path.join(dir, file);
+    if (fs.statSync(filePath).isDirectory()) {
+      replaceInterfaceImportsInFolders(filePath);
+    } else {
+      replaceInterfaceImportsInFiles(filePath);
+    }
+  });
+}
+
 function replaceSharedImportsInFolders(dir) {
   fs.readdirSync(dir).forEach((file) => {
     const filePath = path.join(dir, file);
@@ -31,7 +48,14 @@ function copyFolderRecursiveSync(source, target) {
         copyFolderRecursiveSync(curSource, curTarget);
       } else {
         const curTarget = path.join(target, file);
-        fs.copyFileSync(curSource, curTarget);
+        // if its an image, copy it as a buffer
+        if (file.endsWith(".png") || file.endsWith(".jpg")) {
+          const read = fs.createReadStream(curSource);
+          const write = fs.createWriteStream(curTarget);
+          read.pipe(write);
+        } else {
+          fs.copyFileSync(curSource, curTarget);
+        }
       }
     });
   }
@@ -62,12 +86,17 @@ function buildFirefoxExtension() {
   // replace all shared import paths for all files and subfolders in ./build/firefox
   console.log("Replacing shared import paths...");
   replaceSharedImportsInFolders(firefoxBuildFolder);
+  
 
   // copy the shared folder to ./build/firefox/shared
   console.log("Copying shared files...");
   const sharedFolder = path.join(__dirname, "src", "shared");
   const sharedBuildFolder = path.join(firefoxBuildFolder, "shared");
   copyFolderRecursiveSync(sharedFolder, sharedBuildFolder);
+
+  // replace all ../../chromium/interfaces with ../../interfaces
+  console.log("Replacing interface import paths...");
+  replaceInterfaceImportsInFolders(sharedBuildFolder);
 
   // copy the _locales folder to ./build/firefox/_locales
   console.log("Copying _locales files...");
@@ -98,6 +127,10 @@ function buildChromiumExtension() {
   const sharedBuildFolder = path.join(chromiumBuildFolder, "shared");
   copyFolderRecursiveSync(sharedFolder, sharedBuildFolder);
 
+  // replace all ../../chromium/interfaces with ../../interfaces inside ./build/chromium/shared
+  console.log("Replacing interface import paths...");
+  replaceInterfaceImportsInFolders(sharedBuildFolder);
+  
   // copy the _locales folder to ./build/chromium/_locales
   console.log("Copying _locales files...");
   const localesFolder = path.join(__dirname, "src", "_locales");
