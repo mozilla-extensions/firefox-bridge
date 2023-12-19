@@ -5,6 +5,7 @@ import { getExternalBrowser } from "../../shared/backgroundScripts/getters.js";
 
 export async function applyPlatformContextMenus() {
   const externalBrowserName = await getExternalBrowser();
+  const alternateBrowserName = externalBrowserName === "Firefox" ? "Firefox Private Browsing" : "Firefox";
   // action context menu
   chrome.contextMenus.create({
     id: "changeDefaultLaunchContextMenu",
@@ -17,9 +18,10 @@ export async function applyPlatformContextMenus() {
     id: "alternativeLaunchContextMenu",
     title: chrome.i18n
       .getMessage("launchInExternalBrowser")
-      .replace("[BROWSER]", externalBrowserName),
+      .replace("[BROWSER]", alternateBrowserName),
     contexts: ["action"],
   });
+
 
   // External sites context menu
   // chrome.contextMenus.create({
@@ -73,6 +75,7 @@ export async function handleChangeDefaultLaunchContextMenuClick() {
       .getMessage("launchInExternalBrowser")
       .replace("[BROWSER]", externalBrowserName),
   });
+
   if (externalBrowserName === "Firefox") {
     chrome.storage.sync.set({ currentExternalBrowser: "Firefox Private Browsing" });
   } else {
@@ -90,9 +93,15 @@ export async function handlePlatformContextMenuClick(info, tab) {
     // launch in the opposite mode to the default
     await launchBrowser(tab, !(externalBrowserName === "Firefox"));
   } else if (
-    info.menuItemId === "launchInFirefoxPrivate" ||
-    info.menuItemId === "launchInFirefoxPrivateLink"
+    info.menuItemId === "launchInExternalBrowserPrivate"
   ) {
+    await launchBrowser(tab, false);
+  } else if (
+    info.menuItemId === "launchInExternalBrowserPrivateLink"
+  ) {
+    tab.url = info.linkUrl;
+    console.log("tab", tab);
+    console.log("info", info);
     await launchBrowser(tab, false);
   }
 }

@@ -24,5 +24,8 @@
   },
   "notInstalledErrorAction": {
     "message": "Download Firefox"
+  },
+  "openWelcomePage": {
+    "message": "Open Welcome Page"
   }
 }

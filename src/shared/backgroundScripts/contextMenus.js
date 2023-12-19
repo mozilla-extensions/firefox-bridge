@@ -14,7 +14,7 @@ export async function initContextMenu() {
     id: "launchInExternalBrowser",
     title: chrome.i18n
       .getMessage("launchInExternalBrowser")
-      .replace("[BROWSER]", externalBrowser),
+      .replace("[BROWSER]", externalBrowser === "Firefox Private Browsing" ? "Firefox" : externalBrowser),
     contexts: ["page"],
   });
 
@@ -23,20 +23,40 @@ export async function initContextMenu() {
     id: "launchInExternalBrowserLink",
     title: chrome.i18n
       .getMessage("launchInExternalBrowserLink")
-      .replace("[BROWSER]", externalBrowser),
+      .replace("[BROWSER]", externalBrowser === "Firefox Private Browsing" ? "Firefox" : externalBrowser),
     contexts: ["link"],
   });
 
   // platform specific menu
   await applyPlatformContextMenus();
+
+  // welcome page
+  chrome.contextMenus.create({
+    id: "separator",
+    type: "separator",
+    contexts: ["action"],
+  });
+  chrome.contextMenus.create({
+    id: "openWelcomePage",
+    title: chrome.i18n.getMessage("openWelcomePage"),
+    contexts: ["action"],
+  });
 }
 
 export async function handleContextMenuClick(info, tab) {
   if (
-    info.menuItemId === "launchInExternalBrowser" ||
-    info.menuItemId === "launchInExternalBrowserLink"
+    info.menuItemId === "launchInExternalBrowser"
   ) {
     await launchBrowser(tab, true);
+  } else if (info.menuItemId === "launchInExternalBrowserLink") {
+    tab.url = info.linkUrl;
+    await launchBrowser(tab, true);
+  } else if (
+    info.menuItemId === "openWelcomePage"
+  ) {
+    chrome.tabs.create({
+      url: chrome.runtime.getURL("shared/pages/welcomePage/index.html"),
+    });
   } else {
     await handlePlatformContextMenuClick(info, tab);
   }

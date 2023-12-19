@@ -37,7 +37,7 @@
     }
   },
   "commands": {
-    "launchFirefox": {
+    "launchBrowser": {
       "suggested_key": {
         "default": "Ctrl+Shift+F"
       },
