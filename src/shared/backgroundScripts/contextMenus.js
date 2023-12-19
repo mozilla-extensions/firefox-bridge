@@ -6,14 +6,14 @@ export async function initContextMenu() {
   // page context menu
   chrome.contextMenus.create({
     id: "launchInExternalBrowser",
-    title: chrome.i18n.getMessage("Launch_this_page_in_Firefox"),
+    title: chrome.i18n.getMessage("launchInExternalBrowser"),
     contexts: ["page"],
   });
   
   // link context menu
   chrome.contextMenus.create({
     id: "launchInExternalBrowserLink",
-    title: chrome.i18n.getMessage("Launch_this_link_in_Firefox"),
+    title: chrome.i18n.getMessage("launchInExternalBrowserLink"),
     contexts: ["link"],
   });
 

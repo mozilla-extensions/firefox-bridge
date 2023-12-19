@@ -7,7 +7,7 @@ export async function applyPlatformContextMenus() {
   // action context menu
   chrome.contextMenus.create({
     id: "changeDefaultLaunchContextMenu",
-    title: chrome.i18n.getMessage("Always_use_Firefox_Private_Browsing"),
+    title: chrome.i18n.getMessage("changeDefaultLaunchContextMenu"),
     contexts: ["action"],
     type: "checkbox",
     checked: !(await getIsFirefoxDefault()),
@@ -15,7 +15,7 @@ export async function applyPlatformContextMenus() {
   chrome.contextMenus.create({
     id: "alternativeLaunchContextMenu",
     title: chrome.i18n.getMessage(
-      "Launch_this_page_in_Firefox_Private_Browsing"
+      "alternativeLaunchContextMenu"
     ),
     contexts: ["action"],
   });
@@ -28,20 +28,20 @@ export async function applyPlatformContextMenus() {
   // });
   // chrome.contextMenus.create({
   //   id: "addCurrentSiteToMySitesContextMenu",
-  //   title: chrome.i18n.getMessage("Add_this_site_to_My_Firefox_Sites").replace("[SLD] ", ""),
+  //   title: chrome.i18n.getMessage("addCurrentSiteToMySitesContextMenu").replace("[SLD] ", ""),
   //   contexts: ["action"],
   //   enabled: false
   // });
   // chrome.contextMenus.create({
   //   id: "autoRedirectCheckboxContextMenu",
-  //   title: chrome.i18n.getMessage("auto_redirect_my_firefox_sites"),
+  //   title: chrome.i18n.getMessage("autoRedirectCheckboxContextMenu"),
   //   contexts: ["action"],
   //   type: "checkbox",
   //   checked: await getIsAutoRedirect(),
   // });
   // chrome.contextMenus.create({
   //   id: "manageExternalSitesContextMenu",
-  //   title: chrome.i18n.getMessage("Manage_My_Firefox_Sites"),
+  //   title: chrome.i18n.getMessage("manageExternalSitesContextMenu"),
   //   contexts: ["action"],
   // });
 
@@ -49,7 +49,7 @@ export async function applyPlatformContextMenus() {
   chrome.contextMenus.create({
     id: "launchInExternalBrowserPrivate",
     title: chrome.i18n.getMessage(
-      "Launch_this_page_in_Firefox_Private_Browsing"
+      "launchInExternalBrowserPrivate"
     ),
     contexts: ["page"],
   });
@@ -58,7 +58,7 @@ export async function applyPlatformContextMenus() {
   chrome.contextMenus.create({
     id: "launchInExternalBrowserPrivateLink",
     title: chrome.i18n.getMessage(
-      "Launch_this_link_in_Firefox_Private_Browsing"
+      "launchInExternalBrowserPrivateLink"
     ),
     contexts: ["link"],
   });

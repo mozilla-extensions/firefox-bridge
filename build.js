@@ -3,7 +3,10 @@ import path from "path";
 
 function replaceInterfaceImportsInFiles(filePath) {
   const file = fs.readFileSync(filePath, "utf8");
-  const result = file.replace(/\.\.\/\.\.\/chromium\/interfaces/g, "../../interfaces");
+  const result = file.replace(
+    /\.\.\/\.\.\/chromium\/interfaces/g,
+    "../../interfaces"
+  );
   fs.writeFileSync(filePath, result, "utf8");
 }
 
@@ -62,7 +65,7 @@ function copyFolderRecursiveSync(source, target) {
 }
 
 function makeBuildFolder() {
-  console.log("Creating build folder...");
+  console.log("Creating build folder...\n");
   const __dirname = path.resolve();
   const buildFolder = path.join(__dirname, "build");
   if (!fs.existsSync(buildFolder)) {
@@ -73,80 +76,52 @@ function makeBuildFolder() {
   }
 }
 
-function buildFirefoxExtension() {
-  // make/clear the build/firefox folder
+function buildExtension(extensionPlatform) {
+  // make/clear the build folder
   const __dirname = path.resolve();
-  const firefoxBuildFolder = path.join(__dirname, "build", "firefox");
+  const buildFolder = path.join(__dirname, "build", extensionPlatform);
 
-  // copy everything from ./src/firefox to ./build/firefox
-  console.log("Copying firefox files...");
-  const firefoxFolder = path.join(__dirname, "src", "firefox");
-  copyFolderRecursiveSync(firefoxFolder, firefoxBuildFolder);
+  // copy everything from ./src/{platform} to ./build/{platform}
+  console.log(`Copying ${extensionPlatform} files...`);
+  const srcFolder = path.join(__dirname, "src", extensionPlatform);
+  copyFolderRecursiveSync(srcFolder, buildFolder);
 
-  // replace all shared import paths for all files and subfolders in ./build/firefox
+  // replace all shared import paths for all files and subfolders in ./build/{platform}
   console.log("Replacing shared import paths...");
-  replaceSharedImportsInFolders(firefoxBuildFolder);
-  
+  replaceSharedImportsInFolders(buildFolder);
 
-  // copy the shared folder to ./build/firefox/shared
+  // copy the shared folder to ./build/{platform}/shared
   console.log("Copying shared files...");
   const sharedFolder = path.join(__dirname, "src", "shared");
-  const sharedBuildFolder = path.join(firefoxBuildFolder, "shared");
+  const sharedBuildFolder = path.join(buildFolder, "shared");
   copyFolderRecursiveSync(sharedFolder, sharedBuildFolder);
 
   // replace all ../../chromium/interfaces with ../../interfaces
   console.log("Replacing interface import paths...");
   replaceInterfaceImportsInFolders(sharedBuildFolder);
 
-  // copy the _locales folder to ./build/firefox/_locales
-  console.log("Copying _locales files...");
+  // copy the locales folder to build/{platform}/_locales
+  console.log("Copying locales files...");
   const localesFolder = path.join(__dirname, "src", "_locales");
-  const localesBuildFolder = path.join(firefoxBuildFolder, "_locales");
+  const localesBuildFolder = path.join(buildFolder, "_locales");
   copyFolderRecursiveSync(localesFolder, localesBuildFolder);
 
-  console.log("Done building firefox extension! Reload the extension in firefox.");
-}
+  // copy the build/{platform}/pages folder to build/{platform}/shared/pages
+  console.log("Copying pages files...");
+  const pagesFolder = path.join(__dirname, "build", extensionPlatform, "pages");
+  const pagesBuildFolder = path.join(buildFolder, "shared", "pages");
+  copyFolderRecursiveSync(pagesFolder, pagesBuildFolder);
 
-function buildChromiumExtension() {
-  // make/clear the build/chromium folder
-  const __dirname = path.resolve();
-  const chromiumBuildFolder = path.join(__dirname, "build", "chromium");
-
-  // copy everything from ./src/chromium to ./build/chromium
-  console.log("Copying chromium files...");
-  const chromiumFolder = path.join(__dirname, "src", "chromium");
-  copyFolderRecursiveSync(chromiumFolder, chromiumBuildFolder);
-
-  // replace all shared import paths for all files and subfolders in ./build/chromium
-  console.log("Replacing shared import paths...");
-  replaceSharedImportsInFolders(chromiumBuildFolder);
-
-  // copy the shared folder to ./build/chromium/shared
-  console.log("Copying shared files...");
-  const sharedFolder = path.join(__dirname, "src", "shared");
-  const sharedBuildFolder = path.join(chromiumBuildFolder, "shared");
-  copyFolderRecursiveSync(sharedFolder, sharedBuildFolder);
-
-  // replace all ../../chromium/interfaces with ../../interfaces inside ./build/chromium/shared
-  console.log("Replacing interface import paths...");
-  replaceInterfaceImportsInFolders(sharedBuildFolder);
-  
-  // copy the _locales folder to ./build/chromium/_locales
-  console.log("Copying _locales files...");
-  const localesFolder = path.join(__dirname, "src", "_locales");
-  const localesBuildFolder = path.join(chromiumBuildFolder, "_locales");
-  copyFolderRecursiveSync(localesFolder, localesBuildFolder);
-
-  console.log("Done building chromium extension! Reload the extension in chromium.");
+  console.log(
+    `\n${extensionPlatform} build complete! Reload the extension in your browser to see changes.\n`
+  );
 }
 
 function buildExtensions() {
   makeBuildFolder();
-  buildFirefoxExtension();
-  buildChromiumExtension();
+  buildExtension("firefox");
+  buildExtension("chromium");
+  console.log("Zipping extensions...\n");
 }
 
 buildExtensions();
-
-
-// navigator.useragent stores all installed browsers

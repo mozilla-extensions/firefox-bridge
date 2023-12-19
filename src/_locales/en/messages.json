@@ -1,17 +1,29 @@
 {
-  "Always_use_Firefox_Private_Browsing": {
-    "message": "Always use Firefox Private Browsing"
-  },
-  "Launch_this_page_in_Firefox_Private_Browsing": {
-    "message": "Launch this page in Firefox Private Browsing"
-  },
-  "Launch_this_page_in_Firefox": { "message": "Launch this page in Firefox" },
-  "Launch_this_link_in_Firefox_Private_Browsing": {
-    "message": "Launch this link in Firefox Private Browsing"
-  },
-  "Launch_this_link_in_Firefox": { "message": "Launch this link in Firefox" },
+  "launchInExternalBrowser": { "message": "Open page in [BROWSER]" },
+  "launchInExternalBrowserLink": { "message": "Open link in [BROWSER]" },
   "welcomeHeading": {
     "message": "Welcome to Firefox Launch"
+  },
+  "manageExternalSitesContextMenus": {
+    "message": "Manage My External Sites"
+  },
+  "autoRedirectCheckboxContextMenu": {
+    "message": "Auto-redirect My External Sites"
+  },
+  "addCurrentSiteToMySitesContextMenu": {
+    "message": "Add [SLD] to My External Sites"
+  },
+  "changeDefaultLaunchContextMenu": {
+    "message": "Always use Firefox Private Browsing"
+  },
+  "alternativeLaunchContextMenu": {
+    "message": "Launch this page in Firefox Private Browsing"
+  },
+  "launchInExternalBrowserPrivate": {
+    "message": "Open page in Firefox Private Browsing"
+  },
+  "launchInExternalBrowserPrivateLink": {
+    "message": "Open link in Firefox Private Browsing"
   },
   "notInstalledErrorHeading": {
     "message": "Firefox is not installed"
@@ -21,14 +33,5 @@
   },
   "notInstalledErrorAction": {
     "message": "Download Firefox"
-  },
-  "Manage_My_Firefox_Sites": {
-    "message": "Manage My Firefox Sites"
-  },
-  "auto_redirect_my_firefox_sites": {
-    "message": "Auto-redirect My Firefox Sites"
-  },
-  "add_this_site_to_my_firefox_sites": {
-    "message": "Add [SLD] to My Firefox Sites"
   }
 }
