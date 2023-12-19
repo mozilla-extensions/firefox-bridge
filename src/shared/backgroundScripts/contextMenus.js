@@ -23,15 +23,10 @@ export async function initContextMenu() {
 
 export async function handleContextMenuClick(info, tab) {
   if (
-    info.menuItemId === "launchInFirefox" ||
-      info.menuItemId === "launchInFirefoxLink"
+    info.menuItemId === "launchInExternalBrowser" ||
+      info.menuItemId === "launchInExternalBrowserLink"
   ) {
     await launchBrowser(tab, true);
-  } else if (
-    info.menuItemId === "launchInFirefoxPrivate" ||
-      info.menuItemId === "launchInFirefoxPrivateLink"
-  ) {
-    await launchBrowser(tab, false);
   } else {
     await handlePlatformContextMenuClick(info, tab);
   }

@@ -89,5 +89,10 @@ export async function handlePlatformContextMenuClick(info, tab){
   } else if (info.menuItemId === "alternativeLaunchContextMenu") {
     // launch in the opposite mode to the default
     await launchBrowser(tab, !isFirefoxDefault);
+  } else if (
+    info.menuItemId === "launchInFirefoxPrivate" ||
+      info.menuItemId === "launchInFirefoxPrivateLink"
+  ) {
+    await launchBrowser(tab, false);
   }
 }
