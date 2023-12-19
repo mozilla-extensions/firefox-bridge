@@ -1,5 +1,14 @@
-
-
+export function getExternalBrowser() {
+  return new Promise((resolve) => {
+    chrome.storage.sync.get(["currentExternalBrowser"], (result) => {
+      if (result.currentExternalBrowser === undefined) {
+        resolve("");
+      } else {
+        resolve(result.currentExternalBrowser);
+      }
+    });
+  });
+}
 // export function getIsAutoRedirect() {
 //   return new Promise((resolve) => {
 //     chrome.storage.local.get(["isAutoRedirect"], (result) => {

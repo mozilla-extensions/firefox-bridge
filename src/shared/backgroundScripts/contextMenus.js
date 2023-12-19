@@ -1,19 +1,29 @@
 import { launchBrowser } from "../../chromium/interfaces/launchBrowser.js";
+import { getExternalBrowser } from "./getters.js";
 
-import { applyPlatformContextMenus, handlePlatformContextMenuClick } from "../../chromium/interfaces/contextMenus.js";
-  
-export async function initContextMenu() {  
+import {
+  applyPlatformContextMenus,
+  handlePlatformContextMenuClick,
+} from "../../chromium/interfaces/contextMenus.js";
+
+export async function initContextMenu() {
+  const externalBrowser = await getExternalBrowser();
+  console.log("externalBrowser", externalBrowser);
   // page context menu
   chrome.contextMenus.create({
     id: "launchInExternalBrowser",
-    title: chrome.i18n.getMessage("launchInExternalBrowser"),
+    title: chrome.i18n
+      .getMessage("launchInExternalBrowser")
+      .replace("[BROWSER]", externalBrowser),
     contexts: ["page"],
   });
-  
+
   // link context menu
   chrome.contextMenus.create({
     id: "launchInExternalBrowserLink",
-    title: chrome.i18n.getMessage("launchInExternalBrowserLink"),
+    title: chrome.i18n
+      .getMessage("launchInExternalBrowserLink")
+      .replace("[BROWSER]", externalBrowser),
     contexts: ["link"],
   });
 
@@ -24,7 +34,7 @@ export async function initContextMenu() {
 export async function handleContextMenuClick(info, tab) {
   if (
     info.menuItemId === "launchInExternalBrowser" ||
-      info.menuItemId === "launchInExternalBrowserLink"
+    info.menuItemId === "launchInExternalBrowserLink"
   ) {
     await launchBrowser(tab, true);
   } else {
@@ -41,11 +51,9 @@ export async function handleContextMenuClick(info, tab) {
   // }
 }
 
-
-
 // export async function handleAutoRedirectCheckboxContextMenuClick() {
 //   const isAutoRedirect = await getIsAutoRedirect();
-  
+
 //   // If disabling, remove all rules and keep them in storage
 //   // If enabling, add all rules from storage
 //   if (isAutoRedirect) {
@@ -59,7 +67,7 @@ export async function handleContextMenuClick(info, tab) {
 //   }
 //   chrome.storage.local.set({ isAutoRedirect: !isAutoRedirect });
 // }
-  
+
 // export async function handleAddCurrentSiteToMySitesContextMenuClick() {
 //   console.log("adding site");
 //   const sld = await getCurrentTabSLD();
@@ -72,7 +80,7 @@ export async function handleContextMenuClick(info, tab) {
 //       url: `*.${sld}/*`,
 //       isPrivate: false,
 //     };
-  
+
 //     // don't add dupes
 //     if (entries.find((entry) => entry.url === newEntry.url)) return;
 //     entries.push(newEntry);

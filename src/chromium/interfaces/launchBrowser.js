@@ -1,4 +1,4 @@
-import { getIsFirefoxInstalled } from "./getIcon.js";
+import { getIsFirefoxInstalled } from "./getters.js";
 
 import { isCurrentTabValidUrlScheme } from "../../shared/backgroundScripts/validTab.js";
 

@@ -16,15 +16,6 @@
   "changeDefaultLaunchContextMenu": {
     "message": "Always use Firefox Private Browsing"
   },
-  "alternativeLaunchContextMenu": {
-    "message": "Launch this page in Firefox Private Browsing"
-  },
-  "launchInExternalBrowserPrivate": {
-    "message": "Open page in Firefox Private Browsing"
-  },
-  "launchInExternalBrowserPrivateLink": {
-    "message": "Open link in Firefox Private Browsing"
-  },
   "notInstalledErrorHeading": {
     "message": "Firefox is not installed"
   },

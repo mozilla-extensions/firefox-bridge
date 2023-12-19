@@ -1,6 +1,6 @@
 import { isCurrentTabValidUrlScheme } from "./validTab.js";
 
-import { getDefaultIconPath, getGreyedIconPath } from "../../chromium/interfaces/getIcon.js";
+import { getDefaultIconPath, getGreyedIconPath } from "../../chromium/interfaces/getters.js";
 
 export async function updateToolbarIcon() {
   let iconPath = await getDefaultIconPath();
