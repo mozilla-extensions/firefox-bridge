@@ -26,12 +26,35 @@ async function showNotInstalledError() {
   }
 }
 
+async function checkHotkeys() {
+  // get hotkeys with id launchFirefox and launchFirefoxPrivate
+  const hotkeys = await chrome.commands.getAll();
+  const launchFirefox = hotkeys.find((hotkey) => hotkey.name === "launchFirefox");
+  const launchFirefoxHotkey = launchFirefox.shortcut;
+  const launchFirefoxPrivate = hotkeys.find((hotkey) => hotkey.name === "launchFirefoxPrivate");
+  const launchFirefoxPrivateHotkey = launchFirefoxPrivate.shortcut;
+
+  // update hotkey text
+  document.getElementById("launchFirefoxHotkey").innerText = launchFirefoxHotkey || "Not Yet Defined.";
+  document.getElementById("launchFirefoxPrivateHotkey").innerText = launchFirefoxPrivateHotkey;
+
+  // add event listeners
+  document.getElementById("changeHotkeys").addEventListener("click", handleShortcutsPageClick);
+}
+
+function handleShortcutsPageClick() {
+  chrome.tabs.create({ url: "chrome://extensions/shortcuts" });
+}
+
 function handleInstallFirefox() {
   chrome.tabs.create({ url: "https://www.mozilla.org/firefox/" });
 }
 
-document.addEventListener("DOMContentLoaded", loadLocalizedMessages);
-document.addEventListener("DOMContentLoaded", showNotInstalledError);
+document.addEventListener("DOMContentLoaded", async function() {
+  loadLocalizedMessages();
+  await showNotInstalledError();
+  await checkHotkeys();
+});
 
 // -------------------------------------------
 //                  Exports
