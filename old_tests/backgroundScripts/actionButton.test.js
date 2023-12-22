@@ -1,10 +1,10 @@
 import { expect } from "chai";
 import { describe, it } from "mocha";
 
-import { setIsFirefoxDefault } from "../setup.test.js";
-import { setIsCurrentTabValidUrlScheme } from "../../src/chromium/backgroundScripts/launchBrowser.js";
+import { setIsFirefoxDefault } from "../../test/setup.test.js";
+import { setIsCurrentTabValidUrlScheme } from "../../src/shared/backgroundScripts/validTab.js";
 
-import { updateToolbarIcon } from "../../src/chromium/backgroundScripts/actionButton.js";
+import { updateToolbarIcon } from "../../src/shared/backgroundScripts/actionButton.js";
 
 describe("updateToolbarIcon()", () => {
   it("should update the toolbar icon to firefox icon grey colour", async () => {

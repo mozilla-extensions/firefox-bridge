@@ -1,6 +1,12 @@
 {
-  "launchInExternalBrowser": { "message": "Open page in [BROWSER]" },
-  "launchInExternalBrowserLink": { "message": "Open link in [BROWSER]" },
+  "launchInExternalBrowser": {
+    "message": "Open page in $browser$",
+    "placeholders": { "browser": { "content": "$1" } }
+  },
+  "launchInExternalBrowserLink": {
+    "message": "Open link in $browser$",
+    "placeholders": { "browser": { "content": "$1" } }
+  },
   "welcomeHeading": {
     "message": "Welcome to Firefox Launch"
   },
@@ -11,7 +17,8 @@
     "message": "Auto-redirect My External Sites"
   },
   "addCurrentSiteToMySitesContextMenu": {
-    "message": "Add [SLD] to My External Sites"
+    "message": "Add $sld$ to My External Sites",
+    "placeholders": { "sld": { "content": "$1" } }
   },
   "changeDefaultLaunchContextMenu": {
     "message": "Always use Firefox Private Browsing"

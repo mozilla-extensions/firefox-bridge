@@ -1,7 +1,7 @@
 import { expect } from "chai";
 import { describe, it } from "mocha";
 
-import { setIsFirefoxDefault, setIsAutoRedirect, setCurrentTabURL, setExternalSites, setIsFirefoxInstalled } from "../setup.test.js";
+import { setIsFirefoxDefault, setIsAutoRedirect, setCurrentTabURL, setExternalSites, setIsFirefoxInstalled } from "../../setup.test.js";
 
 import { getCurrentTabSLD, getExternalSites, getIsAutoRedirect, getIsFirefoxDefault, getIsFirefoxInstalled } from "../../src/chromium/backgroundScripts/getters.js";
 

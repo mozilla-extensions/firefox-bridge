@@ -17,8 +17,7 @@ export async function applyPlatformContextMenus() {
   chrome.contextMenus.create({
     id: "alternativeLaunchContextMenu",
     title: chrome.i18n
-      .getMessage("launchInExternalBrowser")
-      .replace("[BROWSER]", alternateBrowserName),
+      .getMessage("launchInExternalBrowser", alternateBrowserName),
     contexts: ["action"],
   });
 
@@ -52,8 +51,7 @@ export async function applyPlatformContextMenus() {
   chrome.contextMenus.create({
     id: "launchInExternalBrowserPrivate",
     title: chrome.i18n
-      .getMessage("launchInExternalBrowser")
-      .replace("[BROWSER]", "Firefox Private Browsing"),
+      .getMessage("launchInExternalBrowser", alternateBrowserName),
     contexts: ["page"],
   });
 
@@ -61,8 +59,7 @@ export async function applyPlatformContextMenus() {
   chrome.contextMenus.create({
     id: "launchInExternalBrowserPrivateLink",
     title: chrome.i18n
-      .getMessage("launchInExternalBrowserLink")
-      .replace("[BROWSER]", "Firefox Private Browsing"),
+      .getMessage("launchInExternalBrowserLink", alternateBrowserName),
     contexts: ["link"],
   });
 }
@@ -72,8 +69,7 @@ export async function handleChangeDefaultLaunchContextMenuClick() {
   const externalBrowserName = await getExternalBrowser();
   chrome.contextMenus.update("alternativeLaunchContextMenu", {
     title: chrome.i18n
-      .getMessage("launchInExternalBrowser")
-      .replace("[BROWSER]", externalBrowserName),
+      .getMessage("launchInExternalBrowser", externalBrowserName),
   });
 
   if (externalBrowserName === "Firefox") {
@@ -81,7 +77,6 @@ export async function handleChangeDefaultLaunchContextMenuClick() {
   } else {
     chrome.storage.sync.set({ currentExternalBrowser: "Firefox" });
   }
-  console.log("new external browser", await getExternalBrowser());
   await updateToolbarIcon();
 }
 
@@ -100,8 +95,6 @@ export async function handlePlatformContextMenuClick(info, tab) {
     info.menuItemId === "launchInExternalBrowserPrivateLink"
   ) {
     tab.url = info.linkUrl;
-    console.log("tab", tab);
-    console.log("info", info);
     await launchBrowser(tab, false);
   }
 }

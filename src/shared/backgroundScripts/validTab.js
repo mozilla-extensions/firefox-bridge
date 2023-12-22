@@ -9,3 +9,7 @@ export function checkAndUpdateURLScheme(tab) {
   }
 }
 
+// testing purposes
+export const setIsCurrentTabValidUrlScheme = (bool) => {
+  isCurrentTabValidUrlScheme = bool;
+};
