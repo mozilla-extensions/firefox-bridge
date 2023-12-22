@@ -43,4 +43,14 @@ describe("shared/backgroundScripts/validTab.js", () => {
       expect(isCurrentTabValidUrlScheme).to.be.false;
     });
   });
+
+  describe("setIsCurrentTabValidUrlScheme()", () => {
+    it("should set the value of isCurrentTabValidUrlScheme", () => {
+      setIsCurrentTabValidUrlScheme(true);
+      expect(isCurrentTabValidUrlScheme).to.be.true;
+
+      setIsCurrentTabValidUrlScheme(false);
+      expect(isCurrentTabValidUrlScheme).to.be.false;
+    });
+  });
 });
