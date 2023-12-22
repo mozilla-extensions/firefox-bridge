@@ -1,0 +1,39 @@
+{
+  "manifest_version": 3,
+  "is_firefox": true,
+  "name": "Firefox Launch",
+  "description": "Launch websites in Firefox or Firefox Private Browsing, either automatically or when you choose. From Mozilla, the creators of the Firefox web browser.",
+  "version": "0.1",
+  "permissions": [
+    "contextMenus",
+    "activeTab",
+    "tabs",
+    "storage",
+    "notifications",
+    "declarativeNetRequest",
+    "webRequest"
+  ],
+  "host_permissions": ["<all_urls>"],
+  "background": {
+    "scripts": ["shared/backgroundScripts/background.js"],
+    "type": "module"
+  },
+  "action": {
+    "default_icon": {
+      "16": "images/chrome/16.png",
+      "32": "images/chrome/32.png",
+      "48": "images/chrome/48.png",
+      "64": "images/chrome/64.png",
+      "128": "images/chrome/128.png"
+    }
+  },
+  "commands": {
+    "launchExternalBrowser": {
+      "suggested_key": {
+        "default": "Ctrl+Shift+F"
+      },
+      "description": "Launch External Browser"
+    }
+  },
+  "default_locale": "en"
+}

@@ -1,0 +1,18 @@
+[
+  {
+    "id": 1,
+    "priority": 1,
+    "action": {
+      "type": "redirect",
+      "redirect": {
+        "extensionPath": "/shared/pages/welcomePage/index.html"
+      }
+    },
+    "condition": {
+      "urlFilter": "https://manifest.firefoxlaunchredirect.com",
+      "resourceTypes": [
+        "main_frame"
+      ]
+    }
+  }
+]

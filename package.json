@@ -8,9 +8,10 @@
     "test": "test"
   },
   "scripts": {
-    "test": "npm run lint && c8 mocha test/**/*.test.js",
+    "test": "npm run build && c8 mocha test/**/*.test.js",
     "lint": "eslint src test",
-    "coverage": "c8 report --reporter=lcov --reporter=text"
+    "coverage": "c8 report --reporter=lcov --reporter=text",
+    "build": "node build.js && web-ext build --source-dir build/firefox --artifacts-dir build/artifacts --overwrite-dest --filename=firefox.zip && web-ext build --source-dir build/chromium --artifacts-dir build/artifacts --overwrite-dest --filename=chromium.zip"
   },
   "repository": {
     "type": "git",
@@ -37,6 +38,7 @@
     "mocha": "^10.2.0",
     "sinon": "^17.0.1",
     "sinon-chai": "^3.7.0",
+    "web-ext": "^7.9.0",
     "webextensions-jsdom": "^1.4.1"
   }
 }

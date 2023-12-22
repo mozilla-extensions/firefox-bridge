@@ -1,9 +1,7 @@
 import sinon from "sinon";
 import { beforeEach, afterEach } from "mocha";
 
-import {
-  isCurrentTabValidUrlScheme,
-} from "../src/backgroundScripts/launchBrowser.js";
+import { isCurrentTabValidUrlScheme } from "../src/shared/backgroundScripts/validTab.js";
 
 /* global global */
 global.chrome = {
@@ -32,6 +30,7 @@ global.chrome = {
     onInstalled: {
       addListener: sinon.stub(),
     },
+    getURL: sinon.stub(),
   },
   action: {
     setIcon: sinon.stub(),
@@ -76,6 +75,10 @@ global.document = {
   addEventListener: sinon.stub(),
 };
 
+const locales = await import("../src/_locales/en/messages.json", {
+  assert: { type: "json" },
+});
+
 export const setIsFirefoxDefault = (isFirefoxDefault) => {
   global.chrome.storage.sync.get.callsFake((key, callback) => {
     callback({ isFirefoxDefault });
@@ -114,6 +117,16 @@ export const getIsCurrentTabValidUrlScheme = () => {
   return isCurrentTabValidUrlScheme;
 };
 
+export const setExternalBrowser = (currentExternalBrowser) => {
+  global.chrome.storage.sync.get.callsFake((key, callback) => {
+    callback({ currentExternalBrowser });
+  });
+};
+
+export const getLocaleMessage = (key) => {
+  return locales.default[key].message;
+};
+
 function resetStubs(obj) {
   for (const prop in obj) {
     if (typeof obj[prop] === "object") {
@@ -126,8 +139,10 @@ function resetStubs(obj) {
 
 beforeEach(() => {
   setIsFirefoxInstalled(true);
-  // replace underscores with spaces for i18n
-  global.chrome.i18n.getMessage.callsFake((key) => key.replace(/_/g, " "));
+  // for each chrome.i18n.getMessage call, stub it and access the locale folder manually
+  global.chrome.i18n.getMessage.callsFake((key) => {
+    return getLocaleMessage(key);
+  });
 });
 
 afterEach(() => {
