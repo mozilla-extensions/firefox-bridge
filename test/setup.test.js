@@ -76,7 +76,7 @@ global.document = {
 };
 
 const locales = await import("../src/_locales/en/messages.json", {
-  with: { type: "json" },
+  assert: { type: "json" },
 });
 
 export const setIsFirefoxDefault = (isFirefoxDefault) => {
