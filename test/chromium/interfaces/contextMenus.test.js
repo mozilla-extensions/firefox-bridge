@@ -4,12 +4,11 @@ import { describe, it, beforeEach } from "mocha";
 import {
   applyPlatformContextMenus,
   handleChangeDefaultLaunchContextMenuClick,
-  handlePlatformContextMenuClick,
 } from "../../../build/chromium/interfaces/contextMenus.js";
 
 import { setExternalBrowser, getLocaleMessage } from "../../setup.test.js";
 
-describe("contextMenus.js", () => {
+describe("chromium/interfaces/contextMenus.js", () => {
   beforeEach(() => {
     setExternalBrowser("Firefox");
   });

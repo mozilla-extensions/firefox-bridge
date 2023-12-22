@@ -1,5 +1,4 @@
 export async function applyPlatformContextMenus() {
-  console.log("applyPlatformContextMenus");
   chrome.contextMenus.create({
     id: "separator",
     type: "separator",
@@ -37,7 +36,7 @@ export async function applyPlatformContextMenus() {
   // });
 }
 
-export async function handlePlatformContextMenuClick(info, tab) {
+export async function handlePlatformContextMenuClick(info) {
   if (
     info.menuItemId === "openWelcomePage"
   ) {

@@ -8,22 +8,24 @@ import {
 
 export async function initContextMenu() {
   const externalBrowser = await getExternalBrowser();
-  console.log("externalBrowser", externalBrowser);
+  const defaultLaunchMode =
+    externalBrowser === "Firefox Private Browsing"
+      ? "Firefox"
+      : externalBrowser;
   // page context menu
   chrome.contextMenus.create({
     id: "launchInExternalBrowser",
-    title: chrome.i18n
-      .getMessage("launchInExternalBrowser")
-      .replace("[BROWSER]", externalBrowser === "Firefox Private Browsing" ? "Firefox" : externalBrowser),
+    title: chrome.i18n.getMessage("launchInExternalBrowser", defaultLaunchMode),
     contexts: ["page"],
   });
 
   // link context menu
   chrome.contextMenus.create({
     id: "launchInExternalBrowserLink",
-    title: chrome.i18n
-      .getMessage("launchInExternalBrowserLink")
-      .replace("[BROWSER]", externalBrowser === "Firefox Private Browsing" ? "Firefox" : externalBrowser),
+    title: chrome.i18n.getMessage(
+      "launchInExternalBrowserLink",
+      defaultLaunchMode
+    ),
     contexts: ["link"],
   });
 
@@ -32,13 +34,11 @@ export async function initContextMenu() {
 }
 
 export async function handleContextMenuClick(info, tab) {
-  if (
-    info.menuItemId === "launchInExternalBrowser"
-  ) {
-    await launchBrowser(tab, true);
+  if (info.menuItemId === "launchInExternalBrowser") {
+    await launchBrowser(tab);
   } else if (info.menuItemId === "launchInExternalBrowserLink") {
     tab.url = info.linkUrl;
-    await launchBrowser(tab, true);
+    await launchBrowser(tab);
   } else {
     await handlePlatformContextMenuClick(info, tab);
   }

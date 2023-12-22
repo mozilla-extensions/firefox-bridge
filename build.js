@@ -106,12 +106,6 @@ function buildExtension(extensionPlatform) {
   const localesBuildFolder = path.join(buildFolder, "_locales");
   copyFolderRecursiveSync(localesFolder, localesBuildFolder);
 
-  // copy the build/{platform}/pages folder to build/{platform}/shared/pages
-  console.log("Copying pages files...");
-  const pagesFolder = path.join(__dirname, "build", extensionPlatform, "pages");
-  const pagesBuildFolder = path.join(buildFolder, "shared", "pages");
-  copyFolderRecursiveSync(pagesFolder, pagesBuildFolder);
-
   console.log(
     `\n${extensionPlatform} build complete! Reload the extension in your browser to see changes.\n`
   );

@@ -65,7 +65,6 @@ export async function applyPlatformContextMenus() {
 }
 
 export async function handleChangeDefaultLaunchContextMenuClick() {
-  console.log("changing default");
   const externalBrowserName = await getExternalBrowser();
   chrome.contextMenus.update("alternativeLaunchContextMenu", {
     title: chrome.i18n
