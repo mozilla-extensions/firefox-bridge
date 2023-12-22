@@ -29,13 +29,13 @@ async function showNotInstalledError() {
 async function checkHotkeys() {
   // get hotkeys with id launchFirefox and launchFirefoxPrivate
   const hotkeys = await chrome.commands.getAll();
-  const launchFirefox = hotkeys.find((hotkey) => hotkey.name === "launchFirefox");
-  const launchFirefoxHotkey = launchFirefox.shortcut;
+  const launchFirefox = hotkeys.find((hotkey) => hotkey.name === "launchBrowser");
+  const launchFirefoxHotkey = launchFirefox.shortcut || "Not Yet Defined.";
   const launchFirefoxPrivate = hotkeys.find((hotkey) => hotkey.name === "launchFirefoxPrivate");
-  const launchFirefoxPrivateHotkey = launchFirefoxPrivate.shortcut;
+  const launchFirefoxPrivateHotkey = launchFirefoxPrivate.shortcut || "Not Yet Defined.";
 
   // update hotkey text
-  document.getElementById("launchFirefoxHotkey").innerText = launchFirefoxHotkey || "Not Yet Defined.";
+  document.getElementById("launchFirefoxHotkey").innerText = launchFirefoxHotkey;
   document.getElementById("launchFirefoxPrivateHotkey").innerText = launchFirefoxPrivateHotkey;
 
   // add event listeners

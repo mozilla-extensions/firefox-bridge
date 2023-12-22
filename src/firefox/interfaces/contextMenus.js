@@ -1,4 +1,16 @@
 export async function applyPlatformContextMenus() {
+  console.log("applyPlatformContextMenus");
+  chrome.contextMenus.create({
+    id: "separator",
+    type: "separator",
+    contexts: ["action"],
+  });
+  chrome.contextMenus.create({
+    id: "openWelcomePage",
+    title: chrome.i18n.getMessage("openWelcomePage"),
+    contexts: ["action"],
+  });
+
   // External sites context menu
   // chrome.contextMenus.create({
   //   id: "separator",
@@ -26,5 +38,11 @@ export async function applyPlatformContextMenus() {
 }
 
 export async function handlePlatformContextMenuClick(info, tab) {
-
+  if (
+    info.menuItemId === "openWelcomePage"
+  ) {
+    chrome.tabs.create({
+      url: chrome.runtime.getURL("shared/pages/welcomePage/index.html"),
+    });
+  }
 }

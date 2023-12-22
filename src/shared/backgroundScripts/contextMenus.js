@@ -29,18 +29,6 @@ export async function initContextMenu() {
 
   // platform specific menu
   await applyPlatformContextMenus();
-
-  // welcome page
-  chrome.contextMenus.create({
-    id: "separator",
-    type: "separator",
-    contexts: ["action"],
-  });
-  chrome.contextMenus.create({
-    id: "openWelcomePage",
-    title: chrome.i18n.getMessage("openWelcomePage"),
-    contexts: ["action"],
-  });
 }
 
 export async function handleContextMenuClick(info, tab) {
@@ -51,12 +39,6 @@ export async function handleContextMenuClick(info, tab) {
   } else if (info.menuItemId === "launchInExternalBrowserLink") {
     tab.url = info.linkUrl;
     await launchBrowser(tab, true);
-  } else if (
-    info.menuItemId === "openWelcomePage"
-  ) {
-    chrome.tabs.create({
-      url: chrome.runtime.getURL("shared/pages/welcomePage/index.html"),
-    });
   } else {
     await handlePlatformContextMenuClick(info, tab);
   }

@@ -1,7 +1,7 @@
 export function getExternalBrowser() {
   return new Promise((resolve) => {
     chrome.storage.sync.get(["currentExternalBrowser"], (result) => {
-      if (result.currentExternalBrowser === undefined) {
+      if (!result || result.currentExternalBrowser === undefined) {
         resolve("");
       } else {
         resolve(result.currentExternalBrowser);

@@ -6,4 +6,11 @@ export function initPlatformListeners() {
     launchBrowser(tab);
   });
 
+  chrome.runtime.onInstalled.addListener(async () => {
+    await getIsFirefoxInstalled();
+    if (!(await getExternalBrowser())) {
+      chrome.storage.local.set({ currentExternalBrowser: "Firefox" });
+    }
+  });
+
 }
