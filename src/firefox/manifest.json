@@ -35,5 +35,27 @@
       "description": "Launch External Browser"
     }
   },
-  "default_locale": "en"
+  "default_locale": "en",
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "firefox-launch@mozilla.com"
+    }
+  },
+  "experiment_apis": {
+    "experiments_firefox_launch": {
+      "schema": "schema.json",
+      "parent": {
+        "scopes": [
+          "addon_parent"
+        ],
+        "paths": [
+          [
+            "experiments",
+            "firefox_launch"
+          ]
+        ],
+        "script": "api.js"
+      }
+    }
+  }
 }
