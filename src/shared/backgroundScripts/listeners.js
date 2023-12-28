@@ -3,6 +3,7 @@ import { initContextMenu, handleContextMenuClick } from "./contextMenus.js";
 import { checkAndUpdateURLScheme } from "./validTab.js";
 import { handleHotkeyPress } from "./hotkeys.js";
 import { updateToolbarIcon } from "./actionButton.js";
+import { handleBrowserNameChange } from "./contextMenus.js";
 // import { handleAutoRedirect, refreshDeclarativeNetRequestRules } from "./autoRedirect.js";
 
 export function initSharedListeners() {
@@ -44,7 +45,9 @@ export function initSharedListeners() {
   });
 
   chrome.storage.sync.onChanged.addListener(async (changes) => {
-    if (changes.isFirefoxDefault !== undefined) {
+    if (changes.currentExternalBrowser !== undefined) {
+      console.log("browser changed");
+      await handleBrowserNameChange();
       updateToolbarIcon();
     }
     // if (changes.firefoxSites !== undefined && await getIsAutoRedirect()) {

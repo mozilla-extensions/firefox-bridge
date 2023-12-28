@@ -33,6 +33,17 @@ export async function initContextMenu() {
   await applyPlatformContextMenus();
 }
 
+export async function handleBrowserNameChange() {
+  // update the contrext menu items that rely on the browser name
+  const externalBrowser = await getExternalBrowser();
+  chrome.contextMenus.update("launchInExternalBrowser", {
+    title: chrome.i18n.getMessage("launchInExternalBrowser", externalBrowser),
+  });
+  chrome.contextMenus.update("launchInExternalBrowserLink", {
+    title: chrome.i18n.getMessage("launchInExternalBrowserLink", externalBrowser),
+  });
+}
+
 export async function handleContextMenuClick(info, tab) {
   if (info.menuItemId === "launchInExternalBrowser") {
     await launchBrowser(tab);

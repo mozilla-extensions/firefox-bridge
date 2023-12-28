@@ -11,7 +11,7 @@ const iconSize = 32;
 const browserNamesWin = {
   "msedge.exe": "Microsoft Edge",
   "chrome.exe": "Google Chrome",
-}
+};
 const browserNamesMac = ["Safari", "Chrome", "Microsoft Edge"];
 
 this.experiments_firefox_launch = class extends ExtensionAPI {
@@ -80,9 +80,9 @@ this.experiments_firefox_launch = class extends ExtensionAPI {
             let appList = shellService.getAvailableApplicationsForProtocol(https);
             let appDataList = [];
             for (let app of appList) {
-              if (!browserNamesMac.includes(app[0])) {
-                continue;
-              }
+              // if (!browserNamesMac.includes(app[0])) {
+              //   continue;
+              // }
               let iconString = "moz-icon://" + app[1] + "?size=" + iconSize;
               let appData = {
                 icon: iconString,
