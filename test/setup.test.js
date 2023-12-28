@@ -75,6 +75,16 @@ global.document = {
   addEventListener: sinon.stub(),
 };
 
+global.browser = {
+  experiments: {
+    firefox_launch: {
+      getAvailableBrowsers: sinon.stub(),
+      getDefaultBrowser: sinon.stub(),
+      launchApp: sinon.stub(),
+    },
+  },
+};
+
 const locales = await import("../src/_locales/en/messages.json", {
   assert: { type: "json" },
 });
@@ -120,6 +130,14 @@ export const getIsCurrentTabValidUrlScheme = () => {
 export const setExternalBrowser = (currentExternalBrowser) => {
   global.chrome.storage.sync.get.callsFake((key, callback) => {
     callback({ currentExternalBrowser });
+  });
+};
+
+export const setExternalBrowserLaunchProtocol = (
+  currentExternalBrowserLaunchProtocol
+) => {
+  global.chrome.storage.local.get.callsFake((key, callback) => {
+    callback({ currentExternalBrowserLaunchProtocol });
   });
 };
 

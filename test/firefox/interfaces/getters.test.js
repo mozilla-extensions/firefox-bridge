@@ -4,7 +4,10 @@ import { describe, it } from "mocha";
 import {
   getDefaultIconPath,
   getGreyedIconPath,
+  getExternalBrowserLaunchProtocol
 } from "../../../build/firefox/interfaces/getters.js";
+import { setExternalBrowserLaunchProtocol } from "../../setup.test.js";
+
 
 describe("firefox/interfaces/getters.js", () => {
 
@@ -23,6 +26,20 @@ describe("firefox/interfaces/getters.js", () => {
       expect(result).to.deep.equal({
         32: chrome.runtime.getURL("images/chrome/32grey.png"),
       });
+    });
+  });
+
+  describe("getExternalBrowserLaunchProtocol()", () => {
+    it("should return the current external browser launch protocol", async () => {
+      setExternalBrowserLaunchProtocol("test");
+      const result = await getExternalBrowserLaunchProtocol();
+      expect(result).to.equal("test");
+    });
+
+    it("should return an empty string if no current external browser launch protocol", async () => {
+      setExternalBrowserLaunchProtocol(undefined);
+      const result = await getExternalBrowserLaunchProtocol();
+      expect(result).to.equal("");
     });
   });
 });

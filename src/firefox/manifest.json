@@ -28,9 +28,9 @@
     }
   },
   "commands": {
-    "launchExternalBrowser": {
+    "launchBrowser": {
       "suggested_key": {
-        "default": "Ctrl+Shift+F"
+        "default": "Ctrl+Shift+E"
       },
       "description": "Launch External Browser"
     }

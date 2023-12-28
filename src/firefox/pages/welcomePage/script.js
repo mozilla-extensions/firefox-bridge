@@ -24,6 +24,21 @@ function populateBrowserList() {
     });
 }
 
+async function checkHotkeys() {
+  // get hotkeys with id launchFirefox and launchFirefoxPrivate
+  const hotkeys = await chrome.commands.getAll();
+  const launchBrowser = hotkeys.find(
+    (hotkey) => hotkey.name === "launchBrowser"
+  );
+  const launchBrowserHotkey = launchBrowser.shortcut || "Not Yet Defined.";
+
+  // update hotkey text
+  document.getElementById(
+    "hotkeys"
+  ).innerText = launchBrowserHotkey;
+}
+
 document.addEventListener("DOMContentLoaded", async function() {
   populateBrowserList();
+  checkHotkeys();
 });
