@@ -51,7 +51,7 @@ export async function applyPlatformContextMenus() {
   chrome.contextMenus.create({
     id: "launchInExternalBrowserPrivate",
     title: chrome.i18n
-      .getMessage("launchInExternalBrowser", alternateBrowserName),
+      .getMessage("launchInExternalBrowser", "Firefox Private Browsing"),
     contexts: ["page"],
   });
 
@@ -59,7 +59,7 @@ export async function applyPlatformContextMenus() {
   chrome.contextMenus.create({
     id: "launchInExternalBrowserPrivateLink",
     title: chrome.i18n
-      .getMessage("launchInExternalBrowserLink", alternateBrowserName),
+      .getMessage("launchInExternalBrowserLink", "Firefox Private Browsing"),
     contexts: ["link"],
   });
 }
