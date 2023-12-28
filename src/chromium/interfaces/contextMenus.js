@@ -4,7 +4,8 @@ import { updateToolbarIcon } from "../../shared/backgroundScripts/actionButton.j
 import { getExternalBrowser } from "../../shared/backgroundScripts/getters.js";
 
 export async function applyPlatformContextMenus() {
-  const externalBrowserName = await getExternalBrowser();
+  const externalBrowserName = await getExternalBrowser() || "Firefox";
+  console.log(externalBrowserName);
   const alternateBrowserName = externalBrowserName === "Firefox" ? "Firefox Private Browsing" : "Firefox";
   // action context menu
   chrome.contextMenus.create({
@@ -66,6 +67,10 @@ export async function applyPlatformContextMenus() {
 
 export async function handleChangeDefaultLaunchContextMenuClick() {
   const externalBrowserName = await getExternalBrowser();
+
+  chrome.contextMenus.update("changeDefaultLaunchContextMenu", {
+    checked: (externalBrowserName === "Firefox"),
+  });
   chrome.contextMenus.update("alternativeLaunchContextMenu", {
     title: chrome.i18n
       .getMessage("launchInExternalBrowser", externalBrowserName),
