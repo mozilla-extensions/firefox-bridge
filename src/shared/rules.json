@@ -5,7 +5,7 @@
     "action": {
       "type": "redirect",
       "redirect": {
-        "extensionPath": "/shared/pages/welcomePage/index.html"
+        "extensionPath": "/pages/welcomePage/index.html"
       }
     },
     "condition": {
