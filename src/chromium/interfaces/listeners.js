@@ -10,8 +10,5 @@ export function initPlatformListeners() {
 
   chrome.runtime.onInstalled.addListener(async () => {
     await getIsFirefoxInstalled();
-    if (!(await getExternalBrowser())) {
-      chrome.storage.sync.set({ currentExternalBrowser: "Firefox" });
-    }
   });
 }
