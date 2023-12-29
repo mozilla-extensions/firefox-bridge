@@ -8,11 +8,9 @@ XPCOMUtils.defineLazyServiceGetters(lazy, {
 
 const https = "https";
 const iconSize = 32;
-const browserNamesWin = {
-  "msedge.exe": "Microsoft Edge",
-  "chrome.exe": "Google Chrome",
-};
-const browserNamesMac = ["Safari", "Chrome", "Microsoft Edge"];
+const browserNamesWin = ["Chrome", "Edge", "Opera", "Safari"];
+const browserNamesMac = ["Safari", "Chrome", "Edge", "Opera", "Arc"];
+let logs = [];
 
 this.experiments_firefox_launch = class extends ExtensionAPI {
   getAPI(context) {
@@ -32,7 +30,7 @@ this.experiments_firefox_launch = class extends ExtensionAPI {
               aExecutable &&
               aExecutable.exists() &&
               aExecutable.isExecutable() &&
-              aExecutable.leafName != leafName
+              aExecutable.leafName !== leafName
             );
           },
 
@@ -44,45 +42,57 @@ this.experiments_firefox_launch = class extends ExtensionAPI {
             if (aHandlerApp instanceof Ci.nsILocalHandlerApp) {
               return this._isValidHandlerExecutable(aHandlerApp.executable);
             }
-
             return false;
           },
 
           // Get all windows able to open https protocol
           _getAvailableBrowsersWin() {
-            let mimeInfo = lazy.gMIMEService.getFromTypeAndExtension("text/html", "html");
+            let mimeInfo = lazy.gMIMEService.getFromTypeAndExtension(
+              "text/html",
+              "html"
+            );
             let appList = mimeInfo.possibleLocalHandlers || [];
             let appDataList = [];
             for (let idx = 0; idx < appList.length; idx++) {
               let app = appList.queryElementAt(idx, Ci.nsILocalHandlerApp);
-              if (!this._isValidHandlerApp(app) || !browserNamesWin[app.name]) {
+              logs.push("App: " + app.executable.path);
+              if (!this._isValidHandlerApp(app)) {
+                logs.push("Invalid app");
                 continue;
               }
               let iconURI = Services.io.newFileURI(app.executable).spec;
               let iconString = "moz-icon://" + iconURI + "?size=" + iconSize;
+              let appname =
+                app.executable.parent.leafName !== "Application"
+                  ? app.executable.parent.leafName
+                  : app.executable.parent.parent.leafName;
+              
+              if (!browserNamesWin.includes(appname)) {
+                continue;
+              }
+              
               let appData = {
                 icon: iconString,
-                name: app.name,
+                name: appname,
                 executable: app.executable.path,
               };
               appDataList.push(appData);
-              console.log("Icon: " + iconString);
-              console.log("Name: " + browserNamesWin[app.name]);
-              console.log("Executable: " + app.executable.path);
             }
             return appDataList;
           },
 
           _getAvailableBrowsersMac() {
-            let shellService = Cc["@mozilla.org/browser/shell-service;1"].getService(
-              Ci.nsIMacShellService
+            let shellService = Cc[
+              "@mozilla.org/browser/shell-service;1"
+            ].getService(Ci.nsIMacShellService);
+            let appList = shellService.getAvailableApplicationsForProtocol(
+              https
             );
-            let appList = shellService.getAvailableApplicationsForProtocol(https);
             let appDataList = [];
             for (let app of appList) {
-              // if (!browserNamesMac.includes(app[0])) {
-              //   continue;
-              // }
+              if (!browserNamesMac.includes(app[0])) {
+                continue;
+              }
               let iconString = "moz-icon://" + app[1] + "?size=" + iconSize;
               let appData = {
                 icon: iconString,
@@ -90,27 +100,29 @@ this.experiments_firefox_launch = class extends ExtensionAPI {
                 executable: app[1],
               };
               appDataList.push(appData);
-              console.log("Icon: " + iconString);
-              console.log("Name: " + app[0]);
-              console.log("Executable: " + app[1]);
+              logs.push("Icon: " + iconString);
+              logs.push("Name: " + app[0]);
+              logs.push("Executable: " + app[1]);
             }
             return appDataList;
           },
 
           async getAvailableBrowsers() {
-            console.log("Default: " + this.getDefaultBrowser());
             if (AppConstants.platform == "win") {
-              return this._getAvailableBrowsersWin();
+              return {browsers: this._getAvailableBrowsersWin(), logs: logs};
             } else if (AppConstants.platform == "macosx") {
-              return this._getAvailableBrowsersMac();
+              return {browsers: this._getAvailableBrowsersMac(), logs: logs};
             } else {
-              console.error("Unsupported platform: " + AppConstants.platform);
-              return [];
+              console.log("Unsupported platform: " + AppConstants.platform);
+              return {browsers: null, logs: logs};
             }
           },
 
           getDefaultBrowser() {
-            if (AppConstants.platform != "win" && AppConstants.platform != "macosx") {
+            if (
+              AppConstants.platform != "win" &&
+              AppConstants.platform != "macosx"
+            ) {
               console.error("Unsupported platform: " + AppConstants.platform);
               return null;
             }
@@ -121,20 +133,28 @@ this.experiments_firefox_launch = class extends ExtensionAPI {
             if (!handlerInfo.hasDefaultHandler) {
               return null;
             }
-            return(handlerInfo.defaultDescription);
+            return handlerInfo.defaultDescription;
           },
 
           _launchAppWin(appExecutable, handlerArgs) {
-            let file = Cc["@mozilla.org/file/local;1"].createInstance(Ci.nsIFile);
-            let process = Cc["@mozilla.org/process/util;1"].createInstance(Ci.nsIProcess);
+            let file = Cc["@mozilla.org/file/local;1"].createInstance(
+              Ci.nsIFile
+            );
+            let process = Cc["@mozilla.org/process/util;1"].createInstance(
+              Ci.nsIProcess
+            );
             file.initWithPath(appExecutable);
             process.init(file);
             process.run(false, handlerArgs, handlerArgs.length);
           },
 
           _launchAppMac(appExecutable, handlerArgs) {
-            let opener = Cc["@mozilla.org/file/local;1"].createInstance(Ci.nsIFile);
-            let process = Cc["@mozilla.org/process/util;1"].createInstance(Ci.nsIProcess);
+            let opener = Cc["@mozilla.org/file/local;1"].createInstance(
+              Ci.nsIFile
+            );
+            let process = Cc["@mozilla.org/process/util;1"].createInstance(
+              Ci.nsIProcess
+            );
             let uri = Services.io.newURI(appExecutable);
             let file = uri.QueryInterface(Ci.nsIFileURL).file;
             let argsToUse = ["-a", file.path, ...handlerArgs];
@@ -154,8 +174,8 @@ this.experiments_firefox_launch = class extends ExtensionAPI {
               console.error("Unsupported platform: " + AppConstants.platform);
               return;
             }
-          }
-        }
+          },
+        },
       },
     };
   }

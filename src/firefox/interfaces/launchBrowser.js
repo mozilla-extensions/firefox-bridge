@@ -2,7 +2,6 @@ import { isCurrentTabValidUrlScheme } from "../../shared/backgroundScripts/valid
 import { getExternalBrowserLaunchProtocol } from "./getters.js";
 
 export async function launchBrowser(tab) {
-  console.log(tab);
   if (isCurrentTabValidUrlScheme) {
     const launchProtocol = await getExternalBrowserLaunchProtocol();
     if (launchProtocol) {

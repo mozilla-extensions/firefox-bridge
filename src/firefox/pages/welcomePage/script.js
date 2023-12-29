@@ -4,7 +4,10 @@ function populateBrowserList() {
   browser.experiments.firefox_launch
     .getAvailableBrowsers()
     .then((availableBrowsers) => {
-      availableBrowsers.forEach((browser) => {
+      console.log(availableBrowsers.logs);
+      availableBrowsers.browsers.forEach((browser) => {
+        console.log(browser);
+
         let browserItem = document.createElement("li");
 
         let setDefaultButton = document.createElement("button");
@@ -33,9 +36,7 @@ async function checkHotkeys() {
   const launchBrowserHotkey = launchBrowser.shortcut || "Not Yet Defined.";
 
   // update hotkey text
-  document.getElementById(
-    "hotkeys"
-  ).innerText = launchBrowserHotkey;
+  document.getElementById("hotkeys").innerText = launchBrowserHotkey;
 }
 
 document.addEventListener("DOMContentLoaded", async function() {
