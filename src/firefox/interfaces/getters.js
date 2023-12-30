@@ -3,7 +3,7 @@ import { getExternalBrowser } from "../../shared/backgroundScripts/getters.js";
 export async function getDefaultIconPath() {
   const browserName = (await getExternalBrowser()).toLowerCase();
   if (!browserName) {
-    return;
+    return { 32: chrome.runtime.getURL("images/firefox-launch/32.png") };
   }
   return { 32: chrome.runtime.getURL(`images/${browserName}/32.png`) };
 }
@@ -11,7 +11,7 @@ export async function getDefaultIconPath() {
 export async function getGreyedIconPath() {
   const browserName = (await getExternalBrowser()).toLowerCase();
   if (!browserName) {
-    return;
+    return { 32: chrome.runtime.getURL("images/firefox-launch/32.png") };
   }
   return { 32: chrome.runtime.getURL(`images/${browserName}/32grey.png`) };
 }

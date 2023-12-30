@@ -21,10 +21,12 @@ describe("firefox/interfaces/getters.js", () => {
       });
     });
 
-    it("should return undefined if no current browser", async () => {
+    it("should return the firefox icon if no current browser", async () => {
       setExternalBrowser(undefined);
       const result = await getDefaultIconPath();
-      expect(result).to.equal(undefined);
+      expect(result).to.deep.equal({
+        32: chrome.runtime.getURL("images/firefox-launch/32.png"),
+      });
     });
   });
 
@@ -37,10 +39,12 @@ describe("firefox/interfaces/getters.js", () => {
       });
     });
 
-    it("should return undefined if no current browser", async () => {
+    it("should return firefox icon if no current browser", async () => {
       setExternalBrowser(undefined);
       const result = await getGreyedIconPath();
-      expect(result).to.equal(undefined);
+      expect(result).to.deep.equal({
+        32: chrome.runtime.getURL("images/firefox-launch/32.png"),
+      });
     });
   });
 

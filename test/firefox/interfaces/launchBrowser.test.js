@@ -12,10 +12,16 @@ describe("firefox/interfaces/launchBrowser.js", () => {
       expect(result).to.equal(false);
     });
 
-    it("should return false if there is no launch protocol", async () => {
+    it("should return false and open the welcome page if there is no launch protocol", async () => {
       setIsCurrentTabValidUrlScheme(true);
       const result = await launchBrowser({ url: "https://example.com" });
       expect(result).to.equal(false);
+      expect(chrome.tabs.create.callCount).to.equal(1);
+      expect(
+        chrome.tabs.create.calledWith({
+          url: chrome.runtime.getURL("pages/welcomePage/index.html"),
+        })
+      ).to.be.true;
     });
 
     it("should return true if there is a launch protocol", async () => {

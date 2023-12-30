@@ -20,11 +20,7 @@
   },
   "action": {
     "default_icon": {
-      "16": "images/chrome/16.png",
-      "32": "images/chrome/32.png",
-      "48": "images/chrome/48.png",
-      "64": "images/chrome/64.png",
-      "128": "images/chrome/128.png"
+      "32": "images/firefox-launch/32.png"
     }
   },
   "commands": {
