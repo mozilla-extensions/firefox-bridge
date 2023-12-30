@@ -9,7 +9,7 @@ XPCOMUtils.defineLazyServiceGetters(lazy, {
 const https = "https";
 const iconSize = 32;
 const browserNamesWin = ["Chrome", "Edge", "Opera", "Safari"];
-const browserNamesMac = ["Safari", "Chrome", "Edge", "Opera", "Arc"];
+const browserNamesMac = ["Safari", "Chrome", "Microsoft Edge", "Opera", "Arc"];
 let logs = [];
 
 this.experiments_firefox_launch = class extends ExtensionAPI {
@@ -92,6 +92,8 @@ this.experiments_firefox_launch = class extends ExtensionAPI {
             for (let app of appList) {
               if (!browserNamesMac.includes(app[0])) {
                 continue;
+              } else if (app[0] === "Microsoft Edge") {
+                app[0] = "Edge";
               }
               let iconString = "moz-icon://" + app[1] + "?size=" + iconSize;
               let appData = {

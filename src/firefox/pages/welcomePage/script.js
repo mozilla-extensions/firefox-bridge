@@ -1,12 +1,18 @@
 function populateBrowserList() {
   let browserList = document.getElementById("browser-list");
   browserList.innerHTML = "";
+  const loadedBrowsers = new Set();
   browser.experiments.firefox_launch
     .getAvailableBrowsers()
     .then((availableBrowsers) => {
       console.log(availableBrowsers.logs);
       availableBrowsers.browsers.forEach((browser) => {
         console.log(browser);
+        
+        if (loadedBrowsers.has(browser.name)) {
+          return;
+        } 
+        loadedBrowsers.add(browser.name);
 
         let browserItem = document.createElement("li");
 
@@ -19,7 +25,14 @@ function populateBrowserList() {
           chrome.storage.sync.set({ currentExternalBrowser: browser.name });
         });
 
+        let browserImage = document.createElement("img");
+        browserImage.setAttribute(
+          "src",
+          `../../images/${browser.name.toLowerCase()}/32.png`
+        );
+
         browserItem.innerText = browser.name;
+        browserItem.appendChild(browserImage);
         browserItem.appendChild(setDefaultButton);
 
         browserList.appendChild(browserItem);

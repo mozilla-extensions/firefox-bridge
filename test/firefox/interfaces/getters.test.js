@@ -7,25 +7,40 @@ import {
   getExternalBrowserLaunchProtocol
 } from "../../../build/firefox/interfaces/getters.js";
 import { setExternalBrowserLaunchProtocol } from "../../setup.test.js";
+import { setExternalBrowser } from "../../setup.test.js";
 
 
 describe("firefox/interfaces/getters.js", () => {
 
   describe("getDefaultIconPath()", () => {
     it("should return the current browser icon path", async () => {
-      const result = getDefaultIconPath();
+      setExternalBrowser("chrome");
+      const result = await getDefaultIconPath();
       expect(result).to.deep.equal({
         32: chrome.runtime.getURL("images/chrome/32.png"),
       });
+    });
+
+    it("should return undefined if no current browser", async () => {
+      setExternalBrowser(undefined);
+      const result = await getDefaultIconPath();
+      expect(result).to.equal(undefined);
     });
   });
 
   describe("getGreyedIconPath()", () => {
     it("should return the greyed current browser icon path", async () => {
-      const result = getGreyedIconPath();
+      setExternalBrowser("chrome");
+      const result = await getGreyedIconPath();
       expect(result).to.deep.equal({
         32: chrome.runtime.getURL("images/chrome/32grey.png"),
       });
+    });
+
+    it("should return undefined if no current browser", async () => {
+      setExternalBrowser(undefined);
+      const result = await getGreyedIconPath();
+      expect(result).to.equal(undefined);
     });
   });
 
