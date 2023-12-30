@@ -1,11 +1,22 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
-    <title>Firefox Launch</title>
-    <link rel="stylesheet" href="styles.css">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Welcome to Firefox Launch Extension</title>
     <script src="script.js"></script>
   </head>
   <body>
-    <h1 class="welcome-header" id="welcome">Welcome to Firefox Launch</h1>
+    <header>
+      <h1>Welcome to Firefox Launch Extension</h1>
+      <p>Choose the browser that Firefox Launch will use to open web pages:</p>
+    </header>
+
+    <section class="browser-list" id="browser-list"></section>
+    <div>
+      Launch External Browser Hotkey:
+      <h3 id="hotkeys"></h3>
+      To change the hotkey, navigate to about:addons, click on the gear icon, and select "Manage Extension Shortcuts"
+    </div>
   </body>
 </html>

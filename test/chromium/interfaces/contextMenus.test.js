@@ -47,7 +47,7 @@ describe("chromium/interfaces/contextMenus.js", () => {
       await handleChangeDefaultLaunchContextMenuClick({
         checked: true,
       });
-      expect(chrome.contextMenus.update.callCount).to.equal(1);
+      expect(chrome.contextMenus.update.callCount).to.equal(2);
       expect(
         chrome.contextMenus.update.calledWith("alternativeLaunchContextMenu", {
           title: getLocaleMessage("launchInExternalBrowser"),
@@ -65,7 +65,7 @@ describe("chromium/interfaces/contextMenus.js", () => {
       await handleChangeDefaultLaunchContextMenuClick({
         checked: false,
       });
-      expect(chrome.contextMenus.update.callCount).to.equal(1);
+      expect(chrome.contextMenus.update.callCount).to.equal(2);
       expect(
         chrome.contextMenus.update.calledWith("alternativeLaunchContextMenu", {
           title: getLocaleMessage("launchInExternalBrowser"),

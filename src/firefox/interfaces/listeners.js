@@ -4,6 +4,7 @@ export function initPlatformListeners() {
 
   chrome.action.onClicked.addListener(async (tab) => {
     launchBrowser(tab);
+
   });
 
 }

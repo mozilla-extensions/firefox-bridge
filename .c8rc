@@ -1,7 +1,8 @@
 {
   "include": ["build/**/*.js"],
   "exclude": ["build/firefox/shared/backgroundScripts", "build/chromium/shared/backgroundScripts/background.js",
-    "build/chromium/shared/backgroundScripts/autoRedirect.js", "build/**/shared/pages/myExternalSites"],
+    "build/chromium/shared/backgroundScripts/autoRedirect.js", "build/**/shared/pages/myExternalSites",
+    "build/firefox/api.js"],
   "reporter": ["text", "lcov"],
   "report-dir": "./coverage",
   "all": true

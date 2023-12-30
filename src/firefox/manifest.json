@@ -20,20 +20,38 @@
   },
   "action": {
     "default_icon": {
-      "16": "images/chrome/16.png",
-      "32": "images/chrome/32.png",
-      "48": "images/chrome/48.png",
-      "64": "images/chrome/64.png",
-      "128": "images/chrome/128.png"
+      "32": "images/firefox-launch/32.png"
     }
   },
   "commands": {
-    "launchExternalBrowser": {
+    "launchBrowser": {
       "suggested_key": {
-        "default": "Ctrl+Shift+F"
+        "default": "Ctrl+Shift+E"
       },
       "description": "Launch External Browser"
     }
   },
-  "default_locale": "en"
+  "default_locale": "en",
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "firefox-launch@mozilla.com"
+    }
+  },
+  "experiment_apis": {
+    "experiments_firefox_launch": {
+      "schema": "schema.json",
+      "parent": {
+        "scopes": [
+          "addon_parent"
+        ],
+        "paths": [
+          [
+            "experiments",
+            "firefox_launch"
+          ]
+        ],
+        "script": "api.js"
+      }
+    }
+  }
 }

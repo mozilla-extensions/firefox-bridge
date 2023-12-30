@@ -2,7 +2,7 @@ import { getIsFirefoxInstalled } from "./getters.js";
 
 import { isCurrentTabValidUrlScheme } from "../../shared/backgroundScripts/validTab.js";
 
-export async function launchBrowser(tab, launchInFirefox = false) {
+export async function launchBrowser(tab, launchInFirefox = true) {
   if (!(await getIsFirefoxInstalled())) {
     chrome.tabs.create({ url: "https://www.mozilla.org/firefox/" });
     return false;

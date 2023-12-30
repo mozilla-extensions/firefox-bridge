@@ -9,9 +9,11 @@ import {
 export async function initContextMenu() {
   const externalBrowser = await getExternalBrowser();
   const defaultLaunchMode =
-    externalBrowser === "Firefox Private Browsing"
+    (externalBrowser === "Firefox Private Browsing" ||
+    externalBrowser === "Firefox")
       ? "Firefox"
       : externalBrowser;
+
   // page context menu
   chrome.contextMenus.create({
     id: "launchInExternalBrowser",
@@ -31,6 +33,25 @@ export async function initContextMenu() {
 
   // platform specific menu
   await applyPlatformContextMenus();
+}
+
+export async function handleBrowserNameChange() {
+  const externalBrowser = await getExternalBrowser();
+  const defaultLaunchMode =
+    (externalBrowser === "Firefox Private Browsing" ||
+    externalBrowser === "Firefox")
+      ? "Firefox"
+      : externalBrowser;
+
+  chrome.contextMenus.update("launchInExternalBrowser", {
+    title: chrome.i18n.getMessage("launchInExternalBrowser", defaultLaunchMode),
+  });
+  chrome.contextMenus.update("launchInExternalBrowserLink", {
+    title: chrome.i18n.getMessage(
+      "launchInExternalBrowserLink",
+      defaultLaunchMode
+    ),
+  });
 }
 
 export async function handleContextMenuClick(info, tab) {
