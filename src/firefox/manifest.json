@@ -15,7 +15,7 @@
   ],
   "host_permissions": ["<all_urls>"],
   "background": {
-    "scripts": ["shared/backgroundScripts/background.js"],
+    "scripts": ["background.bundle.js"],
     "type": "module"
   },
   "action": {
