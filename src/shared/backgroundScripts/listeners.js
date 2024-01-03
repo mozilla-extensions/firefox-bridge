@@ -6,11 +6,12 @@ import { updateToolbarIcon } from "./actionButton.js";
 import { handleBrowserNameChange } from "./contextMenus.js";
 // import { handleAutoRedirect, refreshDeclarativeNetRequestRules } from "./autoRedirect.js";
 
-import * as webext from "../../browser-polyfill.js";
+// eslint-disable-next-line no-unused-vars
+import * as webext from "../../browser-polyfill.js"; // required for Glean
 import Glean from "@mozilla/glean/webext";
 
 export function initSharedListeners() {
-  browser.runtime.onInstalled.addListener(async () => {
+  chrome.runtime.onInstalled.addListener(async () => {
     Glean.initialize(
       "firefox-launch",
       false,
