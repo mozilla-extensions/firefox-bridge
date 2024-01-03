@@ -4,6 +4,5 @@
     "build/chromium/shared/backgroundScripts/autoRedirect.js", "build/**/shared/pages/myExternalSites",
     "build/firefox/api.js"],
   "reporter": ["text", "lcov"],
-  "report-dir": "./coverage",
-  "all": true
+  "report-dir": "./coverage"
 }

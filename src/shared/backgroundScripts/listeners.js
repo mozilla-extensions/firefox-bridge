@@ -6,16 +6,18 @@ import { updateToolbarIcon } from "./actionButton.js";
 import { handleBrowserNameChange } from "./contextMenus.js";
 // import { handleAutoRedirect, refreshDeclarativeNetRequestRules } from "./autoRedirect.js";
 
+import * as webext from "../../browser-polyfill.js";
 import Glean from "@mozilla/glean/webext";
 
 export function initSharedListeners() {
-  chrome.runtime.onInstalled.addListener(async () => {
-    Glean.initialize({
-      data_path: "glean",
-      application_id: "org.mozilla.firefox.privatebrowsing",
-      upload_enabled: true,
-      max_events: 1000,
-    });
+  browser.runtime.onInstalled.addListener(async () => {
+    Glean.initialize(
+      "firefox-launch",
+      false,
+      {
+        appDisplayVersion: chrome.runtime.getManifest().version,
+      }
+    );
     // await getIsAutoRedirect(); // resolve to true on fresh install
     chrome.tabs.create({ url: "../pages/welcomePage/index.html" });
     await initContextMenu();

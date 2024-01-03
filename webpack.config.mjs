@@ -1,4 +1,5 @@
 import path from "path";
+import webpack from "webpack";
 
 export default {
   entry: {
@@ -21,5 +22,6 @@ export default {
       }
     },
   },
-  mode: "production"
+  mode: "development",
+  devtool: "inline-source-map",
 };

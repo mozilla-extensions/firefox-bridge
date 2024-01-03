@@ -9,7 +9,7 @@ export async function applyPlatformContextMenus() {
   const alternateBrowserName =
     externalBrowserName === "Firefox" ? "Firefox Private Browsing" : "Firefox";
   // action context menu
-  chrome.contextMenus.create({
+  browser.contextMenus.create({
     id: "changeDefaultLaunchContextMenu",
     title: chrome.i18n.getMessage("changeDefaultLaunchContextMenu"),
     contexts: ["action"],
