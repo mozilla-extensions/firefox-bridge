@@ -12,13 +12,9 @@ import Glean from "@mozilla/glean/webext";
 
 export function initSharedListeners() {
   chrome.runtime.onInstalled.addListener(async () => {
-    Glean.initialize(
-      "firefox-launch",
-      false,
-      {
-        appDisplayVersion: chrome.runtime.getManifest().version,
-      }
-    );
+    Glean.initialize("firefox-launch", false, {
+      appDisplayVersion: chrome.runtime.getManifest().version,
+    });
     // await getIsAutoRedirect(); // resolve to true on fresh install
     chrome.tabs.create({ url: "../pages/welcomePage/index.html" });
     await initContextMenu();
