@@ -33,6 +33,9 @@ global.chrome = {
       addListener: sinon.stub(),
     },
     getURL: sinon.stub(),
+    onStartup: {
+      addListener: sinon.stub(),
+    },
   },
   action: {
     setIcon: sinon.stub(),

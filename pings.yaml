@@ -1,0 +1,24 @@
+$schema: moz://mozilla.org/schemas/glean/pings/2-0-0
+
+install:
+  description: |
+    Pings that are sent on install
+  include_client_id: true
+  send_if_empty: false
+  bugs:
+    - https://example.com
+  data_reviews:
+    - https://example.com
+  notification_emails:
+    - gsherman@mozilla.com
+startup:
+  description: |
+    Pings that are sent on startup
+  include_client_id: true
+  send_if_empty: false
+  bugs:
+    - https://example.com
+  data_reviews:
+    - https://example.com
+  notification_emails:
+    - gsherman@mozilla.com
