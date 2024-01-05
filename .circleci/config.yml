@@ -17,6 +17,10 @@ jobs:
           command: npm i
       
       - run:
+          name: Install Python Venv
+          command: apt install python3.10-venv
+      
+      - run:
           name: Run Tests
           command: npm test
       
