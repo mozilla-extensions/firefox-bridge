@@ -114,5 +114,41 @@ startup_event:
     notification_emails:
       - gsherman@mozilla.com
     expires: never
+launch_event: 
+  browser_launch:
+    type: event
+    lifetime: ping
+    send_in_pings:
+      - launch
+    description: |
+      The user launched the browser from the action button
+    bugs:
+      - https://linktobugs.page
+    data_reviews:
+      - https://linktodatareviews.page
+    notification_emails:
+      - gsherman@mozilla.com
+    expires: never
+    extra_keys:
+      browser:
+        description: The browser that was launched
+        type: string
+      source:
+        description: Where the browser was launched from
+        type: string
+setting_event:
+  current_browser:
+    type: labeled_string
+    lifetime: ping
+    send_in_pings:
+      - settings
+    description: The external browser has been changed
+    bugs:
+      - https://linktobugs.page
+    data_reviews:
+      - https://linktodatareviews.page
+    notification_emails:
+      - gsherman@mozilla.com
+    expires: never
 
-    
+

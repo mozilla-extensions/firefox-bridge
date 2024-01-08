@@ -1,7 +1,7 @@
 import { expect } from "chai";
 import { describe, it } from "mocha";
 
-import { initSharedListeners, initSharedTelemetry } from "../../../build/chromium/shared/backgroundScripts/listeners.js";
+import { initSharedListeners } from "../../../build/chromium/shared/backgroundScripts/listeners.js";
 
 describe("shared/backgroundScripts/listeners.js", () => {
   describe("initSharedListeners()", () => {
@@ -14,14 +14,6 @@ describe("shared/backgroundScripts/listeners.js", () => {
       expect(chrome.tabs.onCreated.addListener.callCount).to.equal(1);
       expect(chrome.tabs.onActivated.addListener.callCount).to.equal(1);
       expect(chrome.storage.sync.onChanged.addListener.callCount).to.equal(1);
-    });
-  });
-
-  describe("initSharedTelemetry()", () => {
-    it("should add the listeners", () => {
-      initSharedTelemetry();
-      expect(chrome.runtime.onInstalled.addListener.callCount).to.equal(1);
-      expect(chrome.runtime.onStartup.addListener.callCount).to.equal(1);
     });
   });
 });
