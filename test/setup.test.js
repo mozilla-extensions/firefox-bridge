@@ -25,6 +25,9 @@ global.chrome = {
     local: {
       get: sinon.stub(),
       set: sinon.stub(),
+      onChanged: {
+        addListener: sinon.stub(),
+      },
     },
   },
   runtime: {
