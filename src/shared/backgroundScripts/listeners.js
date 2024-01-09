@@ -6,6 +6,7 @@ import { updateToolbarIcon } from "./actionButton.js";
 import { handleBrowserNameChange } from "./contextMenus.js";
 // import { handleAutoRedirect, refreshDeclarativeNetRequestRules } from "./autoRedirect.js";
 
+
 export function initSharedListeners() {
   chrome.runtime.onInstalled.addListener(async () => {
     // await getIsAutoRedirect(); // resolve to true on fresh install

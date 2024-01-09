@@ -9,8 +9,8 @@ import {
 export async function initContextMenu() {
   const externalBrowser = await getExternalBrowser();
   const defaultLaunchMode =
-    (externalBrowser === "Firefox Private Browsing" ||
-    externalBrowser === "Firefox")
+    externalBrowser === "Firefox Private Browsing" ||
+    externalBrowser === "Firefox"
       ? "Firefox"
       : externalBrowser;
 
@@ -38,8 +38,8 @@ export async function initContextMenu() {
 export async function handleBrowserNameChange() {
   const externalBrowser = await getExternalBrowser();
   const defaultLaunchMode =
-    (externalBrowser === "Firefox Private Browsing" ||
-    externalBrowser === "Firefox")
+    externalBrowser === "Firefox Private Browsing" ||
+    externalBrowser === "Firefox"
       ? "Firefox"
       : externalBrowser;
 
@@ -56,10 +56,26 @@ export async function handleBrowserNameChange() {
 
 export async function handleContextMenuClick(info, tab) {
   if (info.menuItemId === "launchInExternalBrowser") {
-    await launchBrowser(tab);
+    if (await launchBrowser(tab)) {
+      chrome.storage.local.set({
+        telemetry: {
+          type: "browserLaunch",
+          browser: await getExternalBrowser(),
+          source: "page_context_menu",
+        },
+      });
+    }
   } else if (info.menuItemId === "launchInExternalBrowserLink") {
     tab.url = info.linkUrl;
-    await launchBrowser(tab);
+    if (await launchBrowser(tab)) {
+      chrome.storage.local.set({
+        telemetry: {
+          type: "browserLaunch",
+          browser: await getExternalBrowser(),
+          source: "link_context_menu",
+        },
+      });
+    }
   } else {
     await handlePlatformContextMenuClick(info, tab);
   }

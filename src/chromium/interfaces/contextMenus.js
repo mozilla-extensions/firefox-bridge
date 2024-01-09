@@ -9,7 +9,7 @@ export async function applyPlatformContextMenus() {
   const alternateBrowserName =
     externalBrowserName === "Firefox" ? "Firefox Private Browsing" : "Firefox";
   // action context menu
-  chrome.contextMenus.create({
+  browser.contextMenus.create({
     id: "changeDefaultLaunchContextMenu",
     title: chrome.i18n.getMessage("changeDefaultLaunchContextMenu"),
     contexts: ["action"],
@@ -98,13 +98,51 @@ export async function handlePlatformContextMenuClick(info, tab) {
   const externalBrowserName = await getExternalBrowser();
   if (info.menuItemId === "changeDefaultLaunchContextMenu") {
     await handleChangeDefaultLaunchContextMenuClick();
+    chrome.storage.local.set({
+      telemetry: {
+        type: "currentBrowserChange",
+        from: externalBrowserName,
+        to:
+          externalBrowserName === "Firefox"
+            ? "Firefox Private Browsing"
+            : "Firefox",
+      },
+    });
   } else if (info.menuItemId === "alternativeLaunchContextMenu") {
     // launch in the opposite mode to the default
-    await launchBrowser(tab, !(externalBrowserName === "Firefox"));
+    if (await launchBrowser(tab, !(externalBrowserName === "Firefox"))) {
+      const launchedBrowserName =
+        (await getExternalBrowser()) === "Firefox"
+          ? "Firefox Private Browsing"
+          : "Firefox";
+      chrome.storage.local.set({
+        telemetry: {
+          type: "browserLaunch",
+          browser: launchedBrowserName,
+          source: "action_context_menu",
+        },
+      });
+    }
   } else if (info.menuItemId === "launchInExternalBrowserPrivate") {
-    await launchBrowser(tab, false);
+    if (await launchBrowser(tab, false)) {
+      chrome.storage.local.set({
+        telemetry: {
+          type: "browserLaunch",
+          browser: "Firefox Private Browsing",
+          source: "page_context_menu",
+        },
+      });
+    }
   } else if (info.menuItemId === "launchInExternalBrowserPrivateLink") {
     tab.url = info.linkUrl;
-    await launchBrowser(tab, false);
+    if (await launchBrowser(tab, false)) {
+      chrome.storage.local.set({
+        telemetry: {
+          type: "browserLaunch",
+          browser: "Firefox Private Browsing",
+          source: "link_context_menu",
+        },
+      });
+    }
   }
 }

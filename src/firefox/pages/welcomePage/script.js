@@ -1,3 +1,5 @@
+import { getExternalBrowser } from "../../../shared/backgroundScripts/getters.js";
+
 function populateBrowserList() {
   let browserList = document.getElementById("browser-list");
   browserList.innerHTML = "";
@@ -5,20 +7,29 @@ function populateBrowserList() {
   browser.experiments.firefox_launch
     .getAvailableBrowsers()
     .then((availableBrowsers) => {
-      console.log(availableBrowsers.logs);
+      console.group("Experiment Logs");
+      availableBrowsers.logs.forEach((log) => {
+        console.log(log);
+      });
+      console.groupEnd();
       availableBrowsers.browsers.forEach((browser) => {
-        console.log(browser);
-        
         if (loadedBrowsers.has(browser.name)) {
           return;
-        } 
+        }
         loadedBrowsers.add(browser.name);
 
         let browserItem = document.createElement("li");
 
         let setDefaultButton = document.createElement("button");
         setDefaultButton.innerText = "Set Default";
-        setDefaultButton.addEventListener("click", () => {
+        setDefaultButton.addEventListener("click", async () => {
+          chrome.storage.local.set({
+            telemetry: {
+              type: "currentBrowserChange",
+              from: await getExternalBrowser(),
+              to: browser.name,
+            },
+          });
           chrome.storage.local.set({
             currentExternalBrowserLaunchProtocol: browser.executable,
           });

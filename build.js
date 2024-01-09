@@ -106,6 +106,19 @@ function buildExtension(extensionPlatform) {
   const localesBuildFolder = path.join(buildFolder, "_locales");
   copyFolderRecursiveSync(localesFolder, localesBuildFolder);
 
+  // copy browser-polyfill.min.js from node_modules/webextensions-polyfill/dist to the build folder
+  console.log("Copying browser polyfill...");
+  const polyfillFile = path.join(
+    __dirname,
+    "node_modules",
+    "webextension-polyfill",
+    "dist",
+    "browser-polyfill.min.js"
+  );
+  const polyfillBuildFile = path.join(buildFolder, "browser-polyfill.js");
+  fs.copyFileSync(polyfillFile, polyfillBuildFile);
+  
+
   console.log(
     `\n${extensionPlatform} build complete! Reload the extension in your browser to see changes.\n`
   );

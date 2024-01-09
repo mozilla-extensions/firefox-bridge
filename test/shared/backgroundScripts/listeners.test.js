@@ -14,7 +14,6 @@ describe("shared/backgroundScripts/listeners.js", () => {
       expect(chrome.tabs.onCreated.addListener.callCount).to.equal(1);
       expect(chrome.tabs.onActivated.addListener.callCount).to.equal(1);
       expect(chrome.storage.sync.onChanged.addListener.callCount).to.equal(1);
-
     });
   });
 });

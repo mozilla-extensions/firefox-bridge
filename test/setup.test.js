@@ -1,5 +1,6 @@
 import sinon from "sinon";
 import { beforeEach, afterEach } from "mocha";
+import { testResetGlean } from "@mozilla/glean/testing";
 
 import { isCurrentTabValidUrlScheme } from "../src/shared/backgroundScripts/validTab.js";
 
@@ -24,13 +25,20 @@ global.chrome = {
     local: {
       get: sinon.stub(),
       set: sinon.stub(),
+      onChanged: {
+        addListener: sinon.stub(),
+      },
     },
   },
   runtime: {
+    id: "test",
     onInstalled: {
       addListener: sinon.stub(),
     },
     getURL: sinon.stub(),
+    onStartup: {
+      addListener: sinon.stub(),
+    },
   },
   action: {
     setIcon: sinon.stub(),
@@ -75,13 +83,12 @@ global.document = {
   addEventListener: sinon.stub(),
 };
 
-global.browser = {
-  experiments: {
-    firefox_launch: {
-      getAvailableBrowsers: sinon.stub(),
-      getDefaultBrowser: sinon.stub(),
-      launchApp: sinon.stub(),
-    },
+global.browser = global.chrome;
+global.browser.experiments = {
+  firefox_launch: {
+    getAvailableBrowsers: sinon.stub(),
+    getDefaultBrowser: sinon.stub(),
+    launchApp: sinon.stub(),
   },
 };
 
@@ -155,9 +162,9 @@ function resetStubs(obj) {
   }
 }
 
-beforeEach(() => {
+beforeEach(async () => {
+  await testResetGlean("firefox-launch");
   setIsFirefoxInstalled(true);
-  // for each chrome.i18n.getMessage call, stub it and access the locale folder manually
   global.chrome.i18n.getMessage.callsFake((key) => {
     return getLocaleMessage(key);
   });
