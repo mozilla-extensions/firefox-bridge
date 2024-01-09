@@ -1,7 +1,6 @@
 // import { getExternalSites, getIsAutoRedirect } from "./getters.js";
 
 // export async function handleAutoRedirect(webRequestDetails) {
-//   console.log("handling auto redirect");
 //   // prevent prerender (ie. when typing in "g" in the address bar and it prerenders "google.com")
 //   if (
 //     webRequestDetails.documentLifecycle === "prerender" ||

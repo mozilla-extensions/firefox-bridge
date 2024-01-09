@@ -115,7 +115,7 @@ this.experiments_firefox_launch = class extends ExtensionAPI {
             } else if (AppConstants.platform == "macosx") {
               return {browsers: this._getAvailableBrowsersMac(), logs: logs};
             } else {
-              console.log("Unsupported platform: " + AppConstants.platform);
+              logs.push("Unsupported platform: " + AppConstants.platform);
               return {browsers: null, logs: logs};
             }
           },
@@ -125,7 +125,6 @@ this.experiments_firefox_launch = class extends ExtensionAPI {
               AppConstants.platform != "win" &&
               AppConstants.platform != "macosx"
             ) {
-              console.error("Unsupported platform: " + AppConstants.platform);
               return null;
             }
             let extProtocolSvc = Cc[
@@ -167,13 +166,11 @@ this.experiments_firefox_launch = class extends ExtensionAPI {
 
           launchApp(appExecutable, handlerArgs) {
             let file = null;
-            console.error("Executable: " + appExecutable);
             if (AppConstants.platform == "win") {
               this._launchAppWin(appExecutable, handlerArgs);
             } else if (AppConstants.platform == "macosx") {
               this._launchAppMac(appExecutable, handlerArgs);
             } else {
-              console.error("Unsupported platform: " + AppConstants.platform);
               return;
             }
           },

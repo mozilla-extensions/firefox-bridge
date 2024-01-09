@@ -108,7 +108,6 @@ export async function handleContextMenuClick(info, tab) {
 // }
 
 // export async function handleAddCurrentSiteToMySitesContextMenuClick() {
-//   console.log("adding site");
 //   const sld = await getCurrentTabSLD();
 //   if (sld === "") return;
 //   chrome.storage.sync.get(["firefoxSites"], (result) => {

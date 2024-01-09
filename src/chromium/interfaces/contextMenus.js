@@ -5,7 +5,6 @@ import { getExternalBrowser } from "../../shared/backgroundScripts/getters.js";
 
 export async function applyPlatformContextMenus() {
   const externalBrowserName = (await getExternalBrowser()) || "Firefox";
-  console.log(externalBrowserName);
   const alternateBrowserName =
     externalBrowserName === "Firefox" ? "Firefox Private Browsing" : "Firefox";
   // action context menu
