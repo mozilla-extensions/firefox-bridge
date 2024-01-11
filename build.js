@@ -38,6 +38,7 @@ function replaceSharedImportsInFiles(filePath) {
   fs.writeFileSync(filePath, result, "utf8");
 }
 
+// copies everything from source folder to target folder
 function copyFolderRecursiveSync(source, target) {
   if (!fs.existsSync(target)) {
     fs.mkdirSync(target);
@@ -64,6 +65,7 @@ function copyFolderRecursiveSync(source, target) {
   }
 }
 
+// simply deletes and remakes the ./build folder
 function makeBuildFolder() {
   console.log("Creating build folder...\n");
   const __dirname = path.resolve();
@@ -107,6 +109,7 @@ function buildExtension(extensionPlatform) {
   copyFolderRecursiveSync(localesFolder, localesBuildFolder);
 
   // copy browser-polyfill.min.js from node_modules/webextensions-polyfill/dist to the build folder
+  // (when done with webpack, errors occur)
   console.log("Copying browser polyfill...");
   const polyfillFile = path.join(
     __dirname,

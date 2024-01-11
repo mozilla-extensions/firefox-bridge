@@ -6,7 +6,9 @@ import { updateToolbarIcon } from "./actionButton.js";
 import { handleBrowserNameChange } from "./contextMenus.js";
 // import { handleAutoRedirect, refreshDeclarativeNetRequestRules } from "./autoRedirect.js";
 
-
+/**
+ * Initialize the listeners that are shared between Firefox and Chromium.
+ */
 export function initSharedListeners() {
   chrome.runtime.onInstalled.addListener(async () => {
     // await getIsAutoRedirect(); // resolve to true on fresh install

@@ -1,6 +1,5 @@
 {
   "manifest_version": 3,
-  "is_chrome": true,
   "homepage_url": "https://manifest.firefoxlaunchredirect.com",
   "minimum_chrome_version": "92",
   "name": "Firefox Launch",

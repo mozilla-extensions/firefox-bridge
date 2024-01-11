@@ -7,20 +7,29 @@ import * as startupEvent from "../generated/startupEvent.js";
 import * as launchEvent from "../generated/launchEvent.js";
 import * as settingEvent from "../generated/settingEvent.js";
 
-export function initGlean() {
-  Glean.setLogPings(true);
+/**
+ * Initialize the telemetry system.
+ * 
+ * @param {boolean} showLogs Whether to show logs in the console.
+ */
+export function initGlean(showLogs = true) {
+  Glean.setLogPings(showLogs);
   Glean.initialize("firefox.launch", true, {
     appDisplayVersion: chrome.runtime.getManifest().version,
-    appBuild: chrome.runtime.getManifest().is_chrome ? "chromium" : "firefox",
+    appBuild: chrome.runtime.getManifest().minimum_chrome_version ? "chromium" : "firefox",
   });
 }
 
+/**
+ * Initialize the telemetry listeners. This includes the install, startup, and
+ * listener for messages sent through the storage API.
+ */
 export function initTelemetryListeners() {
   chrome.runtime.onInstalled.addListener(() => {
     initGlean();
     installEvent.dateInstalled.set(new Date());
     installEvent.browserType.set(
-      chrome.runtime.getManifest().is_chrome ? "chromium" : "firefox"
+      chrome.runtime.getManifest().minimum_chrome_version ? "chromium" : "firefox"
     );
     install.submit();
   });
@@ -29,7 +38,7 @@ export function initTelemetryListeners() {
     // 2. browser version (window.navigator.userAgent)
     initGlean();
     startupEvent.browserType.set(
-      chrome.runtime.getManifest().is_chrome ? "chromium" : "firefox"
+      chrome.runtime.getManifest().minimum_chrome_version ? "chromium" : "firefox"
     );
     startupEvent.dateStarted.set(new Date());
     startupEvent.browserLanguageLocale.set(navigator.language);
