@@ -5,6 +5,8 @@ import { testResetGlean } from "@mozilla/glean/testing";
 import { isCurrentTabValidUrlScheme } from "../src/shared/backgroundScripts/validTab.js";
 
 /* global global */
+
+// Mock the chrome and browser API for each of the fields we use.
 global.chrome = {
   testEnv: true,
   contextMenus: {
@@ -39,6 +41,7 @@ global.chrome = {
     onStartup: {
       addListener: sinon.stub(),
     },
+    getManifest: sinon.stub(),
   },
   action: {
     setIcon: sinon.stub(),
@@ -96,6 +99,7 @@ const locales = await import("../src/_locales/en/messages.json", {
   assert: { type: "json" },
 });
 
+// Many getters and setters to mimic storage and currnet tab url
 export const setIsFirefoxDefault = (isFirefoxDefault) => {
   global.chrome.storage.sync.get.callsFake((key, callback) => {
     callback({ isFirefoxDefault });
@@ -107,6 +111,16 @@ export const setIsFirefoxInstalled = (isFirefoxInstalled) => {
     callback({ isFirefoxInstalled });
   });
 };
+
+export const setExtensionIsChromium = (isChromium) => {
+  global.chrome.runtime.getManifest.callsFake(() => {
+    if (isChromium) {
+      return { minimum_chrome_version: 3 };
+    } else {
+      return {};
+    }
+  });
+}
 
 export const setIsAutoRedirect = (isAutoRedirect) => {
   global.chrome.storage.local.get.callsFake((key, callback) => {
@@ -152,6 +166,7 @@ export const getLocaleMessage = (key) => {
   return locales.default[key].message;
 };
 
+// Reset all stubs within our chrome and browser API.
 function resetStubs(obj) {
   for (const prop in obj) {
     if (typeof obj[prop] === "object") {

@@ -6,11 +6,13 @@ import { updateToolbarIcon } from "./actionButton.js";
 import { handleBrowserNameChange } from "./contextMenus.js";
 // import { handleAutoRedirect, refreshDeclarativeNetRequestRules } from "./autoRedirect.js";
 
-
+/**
+ * Initialize the listeners that are shared between Firefox and Chromium.
+ */
 export function initSharedListeners() {
   chrome.runtime.onInstalled.addListener(async () => {
     // await getIsAutoRedirect(); // resolve to true on fresh install
-    chrome.tabs.create({ url: "../pages/welcomePage/index.html" });
+    chrome.tabs.create({ url: chrome.runtime.getURL("pages/welcomePage/index.html") });
     await initContextMenu();
     await updateToolbarIcon();
   });
@@ -47,12 +49,10 @@ export function initSharedListeners() {
 
   chrome.storage.sync.onChanged.addListener(async (changes) => {
     if (changes.currentExternalBrowser !== undefined) {
-      console.log("browser changed");
       await handleBrowserNameChange();
       updateToolbarIcon();
     }
     // if (changes.firefoxSites !== undefined && await getIsAutoRedirect()) {
-    //   console.log("refreshing rules");
     //   refreshDeclarativeNetRequestRules();
     // }
   });

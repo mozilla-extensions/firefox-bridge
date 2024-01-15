@@ -1,3 +1,6 @@
+/**
+ * Initialize the context menus specific to the Firefox Extension.
+ */
 export async function applyPlatformContextMenus() {
   chrome.contextMenus.create({
     id: "separator",
@@ -36,6 +39,11 @@ export async function applyPlatformContextMenus() {
   // });
 }
 
+/**
+ * Handles the context menu clicka for the Firefox Extension.
+ * 
+ * @param {Object} info The context menu item info object.
+ */
 export async function handlePlatformContextMenuClick(info) {
   if (
     info.menuItemId === "openWelcomePage"

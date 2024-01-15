@@ -6,13 +6,16 @@ import {
   handlePlatformContextMenuClick,
 } from "../../chromium/interfaces/contextMenus.js";
 
+/**
+ * Initialize the context menua. This includes the page context menu, link context menu,
+ * and platform specific context menus.
+ */
 export async function initContextMenu() {
   const externalBrowser = await getExternalBrowser();
-  const defaultLaunchMode =
-    externalBrowser === "Firefox Private Browsing" ||
-    externalBrowser === "Firefox"
-      ? "Firefox"
-      : externalBrowser;
+  // if we're in chromium, ensure we force Firefox as the option, otherwise use the default
+  const defaultLaunchMode = chrome.runtime.getManifest().minimum_chrome_version
+    ? "Firefox"
+    : externalBrowser;
 
   // page context menu
   chrome.contextMenus.create({
@@ -35,13 +38,15 @@ export async function initContextMenu() {
   await applyPlatformContextMenus();
 }
 
+/**
+ * Update the context menu titles on browser name change.
+ */
 export async function handleBrowserNameChange() {
   const externalBrowser = await getExternalBrowser();
-  const defaultLaunchMode =
-    externalBrowser === "Firefox Private Browsing" ||
-    externalBrowser === "Firefox"
-      ? "Firefox"
-      : externalBrowser;
+  // if we're in chromium, ensure we force Firefox as the option, otherwise use the default
+  const defaultLaunchMode = chrome.runtime.getManifest().minimum_chrome_version
+    ? "Firefox"
+    : externalBrowser;
 
   chrome.contextMenus.update("launchInExternalBrowser", {
     title: chrome.i18n.getMessage("launchInExternalBrowser", defaultLaunchMode),
@@ -54,6 +59,12 @@ export async function handleBrowserNameChange() {
   });
 }
 
+/**
+ * Handles the context menu item clicks. Redirects to the proper handler.
+ * 
+ * @param {Object} info The context menu item object.
+ * @param {Object} tab The current tab object.
+ */
 export async function handleContextMenuClick(info, tab) {
   if (info.menuItemId === "launchInExternalBrowser") {
     if (await launchBrowser(tab)) {
@@ -108,7 +119,6 @@ export async function handleContextMenuClick(info, tab) {
 // }
 
 // export async function handleAddCurrentSiteToMySitesContextMenuClick() {
-//   console.log("adding site");
 //   const sld = await getCurrentTabSLD();
 //   if (sld === "") return;
 //   chrome.storage.sync.get(["firefoxSites"], (result) => {

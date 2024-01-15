@@ -1,3 +1,8 @@
+/**
+ * Retreives the name of the browser that opens on action button click.
+ * 
+ * @returns {Promise<string>} The name of the browser.
+ */
 export function getExternalBrowser() {
   return new Promise((resolve) => {
     chrome.storage.sync.get(["currentExternalBrowser"], (result) => {
