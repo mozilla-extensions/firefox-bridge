@@ -1,3 +1,29 @@
+body {
+  font-family: "Inter", sans-serif;
+  font-size: large;
+  line-height: 1.4;
+}
+
+h1,
+h2 {
+  font-family: "Metropolis", sans-serif;
+}
+
+h2 {
+  font-weight: lighter;
+}
+
+h3 {
+  margin-top: 30px;
+  font-size: large;
+}
+
+p,
+label,
+span {
+  font-weight: lighter;
+}
+
 #mozilla-logo {
   margin-top: 20px;
   margin-left: 20px;
@@ -7,12 +33,17 @@
   display: flex;
   padding: 60px;
   align-items: start;
+  
 }
 
 #welcome-image {
-  max-width: 40%;
+  min-width: 40%;
   margin-right: 30px;
   margin-top: 20px;
+}
+
+.welcome-info {
+  min-width: 60%;
 }
 
 .beta {
@@ -22,7 +53,6 @@
   font-size: 0.4em;
   padding: 12px;
   margin-left: 10px;
-
 }
 
 .browser-list label {
@@ -33,6 +63,7 @@
 
 .browser-list select {
   width: 55%;
+  max-width: 400px;
   padding: 5px;
   margin-bottom: 10px;
   margin-top: 5px;
@@ -98,4 +129,8 @@ input:checked + .slider:before {
 
 .slider.round:before {
   border-radius: 50%;
+}
+
+#shortcuts-list {
+  margin-top: -20px;
 }

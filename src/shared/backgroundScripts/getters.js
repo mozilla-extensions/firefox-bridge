@@ -1,6 +1,6 @@
 /**
  * Retreives the name of the browser that opens on action button click.
- * 
+ *
  * @returns {Promise<string>} The name of the browser.
  */
 export function getExternalBrowser() {
@@ -10,6 +10,24 @@ export function getExternalBrowser() {
         resolve("");
       } else {
         resolve(result.currentExternalBrowser);
+      }
+    });
+  });
+}
+
+/**
+ * Retreives whether telemetry is enabled.
+ *
+ * @returns {Promise<boolean>} True if telemetry is enabled or not specified, false otherwise.
+ */
+export function getTelemetryEnabled() {
+  return new Promise((resolve) => {
+    chrome.storage.sync.get(["telemetryEnabled"], (result) => {
+      if (result.telemetryEnabled === undefined) {
+        chrome.storage.sync.set({ telemetryEnabled: true });
+        resolve(true);
+      } else {
+        resolve(result.telemetryEnabled);
       }
     });
   });

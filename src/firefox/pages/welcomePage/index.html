@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Welcome to Firefox Launch Extension</title>
     <script src="script.bundle.js"></script>
-    <link rel="stylesheet" type="text/css" href="fonts/fonts.css"/>
+    <link rel="stylesheet" type="text/css" href="fonts/fonts.css" />
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
@@ -13,9 +13,11 @@
     <div class="welcome-content">
       <image id="welcome-image" src="images/splash.svg" />
       <div class="welcome-info">
-        <h1 id="launchInAnotherBrowser">Launch in Another Browser <a class="beta">BETA</a> </h1>
+        <h1 id="launchInAnotherBrowser">
+          Launch in Another Browser <a class="beta">BETA</a>
+        </h1>
         <h2 id="launchInAnotherBrowserSub">
-          Bounce between browsers in one click.
+          Switch between browsers in one click.
         </h2>
         <p id="launchInAnotherBrowserDesc">
           Sometimes, you just want to use a different browser. <br />
@@ -25,7 +27,7 @@
         <div class="browser-list">
           <label for="browser-select">Select other browser</label>
           <br />
-          <select id="browser-select" > </select>
+          <select id="browser-select"> </select>
         </div>
 
         <div class="telemetry">
@@ -37,22 +39,28 @@
           </div>
           <label for="telemetry-checkbox">
             Allow Mozilla to collect information about how you use this
-            extension so we can make it better. You can change this anytime in
-            extension settings.
+            extension so we can make it better.
             <a href="">Privacy Notice</a>
           </label>
         </div>
 
         <div class="shortcuts">
-          <h3 id="shortcutsTitle">Shortcuts</h3>
-          <div class="shortcut-list"></div>
-          <p id="shortcutsDesc">
-            Manage shortcuts for this extension by going to
-            <a href="">Extensions</a> > click the gear icon > Manage Extension
-            Shortcuts <br /><br />
-            Want to Launch in Firefox? <a href="">Try our Chrome extension.</a>
-          </p>
+          <h3 id="shortcuts-title">Shortcuts</h3>
+          <div id="shortcuts-list"></div>
+          <div class="shortcuts-desc">
+            <span id="shortcuts-instruction-preamble"
+              >Manage shortcuts for this extension by going to</span
+            >
+            <span id="shortcuts-instruction">
+              <a href="about:addons">Extensions</a> > click the gear icon > Manage Extension
+              Shortcuts
+            </span>
+          </div>
         </div>
+
+        <p>
+          Want to Launch in Firefox? <a href="">Try our Chrome extension.</a>
+        </p>
       </div>
     </div>
   </body>

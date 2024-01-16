@@ -18,25 +18,4 @@
   font-style: normal;
 }
 
-body {
-  font-family: "Inter", sans-serif;
-  font-size: large;
-  line-height: 1.4;
-}
-
-h1,
-h2 {
-  font-family: "Metropolis", sans-serif;
-}
-
-h2 {
-  font-weight: lighter;
-}
-
-p,
-label {
-  font-weight: lighter;
-}
-
-
 

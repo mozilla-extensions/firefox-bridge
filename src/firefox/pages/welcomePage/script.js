@@ -1,64 +1,105 @@
-import { getExternalBrowser } from "../../../shared/backgroundScripts/getters.js";
+import {
+  getExternalBrowser,
+  getTelemetryEnabled,
+} from "../../../shared/backgroundScripts/getters.js";
 
 /**
  * Populate the browser list with the available browsers.
  */
-function populateBrowserList() {
-  let browserList = document.getElementById("browser-list");
+async function populateBrowserList() {
+  let browserList = document.getElementById("browser-select");
   browserList.innerHTML = "";
 
+  const availableBrowsers = await browser.experiments.firefox_launch.getAvailableBrowsers();
+  console.group("Experimental Api Logs");
+  availableBrowsers.logs.forEach((log) => {
+    console.log(log);
+  });
+  console.groupEnd();
+
+  // sort browsers by name alphabetically and remove duplicate names
   const loadedBrowsers = new Set();
-  browser.experiments.firefox_launch
-    .getAvailableBrowsers()
-    .then((availableBrowsers) => {
-
-      // Log the logs from the experiment api.
-      console.group("Experiment Logs");
-      availableBrowsers.logs.forEach((log) => {
-        console.log(log);
-      });
-      console.groupEnd();
-
-      // Add each browser to the list.
-      availableBrowsers.browsers.forEach((browser) => {
-        if (loadedBrowsers.has(browser.name)) {
-          return;
-        }
+  const browsers = availableBrowsers.browsers
+    .sort((a, b) => a.name.localeCompare(b.name))
+    .filter((browser) => {
+      if (loadedBrowsers.has(browser.name)) {
+        return false;
+      } else {
         loadedBrowsers.add(browser.name);
+        return true;
+      }
+    });
 
-        let browserItem = document.createElement("li");
+  const defaultBrowserName = await browser.experiments.firefox_launch
+    .getDefaultBrowser()
+    .then((browser) => browser.name);
 
-        // Create the set default button, which sets the current browser to the
-        // selected browser.
-        let setDefaultButton = document.createElement("button");
-        setDefaultButton.innerText = "Set Default";
-        setDefaultButton.addEventListener("click", async () => {
-          chrome.storage.local.set({
-            telemetry: {
-              type: "currentBrowserChange",
-              from: await getExternalBrowser(),
-              to: browser.name,
-            },
-          });
-          chrome.storage.local.set({
-            currentExternalBrowserLaunchProtocol: browser.executable,
-          });
-          chrome.storage.sync.set({ currentExternalBrowser: browser.name });
-        });
+  // add browsers to the list
+  browsers.forEach((browser) => {
+    const option = document.createElement("option");
+    option.value = browser.name;
+    option.text =
+      defaultBrowserName === browser.name
+        ? `${browser.name} (Default Browser)`
+        : browser.name;
+    option.setAttribute("data-launch-protocol", browser.executable);
+    browserList.appendChild(option);
+  });
 
-        // Get the image from the images folder.
-        let browserImage = document.createElement("img");
-        browserImage.setAttribute(
-          "src",
-          `../../images/${browser.name.toLowerCase()}/32.png`
-        );
+  // On change, update the current external browser.
+  browserList.addEventListener("change", async (event) => {
+    const browserName = event.target.value;
+    const executable = event.target.selectedOptions[0].getAttribute(
+      "data-launch-protocol"
+    );
+    console.log(`Selected browser: ${browserName}`);
+    console.log(`Selected browser executable: ${executable}`);
 
-        browserItem.innerText = browser.name;
-        browserItem.appendChild(browserImage);
-        browserItem.appendChild(setDefaultButton);
+    chrome.storage.local.set({
+      telemetry: {
+        type: "currentBrowserChange",
+        from: await getExternalBrowser(),
+        to: browserName,
+      },
+    });
+    chrome.storage.local.set({
+      currentExternalBrowserLaunchProtocol: executable,
+    });
+    chrome.storage.sync.set({ currentExternalBrowser: browserName });
+  });
 
-        browserList.appendChild(browserItem);
-      });
+  // if there is no current browser set, select the default browser in the list. Otherwise, select the first browser in the list.
+  // otherwise select the current browser. If there are no browsers in the list, remove the browser-list element and display a message.
+  const currentBrowser = await getExternalBrowser();
+  if (currentBrowser) {
+    browserList.value = currentBrowser;
+  } else if (defaultBrowserName) {
+    browserList.value = defaultBrowserName;
+    browserList.dispatchEvent(new Event("change"));
+  } else if (browsers.length > 0) {
+    browserList.value = browsers[0].name;
+    browserList.dispatchEvent(new Event("change"));
+  } else {
+    browserList.remove();
+    document.getElementById("browser-list-message").innerText =
+      "No browsers found.";
+  }
+}
+
+/**
+ * Update the telemetry checkbox and initialize the listener.
+ */
+async function updateTelemetry() {
+  // check storage to see if telemetry is enabled/disabled. If neither, set to true.
+  const telemetryEnabled = await getTelemetryEnabled();
+  browser.storage.sync.set({ telemetryEnabled });
+  document.getElementById("telemetry-checkbox").checked = telemetryEnabled;
+
+  document
+    .getElementById("telemetry-checkbox")
+    .addEventListener("change", async () => {
+      const telemetryEnabled = await getTelemetryEnabled();
+      browser.storage.sync.set({ telemetryEnabled: !telemetryEnabled });
     });
 }
 
@@ -71,13 +112,32 @@ async function checkHotkeys() {
   const launchBrowser = hotkeys.find(
     (hotkey) => hotkey.name === "launchBrowser"
   );
-  const launchBrowserHotkey = launchBrowser.shortcut || "Not Yet Defined.";
+  const launchBrowserHotkey = launchBrowser.shortcut;
+  console.log(hotkeys);
+  const shortcutsList = document.getElementById("shortcuts-list");
 
-  // update hotkey text
-  document.getElementById("hotkeys").innerText = launchBrowserHotkey;
+  if (launchBrowserHotkey) {
+    let hotkey = launchBrowserHotkey.split("+");
+    if (
+      hotkey.includes("Ctrl") &&
+      (await chrome.runtime.getPlatformInfo()).os === "mac"
+    ) {
+      hotkey[hotkey.indexOf("Ctrl")] = "Cmd";
+    }
+    hotkey = hotkey.join("+");
+
+    const p = document.createElement("p");
+    p.innerText = `${hotkey.toUpperCase()} launches your current page in your selected browser`;
+    shortcutsList.appendChild(p);
+  } else {
+    //access shortcuts-instruction-preamble id
+    const preamble = document.getElementById("shortcuts-instruction-preamble");
+    preamble.innerText = "You don't have any shortcuts set up for this extension. Create them by going to ";
+  }
 }
 
 document.addEventListener("DOMContentLoaded", async function() {
   populateBrowserList();
   checkHotkeys();
+  updateTelemetry();
 });
