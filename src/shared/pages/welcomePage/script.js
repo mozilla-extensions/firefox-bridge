@@ -1,7 +1,7 @@
 import {
   getExternalBrowser,
   getTelemetryEnabled,
-} from "../../../shared/backgroundScripts/getters.js";
+} from "../../backgroundScripts/getters.js";
 
 /**
  * Populate the browser list with the available browsers.
@@ -92,14 +92,14 @@ async function populateBrowserList() {
 async function updateTelemetry() {
   // check storage to see if telemetry is enabled/disabled. If neither, set to true.
   const telemetryEnabled = await getTelemetryEnabled();
-  browser.storage.sync.set({ telemetryEnabled });
+  chrome.storage.sync.set({ telemetryEnabled });
   document.getElementById("telemetry-checkbox").checked = telemetryEnabled;
 
   document
     .getElementById("telemetry-checkbox")
     .addEventListener("change", async () => {
       const telemetryEnabled = await getTelemetryEnabled();
-      browser.storage.sync.set({ telemetryEnabled: !telemetryEnabled });
+      chrome.storage.sync.set({ telemetryEnabled: !telemetryEnabled });
     });
 }
 
@@ -136,8 +136,23 @@ async function checkHotkeys() {
   }
 }
 
+export async function activatePlatformSpecificElements() {
+  const isChromium = chrome.runtime.getManifest().minimum_chrome_version;
+
+  if (isChromium) {
+    // remove objects with class firefox
+    const firefoxElements = document.getElementsByClassName("firefox");
+    for (let i = 0; i < firefoxElements.length; i++) {
+      firefoxElements[i].remove();
+    }
+
+  } else {
+    populateBrowserList();
+  }
+}
+
 document.addEventListener("DOMContentLoaded", async function() {
-  populateBrowserList();
+  activatePlatformSpecificElements();
   checkHotkeys();
   updateTelemetry();
 });

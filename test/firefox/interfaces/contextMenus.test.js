@@ -22,7 +22,7 @@ describe("firefox/interfaces/contextMenus.js", () => {
       });
       expect(chrome.tabs.create.callCount).to.equal(1);
       expect(
-        chrome.runtime.getURL.calledWith("pages/welcomePage/index.html")
+        chrome.runtime.getURL.calledWith("shared/pages/welcomePage/index.html")
       ).to.be.true;
     });
   });

@@ -96,7 +96,7 @@ export async function handleContextMenuClick(info, tab) {
     }
   } else if (info.menuItemId === "openWelcomePage") {
     chrome.tabs.create({
-      url: chrome.runtime.getURL("pages/welcomePage/index.html"),
+      url: chrome.runtime.getURL("shared/pages/welcomePage/index.html"),
     });
   } else {
     await handlePlatformContextMenuClick(info, tab);

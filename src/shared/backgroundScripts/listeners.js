@@ -12,7 +12,7 @@ import { handleBrowserNameChange } from "./contextMenus.js";
 export function initSharedListeners() {
   chrome.runtime.onInstalled.addListener(async () => {
     // await getIsAutoRedirect(); // resolve to true on fresh install
-    chrome.tabs.create({ url: chrome.runtime.getURL("pages/welcomePage/index.html") });
+    chrome.tabs.create({ url: chrome.runtime.getURL("shared/pages/welcomePage/index.html") });
     await initContextMenu();
     await updateToolbarIcon();
   });
