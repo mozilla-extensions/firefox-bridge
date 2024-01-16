@@ -1,0 +1,43 @@
+body {
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+}
+
+#mozilla-logo {
+  margin-top: 20px;
+  margin-left: 20px;
+}
+
+.welcome-content {
+  display: flex;
+  padding: 60px;
+}
+
+#welcome-image {
+  max-width: 40%; 
+  margin-right: 20px;
+}
+
+.welcome-info {
+  flex: 1;
+}
+
+.browser-list,
+.telemetry,
+.shortcuts {
+  margin-top: 20px;
+}
+
+#browser-select {
+  width: 100%;
+  padding: 5px;
+  margin-bottom: 10px;
+}
+
+#telemetry-checkbox {
+  margin-right: 5px;
+}
+
+.shortcut-list {
+}

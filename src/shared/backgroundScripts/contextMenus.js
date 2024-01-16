@@ -34,6 +34,13 @@ export async function initContextMenu() {
     contexts: ["link"],
   });
 
+  // action menu welcome page
+  chrome.contextMenus.create({
+    id: "openWelcomePage",
+    title: chrome.i18n.getMessage("openWelcomePage"),
+    contexts: ["action"],
+  });
+
   // platform specific menu
   await applyPlatformContextMenus();
 }
@@ -61,7 +68,7 @@ export async function handleBrowserNameChange() {
 
 /**
  * Handles the context menu item clicks. Redirects to the proper handler.
- * 
+ *
  * @param {Object} info The context menu item object.
  * @param {Object} tab The current tab object.
  */
@@ -87,6 +94,10 @@ export async function handleContextMenuClick(info, tab) {
         },
       });
     }
+  } else if (info.menuItemId === "openWelcomePage") {
+    chrome.tabs.create({
+      url: chrome.runtime.getURL("pages/welcomePage/index.html"),
+    });
   } else {
     await handlePlatformContextMenuClick(info, tab);
   }

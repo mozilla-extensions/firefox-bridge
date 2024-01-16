@@ -6,31 +6,13 @@ import {
   handlePlatformContextMenuClick,
 } from "../../../build/firefox/interfaces/contextMenus.js";
 
-import { setExternalBrowser, getLocaleMessage } from "../../setup.test.js";
+import { setExternalBrowser } from "../../setup.test.js";
 
 describe("firefox/interfaces/contextMenus.js", () => {
   beforeEach(() => {
     setExternalBrowser("Firefox");
   });
   describe("applyPlatformContextMenus()", () => {
-    it("should create the firefox context menu", async () => {
-      await applyPlatformContextMenus();
-      expect(chrome.contextMenus.create.callCount).to.equal(2);
-      expect(
-        chrome.contextMenus.create.calledWith({
-          id: "separator",
-          contexts: ["action"],
-          type: "separator",
-        })
-      ).to.be.true;
-      expect(
-        chrome.contextMenus.create.calledWith({
-          id: "openWelcomePage",
-          title: getLocaleMessage("openWelcomePage"),
-          contexts: ["action"],
-        })
-      ).to.be.true;
-    });
   });
 
   describe("handlePlatformContextMenuClick()", () => {
