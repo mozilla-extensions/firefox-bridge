@@ -50,7 +50,7 @@ export function initSharedListeners() {
   chrome.storage.sync.onChanged.addListener(async (changes) => {
     if (changes.currentExternalBrowser !== undefined) {
       await handleBrowserNameChange();
-      updateToolbarIcon();
+      await updateToolbarIcon();
     }
     // if (changes.firefoxSites !== undefined && await getIsAutoRedirect()) {
     //   refreshDeclarativeNetRequestRules();

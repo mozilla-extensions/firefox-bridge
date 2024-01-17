@@ -106,17 +106,19 @@ async function updateTelemetry() {
 /**
  * Check the hotkeys for the browser launch.
  */
-async function checkHotkeys() {
+async function checkFirefoxHotkeys() {
   // get hotkeys with id launchBrowser
   const hotkeys = await chrome.commands.getAll();
   const launchBrowser = hotkeys.find(
     (hotkey) => hotkey.name === "launchBrowser"
   );
-  const launchBrowserHotkey = launchBrowser.shortcut;
-  console.log(hotkeys);
+
   const shortcutsList = document.getElementById("shortcuts-list");
 
-  if (launchBrowserHotkey) {
+  if (launchBrowser.shortcut) {
+    const launchBrowserHotkey = launchBrowser.shortcut;
+
+    // convert Ctrl to Cmd on Mac
     let hotkey = launchBrowserHotkey.split("+");
     if (
       hotkey.includes("Ctrl") &&
@@ -130,29 +132,77 @@ async function checkHotkeys() {
     p.innerText = `${hotkey.toUpperCase()} launches your current page in your selected browser`;
     shortcutsList.appendChild(p);
   } else {
-    //access shortcuts-instruction-preamble id
     const preamble = document.getElementById("shortcuts-instruction-preamble");
-    preamble.innerText = "You don't have any shortcuts set up for this extension. Create them by going to ";
+    preamble.innerText =
+      "You don't have any shortcuts set up for this extension. Create them by going to ";
   }
+}
+
+export async function checkChromiumHotkeys() {
+  const hotkeys = await chrome.commands.getAll();
+  const launchBrowser = hotkeys.find(
+    (hotkey) => hotkey.name === "launchBrowser"
+  );
+  const launchFirefoxPrivate = hotkeys.find(
+    (hotkey) => hotkey.name === "launchFirefoxPrivate"
+  );
+
+  const shortcutsList = document.getElementById("shortcuts-list");
+
+  if (!launchBrowser && !launchFirefoxPrivate) {
+    const preamble = document.getElementById("shortcuts-instruction-preamble");
+    preamble.innerText =
+      "You don't have any shortcuts set up for this extension. Create them by going to ";
+    return;
+  }
+
+  const span = document.createElement("span");
+  span.classList.add("shortcut-item");
+  if (launchBrowser.shortcut) {
+    const launchBrowserHotkey = launchBrowser.shortcut;
+    span.innerText = `${launchBrowserHotkey.toUpperCase()} launches your current page in Firefox\n`;
+  } else {
+    span.innerText =
+      "You don't have a shortcut set up for launching your current page in Firefox\n";
+  }
+  shortcutsList.appendChild(span);
+
+  const span2 = document.createElement("span");
+  span2.classList.add("shortcut-item");
+  if (launchFirefoxPrivate.shortcut) {
+    const launchFirefoxPrivateHotkey = launchFirefoxPrivate.shortcut;
+    span2.innerText = `${launchFirefoxPrivateHotkey.toUpperCase()} launches your current page in Firefox private browsing\n\n`;
+  } else {
+    span2.innerText =
+      "You don't have a shortcut set up for launching your current page in Firefox private browsing\n\n";
+  }
+  shortcutsList.appendChild(span2);
 }
 
 export async function activatePlatformSpecificElements() {
   const isChromium = chrome.runtime.getManifest().minimum_chrome_version;
 
   if (isChromium) {
-    // remove objects with class firefox
+    // remove objects with class firefox from the page
     const firefoxElements = document.getElementsByClassName("firefox");
-    for (let i = 0; i < firefoxElements.length; i++) {
-      firefoxElements[i].remove();
-    }
-
+    const firefoxElementsArray = Array.from(firefoxElements);
+    firefoxElementsArray.forEach((element) => {
+      element.remove();
+    });
+    checkChromiumHotkeys();
   } else {
+    // remove objects with class chromium
+    const chromiumElements = document.getElementsByClassName("chromium");
+    const chromiumElementsArray = Array.from(chromiumElements);
+    chromiumElementsArray.forEach((element) => {
+      element.remove();
+    });
     populateBrowserList();
+    checkFirefoxHotkeys();
   }
 }
 
 document.addEventListener("DOMContentLoaded", async function() {
   activatePlatformSpecificElements();
-  checkHotkeys();
   updateTelemetry();
 });

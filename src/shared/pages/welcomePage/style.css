@@ -33,7 +33,6 @@ span {
   display: flex;
   padding: 60px;
   align-items: start;
-  
 }
 
 #welcome-image {
@@ -69,12 +68,14 @@ span {
   margin-top: 5px;
 }
 
-.telemetry {
+.telemetry,
+.always-private {
   display: flex;
   margin-top: 20px;
 }
 
-.telemetry-checkbox-container {
+.telemetry-checkbox-container,
+.always-private-checkbox-container {
   display: flex;
   margin-right: 20px;
   margin-top: 2px;
@@ -133,4 +134,8 @@ input:checked + .slider:before {
 
 #shortcuts-list {
   margin-top: -20px;
+}
+
+.shortcut-item {
+  margin-top: 0px;
 }

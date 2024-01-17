@@ -13,21 +13,44 @@
     <div class="welcome-content">
       <image id="welcome-image" src="images/splash.svg" />
       <div class="welcome-info">
-        <h1 id="launchInAnotherBrowser">
+        <h1 id="launchInAnotherBrowser" class="firefox">
           Launch in Another Browser <a class="beta">BETA</a>
         </h1>
-        <h2 id="launchInAnotherBrowserSub">
+        <h2 id="launchInAnotherBrowserSub" class="firefox">
           Switch between browsers in one click.
         </h2>
-        <p id="launchInAnotherBrowserDesc">
+        <p id="launchInAnotherBrowserDesc" class="firefox">
           Sometimes, you just want to use a different browser. <br />
           This extension helps you easily open sites in other browsers.
+        </p>
+
+        <h1 id="launchInAnotherBrowser" class="chromium">
+          Launch in Firefox <a class="beta">BETA</a>
+        </h1>
+        <h2 id="launchInAnotherBrowserSub" class="chromium">
+          Switch from your current browser to Firefox in one click.
+        </h2>
+        <p id="launchInAnotherBrowserDesc" class="chromium">
+          Sometimes, you just want a more private browser. This extension helps
+          you easily open sites in Firefox.
         </p>
 
         <div class="browser-list firefox">
           <label for="browser-select">Select other browser</label>
           <br />
           <select id="browser-select"> </select>
+        </div>
+
+        <div class="always-private chromium">
+          <div class="always-private-checkbox-container">
+            <label class="switch">
+              <input type="checkbox" id="always-private-checkbox" />
+              <span class="slider round"></span>
+            </label>
+          </div>
+          <label for="always-private-checkbox">
+            Always open sites in a Firefox Private window when switching
+          </label>
         </div>
 
         <div class="telemetry">
@@ -48,18 +71,30 @@
           <h3 id="shortcuts-title">Shortcuts</h3>
           <div id="shortcuts-list"></div>
           <div class="shortcuts-desc">
-            <span id="shortcuts-instruction-preamble"
+            <span id="shortcuts-instruction-preamble" class="firefox"
               >Manage shortcuts for this extension by going to</span
             >
-            <span id="shortcuts-instruction">
-              <a href="about:addons">Extensions</a> > click the gear icon > Manage Extension
-              Shortcuts
+            <span id="shortcuts-instruction" class="firefox">
+              <a href="about:addons">Extensions</a> > click the gear icon >
+              Manage Extension Shortcuts
+            </span>
+
+            <span id="shortcuts-instruction-preamble" class="chromium"
+              >Manage shortcuts for this extension in</span
+            >
+            <span id="shortcuts-instruction" class="chromium">
+              <a href="chrome://extensions/shortcuts" id="shortcuts-link"
+                >extension settings.</a
+              >
             </span>
           </div>
         </div>
 
-        <p id="chrome-extension">
+        <p class="other-extension firefox">
           Want to Launch in Firefox? <a href="">Try our Chrome extension.</a>
+        </p>
+        <p class="other-extension chromium">
+          Launch another browser with our <a href="">extension in Firefox.</a>
         </p>
       </div>
     </div>
