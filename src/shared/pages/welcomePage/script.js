@@ -68,6 +68,7 @@ async function populateBrowserList() {
     chrome.storage.sync.set({ currentExternalBrowser: browserName });
   });
 
+  // Now select the proper browser.
   // if there is no current browser set, select the default browser in the list. Otherwise, select the first browser in the list.
   // otherwise select the current browser. If there are no browsers in the list, remove the browser-list element and display a message.
   const currentBrowser = await getExternalBrowser();
@@ -190,6 +191,34 @@ export async function activatePlatformSpecificElements() {
       element.remove();
     });
     checkChromiumHotkeys();
+    // add a listener for the always-private-checkbox
+    const alwaysPrivateCheckbox = document.getElementById(
+      "always-private-checkbox"
+    );
+    // check currentExternalBrowser to see if its private browsing
+    const currentExternalBrowser = await getExternalBrowser();
+    if (currentExternalBrowser === "Firefox Private Browsing") {
+      alwaysPrivateCheckbox.checked = true;
+    } else {
+      alwaysPrivateCheckbox.checked = false;
+    }
+
+    alwaysPrivateCheckbox.addEventListener("change", async () => {
+      if (alwaysPrivateCheckbox.checked) {
+        chrome.storage.sync.set({
+          currentExternalBrowser: "Firefox Private Browsing",
+        });
+      } else {
+        chrome.storage.sync.set({ currentExternalBrowser: "Firefox" });
+      }
+    });
+
+    const shortcutsLink = document.getElementById("shortcuts-link");
+    shortcutsLink.addEventListener("click", () => {
+      chrome.tabs.create({
+        url: "chrome://extensions/shortcuts",
+      });
+    });
   } else {
     // remove objects with class chromium
     const chromiumElements = document.getElementsByClassName("chromium");
