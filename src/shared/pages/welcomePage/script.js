@@ -3,205 +3,10 @@ import {
   getTelemetryEnabled,
 } from "../../backgroundScripts/getters.js";
 
+import { applyLocalization, replaceMessage } from "./localization.js";
+import { populateBrowserList } from "./browserList.js";
+
 const isChromium = chrome.runtime.getManifest().minimum_chrome_version;
-
-/**
- * Populate the browser list with the available browsers.
- */
-async function populateBrowserList() {
-  let browserList = document.getElementById("browser-select");
-  browserList.innerHTML = "";
-
-  const availableBrowsers = await browser.experiments.firefox_launch.getAvailableBrowsers();
-  console.group("Experimental Api Logs");
-  availableBrowsers.logs.forEach((log) => {
-    console.log(log);
-  });
-  console.groupEnd();
-
-  // sort browsers by name alphabetically and remove duplicate names
-  const loadedBrowsers = new Set();
-  const browsers = availableBrowsers.browsers
-    .sort((a, b) => a.name.localeCompare(b.name))
-    .filter((browser) => {
-      if (loadedBrowsers.has(browser.name)) {
-        return false;
-      } else {
-        loadedBrowsers.add(browser.name);
-        return true;
-      }
-    });
-
-  const defaultBrowserName = await browser.experiments.firefox_launch
-    .getDefaultBrowser()
-    .then((browser) => browser.name);
-
-  // add browsers to the list
-  browsers.forEach((browser) => {
-    const option = document.createElement("option");
-    option.value = browser.name;
-    option.text =
-      defaultBrowserName === browser.name
-        ? `${browser.name} ${chrome.i18n.getMessage(
-          "welcomePageDefaultBrowser"
-        )}`
-        : browser.name;
-    option.setAttribute("data-launch-protocol", browser.executable);
-    browserList.appendChild(option);
-  });
-
-  // On change, update the current external browser.
-  browserList.addEventListener("change", async (event) => {
-    const browserName = event.target.value;
-    const executable = event.target.selectedOptions[0].getAttribute(
-      "data-launch-protocol"
-    );
-
-    chrome.storage.local.set({
-      telemetry: {
-        type: "currentBrowserChange",
-        from: await getExternalBrowser(),
-        to: browserName,
-      },
-    });
-    chrome.storage.local.set({
-      currentExternalBrowserLaunchProtocol: executable,
-    });
-    chrome.storage.sync.set({ currentExternalBrowser: browserName });
-  });
-
-  // Now select the proper browser.
-  // if there is no current browser set, select the default browser in the list. Otherwise, select the first browser in the list.
-  // otherwise select the current browser. If there are no browsers in the list, remove the browser-list element and display a message.
-  const currentBrowser = await getExternalBrowser();
-  if (currentBrowser) {
-    browserList.value = currentBrowser;
-  } else if (defaultBrowserName) {
-    browserList.value = defaultBrowserName;
-    browserList.dispatchEvent(new Event("change"));
-  } else if (browsers.length > 0) {
-    browserList.value = browsers[0].name;
-    browserList.dispatchEvent(new Event("change"));
-  } else {
-    browserList.remove();
-    document.getElementById("browser-list-message").innerText =
-      "No browsers found.";
-  }
-}
-
-/**
- * Update the telemetry checkbox and initialize the listener.
- */
-async function updateTelemetry() {
-  // check storage to see if telemetry is enabled/disabled. If neither, set to true.
-  const telemetryEnabled = await getTelemetryEnabled();
-  chrome.storage.sync.set({ telemetryEnabled });
-  document.getElementById("telemetry-checkbox").checked = telemetryEnabled;
-
-  document
-    .getElementById("telemetry-checkbox")
-    .addEventListener("change", async () => {
-      const telemetryEnabled = await getTelemetryEnabled();
-      chrome.storage.sync.set({ telemetryEnabled: !telemetryEnabled });
-    });
-}
-
-/**
- * Check the hotkeys for the browser launch and let the user know if
- * they are not set.
- */
-async function checkFirefoxHotkeys() {
-  // get hotkeys with id launchBrowser
-  const hotkeys = await chrome.commands.getAll();
-  const launchBrowser = hotkeys.find(
-    (hotkey) => hotkey.name === "launchBrowser"
-  );
-
-  const shortcutsList = document.getElementById("shortcuts-list");
-
-  if (launchBrowser.shortcut) {
-    const launchBrowserHotkey = launchBrowser.shortcut;
-
-    // convert Ctrl to Cmd on Mac
-    let hotkey = launchBrowserHotkey.split("+");
-    if (
-      hotkey.includes("Ctrl") &&
-      (await chrome.runtime.getPlatformInfo()).os === "mac"
-    ) {
-      hotkey[hotkey.indexOf("Ctrl")] = "Cmd";
-    }
-    hotkey = hotkey.join("+");
-
-    const p = document.createElement("p");
-    p.innerText = chrome.i18n.getMessage("welcomePageYesShortcutTo", [
-      hotkey.toUpperCase(),
-      await getExternalBrowser(),
-    ]);
-    shortcutsList.appendChild(p);
-  } else {
-    const preamble = document.getElementById("shortcuts-instruction-preamble");
-    preamble.innerText = chrome.i18n.getMessage("welcomePageNoShortcuts");
-  }
-}
-
-/**
- * Check the hotkeys for the browser launch and let the user know if
- * they are not set.
- *
- * Also add a link to the chromium shortcuts page.
- */
-export async function checkChromiumHotkeys() {
-  const hotkeys = await chrome.commands.getAll();
-  const launchBrowser = hotkeys.find(
-    (hotkey) => hotkey.name === "launchBrowser"
-  );
-  const launchFirefoxPrivate = hotkeys.find(
-    (hotkey) => hotkey.name === "launchFirefoxPrivate"
-  );
-
-  const shortcutsList = document.getElementById("shortcuts-list");
-
-  // if there are no shortcuts, display a message
-  if (!launchBrowser.shortcut && !launchFirefoxPrivate.shortcut) {
-    const preamble = document.createElement("p");
-    preamble.innerText = chrome.i18n.getMessage("welcomePageNoShortcuts");
-    shortcutsList.appendChild(preamble);
-    return;
-  }
-
-  // Display a message for each shortcut whether it is set or not
-  const span = document.createElement("span");
-  span.classList.add("shortcut-item");
-  if (launchBrowser.shortcut) {
-    const launchBrowserHotkey = launchBrowser.shortcut;
-    span.innerText =
-      chrome.i18n.getMessage("welcomePageYesShortcutTo", [
-        launchBrowserHotkey.toUpperCase(),
-        await getExternalBrowser(),
-      ]) + "\n";
-  } else {
-    span.innerText =
-      chrome.i18n.getMessage("welcomePageNoShortcutTo", ["Firefox"]) + "\n";
-  }
-  shortcutsList.appendChild(span);
-
-  const span2 = document.createElement("span");
-  span2.classList.add("shortcut-item");
-  if (launchFirefoxPrivate.shortcut) {
-    const launchFirefoxPrivateHotkey = launchFirefoxPrivate.shortcut;
-    span2.innerText =
-      chrome.i18n.getMessage("welcomePageYesShortcutTo", [
-        launchFirefoxPrivateHotkey.toUpperCase(),
-        await getExternalBrowser(),
-      ]) + "\n";
-  } else {
-    span2.innerText =
-      chrome.i18n.getMessage("welcomePageNoShortcutTo", [
-        "Firefox private browsing",
-      ]) + "\n";
-  }
-  shortcutsList.appendChild(span2);
-}
 
 /**
  * Check the private browsing checkbox if the current external browser is
@@ -231,75 +36,130 @@ export async function checkPrivateBrowsing() {
 }
 
 /**
- * Replace the innerHTML of an element with the localized string.
- *
- * @param {string} id The id of the element in the HTML to replace.
- * @param {string} href The href to use for the link listener if required.
- * @param {string} platform The platform to append to the id if required.
- *
- * @returns {boolean} True if the element was found and replaced, false otherwise.
+ * Update the telemetry checkbox and initialize the listener.
  */
-export function replaceDataLocale(id, href, platform = "") {
-  const element = document.querySelector(`[data-locale="${id}"]`);
-  if (!element) {
-    return false;
-  }
+export async function updateTelemetry() {
+  // check storage to see if telemetry is enabled/disabled. If neither, set to true.
+  const telemetryEnabled = await getTelemetryEnabled();
+  chrome.storage.sync.set({ telemetryEnabled });
+  document.getElementById("telemetry-checkbox").checked = telemetryEnabled;
 
-  let message = chrome.i18n.getMessage(`${id}${platform}`);
-  if (!message) {
-    return false;
-  }
-
-  message = message.replace("{LinkStart}", `<a id="${id}Link" href="">`);
-  message = message.replace("{LinkEnd}", "</a>");
-
-  // eslint-disable-next-line no-unsanitized/property
-  element.innerHTML = message;
-
-  if (href) {
-    // since some links like chrome://extensions/shortcuts are not valid urls, we need to add a listener to open them
-    const link = document.getElementById(`${id}Link`);
-    link.addEventListener("click", (event) => {
-      event.preventDefault();
-      chrome.tabs.create({
-        url: href,
-      });
+  document
+    .getElementById("telemetry-checkbox")
+    .addEventListener("change", async () => {
+      const telemetryEnabled = await getTelemetryEnabled();
+      chrome.storage.sync.set({ telemetryEnabled: !telemetryEnabled });
     });
-  }
-
-  return true;
 }
 
 /**
- * Apply localization to the page.
+ * Check the hotkeys for the browser launch and let the user know if
+ * they are not set.
  */
-export function applyLocalization() {
-  // get all elements with data-locale attribute
-  const elements = document.querySelectorAll("[data-locale]");
-  const hrefMapping = {
-    welcomePageManageShortcutsChromium: "chrome://extensions/shortcuts",
-    welcomePageManageShortcutsFirefox: "about:addons",
-    privacyNoticeLink: "",
-  };
+export async function checkFirefoxHotkeys() {
+  // get hotkeys with id launchBrowser
+  const hotkeys = await chrome.commands.getAll();
+  const launchBrowser = hotkeys.find(
+    (hotkey) => hotkey.name === "launchBrowser"
+  );
 
-  // attempt to replace each element
-  elements.forEach((element) => {
-    const localeId = element.getAttribute("data-locale");
+  const shortcutsList = document.getElementById("shortcuts-list");
 
-    // attempt to replace the element with the localized string
-    if (replaceDataLocale(localeId, hrefMapping[localeId])) {
-      return;
+  const p = document.createElement("p");
+  shortcutsList.appendChild(p);
+  if (launchBrowser.shortcut) {
+    let launchBrowserHotkey = launchBrowser.shortcut;
+
+    // convert Ctrl to Cmd on Mac and command to cmd on Mac
+    if ((await chrome.runtime.getPlatformInfo()).os === "mac") {
+      launchBrowserHotkey = launchBrowserHotkey.replace("Ctrl", "CMD");
+      launchBrowserHotkey = launchBrowserHotkey.replace("Command", "CMD");
     }
 
-    // attempt to replace platform specific elements
-    if (isChromium) {
-      const platform = "Chromium";
-      replaceDataLocale(localeId, hrefMapping[localeId + platform], platform);
-    } else {
-      const platform = "Firefox";
-      replaceDataLocale(localeId, hrefMapping[localeId + platform], platform);
-    }
-  });
+    p.id = "launch-browser-shortcut";
+    p.innerText = chrome.i18n.getMessage("welcomePageYesShortcutTo", [
+      launchBrowserHotkey.toUpperCase(),
+      await getExternalBrowser(),
+    ]);
+  } else {
+    replaceMessage(p, "welcomePageNoShortcutsFirefox", "about:addons");
+
+    // remove the manage shortcuts text
+    const manageShortcutsText = document.querySelector(
+      "[data-locale='welcomePageManageShortcuts']"
+    );
+    manageShortcutsText.remove();
+  }
+
+}
+
+/**
+ * Check the hotkeys for the browser launch and let the user know if
+ * they are not set.
+ *
+ * Also add a link to the chromium shortcuts page.
+ */
+export async function checkChromiumHotkeys() {
+  const hotkeys = await chrome.commands.getAll();
+  const launchBrowser = hotkeys.find(
+    (hotkey) => hotkey.name === "launchBrowser"
+  );
+  const launchFirefoxPrivate = hotkeys.find(
+    (hotkey) => hotkey.name === "launchFirefoxPrivate"
+  );
+
+  const shortcutsList = document.getElementById("shortcuts-list");
+
+  // if there are no shortcuts, display a message
+  if (!launchBrowser.shortcut && !launchFirefoxPrivate.shortcut) {
+    const preamble = document.createElement("p");
+    shortcutsList.appendChild(preamble);
+
+    // eslint-disable-next-line no-unsanitized/property
+    replaceMessage(preamble, "welcomePageNoShortcutsChromium", "chrome://extensions/shortcuts");
+
+    // remove the manage shortcuts text
+    const manageShortcutsText = document.querySelector(
+      "[data-locale='welcomePageManageShortcuts']"
+    );
+    manageShortcutsText.remove();
+    return;
+  }
+
+  // Display a message for the Firefox shortcut
+  const span = document.createElement("span");
+  span.classList.add("shortcut-item");
+  if (launchBrowser.shortcut) {
+    const launchBrowserHotkey = launchBrowser.shortcut;
+    span.innerText =
+      chrome.i18n.getMessage("welcomePageYesShortcutTo", [
+        launchBrowserHotkey.toUpperCase(),
+        await getExternalBrowser(),
+      ]) + "\n";
+  } else {
+    span.innerText =
+      chrome.i18n.getMessage("welcomePageNoShortcutTo", ["Firefox"]) + "\n";
+  }
+  shortcutsList.appendChild(span);
+
+
+  // Display a message for the Firefox private shortcut
+  const span2 = document.createElement("span");
+  span2.classList.add("shortcut-item");
+  if (launchFirefoxPrivate.shortcut) {
+    const launchFirefoxPrivateHotkey = launchFirefoxPrivate.shortcut;
+    span2.innerText =
+      chrome.i18n.getMessage("welcomePageYesShortcutTo", [
+        launchFirefoxPrivateHotkey.toUpperCase(),
+        await getExternalBrowser(),
+      ]) + "\n";
+  } else {
+    span2.innerText =
+      chrome.i18n.getMessage("welcomePageNoShortcutTo", [
+        "Firefox private browsing",
+      ]) + "\n";
+  }
+  shortcutsList.appendChild(span2);
 }
 
 /**
