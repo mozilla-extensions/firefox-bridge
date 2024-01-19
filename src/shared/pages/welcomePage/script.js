@@ -25,13 +25,28 @@ export async function checkPrivateBrowsing() {
 
   // On change, update the default launch mode
   alwaysPrivateCheckbox.addEventListener("change", async () => {
+    let from;
+    let to;
     if (alwaysPrivateCheckbox.checked) {
+      from = "Firefox";
+      to = "Firefox Private Browsing";
       chrome.storage.sync.set({
         currentExternalBrowser: "Firefox Private Browsing",
       });
     } else {
+      from = "Firefox Private Browsing";
+      to = "Firefox";
       chrome.storage.sync.set({ currentExternalBrowser: "Firefox" });
     }
+
+    chrome.storage.local.set({
+      telemetry: {
+        type: "currentBrowserChange",
+        from,
+        to,
+        source: "welcome_page"
+      }
+    });
   });
 }
 
@@ -151,7 +166,7 @@ export async function checkChromiumHotkeys() {
     span2.innerText =
       chrome.i18n.getMessage("welcomePageYesShortcutTo", [
         launchFirefoxPrivateHotkey.toUpperCase(),
-        await getExternalBrowser(),
+        "Firefox private browsing",
       ]) + "\n";
   } else {
     span2.innerText =

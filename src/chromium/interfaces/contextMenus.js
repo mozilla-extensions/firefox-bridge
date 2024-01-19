@@ -120,6 +120,7 @@ export async function handlePlatformContextMenuClick(info, tab) {
           externalBrowserName === "Firefox"
             ? "Firefox Private Browsing"
             : "Firefox",
+        source: "action_context_menu",
       },
     });
   } 
