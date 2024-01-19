@@ -56,8 +56,6 @@ async function populateBrowserList() {
     const executable = event.target.selectedOptions[0].getAttribute(
       "data-launch-protocol"
     );
-    console.log(`Selected browser: ${browserName}`);
-    console.log(`Selected browser executable: ${executable}`);
 
     chrome.storage.local.set({
       telemetry: {
@@ -236,16 +234,22 @@ export async function checkPrivateBrowsing() {
  * Replace the innerHTML of an element with the localized string.
  *
  * @param {string} id The id of the element in the HTML to replace.
- * @param {string} platform The platform to append to the id if required.
  * @param {string} href The href to use for the link listener if required.
+ * @param {string} platform The platform to append to the id if required.
+ *
+ * @returns {boolean} True if the element was found and replaced, false otherwise.
  */
 export function replaceDataLocale(id, href, platform = "") {
   const element = document.querySelector(`[data-locale="${id}"]`);
   if (!element) {
-    return;
+    return false;
   }
-  console.log(`Replacing ${id}${platform} with ${element}`);
+
   let message = chrome.i18n.getMessage(`${id}${platform}`);
+  if (!message) {
+    return false;
+  }
+
   message = message.replace("{LinkStart}", `<a id="${id}Link" href="">`);
   message = message.replace("{LinkEnd}", "</a>");
 
@@ -262,48 +266,40 @@ export function replaceDataLocale(id, href, platform = "") {
       });
     });
   }
+
+  return true;
 }
 
 /**
  * Apply localization to the page.
  */
 export function applyLocalization() {
-  const sharedDataLocaleIds = [
-    "welcomePageTitle",
-    "welcomePageSubtitle",
-    "welcomePageDescription",
-    "welcomePageManageShortcuts",
-    "welcomePageTry",
-  ];
-  const firefoxDataLocaleIds = ["welcomePageBrowserSelector"];
-  const chromiumDataLocaleIds = ["welcomePageAlwaysPrivateCheckbox"];
+  // get all elements with data-locale attribute
+  const elements = document.querySelectorAll("[data-locale]");
   const hrefMapping = {
     welcomePageManageShortcutsChromium: "chrome://extensions/shortcuts",
     welcomePageManageShortcutsFirefox: "about:addons",
     privacyNoticeLink: "",
   };
 
-  replaceDataLocale("welcomePageTelemetryCheckbox");
-  replaceDataLocale("welcomePageShortcutTitle");
-  replaceDataLocale("welcomePageBeta");
+  // attempt to replace each element
+  elements.forEach((element) => {
+    const localeId = element.getAttribute("data-locale");
 
-  if (isChromium) {
-    const platform = "Chromium";
-    chromiumDataLocaleIds.forEach((id) => {
-      replaceDataLocale(id, hrefMapping[id]);
-    });
-    sharedDataLocaleIds.forEach((id) => {
-      replaceDataLocale(id, hrefMapping[id + platform], platform);
-    });
-  } else {
-    const platform = "Firefox";
-    firefoxDataLocaleIds.forEach((id) => {
-      replaceDataLocale(id, hrefMapping[id]);
-    });
-    sharedDataLocaleIds.forEach((id) => {
-      replaceDataLocale(id, hrefMapping[id + platform], platform);
-    });
-  }
+    // attempt to replace the element with the localized string
+    if (replaceDataLocale(localeId, hrefMapping[localeId])) {
+      return;
+    }
+
+    // attempt to replace platform specific elements
+    if (isChromium) {
+      const platform = "Chromium";
+      replaceDataLocale(localeId, hrefMapping[localeId + platform], platform);
+    } else {
+      const platform = "Firefox";
+      replaceDataLocale(localeId, hrefMapping[localeId + platform], platform);
+    }
+  });
 }
 
 /**
@@ -331,8 +327,30 @@ export function activatePlatformSpecificElements() {
   }
 }
 
-document.addEventListener("DOMContentLoaded", async function() {
+/**
+ * Apply logic for mobile browsers.
+ */
+export function applyMobileLogic() {
+  // move the manage shortcuts text to the bottom of the description and
+  // remove the shortcuts container.
+  const manageShortcutsText = document.querySelector(
+    "[data-locale='welcomePageManageShortcuts']"
+  );
+
+  document
+    .querySelector("[data-locale='welcomePageDescription']")
+    .insertAdjacentElement("afterend", manageShortcutsText);
+
+  const shortcutsContainer = document.getElementById("shortcuts-container");
+  shortcutsContainer.remove();
+}
+
+document.addEventListener("DOMContentLoaded", function() {
   activatePlatformSpecificElements();
   applyLocalization();
   updateTelemetry();
+
+  if (chrome.runtime.getPlatformInfo().os === "android") {
+    applyMobileLogic();
+  }
 });

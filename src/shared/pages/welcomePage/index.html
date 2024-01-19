@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Welcome to Firefox Launch Extension</title>
     <script src="script.bundle.js"></script>
-    <link rel="stylesheet" type="text/css" href="fonts/fonts.css" />
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
@@ -20,6 +19,7 @@
         </div>
 
         <h2 data-locale="welcomePageSubtitle" ></h2>
+        <image id="welcome-image-mobile" src="images/splash.svg" />
         <p data-locale="welcomePageDescription"></p>
 
         <div class="browser-list firefox">
@@ -58,7 +58,7 @@
           ></label>
         </div>
 
-        <div class="shortcuts">
+        <div class="shortcuts" id="shortcuts-container">
           <h3 data-locale="welcomePageShortcutTitle">Shortcuts</h3>
           <div id="shortcuts-list"></div>
           <p data-locale="welcomePageManageShortcuts"></p>
