@@ -34,5 +34,64 @@
   },
   "openWelcomePage": {
     "message": "Open Welcome Page"
+  },
+  "welcomePageTitleFirefox": {
+    "message": "Launch in Another Browser"
+  },
+  "welcomePageSubtitleFirefox": {
+    "message": "Switch between browsers in one click."
+  },
+  "welcomePageDescriptionFirefox": {
+    "message": "Sometimes, you just want to use a different browser.\nThis extension helps you easily open sites in other browsers."
+  },
+  "welcomePageTitleChromium": {
+    "message": "Launch in Firefox"
+  },
+  "welcomePageSubtitleChromium": {
+    "message": "Switch from your current browser to Firefox in one click."
+  },
+  "welcomePageDescriptionChromium": {
+    "message": "Sometimes, you just want a more private browser. This extension helps you easily open sites in Firefox."
+  },
+  "welcomePageBrowserSelectorFirefox": {
+    "message": "Select other browser"
+  },
+  "welcomePageAlwaysPrivateCheckboxChromium": {
+    "message": "Always open sites in a Firefox Private window when switching"
+  },
+  "welcomePageTelemetryCheckbox": {
+    "message": "Allow Mozilla to collect information about how you use this extension so we can make it better. {LinkStart}Privacy Notice{LinkEnd}"
+  },
+  "welcomePageNoShortcutsFirefox": {
+    "message": "You don't have any shortcuts set up for this extension. Create them by going to {LinkStart}Extensions{LinkEnd} > click the gear icon > Manage Extension Shortcuts"
+  },
+  "welcomePageNoShortcutsChromium": {
+    "message": "You don't have any shortcuts set up for this extension. Create them by going to {LinkStart}extension settings.{LinkEnd}"
+  },
+  "welcomePageNoShortcutTo": {
+    "message": "You don't have a shortcut set up for launching your current page in $browser$",
+    "placeholders": { "browser": { "content": "$1" } }
+  },
+  "welcomePageYesShortcutTo": {
+    "message": "$hotkey$ launches your current page in $browser$",
+    "placeholders": {
+      "hotkey": { "content": "$1" },
+      "browser": { "content": "$2" }
+    }
+  },
+  "welcomePageShortcutTitle": {
+    "message": "Shortcuts"
+  },
+  "welcomePageManageShortcutsFirefox": {
+    "message": "Manage shortcuts for this extension by going to {LinkStart}Extensions{LinkEnd} > click the gear icon > Manage Extension Shortcuts"
+  },
+  "welcomePageManageShortcutsChromium": {
+    "message": "Manage shortcuts for this extension by going to {LinkStart}extension settings.{LinkEnd}"
+  },
+  "welcomePageTryFirefox": {
+    "message": "Want to Launch in Firefox? {LinkStart}Try our Chromium extension.{LinkEnd}"
+  },
+  "welcomePageTryChromium": {
+    "message": "Launch another browser with our {LinkStart}extension in Firefox.{LinkEnd}"
   }
 }

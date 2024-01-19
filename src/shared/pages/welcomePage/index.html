@@ -13,30 +13,19 @@
     <div class="welcome-content">
       <image id="welcome-image" src="images/splash.svg" />
       <div class="welcome-info">
-        <h1 id="launchInAnotherBrowser" class="firefox">
-          Launch in Another Browser <a class="beta">BETA</a>
-        </h1>
-        <h2 id="launchInAnotherBrowserSub" class="firefox">
-          Switch between browsers in one click.
-        </h2>
-        <p id="launchInAnotherBrowserDesc" class="firefox">
-          Sometimes, you just want to use a different browser. <br />
-          This extension helps you easily open sites in other browsers.
-        </p>
+        <h1 data-locale="welcomePageTitleFirefox" class="firefox"></h1>
+        <h2 data-locale="welcomePageSubtitleFirefox" class="firefox"></h2>
+        <p data-locale="welcomePageDescriptionFirefox" class="firefox"></p>
 
-        <h1 id="launchInAnotherBrowser" class="chromium">
-          Launch in Firefox <a class="beta">BETA</a>
-        </h1>
-        <h2 id="launchInAnotherBrowserSub" class="chromium">
-          Switch from your current browser to Firefox in one click.
-        </h2>
-        <p id="launchInAnotherBrowserDesc" class="chromium">
-          Sometimes, you just want a more private browser. This extension helps
-          you easily open sites in Firefox.
-        </p>
+        <h1 data-locale="welcomePageTitleChromium" class="chromium"></h1>
+        <h2 data-locale="welcomePageSubtitleChromium" class="chromium"></h2>
+        <p data-locale="welcomePageDescriptionChromium" class="chromium"></p>
 
         <div class="browser-list firefox">
-          <label for="browser-select">Select other browser</label>
+          <label
+            data-locale="welcomePageBrowserSelectorFirefox"
+            for="browser-select"
+          ></label>
           <br />
           <select id="browser-select"> </select>
         </div>
@@ -48,8 +37,10 @@
               <span class="slider round"></span>
             </label>
           </div>
-          <label for="always-private-checkbox">
-            Always open sites in a Firefox Private window when switching
+          <label
+            data-locale="welcomePageAlwaysPrivateCheckboxChromium"
+            for="always-private-checkbox"
+          >
           </label>
         </div>
 
@@ -60,42 +51,21 @@
               <span class="slider round"></span>
             </label>
           </div>
-          <label for="telemetry-checkbox">
-            Allow Mozilla to collect information about how you use this
-            extension so we can make it better.
-            <a href="">Privacy Notice</a>
-          </label>
+          <label
+            data-locale="welcomePageTelemetryCheckbox"
+            for="telemetry-checkbox"
+          ></label>
         </div>
 
         <div class="shortcuts">
-          <h3 id="shortcuts-title">Shortcuts</h3>
+          <h3 data-locale="welcomePageShortcutTitle">Shortcuts</h3>
           <div id="shortcuts-list"></div>
-          <div class="shortcuts-desc">
-            <span id="shortcuts-instruction-preamble" class="firefox"
-              >Manage shortcuts for this extension by going to</span
-            >
-            <span id="shortcuts-instruction" class="firefox">
-              <a href="about:addons" id="shortcuts-link">Extensions</a> > click the gear icon >
-              Manage Extension Shortcuts
-            </span>
-
-            <span id="shortcuts-instruction-preamble" class="chromium"
-              >Manage shortcuts for this extension in</span
-            >
-            <span id="shortcuts-instruction" class="chromium">
-              <a href="chrome://extensions/shortcuts" id="shortcuts-link"
-                >extension settings.</a
-              >
-            </span>
-          </div>
+          <p data-locale="welcomePageManageShortcutsFirefox" class="firefox"></p>
+          <p data-locale="welcomePageManageShortcutsChromium" class="chromium"></p>
         </div>
 
-        <p class="other-extension firefox">
-          Want to Launch in Firefox? <a href="">Try our Chrome extension.</a>
-        </p>
-        <p class="other-extension chromium">
-          Launch another browser with our <a href="">extension in Firefox.</a>
-        </p>
+        <p data-locale="welcomePageTryFirefox" class="firefox"></p>
+        <p data-locale="welcomePageTryChromium" class="chromium"></p>
       </div>
     </div>
   </body>

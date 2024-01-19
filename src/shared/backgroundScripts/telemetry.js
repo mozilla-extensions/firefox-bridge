@@ -14,7 +14,7 @@ import { getTelemetryEnabled } from "./getters.js";
  * 
  * @param {boolean} showLogs Whether to show logs in the console.
  */
-export async function initGlean(showLogs = false) {
+export async function initGlean(showLogs = true) {
   Glean.setLogPings(showLogs);
   Glean.initialize("firefox.launch", await getTelemetryEnabled(), {
     appDisplayVersion: chrome.runtime.getManifest().version,

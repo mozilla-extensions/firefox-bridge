@@ -3,6 +3,8 @@ import {
   getTelemetryEnabled,
 } from "../../backgroundScripts/getters.js";
 
+const isChromium = chrome.runtime.getManifest().minimum_chrome_version;
+
 /**
  * Populate the browser list with the available browsers.
  */
@@ -105,7 +107,8 @@ async function updateTelemetry() {
 }
 
 /**
- * Check the hotkeys for the browser launch.
+ * Check the hotkeys for the browser launch and let the user know if
+ * they are not set.
  */
 async function checkFirefoxHotkeys() {
   // get hotkeys with id launchBrowser
@@ -130,15 +133,23 @@ async function checkFirefoxHotkeys() {
     hotkey = hotkey.join("+");
 
     const p = document.createElement("p");
-    p.innerText = `${hotkey.toUpperCase()} launches your current page in your selected browser`;
+    p.innerText = chrome.i18n.getMessage("welcomePageYesShortcutTo", [
+      hotkey.toUpperCase(),
+      await getExternalBrowser(),
+    ]);
     shortcutsList.appendChild(p);
   } else {
     const preamble = document.getElementById("shortcuts-instruction-preamble");
-    preamble.innerText =
-      "You don't have any shortcuts set up for this extension. Create them by going to ";
+    preamble.innerText = chrome.i18n.getMessage("welcomePageNoShortcuts");
   }
 }
 
+/**
+ * Check the hotkeys for the browser launch and let the user know if
+ * they are not set.
+ *
+ * Also add a link to the chromium shortcuts page.
+ */
 export async function checkChromiumHotkeys() {
   const hotkeys = await chrome.commands.getAll();
   const launchBrowser = hotkeys.find(
@@ -150,21 +161,27 @@ export async function checkChromiumHotkeys() {
 
   const shortcutsList = document.getElementById("shortcuts-list");
 
-  if (!launchBrowser && !launchFirefoxPrivate) {
-    const preamble = document.getElementById("shortcuts-instruction-preamble");
-    preamble.innerText =
-      "You don't have any shortcuts set up for this extension. Create them by going to ";
+  // if there are no shortcuts, display a message
+  if (!launchBrowser.shortcut && !launchFirefoxPrivate.shortcut) {
+    const preamble = document.createElement("p");
+    preamble.innerText = chrome.i18n.getMessage("welcomePageNoShortcuts");
+    shortcutsList.appendChild(preamble);
     return;
   }
 
+  // Display a message for each shortcut whether it is set or not
   const span = document.createElement("span");
   span.classList.add("shortcut-item");
   if (launchBrowser.shortcut) {
     const launchBrowserHotkey = launchBrowser.shortcut;
-    span.innerText = `${launchBrowserHotkey.toUpperCase()} launches your current page in Firefox\n`;
+    span.innerText =
+      chrome.i18n.getMessage("welcomePageYesShortcutTo", [
+        launchBrowserHotkey.toUpperCase(),
+        await getExternalBrowser(),
+      ]) + "\n";
   } else {
     span.innerText =
-      "You don't have a shortcut set up for launching your current page in Firefox\n";
+      chrome.i18n.getMessage("welcomePageNoShortcutTo", ["Firefox"]) + "\n";
   }
   shortcutsList.appendChild(span);
 
@@ -172,17 +189,90 @@ export async function checkChromiumHotkeys() {
   span2.classList.add("shortcut-item");
   if (launchFirefoxPrivate.shortcut) {
     const launchFirefoxPrivateHotkey = launchFirefoxPrivate.shortcut;
-    span2.innerText = `${launchFirefoxPrivateHotkey.toUpperCase()} launches your current page in Firefox private browsing\n\n`;
+    span2.innerText =
+      chrome.i18n.getMessage("welcomePageYesShortcutTo", [
+        launchFirefoxPrivateHotkey.toUpperCase(),
+        await getExternalBrowser(),
+      ]) + "\n";
   } else {
     span2.innerText =
-      "You don't have a shortcut set up for launching your current page in Firefox private browsing\n\n";
+      chrome.i18n.getMessage("welcomePageNoShortcutTo", [
+        "Firefox private browsing",
+      ]) + "\n";
   }
   shortcutsList.appendChild(span2);
 }
 
-export async function activatePlatformSpecificElements() {
-  const isChromium = chrome.runtime.getManifest().minimum_chrome_version;
+/**
+ * Check the private browsing checkbox if the current external browser is
+ * Firefox Private Browsing. Add a listener to update the default launch mode.
+ */
+export async function checkPrivateBrowsing() {
+  const alwaysPrivateCheckbox = document.getElementById(
+    "always-private-checkbox"
+  );
+  const currentExternalBrowser = await getExternalBrowser();
+  if (currentExternalBrowser === "Firefox Private Browsing") {
+    alwaysPrivateCheckbox.checked = true;
+  } else {
+    alwaysPrivateCheckbox.checked = false;
+  }
 
+  // On change, update the default launch mode
+  alwaysPrivateCheckbox.addEventListener("change", async () => {
+    if (alwaysPrivateCheckbox.checked) {
+      chrome.storage.sync.set({
+        currentExternalBrowser: "Firefox Private Browsing",
+      });
+    } else {
+      chrome.storage.sync.set({ currentExternalBrowser: "Firefox" });
+    }
+  });
+}
+
+export function replaceDataLocale(id, href = "") {
+  const element = document.querySelector(`[data-locale="${id}"]`);
+  let message = chrome.i18n.getMessage(id);
+  message = message.replace("{LinkStart}", `<a id="${id}Link" href="">`);
+  message = message.replace("{LinkEnd}", "</a>");
+  element.innerHTML = message;
+
+  if (href) {
+    // since some links like chrome://extensions/shortcuts are not valid urls, we need to add a listener to open them
+    const link = document.getElementById(`${id}Link`);
+    link.addEventListener("click", (event) => {
+      event.preventDefault();
+      chrome.tabs.create({
+        url: href,
+      });
+    });
+  }
+}
+
+export function applyLocalization() {
+  if (isChromium) {
+    replaceDataLocale("welcomePageTitleChromium");
+    replaceDataLocale("welcomePageSubtitleChromium");
+    replaceDataLocale("welcomePageDescriptionChromium");
+    replaceDataLocale("welcomePageAlwaysPrivateCheckboxChromium");
+    replaceDataLocale(
+      "welcomePageManageShortcutsChromium",
+      "chrome://extensions/shortcuts"
+    );
+    replaceDataLocale("welcomePageTryChromium");
+  } else {
+    replaceDataLocale("welcomePageTitleFirefox");
+    replaceDataLocale("welcomePageSubtitleFirefox");
+    replaceDataLocale("welcomePageDescriptionFirefox");
+    replaceDataLocale("welcomePageBrowserSelectorFirefox");
+    replaceDataLocale("welcomePageManageShortcutsFirefox", "about:addons");
+    replaceDataLocale("welcomePageTryFirefox");
+  }
+  replaceDataLocale("welcomePageTelemetryCheckbox");
+  replaceDataLocale("welcomePageShortcutTitle");
+}
+
+export async function activatePlatformSpecificElements() {
   if (isChromium) {
     // remove objects with class firefox from the page
     const firefoxElements = document.getElementsByClassName("firefox");
@@ -191,34 +281,7 @@ export async function activatePlatformSpecificElements() {
       element.remove();
     });
     checkChromiumHotkeys();
-    // add a listener for the always-private-checkbox
-    const alwaysPrivateCheckbox = document.getElementById(
-      "always-private-checkbox"
-    );
-    // check currentExternalBrowser to see if its private browsing
-    const currentExternalBrowser = await getExternalBrowser();
-    if (currentExternalBrowser === "Firefox Private Browsing") {
-      alwaysPrivateCheckbox.checked = true;
-    } else {
-      alwaysPrivateCheckbox.checked = false;
-    }
-
-    alwaysPrivateCheckbox.addEventListener("change", async () => {
-      if (alwaysPrivateCheckbox.checked) {
-        chrome.storage.sync.set({
-          currentExternalBrowser: "Firefox Private Browsing",
-        });
-      } else {
-        chrome.storage.sync.set({ currentExternalBrowser: "Firefox" });
-      }
-    });
-
-    const shortcutsLink = document.getElementById("shortcuts-link");
-    shortcutsLink.addEventListener("click", () => {
-      chrome.tabs.create({
-        url: "chrome://extensions/shortcuts",
-      });
-    });
+    checkPrivateBrowsing();
   } else {
     // remove objects with class chromium
     const chromiumElements = document.getElementsByClassName("chromium");
@@ -232,6 +295,7 @@ export async function activatePlatformSpecificElements() {
 }
 
 document.addEventListener("DOMContentLoaded", async function() {
-  activatePlatformSpecificElements();
+  await activatePlatformSpecificElements();
+  applyLocalization();
   updateTelemetry();
 });
