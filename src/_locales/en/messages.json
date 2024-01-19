@@ -53,10 +53,10 @@
   "welcomePageDescriptionChromium": {
     "message": "Sometimes, you just want a more private browser. This extension helps you easily open sites in Firefox."
   },
-  "welcomePageBrowserSelectorFirefox": {
+  "welcomePageBrowserSelector": {
     "message": "Select other browser"
   },
-  "welcomePageAlwaysPrivateCheckboxChromium": {
+  "welcomePageAlwaysPrivateCheckbox": {
     "message": "Always open sites in a Firefox Private window when switching"
   },
   "welcomePageTelemetryCheckbox": {
@@ -93,5 +93,8 @@
   },
   "welcomePageTryChromium": {
     "message": "Launch another browser with our {LinkStart}extension in Firefox.{LinkEnd}"
+  },
+  "welcomePageDefaultBrowser": {
+    "message": "(Default Browser)"
   }
 }

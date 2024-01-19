@@ -42,7 +42,9 @@ async function populateBrowserList() {
     option.value = browser.name;
     option.text =
       defaultBrowserName === browser.name
-        ? `${browser.name} (Default Browser)`
+        ? `${browser.name} ${chrome.i18n.getMessage(
+          "welcomePageDefaultBrowser"
+        )}`
         : browser.name;
     option.setAttribute("data-launch-protocol", browser.executable);
     browserList.appendChild(option);
@@ -230,11 +232,24 @@ export async function checkPrivateBrowsing() {
   });
 }
 
-export function replaceDataLocale(id, platform = "", href = "") {
+/**
+ * Replace the innerHTML of an element with the localized string.
+ *
+ * @param {string} id The id of the element in the HTML to replace.
+ * @param {string} platform The platform to append to the id if required.
+ * @param {string} href The href to use for the link listener if required.
+ */
+export function replaceDataLocale(id, href, platform = "") {
   const element = document.querySelector(`[data-locale="${id}"]`);
+  if (!element) {
+    return;
+  }
+  console.log(`Replacing ${id}${platform} with ${element}`);
   let message = chrome.i18n.getMessage(`${id}${platform}`);
   message = message.replace("{LinkStart}", `<a id="${id}Link" href="">`);
   message = message.replace("{LinkEnd}", "</a>");
+
+  // eslint-disable-next-line no-unsanitized/property
   element.innerHTML = message;
 
   if (href) {
@@ -249,6 +264,9 @@ export function replaceDataLocale(id, platform = "", href = "") {
   }
 }
 
+/**
+ * Apply localization to the page.
+ */
 export function applyLocalization() {
   const sharedDataLocaleIds = [
     "welcomePageTitle",
@@ -257,8 +275,8 @@ export function applyLocalization() {
     "welcomePageManageShortcuts",
     "welcomePageTry",
   ];
-  const firefoxDataLocaleIds = ["welcomePageBrowserSelectorFirefox"];
-  const chromiumDataLocaleIds = ["welcomePageAlwaysPrivateCheckboxChromium"];
+  const firefoxDataLocaleIds = ["welcomePageBrowserSelector"];
+  const chromiumDataLocaleIds = ["welcomePageAlwaysPrivateCheckbox"];
   const hrefMapping = {
     welcomePageManageShortcutsChromium: "chrome://extensions/shortcuts",
     welcomePageManageShortcutsFirefox: "about:addons",
@@ -274,7 +292,7 @@ export function applyLocalization() {
       replaceDataLocale(id, hrefMapping[id]);
     });
     sharedDataLocaleIds.forEach((id) => {
-      replaceDataLocale(id, platform, hrefMapping[id + platform]);
+      replaceDataLocale(id, hrefMapping[id + platform], platform);
     });
   } else {
     const platform = "Firefox";
@@ -282,12 +300,15 @@ export function applyLocalization() {
       replaceDataLocale(id, hrefMapping[id]);
     });
     sharedDataLocaleIds.forEach((id) => {
-      replaceDataLocale(id, platform, hrefMapping[id + platform]);
+      replaceDataLocale(id, hrefMapping[id + platform], platform);
     });
   }
 }
 
-export async function activatePlatformSpecificElements() {
+/**
+ * Add or remove certain elements from the page depending on the platform.
+ */
+export function activatePlatformSpecificElements() {
   if (isChromium) {
     // remove objects with class firefox from the page
     const firefoxElements = document.getElementsByClassName("firefox");
@@ -310,7 +331,7 @@ export async function activatePlatformSpecificElements() {
 }
 
 document.addEventListener("DOMContentLoaded", async function() {
-  await activatePlatformSpecificElements();
+  activatePlatformSpecificElements();
   applyLocalization();
   updateTelemetry();
 });
