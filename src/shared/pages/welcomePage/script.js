@@ -5,6 +5,7 @@ import {
 
 import { applyLocalization, replaceMessage } from "./localization.js";
 import { populateBrowserList } from "./browserList.js";
+import { getIsFirefoxInstalled } from "../../../chromium/interfaces/getters.js";
 
 const isChromium = chrome.runtime.getManifest().minimum_chrome_version;
 
@@ -180,7 +181,7 @@ export async function checkChromiumHotkeys() {
 /**
  * Add or remove certain elements from the page depending on the platform.
  */
-export function activatePlatformSpecificElements() {
+export async function activatePlatformSpecificElements() {
   if (isChromium) {
     // remove objects with class firefox from the page
     const firefoxElements = document.getElementsByClassName("firefox");
@@ -190,6 +191,9 @@ export function activatePlatformSpecificElements() {
     });
     checkChromiumHotkeys();
     checkPrivateBrowsing();
+    if (!await getIsFirefoxInstalled()) {
+      document.getElementById("error-notification").style.display = "block";
+    }
   } else {
     // remove objects with class chromium
     const chromiumElements = document.getElementsByClassName("chromium");

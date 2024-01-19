@@ -16,6 +16,13 @@ export async function populateBrowserList() {
   });
   console.groupEnd();
 
+  // if no browsers are available, remove the browser-list element and display a message
+  if (availableBrowsers.browsers.length === 0) {
+    browserList.remove();
+    document.getElementById("error-notification").style.display = "block";
+    return;
+  }
+
   // sort browsers by name alphabetically and remove duplicate names
   const loadedBrowsers = new Set();
   const browsers = availableBrowsers.browsers

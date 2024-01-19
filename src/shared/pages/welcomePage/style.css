@@ -22,6 +22,11 @@ span {
   margin-left: 12px;
 }
 
+#error-notification {
+  /* display: none; */
+  
+}
+
 .welcome-content {
   display: flex;
   padding: 60px;
