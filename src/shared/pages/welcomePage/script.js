@@ -230,9 +230,9 @@ export async function checkPrivateBrowsing() {
   });
 }
 
-export function replaceDataLocale(id, href = "") {
+export function replaceDataLocale(id, platform = "", href = "") {
   const element = document.querySelector(`[data-locale="${id}"]`);
-  let message = chrome.i18n.getMessage(id);
+  let message = chrome.i18n.getMessage(`${id}${platform}`);
   message = message.replace("{LinkStart}", `<a id="${id}Link" href="">`);
   message = message.replace("{LinkEnd}", "</a>");
   element.innerHTML = message;
@@ -250,26 +250,41 @@ export function replaceDataLocale(id, href = "") {
 }
 
 export function applyLocalization() {
-  if (isChromium) {
-    replaceDataLocale("welcomePageTitleChromium");
-    replaceDataLocale("welcomePageSubtitleChromium");
-    replaceDataLocale("welcomePageDescriptionChromium");
-    replaceDataLocale("welcomePageAlwaysPrivateCheckboxChromium");
-    replaceDataLocale(
-      "welcomePageManageShortcutsChromium",
-      "chrome://extensions/shortcuts"
-    );
-    replaceDataLocale("welcomePageTryChromium");
-  } else {
-    replaceDataLocale("welcomePageTitleFirefox");
-    replaceDataLocale("welcomePageSubtitleFirefox");
-    replaceDataLocale("welcomePageDescriptionFirefox");
-    replaceDataLocale("welcomePageBrowserSelectorFirefox");
-    replaceDataLocale("welcomePageManageShortcutsFirefox", "about:addons");
-    replaceDataLocale("welcomePageTryFirefox");
-  }
+  const sharedDataLocaleIds = [
+    "welcomePageTitle",
+    "welcomePageSubtitle",
+    "welcomePageDescription",
+    "welcomePageManageShortcuts",
+    "welcomePageTry",
+  ];
+  const firefoxDataLocaleIds = ["welcomePageBrowserSelectorFirefox"];
+  const chromiumDataLocaleIds = ["welcomePageAlwaysPrivateCheckboxChromium"];
+  const hrefMapping = {
+    welcomePageManageShortcutsChromium: "chrome://extensions/shortcuts",
+    welcomePageManageShortcutsFirefox: "about:addons",
+    privacyNoticeLink: "",
+  };
+
   replaceDataLocale("welcomePageTelemetryCheckbox");
   replaceDataLocale("welcomePageShortcutTitle");
+
+  if (isChromium) {
+    const platform = "Chromium";
+    chromiumDataLocaleIds.forEach((id) => {
+      replaceDataLocale(id, hrefMapping[id]);
+    });
+    sharedDataLocaleIds.forEach((id) => {
+      replaceDataLocale(id, platform, hrefMapping[id + platform]);
+    });
+  } else {
+    const platform = "Firefox";
+    firefoxDataLocaleIds.forEach((id) => {
+      replaceDataLocale(id, hrefMapping[id]);
+    });
+    sharedDataLocaleIds.forEach((id) => {
+      replaceDataLocale(id, platform, hrefMapping[id + platform]);
+    });
+  }
 }
 
 export async function activatePlatformSpecificElements() {
