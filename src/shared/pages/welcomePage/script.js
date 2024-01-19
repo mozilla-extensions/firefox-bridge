@@ -285,6 +285,7 @@ export function applyLocalization() {
 
   replaceDataLocale("welcomePageTelemetryCheckbox");
   replaceDataLocale("welcomePageShortcutTitle");
+  replaceDataLocale("welcomePageBeta");
 
   if (isChromium) {
     const platform = "Chromium";

@@ -41,15 +41,24 @@ span {
   margin-top: 20px;
 }
 
+[data-locale] {
+  transform: scaleY(0.925);
+}
+
 .welcome-info {
   min-width: 60%;
 }
 
-.beta {
+.welcome-header {
+  display: flex;
+  align-items: center;
+}
+
+.welcome-header span {
   border-radius: 8px;
   border: #cfcfd8 solid 2px;
   font-weight: lighter;
-  font-size: 0.4em;
+  font-size: 1em;
   padding: 12px;
   margin-left: 10px;
 }

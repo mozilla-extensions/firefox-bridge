@@ -96,5 +96,8 @@
   },
   "welcomePageDefaultBrowser": {
     "message": "(Default Browser)"
+  },
+  "welcomePageBeta": {
+    "message": "BETA"
   }
 }
