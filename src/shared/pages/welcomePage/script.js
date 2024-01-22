@@ -45,8 +45,8 @@ export async function checkPrivateBrowsing() {
         type: "currentBrowserChange",
         from,
         to,
-        source: "welcome_page"
-      }
+        source: "welcome_page",
+      },
     });
   });
 }
@@ -106,7 +106,6 @@ export async function checkFirefoxHotkeys() {
     );
     manageShortcutsText.remove();
   }
-
 }
 
 /**
@@ -130,9 +129,11 @@ export async function checkChromiumHotkeys() {
   if (!launchBrowser.shortcut && !launchFirefoxPrivate.shortcut) {
     const preamble = document.createElement("p");
     shortcutsList.appendChild(preamble);
-
-    // eslint-disable-next-line no-unsanitized/property
-    replaceMessage(preamble, "welcomePageNoShortcutsChromium", "chrome://extensions/shortcuts");
+    replaceMessage(
+      preamble,
+      "welcomePageNoShortcutsChromium",
+      "chrome://extensions/shortcuts"
+    );
 
     // remove the manage shortcuts text
     const manageShortcutsText = document.querySelector(
@@ -157,7 +158,6 @@ export async function checkChromiumHotkeys() {
       chrome.i18n.getMessage("welcomePageNoShortcutTo", ["Firefox"]) + "\n";
   }
   shortcutsList.appendChild(span);
-
 
   // Display a message for the Firefox private shortcut
   const span2 = document.createElement("span");
@@ -191,8 +191,8 @@ export async function activatePlatformSpecificElements() {
     });
     checkChromiumHotkeys();
     checkPrivateBrowsing();
-    if (!await getIsFirefoxInstalled()) {
-      document.getElementById("error-notification").style.display = "block";
+    if (!(await getIsFirefoxInstalled())) {
+      document.getElementById("error-notification").style.display = "flex";
     }
   } else {
     // remove objects with class chromium
@@ -228,6 +228,10 @@ document.addEventListener("DOMContentLoaded", function() {
   activatePlatformSpecificElements();
   applyLocalization();
   updateTelemetry();
+
+  document.getElementById("close-button").addEventListener("click", () => {
+    document.getElementById("error-notification").classList.add("hidden");
+  });
 
   if (chrome.runtime.getPlatformInfo().os === "android") {
     applyMobileLogic();

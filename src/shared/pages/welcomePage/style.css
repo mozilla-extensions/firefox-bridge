@@ -16,17 +16,50 @@ span {
   font-weight: lighter;
 }
 
-
 #mozilla-logo {
   margin-top: 12px;
   margin-left: 12px;
 }
 
-#error-notification {
-  /* display: none; */
-  
+/* Error Notification Styling */
+.error-notification {
+  display: none;
+  position: relative;
+  background-color: #FFEA80;
+  max-width: fit-content;
+  min-height: 40px;
+  box-shadow: 0px 2px 24px 0px rgba(0, 0, 0, 0.24);
+  margin-left: auto;
+  margin-right: auto;
+  align-items: center;
+  text-align: center;
+  transition: 0.3s ease;
 }
 
+.error-notification.hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.error-notification .close-button {
+  padding: 8px;
+  cursor: pointer;
+  background-color: #FFD567;
+  margin-left: auto;
+  margin-bottom: auto;
+}
+
+
+.error-notification p {
+  margin: 0;
+  padding: 10px 50px;
+  font-size: 0.8em;
+  font-weight:bold;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Start of content styling */
 .welcome-content {
   display: flex;
   padding: 60px;
@@ -51,7 +84,7 @@ span {
 @media (max-width: 768px) {
   .welcome-content {
     flex-direction: column;
-    padding: 20px; 
+    padding: 20px;
   }
 
   #welcome-image {
@@ -171,4 +204,3 @@ input:checked + .slider:before {
 .slider.round:before {
   border-radius: 50%;
 }
-

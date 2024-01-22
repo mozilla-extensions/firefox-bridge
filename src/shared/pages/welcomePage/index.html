@@ -9,23 +9,23 @@
   </head>
   <body>
     <image id="mozilla-logo" src="images/mozilla-logo.svg" />
-    <div data-locale="welcomePageNoExternalBrowserError" class="error-notification", id="error-notification">
-      error
+    <div class="error-notification" id="error-notification">
+      <p data-locale="welcomePageNoExternalBrowserError"></p>
+      <img src="images/close.svg" class="close-button" id="close-button"/>
     </div>
     <div class="welcome-content">
       <image id="welcome-image" src="images/splash.svg" />
       <div class="welcome-info">
-
         <div class="welcome-header">
           <h1 data-locale="welcomePageTitle"></h1>
           <span data-locale="welcomePageBeta"></span>
         </div>
 
-        <h2 data-locale="welcomePageSubtitle" ></h2>
+        <h2 data-locale="welcomePageSubtitle"></h2>
         <image id="welcome-image-mobile" src="images/splash.svg" />
         <p data-locale="welcomePageDescription"></p>
 
-        <div class="browser-list firefox">
+        <div class="browser-list firefox" id="browser-list-container">
           <label
             data-locale="welcomePageBrowserSelector"
             for="browser-select"

@@ -54,6 +54,7 @@ export function applyLocalization() {
   const hrefMapping = {
     welcomePageManageShortcutsChromium: "chrome://extensions/shortcuts",
     welcomePageManageShortcutsFirefox: "about:addons",
+    welcomePageErrorChromium: "https://www.mozilla.org/en-CA/firefox/new/",
     privacyNoticeLink: "",
   };
   

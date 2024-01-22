@@ -18,8 +18,9 @@ export async function populateBrowserList() {
 
   // if no browsers are available, remove the browser-list element and display a message
   if (availableBrowsers.browsers.length === 0) {
-    browserList.remove();
-    document.getElementById("error-notification").style.display = "block";
+    document.getElementById("browser-list-container").remove();
+    document.getElementById("error-notification").style.display = "flex";
+    document.getElementById("shortcuts-list").remove();
     return;
   }
 
