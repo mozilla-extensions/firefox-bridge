@@ -16,10 +16,10 @@ describe("firefox/interfaces/launchBrowser.js", () => {
       setIsCurrentTabValidUrlScheme(true);
       const result = await launchBrowser({ url: "https://example.com" });
       expect(result).to.equal(false);
-      expect(chrome.tabs.create.callCount).to.equal(1);
+      expect(browser.tabs.create.callCount).to.equal(1);
       expect(
-        chrome.tabs.create.calledWith({
-          url: chrome.runtime.getURL("shared/pages/welcomePage/index.html"),
+        browser.tabs.create.calledWith({
+          url: browser.runtime.getURL("shared/pages/welcomePage/index.html"),
         })
       ).to.be.true;
     });

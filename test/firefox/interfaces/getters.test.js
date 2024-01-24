@@ -17,7 +17,7 @@ describe("firefox/interfaces/getters.js", () => {
       setExternalBrowser("chrome");
       const result = await getDefaultIconPath();
       expect(result).to.deep.equal({
-        32: chrome.runtime.getURL("images/chrome/32.png"),
+        32: browser.runtime.getURL("images/chrome/32.png"),
       });
     });
 
@@ -25,7 +25,7 @@ describe("firefox/interfaces/getters.js", () => {
       setExternalBrowser(undefined);
       const result = await getDefaultIconPath();
       expect(result).to.deep.equal({
-        32: chrome.runtime.getURL("images/firefox-launch/32.png"),
+        32: browser.runtime.getURL("images/firefox-launch/32.png"),
       });
     });
   });
@@ -35,7 +35,7 @@ describe("firefox/interfaces/getters.js", () => {
       setExternalBrowser("chrome");
       const result = await getGreyedIconPath();
       expect(result).to.deep.equal({
-        32: chrome.runtime.getURL("images/chrome/32grey.png"),
+        32: browser.runtime.getURL("images/chrome/32grey.png"),
       });
     });
 
@@ -43,7 +43,7 @@ describe("firefox/interfaces/getters.js", () => {
       setExternalBrowser(undefined);
       const result = await getGreyedIconPath();
       expect(result).to.deep.equal({
-        32: chrome.runtime.getURL("images/firefox-launch/32.png"),
+        32: browser.runtime.getURL("images/firefox-launch/32.png"),
       });
     });
   });

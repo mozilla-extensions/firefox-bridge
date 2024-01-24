@@ -3,27 +3,27 @@
  */
 export async function applyPlatformContextMenus() {
   // External sites context menu
-  // chrome.contextMenus.create({
+  // browser.contextMenus.create({
   //   id: "separator",
   //   type: "separator",
   //   contexts: ["action"],
   // });
-  // chrome.contextMenus.create({
+  // browser.contextMenus.create({
   //   id: "addCurrentSiteToMySitesContextMenu",
-  //   title: chrome.i18n.getMessage("Add_this_site_to_My_Firefox_Sites").replace("[SLD] ", ""),
+  //   title: browser.i18n.getMessage("Add_this_site_to_My_Firefox_Sites").replace("[SLD] ", ""),
   //   contexts: ["action"],
   //   enabled: false
   // });
-  // chrome.contextMenus.create({
+  // browser.contextMenus.create({
   //   id: "autoRedirectCheckboxContextMenu",
-  //   title: chrome.i18n.getMessage("auto_redirect_my_firefox_sites"),
+  //   title: browser.i18n.getMessage("auto_redirect_my_firefox_sites"),
   //   contexts: ["action"],
   //   type: "checkbox",
   //   checked: await getIsAutoRedirect(),
   // });
-  // chrome.contextMenus.create({
+  // browser.contextMenus.create({
   //   id: "manageExternalSitesContextMenu",
-  //   title: chrome.i18n.getMessage("Manage_My_Firefox_Sites"),
+  //   title: browser.i18n.getMessage("Manage_My_Firefox_Sites"),
   //   contexts: ["action"],
   // });
 }
@@ -37,8 +37,8 @@ export async function handlePlatformContextMenuClick(info) {
   if (
     info.menuItemId === "openWelcomePage"
   ) {
-    chrome.tabs.create({
-      url: chrome.runtime.getURL("shared/pages/welcomePage/index.html"),
+    browser.tabs.create({
+      url: browser.runtime.getURL("shared/pages/welcomePage/index.html"),
     });
   }
 }

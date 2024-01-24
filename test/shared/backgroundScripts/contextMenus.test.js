@@ -12,21 +12,21 @@ describe("shared/backgroundScripts/contextMenus.js", () => {
       setExtensionIsChromium(true);
       await initContextMenu();
       expect(
-        chrome.contextMenus.create.calledWith({
+        browser.contextMenus.create.calledWith({
           id: "launchInExternalBrowser",
           title: getLocaleMessage("launchInExternalBrowser"),
           contexts: ["page"],
         })
       ).to.be.true;
       expect(
-        chrome.contextMenus.create.calledWith({
+        browser.contextMenus.create.calledWith({
           id: "launchInExternalBrowserLink",
           title: getLocaleMessage("launchInExternalBrowserLink"),
           contexts: ["link"],
         })
       ).to.be.true;
       expect(
-        chrome.contextMenus.create.calledWith({
+        browser.contextMenus.create.calledWith({
           id: "openWelcomePage",
           title: getLocaleMessage("openWelcomePage"),
           contexts: ["action"],

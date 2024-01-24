@@ -10,7 +10,7 @@ import { getExternalBrowser } from "./getters.js";
 export async function handleHotkeyPress(command, tab) {
   if (command === "launchBrowser") {
     if (await launchBrowser(tab, true)){
-      chrome.storage.local.set({
+      browser.storage.local.set({
         telemetry: {
           type: "browserLaunch",
           browser: await getExternalBrowser(),
@@ -20,7 +20,7 @@ export async function handleHotkeyPress(command, tab) {
     }
   } else if (command === "launchFirefoxPrivate") {
     if (await launchBrowser(tab, false)){
-      chrome.storage.local.set({
+      browser.storage.local.set({
         telemetry: {
           type: "browserLaunch",
           browser: "Firefox Private Browsing",

@@ -47,7 +47,7 @@ export async function populateBrowserList() {
     option.value = browser.name;
     option.text =
       defaultBrowserName === browser.name
-        ? `${browser.name} ${chrome.i18n.getMessage(
+        ? `${browser.name} ${browser.i18n.getMessage(
           "welcomePageDefaultBrowser"
         )}`
         : browser.name;
@@ -72,12 +72,12 @@ export async function populateBrowserList() {
       newBrowserName
     );
     
-    chrome.storage.local.set({
+    browser.storage.local.set({
       currentExternalBrowserLaunchProtocol: executable,
     });
-    chrome.storage.sync.set({ currentExternalBrowser: newBrowserName });
+    browser.storage.sync.set({ currentExternalBrowser: newBrowserName });
 
-    chrome.storage.local.set({
+    browser.storage.local.set({
       telemetry: {
         type: "currentBrowserChange",
         from: oldBrowserName,

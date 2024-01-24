@@ -10,44 +10,44 @@ import { handleBrowserNameChange } from "./contextMenus.js";
  * Initialize the listeners that are shared between Firefox and Chromium.
  */
 export function initSharedListeners() {
-  chrome.runtime.onInstalled.addListener(async () => {
+  browser.runtime.onInstalled.addListener(async () => {
     // await getIsAutoRedirect(); // resolve to true on fresh install
-    chrome.tabs.create({ url: chrome.runtime.getURL("shared/pages/welcomePage/index.html") });
+    browser.tabs.create({ url: browser.runtime.getURL("shared/pages/welcomePage/index.html") });
     await initContextMenu();
     await updateToolbarIcon();
   });
 
-  chrome.contextMenus.onClicked.addListener(async (info, tab) => {
+  browser.contextMenus.onClicked.addListener(async (info, tab) => {
     await handleContextMenuClick(info, tab);
   });
 
-  chrome.commands.onCommand.addListener((command) => {
-    chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+  browser.commands.onCommand.addListener((command) => {
+    browser.tabs.query({ active: true, currentWindow: true }, (tabs) => {
       handleHotkeyPress(command, tabs[0]);
     });
   });
 
-  chrome.tabs.onUpdated.addListener(async (tabId, changeInfo, tab) => {
+  browser.tabs.onUpdated.addListener(async (tabId, changeInfo, tab) => {
     checkAndUpdateURLScheme(tab);
     updateToolbarIcon();
     // updateAddCurrentSiteToMySitesContextMenu();
   });
 
-  chrome.tabs.onCreated.addListener(async (tab) => {
+  browser.tabs.onCreated.addListener(async (tab) => {
     checkAndUpdateURLScheme(tab);
     updateToolbarIcon();
     // updateAddCurrentSiteToMySitesContextMenu();
   });
 
-  chrome.tabs.onActivated.addListener((activeInfo) => {
-    chrome.tabs.get(activeInfo.tabId, (tab) => {
+  browser.tabs.onActivated.addListener((activeInfo) => {
+    browser.tabs.get(activeInfo.tabId, (tab) => {
       checkAndUpdateURLScheme(tab);
       updateToolbarIcon();
       //   updateAddCurrentSiteToMySitesContextMenu();
     });
   });
 
-  chrome.storage.sync.onChanged.addListener(async (changes) => {
+  browser.storage.sync.onChanged.addListener(async (changes) => {
     if (changes.currentExternalBrowser !== undefined) {
       await handleBrowserNameChange();
       await updateToolbarIcon();
@@ -57,7 +57,7 @@ export function initSharedListeners() {
     // }
   });
 
-  //   chrome.webRequest.onBeforeRequest.addListener(
+  //   browser.webRequest.onBeforeRequest.addListener(
   //     async (details) => {
   //       await handleAutoRedirect(details);
   //     },

@@ -11,5 +11,5 @@ export async function updateToolbarIcon() {
   if (!isCurrentTabValidUrlScheme) {
     iconPath = await getGreyedIconPath();
   }
-  chrome.action.setIcon({ path: iconPath });
+  browser.browserAction.setIcon({ path: iconPath });
 }

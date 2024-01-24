@@ -17,8 +17,8 @@ import { getTelemetryEnabled } from "./getters.js";
 export async function initGlean(showLogs = true) {
   Glean.setLogPings(showLogs);
   Glean.initialize("firefox.launch", await getTelemetryEnabled(), {
-    appDisplayVersion: chrome.runtime.getManifest().version,
-    appBuild: chrome.runtime.getManifest().minimum_chrome_version ? "chromium" : "firefox",
+    appDisplayVersion: browser.runtime.getManifest().version,
+    appBuild: browser.runtime.getManifest().minimum_chrome_version ? "chromium" : "firefox",
   });
 }
 
@@ -27,35 +27,35 @@ export async function initGlean(showLogs = true) {
  * listener for messages sent through the storage API.
  */
 export function initTelemetryListeners() {
-  chrome.runtime.onInstalled.addListener(async () => {
+  browser.runtime.onInstalled.addListener(async () => {
     await initGlean();
     installEvent.dateInstalled.set(new Date());
     installEvent.browserType.set(
-      chrome.runtime.getManifest().minimum_chrome_version ? "chromium" : "firefox"
+      browser.runtime.getManifest().minimum_chrome_version ? "chromium" : "firefox"
     );
     install.submit();
   });
 
-  chrome.runtime.onStartup.addListener(async () => {
+  browser.runtime.onStartup.addListener(async () => {
     // 2. browser version (window.navigator.userAgent)
     await initGlean();
     startupEvent.browserType.set(
-      chrome.runtime.getManifest().minimum_chrome_version ? "chromium" : "firefox"
+      browser.runtime.getManifest().minimum_chrome_version ? "chromium" : "firefox"
     );
     startupEvent.dateStarted.set(new Date());
     startupEvent.browserLanguageLocale.set(navigator.language);
-    startupEvent.extensionLanguageLocale.set(chrome.i18n.getUILanguage());
+    startupEvent.extensionLanguageLocale.set(browser.i18n.getUILanguage());
     startupEvent.isPinned.set(
-      (await chrome.action.getUserSettings()).isOnToolbar
+      (await browser.action.getUserSettings()).isOnToolbar
     );
-    const commands = await chrome.commands.getAll();
+    const commands = await browser.commands.getAll();
     for (const command of commands) {
       startupEvent.hotkeys[command.name.toLowerCase()].set(command.shortcut);
     }
     startup.submit();
   });
 
-  chrome.storage.onChanged.addListener((changes) => {
+  browser.storage.onChanged.addListener((changes) => {
     if (changes.telemetry && changes.telemetry.newValue) {
       const telemetry = changes.telemetry.newValue;
       if (telemetry.type === "browserLaunch") {
@@ -73,7 +73,7 @@ export function initTelemetryListeners() {
         settings.submit();
       }
 
-      chrome.storage.local.set({ telemetry: null });
+      browser.storage.local.set({ telemetry: null });
     } else if (changes.telemetryEnabled !== undefined) {
       Glean.setUploadEnabled(changes.telemetryEnabled.newValue);
       console.log(`Telemetry enabled: ${changes.telemetryEnabled.newValue}`);

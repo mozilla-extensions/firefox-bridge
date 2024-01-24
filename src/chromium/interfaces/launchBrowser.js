@@ -10,15 +10,15 @@ import { isCurrentTabValidUrlScheme } from "../../shared/backgroundScripts/valid
  */
 export async function launchBrowser(tab, launchInFirefox = true) {
   if (!(await getIsFirefoxInstalled())) {
-    chrome.tabs.create({ url: "https://www.mozilla.org/firefox/" });
+    browser.tabs.create({ url: "https://www.mozilla.org/firefox/" });
     return false;
   }
 
   if (isCurrentTabValidUrlScheme) {
     if (launchInFirefox) {
-      chrome.tabs.update(tab.id, { url: "firefox:" + tab.url });
+      browser.tabs.update(tab.id, { url: "firefox:" + tab.url });
     } else {
-      chrome.tabs.update(tab.id, { url: "firefox-private:" + tab.url });
+      browser.tabs.update(tab.id, { url: "firefox-private:" + tab.url });
     }
     return true;
   }

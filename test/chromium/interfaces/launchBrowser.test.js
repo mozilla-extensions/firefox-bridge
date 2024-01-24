@@ -12,9 +12,9 @@ describe("chromium/interfaces/launchBrowser.js", () => {
       setIsFirefoxInstalled(false);
       const result = await launchBrowser();
       expect(result).to.be.false;
-      expect(chrome.tabs.create.callCount).to.equal(1);
+      expect(browser.tabs.create.callCount).to.equal(1);
       expect(
-        chrome.tabs.create.calledWith({
+        browser.tabs.create.calledWith({
           url: "https://www.mozilla.org/firefox/",
         })
       ).to.be.true;
@@ -28,9 +28,9 @@ describe("chromium/interfaces/launchBrowser.js", () => {
         true
       );
       expect(result).to.be.true;
-      expect(chrome.tabs.update.callCount).to.equal(1);
+      expect(browser.tabs.update.callCount).to.equal(1);
       expect(
-        chrome.tabs.update.calledWith(1, { url: "firefox:https://mozilla.org" })
+        browser.tabs.update.calledWith(1, { url: "firefox:https://mozilla.org" })
       ).to.be.true;
     });
 
@@ -42,9 +42,9 @@ describe("chromium/interfaces/launchBrowser.js", () => {
         false
       );
       expect(result).to.be.true;
-      expect(chrome.tabs.update.callCount).to.equal(1);
+      expect(browser.tabs.update.callCount).to.equal(1);
       expect(
-        chrome.tabs.update.calledWith(1, {
+        browser.tabs.update.calledWith(1, {
           url: "firefox-private:https://mozilla.org",
         })
       ).to.be.true;
@@ -58,7 +58,7 @@ describe("chromium/interfaces/launchBrowser.js", () => {
         true
       );
       expect(result).to.be.false;
-      expect(chrome.tabs.update.callCount).to.equal(0);
+      expect(browser.tabs.update.callCount).to.equal(0);
     });
   });
 });

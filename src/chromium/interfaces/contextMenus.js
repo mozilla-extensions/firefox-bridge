@@ -12,16 +12,16 @@ export async function applyPlatformContextMenus() {
     externalBrowserName === "Firefox" ? "Firefox Private Browsing" : "Firefox";
 
   // action context menu
-  chrome.contextMenus.create({
+  browser.contextMenus.create({
     id: "changeDefaultLaunchContextMenu",
-    title: chrome.i18n.getMessage("changeDefaultLaunchContextMenu"),
+    title: browser.i18n.getMessage("changeDefaultLaunchContextMenu"),
     contexts: ["action"],
     type: "checkbox",
     checked: !(externalBrowserName === "Firefox"),
   });
-  chrome.contextMenus.create({
+  browser.contextMenus.create({
     id: "alternativeLaunchContextMenu",
-    title: chrome.i18n.getMessage(
+    title: browser.i18n.getMessage(
       "launchInExternalBrowser",
       alternateBrowserName
     ),
@@ -29,34 +29,34 @@ export async function applyPlatformContextMenus() {
   });
 
   // External sites context menu
-  // chrome.contextMenus.create({
+  // browser.contextMenus.create({
   //   id: "separator",
   //   type: "separator",
   //   contexts: ["action"],
   // });
-  // chrome.contextMenus.create({
+  // browser.contextMenus.create({
   //   id: "addCurrentSiteToMySitesContextMenu",
-  //   title: chrome.i18n.getMessage("addCurrentSiteToMySitesContextMenu").replace("[SLD] ", ""),
+  //   title: browser.i18n.getMessage("addCurrentSiteToMySitesContextMenu").replace("[SLD] ", ""),
   //   contexts: ["action"],
   //   enabled: false
   // });
-  // chrome.contextMenus.create({
+  // browser.contextMenus.create({
   //   id: "autoRedirectCheckboxContextMenu",
-  //   title: chrome.i18n.getMessage("autoRedirectCheckboxContextMenu"),
+  //   title: browser.i18n.getMessage("autoRedirectCheckboxContextMenu"),
   //   contexts: ["action"],
   //   type: "checkbox",
   //   checked: await getIsAutoRedirect(),
   // });
-  // chrome.contextMenus.create({
+  // browser.contextMenus.create({
   //   id: "manageExternalSitesContextMenu",
-  //   title: chrome.i18n.getMessage("manageExternalSitesContextMenu"),
+  //   title: browser.i18n.getMessage("manageExternalSitesContextMenu"),
   //   contexts: ["action"],
   // });
 
   // page context menu
-  chrome.contextMenus.create({
+  browser.contextMenus.create({
     id: "launchInExternalBrowserPrivate",
-    title: chrome.i18n.getMessage(
+    title: browser.i18n.getMessage(
       "launchInExternalBrowser",
       "Firefox Private Browsing"
     ),
@@ -64,9 +64,9 @@ export async function applyPlatformContextMenus() {
   });
 
   // link context menu
-  chrome.contextMenus.create({
+  browser.contextMenus.create({
     id: "launchInExternalBrowserPrivateLink",
-    title: chrome.i18n.getMessage(
+    title: browser.i18n.getMessage(
       "launchInExternalBrowserLink",
       "Firefox Private Browsing"
     ),
@@ -81,22 +81,22 @@ export async function applyPlatformContextMenus() {
 export async function handleChangeDefaultLaunchContextMenuClick() {
   const externalBrowserName = await getExternalBrowser();
 
-  chrome.contextMenus.update("changeDefaultLaunchContextMenu", {
+  browser.contextMenus.update("changeDefaultLaunchContextMenu", {
     checked: externalBrowserName === "Firefox",
   });
-  chrome.contextMenus.update("alternativeLaunchContextMenu", {
-    title: chrome.i18n.getMessage(
+  browser.contextMenus.update("alternativeLaunchContextMenu", {
+    title: browser.i18n.getMessage(
       "launchInExternalBrowser",
       externalBrowserName
     ),
   });
 
   if (externalBrowserName === "Firefox") {
-    chrome.storage.sync.set({
+    browser.storage.sync.set({
       currentExternalBrowser: "Firefox Private Browsing",
     });
   } else {
-    chrome.storage.sync.set({ currentExternalBrowser: "Firefox" });
+    browser.storage.sync.set({ currentExternalBrowser: "Firefox" });
   }
   await updateToolbarIcon();
 }
@@ -112,7 +112,7 @@ export async function handlePlatformContextMenuClick(info, tab) {
 
   if (info.menuItemId === "changeDefaultLaunchContextMenu") {
     await handleChangeDefaultLaunchContextMenuClick();
-    chrome.storage.local.set({
+    browser.storage.local.set({
       telemetry: {
         type: "currentBrowserChange",
         from: externalBrowserName,
@@ -132,7 +132,7 @@ export async function handlePlatformContextMenuClick(info, tab) {
         (await getExternalBrowser()) === "Firefox"
           ? "Firefox Private Browsing"
           : "Firefox";
-      chrome.storage.local.set({
+      browser.storage.local.set({
         telemetry: {
           type: "browserLaunch",
           browser: launchedBrowserName,
@@ -144,7 +144,7 @@ export async function handlePlatformContextMenuClick(info, tab) {
   
   else if (info.menuItemId === "launchInExternalBrowserPrivate") {
     if (await launchBrowser(tab, false)) {
-      chrome.storage.local.set({
+      browser.storage.local.set({
         telemetry: {
           type: "browserLaunch",
           browser: "Firefox Private Browsing",
@@ -157,7 +157,7 @@ export async function handlePlatformContextMenuClick(info, tab) {
   else if (info.menuItemId === "launchInExternalBrowserPrivateLink") {
     tab.url = info.linkUrl;
     if (await launchBrowser(tab, false)) {
-      chrome.storage.local.set({
+      browser.storage.local.set({
         telemetry: {
           type: "browserLaunch",
           browser: "Firefox Private Browsing",

@@ -12,8 +12,8 @@ describe("chromium/interfaces/listeners.js", () => {
   describe("initPlatformListeners()", () => {
     it("should add the listeners", () => {
       initPlatformListeners();
-      expect(chrome.runtime.onInstalled.addListener.callCount).to.equal(1);
-      expect(chrome.action.onClicked.addListener.callCount).to.equal(1);
+      expect(browser.runtime.onInstalled.addListener.callCount).to.equal(1);
+      expect(browser.action.onClicked.addListener.callCount).to.equal(1);
     });
   });
 });

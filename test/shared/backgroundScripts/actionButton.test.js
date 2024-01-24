@@ -15,9 +15,9 @@ describe("shared/backgroundScripts/actionButton.js", () => {
     it("should set the toolbar icon to the default icon path", async () => {
       setExternalBrowser("Firefox");
       await updateToolbarIcon();
-      expect(chrome.action.setIcon.callCount).to.equal(1);
+      expect(browser.action.setIcon.callCount).to.equal(1);
       expect(
-        chrome.action.setIcon.calledWith({
+        browser.action.setIcon.calledWith({
           path: await getDefaultIconPath(),
         })
       ).to.be.true;
@@ -27,9 +27,9 @@ describe("shared/backgroundScripts/actionButton.js", () => {
       setExternalBrowser("Firefox");
       setIsCurrentTabValidUrlScheme(false);
       await updateToolbarIcon();
-      expect(chrome.action.setIcon.callCount).to.equal(1);
+      expect(browser.action.setIcon.callCount).to.equal(1);
       expect(
-        chrome.action.setIcon.calledWith({
+        browser.action.setIcon.calledWith({
           path: await getGreyedIconPath(),
         })
       ).to.be.true;

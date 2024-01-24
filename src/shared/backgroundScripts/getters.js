@@ -5,9 +5,9 @@
  */
 export function getExternalBrowser() {
   return new Promise((resolve) => {
-    chrome.storage.sync.get(["currentExternalBrowser"], (result) => {
+    browser.storage.sync.get(["currentExternalBrowser"], (result) => {
       if (!result || result.currentExternalBrowser === undefined) {
-        chrome.storage.sync.set({ currentExternalBrowser: "Firefox" });
+        browser.storage.sync.set({ currentExternalBrowser: "Firefox" });
         resolve("Firefox");
       } else {
         resolve(result.currentExternalBrowser);
@@ -23,9 +23,9 @@ export function getExternalBrowser() {
  */
 export function getTelemetryEnabled() {
   return new Promise((resolve) => {
-    chrome.storage.sync.get(["telemetryEnabled"], (result) => {
+    browser.storage.sync.get(["telemetryEnabled"], (result) => {
       if (result.telemetryEnabled === undefined) {
-        chrome.storage.sync.set({ telemetryEnabled: true });
+        browser.storage.sync.set({ telemetryEnabled: true });
         resolve(true);
       } else {
         resolve(result.telemetryEnabled);
@@ -35,10 +35,10 @@ export function getTelemetryEnabled() {
 }
 // export function getIsAutoRedirect() {
 //   return new Promise((resolve) => {
-//     chrome.storage.local.get(["isAutoRedirect"], (result) => {
+//     browser.storage.local.get(["isAutoRedirect"], (result) => {
 //       if (result.isAutoRedirect === undefined) {
 //         resolve(true);
-//         chrome.storage.local.set({ isAutoRedirect: true });
+//         browser.storage.local.set({ isAutoRedirect: true });
 //       } else {
 //         resolve(result.isAutoRedirect);
 //       }
@@ -48,7 +48,7 @@ export function getTelemetryEnabled() {
 
 // export function getExternalSites() {
 //   return new Promise((resolve) => {
-//     chrome.storage.sync.get(["firefoxSites"], (result) => {
+//     browser.storage.sync.get(["firefoxSites"], (result) => {
 //       if (result.firefoxSites === undefined) {
 //         resolve([]);
 //       } else {
@@ -60,7 +60,7 @@ export function getTelemetryEnabled() {
 
 // export function getCurrentTabSLD() {
 //   return new Promise((resolve) => {
-//     chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+//     browser.tabs.query({ active: true, currentWindow: true }, (tabs) => {
 //       const currentTab = tabs[0];
 //       if (currentTab.url === undefined || !currentTab.url.startsWith("http")) resolve("");
 

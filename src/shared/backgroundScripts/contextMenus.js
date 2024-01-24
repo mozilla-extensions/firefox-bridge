@@ -13,21 +13,21 @@ import {
 export async function initContextMenu() {
   const externalBrowser = await getExternalBrowser();
   // if we're in chromium, ensure we force Firefox as the option, otherwise use the default
-  const defaultLaunchMode = chrome.runtime.getManifest().minimum_chrome_version
+  const defaultLaunchMode = browser.runtime.getManifest().minimum_chrome_version
     ? "Firefox"
     : externalBrowser;
 
   // page context menu
-  chrome.contextMenus.create({
+  browser.contextMenus.create({
     id: "launchInExternalBrowser",
-    title: chrome.i18n.getMessage("launchInExternalBrowser", defaultLaunchMode),
+    title: browser.i18n.getMessage("launchInExternalBrowser", defaultLaunchMode),
     contexts: ["page"],
   });
 
   // link context menu
-  chrome.contextMenus.create({
+  browser.contextMenus.create({
     id: "launchInExternalBrowserLink",
-    title: chrome.i18n.getMessage(
+    title: browser.i18n.getMessage(
       "launchInExternalBrowserLink",
       defaultLaunchMode
     ),
@@ -35,14 +35,14 @@ export async function initContextMenu() {
   });
 
   // action menu welcome page
-  chrome.contextMenus.create({
+  browser.contextMenus.create({
     id: "openWelcomePage",
-    title: chrome.i18n.getMessage("openWelcomePage"),
+    title: browser.i18n.getMessage("openWelcomePage"),
     contexts: ["action"],
   });
 
   //separator
-  chrome.contextMenus.create({
+  browser.contextMenus.create({
     id: "separator",
     type: "separator",
     contexts: ["action"],
@@ -58,15 +58,15 @@ export async function initContextMenu() {
 export async function handleBrowserNameChange() {
   const externalBrowser = await getExternalBrowser();
   // if we're in chromium, ensure we force Firefox as the option, otherwise use the default
-  const defaultLaunchMode = chrome.runtime.getManifest().minimum_chrome_version
+  const defaultLaunchMode = browser.runtime.getManifest().minimum_chrome_version
     ? "Firefox"
     : externalBrowser;
 
-  chrome.contextMenus.update("launchInExternalBrowser", {
-    title: chrome.i18n.getMessage("launchInExternalBrowser", defaultLaunchMode),
+  browser.contextMenus.update("launchInExternalBrowser", {
+    title: browser.i18n.getMessage("launchInExternalBrowser", defaultLaunchMode),
   });
-  chrome.contextMenus.update("launchInExternalBrowserLink", {
-    title: chrome.i18n.getMessage(
+  browser.contextMenus.update("launchInExternalBrowserLink", {
+    title: browser.i18n.getMessage(
       "launchInExternalBrowserLink",
       defaultLaunchMode
     ),
@@ -82,7 +82,7 @@ export async function handleBrowserNameChange() {
 export async function handleContextMenuClick(info, tab) {
   if (info.menuItemId === "launchInExternalBrowser") {
     if (await launchBrowser(tab)) {
-      chrome.storage.local.set({
+      browser.storage.local.set({
         telemetry: {
           type: "browserLaunch",
           browser: await getExternalBrowser(),
@@ -93,7 +93,7 @@ export async function handleContextMenuClick(info, tab) {
   } else if (info.menuItemId === "launchInExternalBrowserLink") {
     tab.url = info.linkUrl;
     if (await launchBrowser(tab)) {
-      chrome.storage.local.set({
+      browser.storage.local.set({
         telemetry: {
           type: "browserLaunch",
           browser: await getExternalBrowser(),
@@ -102,14 +102,14 @@ export async function handleContextMenuClick(info, tab) {
       });
     }
   } else if (info.menuItemId === "openWelcomePage") {
-    chrome.tabs.create({
-      url: chrome.runtime.getURL("shared/pages/welcomePage/index.html"),
+    browser.tabs.create({
+      url: browser.runtime.getURL("shared/pages/welcomePage/index.html"),
     });
   } else {
     await handlePlatformContextMenuClick(info, tab);
   }
   // } else if (info.menuItemId === "manageExternalSitesContextMenu") {
-  //   chrome.tabs.create({
+  //   browser.tabs.create({
   //     url: "pages/myFirefoxSites/index.html",
   //   });
   // } else if (info.menuItemId === "autoRedirectCheckboxContextMenu") {
@@ -125,21 +125,21 @@ export async function handleContextMenuClick(info, tab) {
 //   // If disabling, remove all rules and keep them in storage
 //   // If enabling, add all rules from storage
 //   if (isAutoRedirect) {
-//     chrome.declarativeNetRequest.updateDynamicRules({
-//       removeRuleIds: (await chrome.declarativeNetRequest.getDynamicRules()).map(
+//     browser.declarativeNetRequest.updateDynamicRules({
+//       removeRuleIds: (await browser.declarativeNetRequest.getDynamicRules()).map(
 //         (rule) => rule.id
 //       ),
 //     });
 //   } else {
 //     await refreshDeclarativeNetRequestRules();
 //   }
-//   chrome.storage.local.set({ isAutoRedirect: !isAutoRedirect });
+//   browser.storage.local.set({ isAutoRedirect: !isAutoRedirect });
 // }
 
 // export async function handleAddCurrentSiteToMySitesContextMenuClick() {
 //   const sld = await getCurrentTabSLD();
 //   if (sld === "") return;
-//   chrome.storage.sync.get(["firefoxSites"], (result) => {
+//   browser.storage.sync.get(["firefoxSites"], (result) => {
 //     const entries = result.firefoxSites || [];
 //     // if entries is empty, default to 1 for id. otherwise, increment the id
 //     const newEntry = {
@@ -151,19 +151,19 @@ export async function handleContextMenuClick(info, tab) {
 //     // don't add dupes
 //     if (entries.find((entry) => entry.url === newEntry.url)) return;
 //     entries.push(newEntry);
-//     chrome.storage.sync.set({ firefoxSites: entries });
+//     browser.storage.sync.set({ firefoxSites: entries });
 //   });
 // }
 
 // export async function updateAddCurrentSiteToMySitesContextMenu() {
 //   if (await getCurrentTabSLD() !== "") {
-//     chrome.contextMenus.update("addCurrentSiteToMySitesContextMenu", {
-//       title: chrome.i18n.getMessage("Add_this_site_to_My_Firefox_Sites").replace("[SLD]", await getCurrentTabSLD()),
+//     browser.contextMenus.update("addCurrentSiteToMySitesContextMenu", {
+//       title: browser.i18n.getMessage("Add_this_site_to_My_Firefox_Sites").replace("[SLD]", await getCurrentTabSLD()),
 //       enabled: true
 //     });
 //   } else {
-//     chrome.contextMenus.update("addCurrentSiteToMySitesContextMenu", {
-//       title: chrome.i18n.getMessage("Add_this_site_to_My_Firefox_Sites").replace("[SLD] ", ""),
+//     browser.contextMenus.update("addCurrentSiteToMySitesContextMenu", {
+//       title: browser.i18n.getMessage("Add_this_site_to_My_Firefox_Sites").replace("[SLD] ", ""),
 //       enabled: false
 //     });
 //   }
