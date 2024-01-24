@@ -229,6 +229,7 @@ document.addEventListener("DOMContentLoaded", function() {
   applyLocalization();
   updateTelemetry();
 
+  // hide the error on close
   document.getElementById("close-button").addEventListener("click", () => {
     document.getElementById("error-notification").classList.add("hidden");
   });

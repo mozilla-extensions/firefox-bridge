@@ -83,10 +83,10 @@
     "message": "Shortcuts"
   },
   "welcomePageManageShortcutsFirefox": {
-    "message": "Manage shortcuts for this extension by going to {LinkStart}Extensions{LinkEnd} > click the gear icon > Manage Extension Shortcuts"
+    "message": "Find shortcuts for this extension by going to {LinkStart}Extensions{LinkEnd} > click the gear icon > Manage Extension Shortcuts"
   },
   "welcomePageManageShortcutsChromium": {
-    "message": "Manage shortcuts for this extension by going to {LinkStart}extension settings.{LinkEnd}"
+    "message": "Find shortcuts for this extension by going to {LinkStart}extension settings.{LinkEnd}"
   },
   "welcomePageTryFirefox": {
     "message": "Want to Launch in Firefox? {LinkStart}Try our Chromium extension.{LinkEnd}"

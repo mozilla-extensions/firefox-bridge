@@ -10,8 +10,8 @@ export function getIsFirefoxInstalled() {
     chrome.storage.local.get(["isFirefoxInstalled"], (result) => {
       if (result.isFirefoxInstalled === undefined) {
         // placeholder
-        chrome.storage.local.set({ isFirefoxInstalled: false });
-        resolve(false);
+        chrome.storage.local.set({ isFirefoxInstalled: true });
+        resolve(true);
       } else {
         resolve(result.isFirefoxInstalled);
       }

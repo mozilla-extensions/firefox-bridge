@@ -41,6 +41,13 @@ export async function initContextMenu() {
     contexts: ["action"],
   });
 
+  //separator
+  chrome.contextMenus.create({
+    id: "separator",
+    type: "separator",
+    contexts: ["action"],
+  });
+
   // platform specific menu
   await applyPlatformContextMenus();
 }
