@@ -12,7 +12,7 @@ import { handleBrowserNameChange } from "./contextMenus.js";
 export function initSharedListeners() {
   chrome.runtime.onInstalled.addListener(async () => {
     // await getIsAutoRedirect(); // resolve to true on fresh install
-    chrome.tabs.create({ url: chrome.runtime.getURL("pages/welcomePage/index.html") });
+    chrome.tabs.create({ url: chrome.runtime.getURL("shared/pages/welcomePage/index.html") });
     await initContextMenu();
     await updateToolbarIcon();
   });
@@ -50,7 +50,7 @@ export function initSharedListeners() {
   chrome.storage.sync.onChanged.addListener(async (changes) => {
     if (changes.currentExternalBrowser !== undefined) {
       await handleBrowserNameChange();
-      updateToolbarIcon();
+      await updateToolbarIcon();
     }
     // if (changes.firefoxSites !== undefined && await getIsAutoRedirect()) {
     //   refreshDeclarativeNetRequestRules();

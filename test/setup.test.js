@@ -31,6 +31,9 @@ global.chrome = {
         addListener: sinon.stub(),
       },
     },
+    onChanged: {
+      addListener: sinon.stub(),
+    },
   },
   runtime: {
     id: "test",

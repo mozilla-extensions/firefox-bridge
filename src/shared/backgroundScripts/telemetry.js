@@ -7,14 +7,16 @@ import * as startupEvent from "../generated/startupEvent.js";
 import * as launchEvent from "../generated/launchEvent.js";
 import * as settingEvent from "../generated/settingEvent.js";
 
+import { getTelemetryEnabled } from "./getters.js";
+
 /**
  * Initialize the telemetry system.
  * 
  * @param {boolean} showLogs Whether to show logs in the console.
  */
-export function initGlean(showLogs = true) {
+export async function initGlean(showLogs = true) {
   Glean.setLogPings(showLogs);
-  Glean.initialize("firefox.launch", true, {
+  Glean.initialize("firefox.launch", await getTelemetryEnabled(), {
     appDisplayVersion: chrome.runtime.getManifest().version,
     appBuild: chrome.runtime.getManifest().minimum_chrome_version ? "chromium" : "firefox",
   });
@@ -25,8 +27,8 @@ export function initGlean(showLogs = true) {
  * listener for messages sent through the storage API.
  */
 export function initTelemetryListeners() {
-  chrome.runtime.onInstalled.addListener(() => {
-    initGlean();
+  chrome.runtime.onInstalled.addListener(async () => {
+    await initGlean();
     installEvent.dateInstalled.set(new Date());
     installEvent.browserType.set(
       chrome.runtime.getManifest().minimum_chrome_version ? "chromium" : "firefox"
@@ -36,7 +38,7 @@ export function initTelemetryListeners() {
 
   chrome.runtime.onStartup.addListener(async () => {
     // 2. browser version (window.navigator.userAgent)
-    initGlean();
+    await initGlean();
     startupEvent.browserType.set(
       chrome.runtime.getManifest().minimum_chrome_version ? "chromium" : "firefox"
     );
@@ -53,7 +55,7 @@ export function initTelemetryListeners() {
     startup.submit();
   });
 
-  chrome.storage.local.onChanged.addListener((changes) => {
+  chrome.storage.onChanged.addListener((changes) => {
     if (changes.telemetry && changes.telemetry.newValue) {
       const telemetry = changes.telemetry.newValue;
       if (telemetry.type === "browserLaunch") {
@@ -67,12 +69,14 @@ export function initTelemetryListeners() {
       if (telemetry.type === "currentBrowserChange") {
         settingEvent.currentBrowser["from"].set(telemetry.from);
         settingEvent.currentBrowser["to"].set(telemetry.to);
+        settingEvent.currentBrowser["source"].set(telemetry.source);
         settings.submit();
       }
 
       chrome.storage.local.set({ telemetry: null });
+    } else if (changes.telemetryEnabled !== undefined) {
+      Glean.setUploadEnabled(changes.telemetryEnabled.newValue);
+      console.log(`Telemetry enabled: ${changes.telemetryEnabled.newValue}`);
     }
-
-    // welcomePageOpened
   });
 }

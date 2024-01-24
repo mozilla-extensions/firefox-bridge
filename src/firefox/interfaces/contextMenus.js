@@ -2,17 +2,6 @@
  * Initialize the context menus specific to the Firefox Extension.
  */
 export async function applyPlatformContextMenus() {
-  chrome.contextMenus.create({
-    id: "separator",
-    type: "separator",
-    contexts: ["action"],
-  });
-  chrome.contextMenus.create({
-    id: "openWelcomePage",
-    title: chrome.i18n.getMessage("openWelcomePage"),
-    contexts: ["action"],
-  });
-
   // External sites context menu
   // chrome.contextMenus.create({
   //   id: "separator",
@@ -49,7 +38,7 @@ export async function handlePlatformContextMenuClick(info) {
     info.menuItemId === "openWelcomePage"
   ) {
     chrome.tabs.create({
-      url: chrome.runtime.getURL("pages/welcomePage/index.html"),
+      url: chrome.runtime.getURL("shared/pages/welcomePage/index.html"),
     });
   }
 }

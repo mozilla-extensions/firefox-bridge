@@ -14,7 +14,7 @@ export async function launchBrowser(tab) {
       browser.experiments.firefox_launch.launchApp(launchProtocol, [tab.url]);
       return true;
     } else {
-      chrome.tabs.create({ url: chrome.runtime.getURL("pages/welcomePage/index.html") });
+      chrome.tabs.create({ url: chrome.runtime.getURL("shared/pages/welcomePage/index.html") });
     }
   }
   return false;

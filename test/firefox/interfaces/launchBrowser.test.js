@@ -19,7 +19,7 @@ describe("firefox/interfaces/launchBrowser.js", () => {
       expect(chrome.tabs.create.callCount).to.equal(1);
       expect(
         chrome.tabs.create.calledWith({
-          url: chrome.runtime.getURL("pages/welcomePage/index.html"),
+          url: chrome.runtime.getURL("shared/pages/welcomePage/index.html"),
         })
       ).to.be.true;
     });

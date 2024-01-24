@@ -9,7 +9,7 @@ describe("shared/backgroundScripts/telemetry.js", () => {
       initTelemetryListeners();
       expect(chrome.runtime.onInstalled.addListener.callCount).to.equal(1);
       expect(chrome.runtime.onStartup.addListener.callCount).to.equal(1);
-      expect(chrome.storage.local.onChanged.addListener.callCount).to.equal(1);
+      expect(chrome.storage.onChanged.addListener.callCount).to.equal(1);
     });
   });
 });

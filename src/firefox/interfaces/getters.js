@@ -51,3 +51,7 @@ export function getExternalBrowserLaunchProtocol() {
     );
   });
 }
+
+export function getIsFirefoxInstalled() {
+  
+}

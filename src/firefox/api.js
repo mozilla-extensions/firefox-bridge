@@ -66,11 +66,11 @@ this.experiments_firefox_launch = class extends ExtensionAPI {
                 app.executable.parent.leafName !== "Application"
                   ? app.executable.parent.leafName
                   : app.executable.parent.parent.leafName;
-              
+
               if (!browserNamesWin.includes(appname)) {
                 continue;
               }
-              
+
               let appData = {
                 icon: iconString,
                 name: appname,
@@ -111,12 +111,12 @@ this.experiments_firefox_launch = class extends ExtensionAPI {
 
           async getAvailableBrowsers() {
             if (AppConstants.platform == "win") {
-              return {browsers: this._getAvailableBrowsersWin(), logs: logs};
+              return { browsers: this._getAvailableBrowsersWin(), logs: logs };
             } else if (AppConstants.platform == "macosx") {
-              return {browsers: this._getAvailableBrowsersMac(), logs: logs};
+              return { browsers: this._getAvailableBrowsersMac(), logs: logs };
             } else {
               logs.push("Unsupported platform: " + AppConstants.platform);
-              return {browsers: null, logs: logs};
+              return { browsers: null, logs: logs };
             }
           },
 
@@ -132,9 +132,17 @@ this.experiments_firefox_launch = class extends ExtensionAPI {
             ].getService(Ci.nsIExternalProtocolService);
             let handlerInfo = extProtocolSvc.getProtocolHandlerInfo(https);
             if (!handlerInfo.hasDefaultHandler) {
-              return null;
+              logs.push("No default handler");
+              return { name: null, logs: logs };
             }
-            return handlerInfo.defaultDescription;
+            if (
+              !browserNamesMac.includes(handlerInfo.defaultDescription) &&
+              !browserNamesWin.includes(handlerInfo.defaultDescription)
+            ) {
+              logs.push("Default handler not supported");
+              return { name: null, logs: logs };
+            }
+            return { name: handlerInfo.defaultDescription, logs: logs };
           },
 
           _launchAppWin(appExecutable, handlerArgs) {

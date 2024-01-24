@@ -1,6 +1,5 @@
 {
   "manifest_version": 3,
-  "homepage_url": "https://manifest.firefoxlaunchredirect.com",
   "minimum_chrome_version": "92",
   "name": "Firefox Launch",
   "description": "If Firefox is not your primary browser, use this extension to launch websites to your primary browser from Firefox, either automatically or when you choose. Designed to be a companion for the Firefox Launch extension available for Chromium browsers.",
@@ -50,14 +49,5 @@
       "description": "Launch Firefox Private Browsing"
     }
   },
-  "default_locale": "en",
-  "declarative_net_request": {
-    "rule_resources": [
-      {
-        "id": "homepage",
-        "enabled": true,
-        "path": "shared/rules.json"
-      }
-    ]
-  }
+  "default_locale": "en"
 }

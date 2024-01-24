@@ -25,6 +25,13 @@ describe("shared/backgroundScripts/contextMenus.js", () => {
           contexts: ["link"],
         })
       ).to.be.true;
+      expect(
+        chrome.contextMenus.create.calledWith({
+          id: "openWelcomePage",
+          title: getLocaleMessage("openWelcomePage"),
+          contexts: ["action"],
+        })
+      ).to.be.true;
     });
   });
 });
