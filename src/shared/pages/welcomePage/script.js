@@ -97,7 +97,7 @@ export async function checkFirefoxHotkeys() {
       await getExternalBrowser(),
     ]);
   } else {
-    replaceMessage(p, "welcomePageNoShortcutsFirefox", "about:addons");
+    replaceMessage(p, "welcomePageNoShortcutsFirefox", "addons://shortcuts/shortcuts");
 
     // remove the manage shortcuts text
     const manageShortcutsText = document.querySelector(

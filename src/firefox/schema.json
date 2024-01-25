@@ -38,6 +38,19 @@
             }
           }
         ]
+      },
+      {
+        "name": "openPrivilegedUrl",
+        "type": "function",
+        "async": false,
+        "description": "Opens a privileged URL in the browser",
+        "parameters": [
+          {
+            "name": "url",
+            "type": "string",
+            "description": "The URL to open"
+          }
+        ]
       }
     ]
   }

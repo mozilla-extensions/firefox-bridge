@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
   "minimum_chrome_version": "92",
-  "name": "Firefox Launch",
-  "description": "If Firefox is not your primary browser, use this extension to launch websites to your primary browser from Firefox, either automatically or when you choose. Designed to be a companion for the Firefox Launch extension available for Chromium browsers.",
+  "name": "Launch in Firefox",
+  "description": "Easily switch from Chrome to Firefox when you want to use Firefox's extra privacy features.",
   "version": "0.1",
   "icons": {
     "16": "images/firefox/firefox16.png",
@@ -40,13 +40,13 @@
       "suggested_key": {
         "default": "Ctrl+Shift+F"
       },
-      "description": "Launch Firefox"
+      "description": "Open Site in Firefox"
     },
     "launchFirefoxPrivate": {
       "suggested_key": {
         "default": "Ctrl+Shift+P"
       },
-      "description": "Launch Firefox Private Browsing"
+      "description": "Open Site in Firefox Private Window"
     }
   },
   "default_locale": "en"

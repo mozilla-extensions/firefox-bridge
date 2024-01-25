@@ -91,18 +91,49 @@ export async function populateBrowserList() {
   });
 
   // Now select the proper browser.
-  // if there is no current browser set, select the default browser in the list. Otherwise, select the first browser in the list.
-  // otherwise select the current browser. If there are no browsers in the list, remove the browser-list element and display a message.
+
+  // In order of priority:
+  // Select the current browser.
+  // Select the default browser.
+  // Select Safari on Mac and Edge on Windows.
+  // Select the first browser in the list.
+  // If there are no browsers, remove the list and display a message.
+  const platform = (await browser.runtime.getPlatformInfo()).os;
   const currentBrowser = await getExternalBrowser();
-  if (currentBrowser) {
+
+  if (currentBrowser !== "Firefox") {
     browserList.value = currentBrowser;
-  } else if (defaultBrowserName) {
+  } 
+  
+  else if (defaultBrowserName) {
     browserList.value = defaultBrowserName;
     browserList.dispatchEvent(new Event("change"));
-  } else if (browsers.length > 0) {
+  } 
+  
+  else if (platform === "mac") {
+    const safari = browsers.find(
+      (localBrowser) => localBrowser.name === "Safari"
+    );
+    if (safari) {
+      browserList.value = safari.name;
+      browserList.dispatchEvent(new Event("change"));
+    }
+  } 
+  
+  else if (platform === "win") {
+    const edge = browsers.find((localBrowser) => localBrowser.name === "Edge");
+    if (edge) {
+      browserList.value = edge.name;
+      browserList.dispatchEvent(new Event("change"));
+    }
+  } 
+  
+  else if (browsers.length > 0) {
     browserList.value = browsers[0].name;
     browserList.dispatchEvent(new Event("change"));
-  } else {
+  } 
+  
+  else {
     browserList.remove();
     document.getElementById("browser-list-message").innerText =
       "No browsers found.";

@@ -20,7 +20,10 @@ export async function initContextMenu() {
   // page context menu
   browser.contextMenus.create({
     id: "launchInExternalBrowser",
-    title: browser.i18n.getMessage("launchInExternalBrowser", defaultLaunchMode),
+    title: browser.i18n.getMessage(
+      "launchInExternalBrowser",
+      defaultLaunchMode
+    ),
     contexts: ["page"],
   });
 
@@ -34,22 +37,30 @@ export async function initContextMenu() {
     contexts: ["link"],
   });
 
-  // action menu welcome page
-  browser.contextMenus.create({
-    id: "openWelcomePage",
-    title: browser.i18n.getMessage("openWelcomePage"),
-    contexts: ["action"],
-  });
-
+  const action = browser.action ? "action" : "browser_action"; // mv2 vs mv3
   //separator
   browser.contextMenus.create({
     id: "separator",
     type: "separator",
-    contexts: ["action"],
+    contexts: [action],
   });
 
   // platform specific menu
   await applyPlatformContextMenus();
+
+  //separator
+  browser.contextMenus.create({
+    id: "separator2",
+    type: "separator",
+    contexts: [action],
+  });
+
+  // action menu welcome page
+  browser.contextMenus.create({
+    id: "openWelcomePage",
+    title: browser.i18n.getMessage("openWelcomePage"),
+    contexts: [action],
+  });
 }
 
 /**
@@ -63,7 +74,10 @@ export async function handleBrowserNameChange() {
     : externalBrowser;
 
   browser.contextMenus.update("launchInExternalBrowser", {
-    title: browser.i18n.getMessage("launchInExternalBrowser", defaultLaunchMode),
+    title: browser.i18n.getMessage(
+      "launchInExternalBrowser",
+      defaultLaunchMode
+    ),
   });
   browser.contextMenus.update("launchInExternalBrowserLink", {
     title: browser.i18n.getMessage(

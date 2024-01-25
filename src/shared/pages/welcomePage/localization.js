@@ -5,22 +5,25 @@ export function replaceMessage(element, l10nID, href) {
   if (!message) {
     return false;
   }
-    
+
   message = message.replace("{LinkStart}", `<a id="${l10nID}Link" href="">`);
   message = message.replace("{LinkEnd}", "</a>");
 
   // eslint-disable-next-line no-unsanitized/property
   element.innerHTML = message;
 
-
   // add a listener to the link if required
   if (href) {
     const link = document.getElementById(`${l10nID}Link`);
     link.addEventListener("click", (event) => {
       event.preventDefault();
-      browser.tabs.create({
-        url: href,
-      });
+      if (href.startsWith("addons://")) {
+        browser.experiments.firefox_launch.openPrivilegedUrl(href);
+      } else {
+        browser.tabs.create({
+          url: href,
+        });
+      }
     });
   }
 
@@ -41,32 +44,31 @@ export function replaceDataLocale(id, href, platform = "") {
   if (!element) {
     return false;
   }
-  
+
   return replaceMessage(element, `${id}${platform}`, href);
 }
-  
+
 /**
-   * Apply localization to the page.
-   */
+ * Apply localization to the page.
+ */
 export function applyLocalization() {
-  // get all elements with data-locale attribute
   const elements = document.querySelectorAll("[data-locale]");
   const hrefMapping = {
     welcomePageManageShortcutsChromium: "chrome://extensions/shortcuts",
-    welcomePageManageShortcutsFirefox: "about:addons",
+    welcomePageManageShortcutsFirefox: "addons://shortcuts/shortcuts",
     welcomePageErrorChromium: "https://www.mozilla.org/en-CA/firefox/new/",
     privacyNoticeLink: "",
   };
-  
+
   // attempt to replace each element
   elements.forEach((element) => {
     const localeId = element.getAttribute("data-locale");
-  
+
     // attempt to replace the element with the localized string
     if (replaceDataLocale(localeId, hrefMapping[localeId])) {
       return;
     }
-  
+
     // attempt to replace platform specific elements
     if (isChromium) {
       const platform = "Chromium";
