@@ -134,7 +134,6 @@ export async function populateBrowserList() {
   } 
   
   else {
-    console.log("No browsers found.");
     browserList.remove();
     document.getElementById("browser-list-message").innerText =
       "No browsers found.";

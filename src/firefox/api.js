@@ -182,6 +182,11 @@ this.experiments_firefox_launch = class extends ExtensionAPI {
               return;
             }
           },
+
+          openPrivilegedUrl(url) {
+            let win = Services.wm.getMostRecentWindow("navigator:browser");
+            win.BrowserOpenAddonsMgr(url);
+          }
         },
       },
     };

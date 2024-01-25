@@ -63,7 +63,7 @@
     "message": "Allow Mozilla to collect information about how you use this extension so we can make it better. {LinkStart}Privacy Notice{LinkEnd}"
   },
   "welcomePageNoShortcutsFirefox": {
-    "message": "You don't have any shortcuts set up for this extension. Create them by going to {LinkStart}Extensions{LinkEnd} > click the gear icon > Manage Extension Shortcuts"
+    "message": "You don't have any shortcuts set up for this extension. Create them by going to {LinkStart}extension settings.{LinkEnd}"
   },
   "welcomePageNoShortcutsChromium": {
     "message": "You don't have any shortcuts set up for this extension. Create them by going to {LinkStart}extension settings.{LinkEnd}"
@@ -83,7 +83,7 @@
     "message": "Shortcuts"
   },
   "welcomePageManageShortcutsFirefox": {
-    "message": "Find shortcuts for this extension by going to {LinkStart}Extensions{LinkEnd} > click the gear icon > Manage Extension Shortcuts"
+    "message": "Find shortcuts for this extension by going to {LinkStart}extension settings.{LinkEnd}"
   },
   "welcomePageManageShortcutsChromium": {
     "message": "Find shortcuts for this extension by going to {LinkStart}extension settings.{LinkEnd}"
