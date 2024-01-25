@@ -42,3 +42,6 @@ export async function handlePlatformContextMenuClick(info) {
     });
   }
 }
+
+// Here we mock the functions that are not implemented in Firefox.
+export const handleChangeDefaultLaunchContextMenuClick = {};

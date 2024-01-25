@@ -11,8 +11,8 @@
     "test": "npm run build && c8 mocha test/**/*.test.js",
     "lint": "eslint src test",
     "coverage": "c8 report --reporter=lcov --reporter=text",
-    "zip:firefox": "web-ext build --source-dir build/firefox --artifacts-dir dist --overwrite-dest --filename=firefox.zip --ignore-files=interfaces shared/backgroundScripts shared/pages/welcomePage/script.js browser-polyfill.js",
-    "zip:chromium": "web-ext build --source-dir build/chromium --artifacts-dir dist --overwrite-dest --filename=chromium.zip --ignore-files=interfaces shared/backgroundScripts shared/pages/welcomePage/script.js browser-polyfill.js",
+    "zip:firefox": "web-ext build --source-dir build/firefox --artifacts-dir dist --overwrite-dest --filename=firefox.zip --ignore-files=interfaces shared/backgroundScripts shared/pages/welcomePage/script.js shared/pages/welcomePage/browserList.js shared/pages/welcomePage/localization.js browser-polyfill.js",
+    "zip:chromium": "web-ext build --source-dir build/chromium --artifacts-dir dist --overwrite-dest --filename=chromium.zip --ignore-files=interfaces shared/backgroundScripts shared/pages/welcomePage/script.js shared/pages/welcomePage/browserList.js shared/pages/welcomePage/localization.js browser-polyfill.js",
     "build": "npm run build:glean && node build.js && webpack --config webpack.config.mjs && npm run zip:firefox && npm run zip:chromium",
     "build:glean": "glean translate metrics.yaml pings.yaml -f javascript -o src/shared/generated"
   },

@@ -1,4 +1,4 @@
-import * as browserObject from "../../../browser-polyfill.js";
+import * as _ from "../../../browser-polyfill.js";
 
 import {
   getExternalBrowser,
@@ -8,6 +8,7 @@ import {
 import { applyLocalization, replaceMessage } from "./localization.js";
 import { populateBrowserList } from "./browserList.js";
 import { getIsFirefoxInstalled } from "../../../chromium/interfaces/getters.js";
+import { handleChangeDefaultLaunchContextMenuClick } from "../../../chromium/interfaces/contextMenus.js";
 
 const isChromium = browser.runtime.getManifest().minimum_chrome_version;
 
@@ -28,18 +29,14 @@ export async function checkPrivateBrowsing() {
 
   // On change, update the default launch mode
   alwaysPrivateCheckbox.addEventListener("change", async () => {
-    let from;
-    let to;
-    if (alwaysPrivateCheckbox.checked) {
-      from = "Firefox";
-      to = "Firefox Private Browsing";
-      browser.storage.sync.set({
-        currentExternalBrowser: "Firefox Private Browsing",
-      });
+    let from = await getExternalBrowser();
+    await handleChangeDefaultLaunchContextMenuClick();
+    let to = await getExternalBrowser();
+
+    if (to === "Firefox Private Browsing") {
+      alwaysPrivateCheckbox.checked = true;
     } else {
-      from = "Firefox Private Browsing";
-      to = "Firefox";
-      browser.storage.sync.set({ currentExternalBrowser: "Firefox" });
+      alwaysPrivateCheckbox.checked = false;
     }
 
     browser.storage.local.set({
