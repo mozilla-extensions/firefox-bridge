@@ -52,10 +52,12 @@ Since the Firefox and Chromium extension has a lot of shared logic, but also ind
 
 - The `src` folder contains the `shared`, `_locales`, `firefox`, and `chromium` folders. 
 - The `chromium` and `firefox` folders contain an `interfaces` folder that contains the interfaces for the shared logic.
-- The import statements within the `shared` folder will always point to the code in the `chromium/interfaces` folder.
+- The import statements within the `shared` folder will always point to the code in the `chromium/interfaces` folder. This is to simplify development within the IDE.
 - During the build process in `build.js`, the `interfaces` imports will point to the correct folder depending on the browser.
 - Webpack is used for Glean telemetry, so `build/<browser>/background.bundle.js` is the entry point for the background script. The files not required anymore are removed in the `dist` zipped extension. Otherwise, they are used for testing in the `build` folder.
 
 ### Experimental APIs
 
 In Firefox, we use experimental APIs to fetch which browsers are installed on the users computer as well as launch the browser without relying on the protocol handler. To learn more about the APIs, see the [Experiments Documentation](https://webextension-api.thunderbird.net/en/latest/how-to/experiments.html).
+
+Due to the privileged-ness of the Firefox extension, we must use manifest V2, hence the lack of callbacks and `browser.browserAction` vs `browser.action`.
