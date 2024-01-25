@@ -8,6 +8,7 @@ import { getExternalBrowser } from "./getters.js";
  * @param {*} tab The tab object to launch the browser with.
  */
 export async function handleHotkeyPress(command, tab) {
+  console.log("hotkey pressed");
   if (command === "launchBrowser") {
     if (await launchBrowser(tab, true)){
       browser.storage.local.set({

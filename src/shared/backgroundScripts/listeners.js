@@ -23,10 +23,12 @@ export function initSharedListeners() {
     await handleContextMenuClick(info, tab);
   });
 
-  browser.commands.onCommand.addListener((command) => {
-    browser.tabs.query({ active: true, currentWindow: true }, (tabs) => {
-      handleHotkeyPress(command, tabs[0]);
+  browser.commands.onCommand.addListener(async (command) => {
+    const tabs = await browser.tabs.query({
+      active: true,
+      currentWindow: true,
     });
+    handleHotkeyPress(command, tabs[0]);
   });
 
   browser.tabs.onUpdated.addListener(async (tabId, changeInfo, tab) => {
