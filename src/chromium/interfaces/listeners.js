@@ -6,14 +6,14 @@ import { getExternalBrowser } from "../../shared/backgroundScripts/getters.js";
  * Initialize the chromium specific listeners.
  */
 export function initPlatformListeners() {
-  chrome.action.onClicked.addListener(async (tab) => {
+  browser.action.onClicked.addListener(async (tab) => {
     const browserName = await getExternalBrowser();
     const success = launchBrowser(
       tab,
       browserName === "Firefox"
     );
     if (success) {
-      chrome.storage.local.set({
+      browser.storage.local.set({
         telemetry: {
           type: "browserLaunch",
           browser: await getExternalBrowser(),
@@ -23,8 +23,8 @@ export function initPlatformListeners() {
     }
   });
 
-  chrome.runtime.onInstalled.addListener(async () => {
+  browser.runtime.onInstalled.addListener(async () => {
     await getIsFirefoxInstalled();
-    chrome.storage.sync.set({ currentExternalBrowser: "Firefox" });
+    browser.storage.sync.set({ currentExternalBrowser: "Firefox" });
   });
 }

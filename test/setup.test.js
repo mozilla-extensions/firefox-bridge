@@ -52,6 +52,12 @@ global.chrome = {
       addListener: sinon.stub(),
     },
   },
+  browserAction: {
+    setIcon: sinon.stub(),
+    onClicked: {
+      addListener: sinon.stub(),
+    },
+  },
   tabs: {
     onUpdated: {
       addListener: sinon.stub(),
@@ -102,67 +108,51 @@ const locales = await import("../src/_locales/en/messages.json", {
   assert: { type: "json" },
 });
 
-// Many getters and setters to mimic storage and currnet tab url
-export const setIsFirefoxDefault = (isFirefoxDefault) => {
-  global.chrome.storage.sync.get.callsFake((key, callback) => {
-    callback({ isFirefoxDefault });
+export const setSyncStorage = (key, keyValue) => {
+  global.browser.storage.sync.get.callsFake((_) => {
+    return { [key]: keyValue };
   });
 };
 
-export const setIsFirefoxInstalled = (isFirefoxInstalled) => {
-  global.chrome.storage.local.get.callsFake((key, callback) => {
-    callback({ isFirefoxInstalled });
+export const setLocalStorage = (key, keyValue) => {
+  global.browser.storage.local.get.callsFake((_) => {
+    return { [key]: keyValue };
   });
+};
+
+export const setStorage = (key, keyValue, storageLocation) => {
+  if (storageLocation === "sync") {
+    setSyncStorage(key, keyValue);
+  } else if (storageLocation === "local") {
+    setLocalStorage(key, keyValue);
+  } else {
+    setSyncStorage(key, keyValue);
+    setLocalStorage(key, keyValue);
+  }
 };
 
 export const setExtensionIsChromium = (isChromium) => {
-  global.chrome.runtime.getManifest.callsFake(() => {
+  global.browser.runtime.getManifest.callsFake(() => {
     if (isChromium) {
       return { minimum_chrome_version: 3 };
     } else {
       return {};
     }
   });
-}
-
-export const setIsAutoRedirect = (isAutoRedirect) => {
-  global.chrome.storage.local.get.callsFake((key, callback) => {
-    callback({ isAutoRedirect });
-  });
-};
-
-export const setExternalSites = (firefoxSites) => {
-  global.chrome.storage.sync.get.callsFake((key, callback) => {
-    callback({ firefoxSites });
-  });
 };
 
 export const setCurrentTabURL = (currentTabURL) => {
-  global.chrome.tabs.query.callsFake((queryInfo, callback) => {
-    callback([
+  global.browser.tabs.query.callsFake((queryInfo) => {
+    return [
       {
         url: currentTabURL,
       },
-    ]);
+    ];
   });
 };
 
 export const getIsCurrentTabValidUrlScheme = () => {
   return isCurrentTabValidUrlScheme;
-};
-
-export const setExternalBrowser = (currentExternalBrowser) => {
-  global.chrome.storage.sync.get.callsFake((key, callback) => {
-    callback({ currentExternalBrowser });
-  });
-};
-
-export const setExternalBrowserLaunchProtocol = (
-  currentExternalBrowserLaunchProtocol
-) => {
-  global.chrome.storage.local.get.callsFake((key, callback) => {
-    callback({ currentExternalBrowserLaunchProtocol });
-  });
 };
 
 export const getLocaleMessage = (key) => {
@@ -182,8 +172,8 @@ function resetStubs(obj) {
 
 beforeEach(async () => {
   await testResetGlean("firefox-launch");
-  setIsFirefoxInstalled(true);
-  global.chrome.i18n.getMessage.callsFake((key) => {
+  setStorage("isFirefoxInstalled", true);
+  global.browser.i18n.getMessage.callsFake((key) => {
     return getLocaleMessage(key);
   });
 });

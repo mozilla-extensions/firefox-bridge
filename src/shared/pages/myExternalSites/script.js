@@ -64,7 +64,7 @@ function saveEntry() {
 
   if (validateEntry(entry)) {
     entries.push(entry);
-    chrome.storage.sync.set({ firefoxSites: entries }, function() {
+    browser.storage.sync.set({ firefoxSites: entries }, function() {
       renderEntries();
     });
     urlInput.value = "";
@@ -76,7 +76,7 @@ function saveEntry() {
 
 function deleteEntry(entryToDelete) {
   entries = entries.filter((entry) => entry.id !== entryToDelete.id);
-  chrome.storage.sync.set({ firefoxSites: entries }, function() {
+  browser.storage.sync.set({ firefoxSites: entries }, function() {
     renderEntries();
     return true;
   });
@@ -96,14 +96,14 @@ function updateEntry(entryToUpdate) {
   }
 
   removeErrorFromEntry(entryToUpdate.id);
-  chrome.storage.sync.set({ firefoxSites: entries }, function() {
+  browser.storage.sync.set({ firefoxSites: entries }, function() {
     renderEntries();
     return true;
   });
 }
 
 function fetchAndRenderEntries() {
-  chrome.storage.sync.get("firefoxSites", function(data) {
+  browser.storage.sync.get("firefoxSites", function(data) {
     entries = data.firefoxSites || [];
     renderEntries();
   });

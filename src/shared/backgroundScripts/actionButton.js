@@ -11,5 +11,11 @@ export async function updateToolbarIcon() {
   if (!isCurrentTabValidUrlScheme) {
     iconPath = await getGreyedIconPath();
   }
-  chrome.action.setIcon({ path: iconPath });
+
+  // Here for firefox mv2 vs chrome mv3 compatibility
+  if (browser.browserAction) {
+    browser.browserAction.setIcon({ path: iconPath });
+  } else {
+    browser.action.setIcon({ path: iconPath });
+  }
 }

@@ -6,11 +6,11 @@ import {
   handlePlatformContextMenuClick,
 } from "../../../build/firefox/interfaces/contextMenus.js";
 
-import { setExternalBrowser } from "../../setup.test.js";
+import { setStorage } from "../../setup.test.js";
 
 describe("firefox/interfaces/contextMenus.js", () => {
   beforeEach(() => {
-    setExternalBrowser("Firefox");
+    setStorage("currentExternalBrowser", "Firefox");
   });
   describe("applyPlatformContextMenus()", () => {
   });
@@ -20,9 +20,9 @@ describe("firefox/interfaces/contextMenus.js", () => {
       await handlePlatformContextMenuClick({
         menuItemId: "openWelcomePage",
       });
-      expect(chrome.tabs.create.callCount).to.equal(1);
+      expect(browser.tabs.create.callCount).to.equal(1);
       expect(
-        chrome.runtime.getURL.calledWith("shared/pages/welcomePage/index.html")
+        browser.runtime.getURL.calledWith("shared/pages/welcomePage/index.html")
       ).to.be.true;
     });
   });

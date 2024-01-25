@@ -1,3 +1,5 @@
+import * as browserObject from "../../../browser-polyfill.js";
+
 import {
   getExternalBrowser,
   getTelemetryEnabled,
@@ -7,7 +9,7 @@ import { applyLocalization, replaceMessage } from "./localization.js";
 import { populateBrowserList } from "./browserList.js";
 import { getIsFirefoxInstalled } from "../../../chromium/interfaces/getters.js";
 
-const isChromium = chrome.runtime.getManifest().minimum_chrome_version;
+const isChromium = browser.runtime.getManifest().minimum_chrome_version;
 
 /**
  * Check the private browsing checkbox if the current external browser is
@@ -31,16 +33,16 @@ export async function checkPrivateBrowsing() {
     if (alwaysPrivateCheckbox.checked) {
       from = "Firefox";
       to = "Firefox Private Browsing";
-      chrome.storage.sync.set({
+      browser.storage.sync.set({
         currentExternalBrowser: "Firefox Private Browsing",
       });
     } else {
       from = "Firefox Private Browsing";
       to = "Firefox";
-      chrome.storage.sync.set({ currentExternalBrowser: "Firefox" });
+      browser.storage.sync.set({ currentExternalBrowser: "Firefox" });
     }
 
-    chrome.storage.local.set({
+    browser.storage.local.set({
       telemetry: {
         type: "currentBrowserChange",
         from,
@@ -57,14 +59,14 @@ export async function checkPrivateBrowsing() {
 export async function updateTelemetry() {
   // check storage to see if telemetry is enabled/disabled. If neither, set to true.
   const telemetryEnabled = await getTelemetryEnabled();
-  chrome.storage.sync.set({ telemetryEnabled });
+  browser.storage.sync.set({ telemetryEnabled });
   document.getElementById("telemetry-checkbox").checked = telemetryEnabled;
 
   document
     .getElementById("telemetry-checkbox")
     .addEventListener("change", async () => {
       const telemetryEnabled = await getTelemetryEnabled();
-      chrome.storage.sync.set({ telemetryEnabled: !telemetryEnabled });
+      browser.storage.sync.set({ telemetryEnabled: !telemetryEnabled });
     });
 }
 
@@ -74,7 +76,7 @@ export async function updateTelemetry() {
  */
 export async function checkFirefoxHotkeys() {
   // get hotkeys with id launchBrowser
-  const hotkeys = await chrome.commands.getAll();
+  const hotkeys = await browser.commands.getAll();
   const launchBrowser = hotkeys.find(
     (hotkey) => hotkey.name === "launchBrowser"
   );
@@ -87,13 +89,13 @@ export async function checkFirefoxHotkeys() {
     let launchBrowserHotkey = launchBrowser.shortcut;
 
     // convert Ctrl to Cmd on Mac and command to cmd on Mac
-    if ((await chrome.runtime.getPlatformInfo()).os === "mac") {
+    if ((await browser.runtime.getPlatformInfo()).os === "mac") {
       launchBrowserHotkey = launchBrowserHotkey.replace("Ctrl", "CMD");
       launchBrowserHotkey = launchBrowserHotkey.replace("Command", "CMD");
     }
 
     p.id = "launch-browser-shortcut";
-    p.innerText = chrome.i18n.getMessage("welcomePageYesShortcutTo", [
+    p.innerText = browser.i18n.getMessage("welcomePageYesShortcutTo", [
       launchBrowserHotkey.toUpperCase(),
       await getExternalBrowser(),
     ]);
@@ -115,7 +117,7 @@ export async function checkFirefoxHotkeys() {
  * Also add a link to the chromium shortcuts page.
  */
 export async function checkChromiumHotkeys() {
-  const hotkeys = await chrome.commands.getAll();
+  const hotkeys = await browser.commands.getAll();
   const launchBrowser = hotkeys.find(
     (hotkey) => hotkey.name === "launchBrowser"
   );
@@ -149,13 +151,13 @@ export async function checkChromiumHotkeys() {
   if (launchBrowser.shortcut) {
     const launchBrowserHotkey = launchBrowser.shortcut;
     span.innerText =
-      chrome.i18n.getMessage("welcomePageYesShortcutTo", [
+      browser.i18n.getMessage("welcomePageYesShortcutTo", [
         launchBrowserHotkey.toUpperCase(),
         await getExternalBrowser(),
       ]) + "\n";
   } else {
     span.innerText =
-      chrome.i18n.getMessage("welcomePageNoShortcutTo", ["Firefox"]) + "\n";
+      browser.i18n.getMessage("welcomePageNoShortcutTo", ["Firefox"]) + "\n";
   }
   shortcutsList.appendChild(span);
 
@@ -165,13 +167,13 @@ export async function checkChromiumHotkeys() {
   if (launchFirefoxPrivate.shortcut) {
     const launchFirefoxPrivateHotkey = launchFirefoxPrivate.shortcut;
     span2.innerText =
-      chrome.i18n.getMessage("welcomePageYesShortcutTo", [
+      browser.i18n.getMessage("welcomePageYesShortcutTo", [
         launchFirefoxPrivateHotkey.toUpperCase(),
         "Firefox private browsing",
       ]) + "\n";
   } else {
     span2.innerText =
-      chrome.i18n.getMessage("welcomePageNoShortcutTo", [
+      browser.i18n.getMessage("welcomePageNoShortcutTo", [
         "Firefox private browsing",
       ]) + "\n";
   }
@@ -191,6 +193,9 @@ export async function activatePlatformSpecificElements() {
     });
     checkChromiumHotkeys();
     checkPrivateBrowsing();
+    if (browser.runtime.getPlatformInfo().os === "android") {
+      applyMobileLogic();
+    }
     if (!(await getIsFirefoxInstalled())) {
       document.getElementById("error-notification").style.display = "flex";
     }
@@ -233,8 +238,4 @@ document.addEventListener("DOMContentLoaded", function() {
   document.getElementById("close-button").addEventListener("click", () => {
     document.getElementById("error-notification").classList.add("hidden");
   });
-
-  if (chrome.runtime.getPlatformInfo().os === "android") {
-    applyMobileLogic();
-  }
 });

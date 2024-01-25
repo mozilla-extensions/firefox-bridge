@@ -1,7 +1,7 @@
-const isChromium = chrome.runtime.getManifest().minimum_chrome_version;
+const isChromium = browser.runtime.getManifest().minimum_chrome_version;
 
 export function replaceMessage(element, l10nID, href) {
-  let message = chrome.i18n.getMessage(l10nID);
+  let message = browser.i18n.getMessage(l10nID);
   if (!message) {
     return false;
   }
@@ -18,7 +18,7 @@ export function replaceMessage(element, l10nID, href) {
     const link = document.getElementById(`${l10nID}Link`);
     link.addEventListener("click", (event) => {
       event.preventDefault();
-      chrome.tabs.create({
+      browser.tabs.create({
         url: href,
       });
     });

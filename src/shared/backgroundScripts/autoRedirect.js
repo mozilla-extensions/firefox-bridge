@@ -18,7 +18,7 @@
 //           site.url.replace(/\./g, "\\.").replace(/\*+/g, ".*")
 //     );
 //     if (siteRegex.test(webRequestDetails.url)) {
-//       chrome.tabs.update(webRequestDetails.tabId, {
+//       browser.tabs.update(webRequestDetails.tabId, {
 //         url: site.isPrivate
 //           ? "firefox-private:" + webRequestDetails.url
 //           : "firefox:" + webRequestDetails.url,
@@ -29,7 +29,7 @@
 // }
 
 // export async function refreshDeclarativeNetRequestRules() {
-//   const oldRules = await chrome.declarativeNetRequest.getDynamicRules();
+//   const oldRules = await browser.declarativeNetRequest.getDynamicRules();
 //   const newRules = [];
 //   const entries = await getExternalSites();
   
@@ -52,7 +52,7 @@
 //     newRules.push(rule);
 //   }
   
-//   chrome.declarativeNetRequest.updateDynamicRules({
+//   browser.declarativeNetRequest.updateDynamicRules({
 //     removeRuleIds: oldRules.map((rule) => rule.id),
 //     addRules: newRules,
 //   });
