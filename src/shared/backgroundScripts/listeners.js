@@ -12,7 +12,9 @@ import { handleBrowserNameChange } from "./contextMenus.js";
 export function initSharedListeners() {
   browser.runtime.onInstalled.addListener(async () => {
     // await getIsAutoRedirect(); // resolve to true on fresh install
-    browser.tabs.create({ url: browser.runtime.getURL("shared/pages/welcomePage/index.html") });
+    browser.tabs.create({
+      url: browser.runtime.getURL("shared/pages/welcomePage/index.html"),
+    });
     await initContextMenu();
     await updateToolbarIcon();
   });
@@ -39,12 +41,11 @@ export function initSharedListeners() {
     // updateAddCurrentSiteToMySitesContextMenu();
   });
 
-  browser.tabs.onActivated.addListener((activeInfo) => {
-    browser.tabs.get(activeInfo.tabId, (tab) => {
-      checkAndUpdateURLScheme(tab);
-      updateToolbarIcon();
-      //   updateAddCurrentSiteToMySitesContextMenu();
-    });
+  browser.tabs.onActivated.addListener(async (activeInfo) => {
+    const tab = await browser.tabs.get(activeInfo.tabId);
+    checkAndUpdateURLScheme(tab);
+    updateToolbarIcon();
+    //   updateAddCurrentSiteToMySitesContextMenu();
   });
 
   browser.storage.sync.onChanged.addListener(async (changes) => {

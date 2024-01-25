@@ -1,6 +1,4 @@
-import {
-  getExternalBrowser,
-} from "../../backgroundScripts/getters.js";
+import { getExternalBrowser } from "../../backgroundScripts/getters.js";
 
 /**
  * Populate the browser list with the available browsers.
@@ -10,11 +8,12 @@ export async function populateBrowserList() {
   browserList.innerHTML = "";
 
   const availableBrowsers = await browser.experiments.firefox_launch.getAvailableBrowsers();
-  console.group("Experimental Api Logs");
-  availableBrowsers.logs.forEach((log) => {
-    console.log(log);
-  });
-  console.groupEnd();
+
+  // console.group("Experimental Api Logs");
+  // availableBrowsers.logs.forEach((log) => {
+  //   console.log(log);
+  // });
+  // console.groupEnd();
 
   // if no browsers are available, remove the browser-list element and display a message
   if (availableBrowsers.browsers.length === 0) {
@@ -28,30 +27,35 @@ export async function populateBrowserList() {
   const loadedBrowsers = new Set();
   const browsers = availableBrowsers.browsers
     .sort((a, b) => a.name.localeCompare(b.name))
-    .filter((browser) => {
-      if (loadedBrowsers.has(browser.name)) {
+    .filter((localBrowser) => {
+      if (loadedBrowsers.has(localBrowser.name)) {
         return false;
       } else {
-        loadedBrowsers.add(browser.name);
+        loadedBrowsers.add(localBrowser.name);
         return true;
       }
     });
 
   const defaultBrowserName = await browser.experiments.firefox_launch
     .getDefaultBrowser()
-    .then((browser) => browser.name);
+    .then((localBrowser) => localBrowser.name);
 
   // add browsers to the list
-  browsers.forEach((browser) => {
+  browsers.forEach((localBrowser) => {
     const option = document.createElement("option");
-    option.value = browser.name;
-    option.text =
-      defaultBrowserName === browser.name
-        ? `${browser.name} ${browser.i18n.getMessage(
-          "welcomePageDefaultBrowser"
-        )}`
-        : browser.name;
-    option.setAttribute("data-launch-protocol", browser.executable);
+    option.value = localBrowser.name;
+
+    // if it's the user's default browser, add a message to the option
+    const isDefaultBrowser = defaultBrowserName === localBrowser.name;
+    if (isDefaultBrowser) {
+      option.text = `${localBrowser.name} ${browser.i18n.getMessage(
+        "welcomePageDefaultBrowser"
+      )}`;
+    } else {
+      option.text = localBrowser.name;
+    }
+
+    option.setAttribute("data-launch-protocol", localBrowser.executable);
     browserList.appendChild(option);
   });
 
@@ -71,7 +75,7 @@ export async function populateBrowserList() {
       oldBrowserName,
       newBrowserName
     );
-    
+
     browser.storage.local.set({
       currentExternalBrowserLaunchProtocol: executable,
     });

@@ -76,7 +76,6 @@ export function initTelemetryListeners() {
       browser.storage.local.set({ telemetry: null });
     } else if (changes.telemetryEnabled !== undefined) {
       Glean.setUploadEnabled(changes.telemetryEnabled.newValue);
-      console.log(`Telemetry enabled: ${changes.telemetryEnabled.newValue}`);
     }
   });
 }

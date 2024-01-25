@@ -3,17 +3,14 @@
  *
  * @returns {Promise<string>} The name of the browser.
  */
-export function getExternalBrowser() {
-  return new Promise((resolve) => {
-    browser.storage.sync.get(["currentExternalBrowser"], (result) => {
-      if (!result || result.currentExternalBrowser === undefined) {
-        browser.storage.sync.set({ currentExternalBrowser: "Firefox" });
-        resolve("Firefox");
-      } else {
-        resolve(result.currentExternalBrowser);
-      }
-    });
-  });
+export async function getExternalBrowser() {
+  const result = await browser.storage.sync.get("currentExternalBrowser");
+  if (!result || result.currentExternalBrowser === undefined) {
+    browser.storage.sync.set({ currentExternalBrowser: "Firefox" });
+    return "Firefox";
+  } else {
+    return result.currentExternalBrowser;
+  }
 }
 
 /**
@@ -21,17 +18,14 @@ export function getExternalBrowser() {
  *
  * @returns {Promise<boolean>} True if telemetry is enabled or not specified, false otherwise.
  */
-export function getTelemetryEnabled() {
-  return new Promise((resolve) => {
-    browser.storage.sync.get(["telemetryEnabled"], (result) => {
-      if (result.telemetryEnabled === undefined) {
-        browser.storage.sync.set({ telemetryEnabled: true });
-        resolve(true);
-      } else {
-        resolve(result.telemetryEnabled);
-      }
-    });
-  });
+export async function getTelemetryEnabled() {
+  const result = await browser.storage.sync.get("telemetryEnabled");
+  if (!result || result.telemetryEnabled === undefined) {
+    browser.storage.sync.set({ telemetryEnabled: true });
+    return true;
+  } else {
+    return result.telemetryEnabled;
+  }
 }
 // export function getIsAutoRedirect() {
 //   return new Promise((resolve) => {
