@@ -3,7 +3,8 @@ import { describe, it } from "mocha";
 
 import { launchBrowser } from "../../../build/firefox/interfaces/launchBrowser.js";
 import { setIsCurrentTabValidUrlScheme } from "../../../build/firefox/shared/backgroundScripts/validTab.js";
-import { setExternalBrowserLaunchProtocol } from "../../setup.test.js";
+import { setStorage } from "../../setup.test.js";
+
 describe("firefox/interfaces/launchBrowser.js", () => {
   describe("launchBrowser()", () => {
     it("should return false if the url scheme is not valid", async () => {
@@ -26,7 +27,7 @@ describe("firefox/interfaces/launchBrowser.js", () => {
 
     it("should return true if there is a launch protocol", async () => {
       setIsCurrentTabValidUrlScheme(true);
-      setExternalBrowserLaunchProtocol("test");
+      setStorage("currentExternalBrowserLaunchProtocol", "test");
       const result = await launchBrowser({ url: "https://example.com" });
       expect(result).to.equal(true);
       expect(browser.experiments.firefox_launch.launchApp.callCount).to.equal(

@@ -3,11 +3,11 @@ import { describe, it, beforeEach } from "mocha";
 
 import { initPlatformListeners } from "../../../build/chromium/interfaces/listeners.js";
 
-import { setExternalBrowser } from "../../setup.test.js";
+import { setStorage } from "../../setup.test.js";
 
 describe("chromium/interfaces/listeners.js", () => {
   beforeEach(() => {
-    setExternalBrowser("Firefox");
+    setStorage("currentExternalBrowser", "Firefox");
   });
   describe("initPlatformListeners()", () => {
     it("should add the listeners", () => {

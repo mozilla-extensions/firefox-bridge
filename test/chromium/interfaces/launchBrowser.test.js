@@ -3,13 +3,13 @@ import { describe, it } from "mocha";
 
 import { launchBrowser } from "../../../build/chromium/interfaces/launchBrowser.js";
 
-import { setIsFirefoxInstalled } from "../../setup.test.js";
+import { setStorage } from "../../setup.test.js";
 import { setIsCurrentTabValidUrlScheme } from "../../../build/chromium/shared/backgroundScripts/validTab.js";
 
 describe("chromium/interfaces/launchBrowser.js", () => {
   describe("launchBrowser()", () => {
     it("should direct the user to the Firefox download page if Firefox is not installed", async () => {
-      setIsFirefoxInstalled(false);
+      setStorage("isFirefoxInstalled", false);
       const result = await launchBrowser();
       expect(result).to.be.false;
       expect(browser.tabs.create.callCount).to.equal(1);
@@ -21,7 +21,7 @@ describe("chromium/interfaces/launchBrowser.js", () => {
     });
 
     it("should launch the current tab in Firefox", async () => {
-      setIsFirefoxInstalled(true);
+      setStorage("isFirefoxInstalled", true);
       setIsCurrentTabValidUrlScheme(true);
       const result = await launchBrowser(
         { id: 1, url: "https://mozilla.org" },
@@ -35,7 +35,7 @@ describe("chromium/interfaces/launchBrowser.js", () => {
     });
 
     it("should launch the current tab in Firefox Private Browsing", async () => {
-      setIsFirefoxInstalled(true);
+      setStorage("isFirefoxInstalled", true);
       setIsCurrentTabValidUrlScheme(true);
       const result = await launchBrowser(
         { id: 1, url: "https://mozilla.org" },
@@ -51,7 +51,7 @@ describe("chromium/interfaces/launchBrowser.js", () => {
     });
 
     it("should not launch the current tab if the url scheme is not valid", async () => {
-      setIsFirefoxInstalled(true);
+      setStorage("isFirefoxInstalled", true);
       setIsCurrentTabValidUrlScheme(false);
       const result = await launchBrowser(
         { id: 1, url: "https://mozilla.org" },

@@ -7,7 +7,7 @@ describe("firefox/interfaces/listeners.js", () => {
   describe("initPlatformListeners()", () => {
     it("should add the listeners", () => {
       initPlatformListeners();
-      expect(browser.action.onClicked.addListener.callCount).to.equal(1);
+      expect(browser.browserAction.onClicked.addListener.callCount).to.equal(1);
     });
   });
 });

@@ -6,11 +6,11 @@ import {
   handlePlatformContextMenuClick,
 } from "../../../build/firefox/interfaces/contextMenus.js";
 
-import { setExternalBrowser } from "../../setup.test.js";
+import { setStorage } from "../../setup.test.js";
 
 describe("firefox/interfaces/contextMenus.js", () => {
   beforeEach(() => {
-    setExternalBrowser("Firefox");
+    setStorage("currentExternalBrowser", "Firefox");
   });
   describe("applyPlatformContextMenus()", () => {
   });

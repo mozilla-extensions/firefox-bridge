@@ -3,12 +3,12 @@ import { describe, it } from "mocha";
 
 import { initContextMenu } from "../../../build/chromium/shared/backgroundScripts/contextMenus.js";
 
-import { setExternalBrowser, getLocaleMessage, setExtensionIsChromium } from "../../setup.test.js";
+import { setStorage, getLocaleMessage, setExtensionIsChromium } from "../../setup.test.js";
 
 describe("shared/backgroundScripts/contextMenus.js", () => {
   describe("initContextMenu()", () => {
     it("should make the shared context menu", async () => {
-      setExternalBrowser("Firefox");
+      setStorage("currentExternalBrowser", "Firefox");
       setExtensionIsChromium(true);
       await initContextMenu();
       expect(

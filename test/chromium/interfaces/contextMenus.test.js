@@ -6,11 +6,11 @@ import {
   handleChangeDefaultLaunchContextMenuClick,
 } from "../../../build/chromium/interfaces/contextMenus.js";
 
-import { setExternalBrowser, getLocaleMessage } from "../../setup.test.js";
+import { setStorage, getLocaleMessage } from "../../setup.test.js";
 
 describe("chromium/interfaces/contextMenus.js", () => {
   beforeEach(() => {
-    setExternalBrowser("Firefox");
+    setStorage("currentExternalBrowser", "Firefox");
   });
   describe("applyPlatformContextMenus()", () => {
     it("should create the chrome context menu", async () => {
@@ -61,7 +61,7 @@ describe("chromium/interfaces/contextMenus.js", () => {
     });
 
     it("should swap the alternative launch mode and set the currentExternalBrowser to Firefox", async () => {
-      setExternalBrowser("Firefox Private Browsing");
+      setStorage("currentExternalBrowser", "Firefox Private Browsing");
       await handleChangeDefaultLaunchContextMenuClick({
         checked: false,
       });
@@ -79,6 +79,5 @@ describe("chromium/interfaces/contextMenus.js", () => {
     });
   });
 
-  describe("handlePlatformContextMenuClick()", () => {
-  });
+  describe("handlePlatformContextMenuClick()", () => {});
 });
