@@ -51,12 +51,8 @@ global.chrome = {
     onClicked: {
       addListener: sinon.stub(),
     },
-  },
-  browserAction: {
-    setIcon: sinon.stub(),
-    onClicked: {
-      addListener: sinon.stub(),
-    },
+    enable: sinon.stub(),
+    disable: sinon.stub(),
   },
   tabs: {
     onUpdated: {
@@ -96,6 +92,7 @@ global.document = {
 };
 
 global.browser = global.chrome;
+browser.browserAction = browser.action;
 global.browser.experiments = {
   firefox_launch: {
     getAvailableBrowsers: sinon.stub(),

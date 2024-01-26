@@ -3,7 +3,6 @@ import { describe, it } from "mocha";
 
 import {
   getDefaultIconPath,
-  getGreyedIconPath,
 } from "../../../build/chromium/interfaces/getters.js";
 import { updateToolbarIcon } from "../../../build/chromium/shared/backgroundScripts/actionButton.js";
 
@@ -12,8 +11,9 @@ import { setIsCurrentTabValidUrlScheme } from "../../../build/chromium/shared/ba
 
 describe("shared/backgroundScripts/actionButton.js", () => {
   describe("updateToolbarIcon()", () => {
-    it("should set the toolbar icon to the default icon path", async () => {
+    it("should set the toolbar icon to the default icon path and enable it", async () => {
       setStorage("currentExternalBrowser", "Firefox");
+      setIsCurrentTabValidUrlScheme(true);
       await updateToolbarIcon();
       expect(browser.browserAction.setIcon.callCount).to.equal(1);
       expect(
@@ -21,18 +21,20 @@ describe("shared/backgroundScripts/actionButton.js", () => {
           path: await getDefaultIconPath(),
         })
       ).to.be.true;
+      expect(browser.browserAction.enable.callCount).to.equal(1);
     });
 
-    it("should set the toolbar icon to the greyed icon path", async () => {
+    it("should set the toolbar icon to the default icon path and disable it", async () => {
       setStorage("currentExternalBrowser", "Firefox");
       setIsCurrentTabValidUrlScheme(false);
       await updateToolbarIcon();
       expect(browser.browserAction.setIcon.callCount).to.equal(1);
       expect(
         browser.browserAction.setIcon.calledWith({
-          path: await getGreyedIconPath(),
+          path: await getDefaultIconPath(),
         })
       ).to.be.true;
+      expect(browser.browserAction.disable.callCount).to.equal(1);
     });
   });
 });
