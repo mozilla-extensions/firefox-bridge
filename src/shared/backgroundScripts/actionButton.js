@@ -11,7 +11,6 @@ export async function updateToolbarIcon() {
   const action = browser.action || browser.browserAction;
   await action.setIcon({ path: iconPath });
   if (!isCurrentTabValidUrlScheme) {
-    console.log("disabling");
     await action.disable();
   } else {
     await action.enable();

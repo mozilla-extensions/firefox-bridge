@@ -7,13 +7,11 @@ export let isCurrentTabValidUrlScheme = false;
  * @param {*} tab The tab to check the url scheme of.
  */
 export function checkAndUpdateURLScheme(tab) {
-  console.log("Checking URL scheme of tab: ", tab);
   if (tab.url.startsWith("http") || tab.url.startsWith("file")) {
     isCurrentTabValidUrlScheme = true;
   } else {
     isCurrentTabValidUrlScheme = false;
   }
-  console.log("isCurrentTabValidUrlScheme: ", isCurrentTabValidUrlScheme);
 }
 
 /**

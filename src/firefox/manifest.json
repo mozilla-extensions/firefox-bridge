@@ -5,7 +5,6 @@
   "version": "0.1",
   "permissions": [
     "contextMenus",
-    "activeTab",
     "tabs",
     "storage",
     "notifications",

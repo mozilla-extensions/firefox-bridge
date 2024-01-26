@@ -7,7 +7,6 @@ import { getExternalBrowser } from "../../shared/backgroundScripts/getters.js";
  */
 export function initPlatformListeners() {
   browser.action.onClicked.addListener(async (tab) => {
-    console.log("action clicked");
     const browserName = await getExternalBrowser();
     const success = launchBrowser(
       tab,
