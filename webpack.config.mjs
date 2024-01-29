@@ -34,6 +34,13 @@ if (isFirefoxExtension) {
   });
 }
 
+const alias = {};
+if (target === "firefox") {
+  alias["Interfaces"] = path.resolve("src/firefox/interfaces");
+} else {
+  alias["Interfaces"] = path.resolve("src/chromium/interfaces");
+}
+
 console.log("Building for " + target + "...\n");
 
 export default {
@@ -51,11 +58,15 @@ export default {
       }
     },
   },
+  resolve: {
+    alias: alias,
+  },
   mode: "development",
   devtool: "inline-source-map",
   plugins: [
     new webpack.DefinePlugin({
       IS_FIREFOX_EXTENSION: JSON.stringify(isFirefoxExtension),
+      TARGET_IMPORT_PATH: JSON.stringify(target),
     }),
     new CopyPlugin({
       patterns: copyPluginPatterns,

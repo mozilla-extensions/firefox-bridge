@@ -8,8 +8,8 @@ import {
 
 import { applyLocalization, replaceMessage } from "./localization.js";
 import { populateBrowserList } from "./browserList.js";
-import { getIsFirefoxInstalled } from "../../../chromium/interfaces/getters.js";
-import { handleChangeDefaultLaunchContextMenuClick } from "../../../chromium/interfaces/contextMenus.js";
+import { getIsFirefoxInstalled } from "Interfaces/getters.js";
+import { handleChangeDefaultLaunchContextMenuClick } from "Interfaces/contextMenus.js";
 
 /**
  * Check the private browsing checkbox if the current external browser is

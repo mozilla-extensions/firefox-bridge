@@ -1,10 +1,10 @@
-import { launchBrowser } from "../../chromium/interfaces/launchBrowser.js";
+import { launchBrowser } from "Interfaces/launchBrowser.js";
 import { getExternalBrowser, isFirefoxExtension } from "./getters.js";
 
 import {
   applyPlatformContextMenus,
   handlePlatformContextMenuClick,
-} from "../../chromium/interfaces/contextMenus.js";
+} from "Interfaces/contextMenus.js";
 
 /**
  * Initialize the context menu. This includes the page context menu, link context menu,

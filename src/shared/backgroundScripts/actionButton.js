@@ -1,5 +1,5 @@
 import { isCurrentTabValidUrlScheme } from "./validTab.js";
-import { getDefaultIconPath, getGreyedIconPath } from "../../chromium/interfaces/getters.js";
+import { getDefaultIconPath, getGreyedIconPath } from "Interfaces/getters.js";
 
 /**
  * Updates the toolbar icon to the current default browser icon
