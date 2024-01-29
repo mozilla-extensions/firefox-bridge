@@ -1,5 +1,5 @@
 import { launchBrowser } from "./launchBrowser.js";
-import { getExternalBrowser } from "../../shared/backgroundScripts/getters.js";
+import { getExternalBrowser } from "Shared/backgroundScripts/getters.js";
 
 /**
  * Initialize the firefox specific listeners.

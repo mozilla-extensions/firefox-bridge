@@ -34,7 +34,9 @@ if (isFirefoxExtension) {
   });
 }
 
-const alias = {};
+const alias = {
+  "Shared": path.resolve("src/shared"),
+};
 if (target === "firefox") {
   alias["Interfaces"] = path.resolve("src/firefox/interfaces");
 } else {
