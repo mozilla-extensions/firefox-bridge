@@ -1,4 +1,4 @@
-const isChromium = browser.runtime.getManifest().minimum_chrome_version;
+import { isFirefoxExtension } from "../../backgroundScripts/getters.js";
 
 export function replaceMessage(element, l10nID, href) {
   let message = browser.i18n.getMessage(l10nID);
@@ -70,11 +70,11 @@ export function applyLocalization() {
     }
 
     // attempt to replace platform specific elements
-    if (isChromium) {
-      const platform = "Chromium";
+    if (isFirefoxExtension) {
+      const platform = "Firefox";
       replaceDataLocale(localeId, hrefMapping[localeId + platform], platform);
     } else {
-      const platform = "Firefox";
+      const platform = "Chromium";
       replaceDataLocale(localeId, hrefMapping[localeId + platform], platform);
     }
   });

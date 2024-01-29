@@ -131,13 +131,10 @@ export const setStorage = (key, keyValue, storageLocation) => {
   }
 };
 
-export const setExtensionIsChromium = (isChromium) => {
-  global.browser.runtime.getManifest.callsFake(() => {
-    if (isChromium) {
-      return { minimum_chrome_version: 3 };
-    } else {
-      return {};
-    }
+export const setExtensionIsFirefoxExtension = (isFirefoxExtension) => {
+  Object.defineProperty(global.location, "protocol", {
+    writable: true,
+    value: isFirefoxExtension ? "moz-extension:" : "chrome-extension:",
   });
 };
 
