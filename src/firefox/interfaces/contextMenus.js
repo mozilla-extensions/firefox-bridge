@@ -29,7 +29,7 @@ export async function applyPlatformContextMenus() {
 }
 
 /**
- * Handles the context menu clicka for the Firefox Extension.
+ * Handles the context menu click for the Firefox Extension.
  * 
  * @param {Object} info The context menu item info object.
  */
