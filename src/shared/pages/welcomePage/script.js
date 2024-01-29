@@ -1,4 +1,8 @@
-globalThis.browser ??= chrome;
+if (!globalThis.browser) {
+  globalThis.browser = chrome;
+} else {
+  browser.action = browser.browserAction;
+}
 
 import {
   getExternalBrowser,

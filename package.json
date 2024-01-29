@@ -17,6 +17,8 @@
     "build": "npm run build:firefox && npm run build:chromium && npm run zip:firefox && npm run zip:chromium",
     "build:chromium": "npm run build:glean && webpack --node-env=chromium --config webpack.config.mjs",
     "build:firefox": "npm run build:glean && webpack --node-env=firefox --config webpack.config.mjs",
+    "lint:chromium": "web-ext lint --source-dir build/chromium",
+    "lint:firefox": "web-ext lint --source-dir build/firefox",
     "build:glean": "glean translate metrics.yaml pings.yaml -f javascript -o src/shared/generated"
   },
   "repository": {
