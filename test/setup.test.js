@@ -132,10 +132,7 @@ export const setStorage = (key, keyValue, storageLocation) => {
 };
 
 export const setExtensionIsFirefoxExtension = (isFirefoxExtension) => {
-  Object.defineProperty(global.location, "protocol", {
-    writable: true,
-    value: isFirefoxExtension ? "moz-extension:" : "chrome-extension:",
-  });
+  // TODO: Do this when testing has been figured out
 };
 
 export const setCurrentTabURL = (currentTabURL) => {
