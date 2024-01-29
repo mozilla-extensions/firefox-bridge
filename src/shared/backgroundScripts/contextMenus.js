@@ -7,7 +7,7 @@ import {
 } from "../../chromium/interfaces/contextMenus.js";
 
 /**
- * Initialize the context menua. This includes the page context menu, link context menu,
+ * Initialize the context menu. This includes the page context menu, link context menu,
  * and platform specific context menus.
  */
 export async function initContextMenu() {

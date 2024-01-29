@@ -1,6 +1,7 @@
 {
   "type": "module",
   "name": "firefox-launch",
+  "private": true,
   "version": "1.0.0",
   "description": "Extenision that enables the user to launch Firefox from the other browser",
   "main": "backgroundScripts/background.js",
