@@ -1,9 +1,3 @@
-if (!globalThis.browser) {
-  globalThis.browser = chrome;
-} else {
-  browser.action = browser.browserAction;
-}
-
 import Glean from "@mozilla/glean/webext";
 import { install, startup, launch, settings } from "../generated/pings.js";
 import * as installEvent from "../generated/installEvent.js";

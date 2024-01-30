@@ -1,9 +1,3 @@
-if (!globalThis.browser) {
-  globalThis.browser = chrome;
-} else {
-  browser.action = browser.browserAction;
-}
-
 import {
   getExternalBrowser,
   getTelemetryEnabled,
@@ -14,6 +8,8 @@ import { applyLocalization, replaceMessage } from "./localization.js";
 import { populateBrowserList } from "./browserList.js";
 import { getIsFirefoxInstalled } from "Interfaces/getters.js";
 import { handleChangeDefaultLaunchContextMenuClick } from "Interfaces/contextMenus.js";
+
+import { polyfillBrowser } from "Shared/backgroundScripts/polyfill.js";
 
 /**
  * Check the private browsing checkbox if the current external browser is
@@ -233,7 +229,8 @@ export function applyMobileLogic() {
   shortcutsContainer.remove();
 }
 
-document.addEventListener("DOMContentLoaded", function() {
+document.addEventListener("DOMContentLoaded", function () {
+  polyfillBrowser();
   activatePlatformSpecificElements();
   applyLocalization();
   updateTelemetry();
