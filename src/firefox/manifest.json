@@ -8,8 +8,7 @@
     "tabs",
     "storage",
     "notifications",
-    "declarativeNetRequest",
-    "webRequest"
+    "declarativeNetRequest"
   ],
   "background": {
     "scripts": ["background.bundle.js"],
