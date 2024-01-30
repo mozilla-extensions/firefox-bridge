@@ -27,7 +27,11 @@ export async function initGlean(showLogs = false) {
  * listener for messages sent through the storage API.
  */
 export function initTelemetryListeners() {
-  browser.runtime.onInstalled.addListener(async () => {
+  browser.runtime.onInstalled.addListener(async (details) => {
+    if (details.reason !== "install") {
+      return;
+    }
+    
     await initGlean();
     installEvent.dateInstalled.set(new Date());
     installEvent.browserType.set(
