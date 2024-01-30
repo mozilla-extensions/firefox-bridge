@@ -16,7 +16,6 @@
     "activeTab",
     "tabs",
     "storage",
-    "commands",
     "notifications",
     "declarativeNetRequest",
     "webRequest"
