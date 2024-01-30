@@ -10,8 +10,8 @@
     "placeholders": { "browser": { "content": "$1" } }
   },
   "welcomeHeading": {
-    "message": "Welcome to Firefox Launch",
-    "description": "'Firefox Launch' is the name of the extension. It should not be translated."
+    "message": "Welcome to Launch in Firefox",
+    "description": "'Launch in Firefox' is the name of the extension. It should not be translated."
   },
   "manageExternalSitesContextMenus": {
     "message": "Manage My External Sites"
@@ -31,7 +31,7 @@
     "message": "Firefox is not installed"
   },
   "notInstalledErrorText": {
-    "message": "Firefox Launch requires Firefox to be installed on your computer."
+    "message": "Launch in Firefox requires Firefox to be installed on your computer."
   },
   "notInstalledErrorAction": {
     "message": "Download Firefox"
