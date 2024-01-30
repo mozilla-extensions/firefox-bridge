@@ -8,7 +8,7 @@ XPCOMUtils.defineLazyServiceGetters(lazy, {
 
 const https = "https";
 const iconSize = 32;
-const browserNamesWin = ["Chrome", "Edge", "Opera", "Safari"];
+const browserNamesWin = ["Chrome", "Edge", "Opera"];
 const browserNamesMac = ["Safari", "Chrome", "Microsoft Edge", "Opera", "Arc"];
 let logs = [];
 
