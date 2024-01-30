@@ -30,9 +30,6 @@ export async function getTelemetryEnabled() {
   }
 }
 
-
-export const isFirefoxExtension = IS_FIREFOX_EXTENSION;
-
 // export function getIsAutoRedirect() {
 //   return new Promise((resolve) => {
 //     browser.storage.local.get(["isAutoRedirect"], (result) => {

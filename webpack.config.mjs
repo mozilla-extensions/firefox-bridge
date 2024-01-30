@@ -4,6 +4,7 @@ import CopyPlugin from "copy-webpack-plugin";
 
 const target = process.env.NODE_ENV;
 const isFirefoxExtension = target === "firefox";
+const isChromiumExtension = target === "chromium";
 
 const copyPluginPatterns = [
   {
@@ -68,6 +69,7 @@ export default {
   plugins: [
     new webpack.DefinePlugin({
       IS_FIREFOX_EXTENSION: JSON.stringify(isFirefoxExtension),
+      IS_CHROMIUM_EXTENSION: JSON.stringify(isChromiumExtension),
       TARGET_IMPORT_PATH: JSON.stringify(target),
     }),
     new CopyPlugin({

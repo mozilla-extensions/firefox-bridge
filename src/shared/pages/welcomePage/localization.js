@@ -1,5 +1,3 @@
-import { isFirefoxExtension } from "../../backgroundScripts/getters.js";
-
 export function replaceMessage(element, l10nID, href) {
   let message = browser.i18n.getMessage(l10nID);
   if (!message) {
@@ -70,10 +68,10 @@ export function applyLocalization() {
     }
 
     // attempt to replace platform specific elements
-    if (isFirefoxExtension) {
+    if (IS_FIREFOX_EXTENSION) {
       const platform = "Firefox";
       replaceDataLocale(localeId, hrefMapping[localeId + platform], platform);
-    } else {
+    } else if (IS_CHROMIUM_EXTENSION){
       const platform = "Chromium";
       replaceDataLocale(localeId, hrefMapping[localeId + platform], platform);
     }

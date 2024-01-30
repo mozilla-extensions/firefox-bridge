@@ -1,7 +1,6 @@
 import {
   getExternalBrowser,
   getTelemetryEnabled,
-  isFirefoxExtension,
 } from "../../backgroundScripts/getters.js";
 
 import { applyLocalization, replaceMessage } from "./localization.js";
@@ -184,7 +183,7 @@ export async function checkChromiumHotkeys() {
  * Add or remove certain elements from the page depending on the platform.
  */
 export async function activatePlatformSpecificElements() {
-  if (isFirefoxExtension) {
+  if (IS_FIREFOX_EXTENSION) {
     // remove objects with class chromium
     const chromiumElements = document.getElementsByClassName("chromium");
     const chromiumElementsArray = Array.from(chromiumElements);
@@ -193,7 +192,7 @@ export async function activatePlatformSpecificElements() {
     });
     populateBrowserList();
     checkFirefoxHotkeys();
-  } else {
+  } else if (IS_CHROMIUM_EXTENSION) {
     // remove objects with class firefox from the page
     const firefoxElements = document.getElementsByClassName("firefox");
     const firefoxElementsArray = Array.from(firefoxElements);

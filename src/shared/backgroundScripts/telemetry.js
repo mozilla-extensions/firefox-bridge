@@ -5,7 +5,7 @@ import * as startupEvent from "../generated/startupEvent.js";
 import * as launchEvent from "../generated/launchEvent.js";
 import * as settingEvent from "../generated/settingEvent.js";
 
-import { isFirefoxExtension, getTelemetryEnabled } from "./getters.js";
+import { getTelemetryEnabled } from "./getters.js";
 
 /**
  * Initialize the telemetry system.
@@ -16,7 +16,7 @@ export async function initGlean(showLogs = false) {
   Glean.setLogPings(showLogs);
   Glean.initialize("firefox.launch", await getTelemetryEnabled(), {
     appDisplayVersion: browser.runtime.getManifest().version,
-    appBuild: isFirefoxExtension ? "firefox" : "chromium",
+    appBuild: IS_FIREFOX_EXTENSION ? "firefox" : "chromium",
   });
 }
 
@@ -28,14 +28,14 @@ export function initTelemetryListeners() {
   browser.runtime.onInstalled.addListener(async () => {
     await initGlean();
     installEvent.dateInstalled.set(new Date());
-    installEvent.browserType.set(isFirefoxExtension ? "firefox" : "chromium");
+    installEvent.browserType.set(IS_FIREFOX_EXTENSION ? "firefox" : "chromium");
     install.submit();
   });
 
   browser.runtime.onStartup.addListener(async () => {
     // 2. browser version (window.navigator.userAgent)
     await initGlean();
-    startupEvent.browserType.set(isFirefoxExtension ? "firefox" : "chromium");
+    startupEvent.browserType.set(IS_FIREFOX_EXTENSION ? "firefox" : "chromium");
     startupEvent.dateStarted.set(new Date());
     startupEvent.browserLanguageLocale.set(navigator.language);
     startupEvent.extensionLanguageLocale.set(browser.i18n.getUILanguage());
