@@ -183,9 +183,9 @@ this.experiments_firefox_launch = class extends ExtensionAPI {
             }
           },
 
-          openPrivilegedUrl(url) {
+          openShortcutsPage() {
             let win = Services.wm.getMostRecentWindow("navigator:browser");
-            win.BrowserOpenAddonsMgr(url);
+            win.BrowserOpenAddonsMgr("addons://shortcuts/shortcuts");
           }
         },
       },

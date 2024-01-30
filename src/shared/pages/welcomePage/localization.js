@@ -17,7 +17,7 @@ export function replaceMessage(element, l10nID, href) {
     link.addEventListener("click", (event) => {
       event.preventDefault();
       if (href.startsWith("addons://")) {
-        browser.experiments.firefox_launch.openPrivilegedUrl(href);
+        browser.experiments.firefox_launch.openShortcutsPage();
       } else {
         browser.tabs.create({
           url: href,
