@@ -21,7 +21,7 @@
   },
   "addCurrentSiteToMySitesContextMenu": {
     "message": "Add $sld$ to My External Sites",
-    "description": "The variable is replaced by the current site's second-level domain (e.g. 'mozilla.org')",
+    "description": "The variable is replaced by the current site’s second-level domain (e.g. 'mozilla.org')",
     "placeholders": { "sld": { "content": "$1" } }
   },
   "changeDefaultLaunchContextMenu": {
@@ -67,13 +67,13 @@
     "message": "Allow Mozilla to collect information about how you use this extension so we can make it better. {LinkStart}Privacy Notice{LinkEnd}"
   },
   "welcomePageNoShortcutsFirefox": {
-    "message": "You don't have any shortcuts set up for this extension. Create them by going to {LinkStart}extension settings.{LinkEnd}"
+    "message": "You don’t have any shortcuts set up for this extension. Create them by going to {LinkStart}extension settings.{LinkEnd}"
   },
   "welcomePageNoShortcutsChromium": {
-    "message": "You don't have any shortcuts set up for this extension. Create them by going to {LinkStart}extension settings.{LinkEnd}"
+    "message": "You don’t have any shortcuts set up for this extension. Create them by going to {LinkStart}extension settings.{LinkEnd}"
   },
   "welcomePageNoShortcutTo": {
-    "message": "You don't have a shortcut set up for launching your current page in $browser$",
+    "message": "You don’t have a shortcut set up for launching your current page in $browser$",
     "description": "The variable is replaced by the browser name (Firefox, Chrome, Safari, etc)",
     "placeholders": { "browser": { "content": "$1" } }
   },
@@ -107,9 +107,9 @@
     "message": "BETA"
   },
   "welcomePageNoExternalBrowserErrorChromium": {
-    "message": "Looks like Firefox isn't installed on this device. {LinkStart}Download Now{LinkEnd}"
+    "message": "Looks like Firefox isn’t installed on this device. {LinkStart}Download Now{LinkEnd}"
   },
   "welcomePageNoExternalBrowserErrorFirefox": {
-    "message": "Looks like you don't have another browser on this device"
+    "message": "Looks like you don’t have another browser on this device"
   }
 }
