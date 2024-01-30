@@ -2,12 +2,20 @@
   "launchInExternalBrowser": {
     "message": "Open page in $browser$",
     "description": "The variable is replaced by the browser name (Firefox, Chrome, Safari, etc)",
-    "placeholders": { "browser": { "content": "$1" } }
+    "placeholders": {
+      "browser": {
+        "content": "$1"
+      }
+    }
   },
   "launchInExternalBrowserLink": {
     "message": "Open link in $browser$",
     "description": "The variable is replaced by the browser name (Firefox, Chrome, Safari, etc)",
-    "placeholders": { "browser": { "content": "$1" } }
+    "placeholders": {
+      "browser": {
+        "content": "$1"
+      }
+    }
   },
   "welcomeHeading": {
     "message": "Welcome to Launch in Firefox",
@@ -22,7 +30,11 @@
   "addCurrentSiteToMySitesContextMenu": {
     "message": "Add $sld$ to My External Sites",
     "description": "The variable is replaced by the current site’s second-level domain (e.g. 'mozilla.org')",
-    "placeholders": { "sld": { "content": "$1" } }
+    "placeholders": {
+      "sld": {
+        "content": "$1"
+      }
+    }
   },
   "changeDefaultLaunchContextMenu": {
     "message": "Always use Firefox Private Browsing"
@@ -75,14 +87,22 @@
   "welcomePageNoShortcutTo": {
     "message": "You don’t have a shortcut set up for launching your current page in $browser$",
     "description": "The variable is replaced by the browser name (Firefox, Chrome, Safari, etc)",
-    "placeholders": { "browser": { "content": "$1" } }
+    "placeholders": {
+      "browser": {
+        "content": "$1"
+      }
+    }
   },
   "welcomePageYesShortcutTo": {
     "message": "$hotkey$ launches your current page in $browser$",
     "description": "The variable is replaced by the browser name (Firefox, Chrome, Safari, etc)",
     "placeholders": {
-      "hotkey": { "content": "$1" },
-      "browser": { "content": "$2" }
+      "hotkey": {
+        "content": "$1"
+      },
+      "browser": {
+        "content": "$2"
+      }
     }
   },
   "welcomePageShortcutTitle": {
