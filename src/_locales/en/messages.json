@@ -1,14 +1,17 @@
 {
   "launchInExternalBrowser": {
     "message": "Open page in $browser$",
+    "description": "The variable is replaced by the browser name (Firefox, Chrome, Safari, etc)",
     "placeholders": { "browser": { "content": "$1" } }
   },
   "launchInExternalBrowserLink": {
     "message": "Open link in $browser$",
+    "description": "The variable is replaced by the browser name (Firefox, Chrome, Safari, etc)",
     "placeholders": { "browser": { "content": "$1" } }
   },
   "welcomeHeading": {
-    "message": "Welcome to Firefox Launch"
+    "message": "Welcome to Firefox Launch",
+    "description": "'Firefox Launch' is the name of the extension. It should not be translated."
   },
   "manageExternalSitesContextMenus": {
     "message": "Manage My External Sites"
@@ -18,6 +21,7 @@
   },
   "addCurrentSiteToMySitesContextMenu": {
     "message": "Add $sld$ to My External Sites",
+    "description": "The variable is replaced by the current site's second-level domain (e.g. 'mozilla.org')",
     "placeholders": { "sld": { "content": "$1" } }
   },
   "changeDefaultLaunchContextMenu": {
@@ -70,10 +74,12 @@
   },
   "welcomePageNoShortcutTo": {
     "message": "You don't have a shortcut set up for launching your current page in $browser$",
+    "description": "The variable is replaced by the browser name (Firefox, Chrome, Safari, etc)",
     "placeholders": { "browser": { "content": "$1" } }
   },
   "welcomePageYesShortcutTo": {
     "message": "$hotkey$ launches your current page in $browser$",
+    "description": "The variable is replaced by the browser name (Firefox, Chrome, Safari, etc)",
     "placeholders": {
       "hotkey": { "content": "$1" },
       "browser": { "content": "$2" }
