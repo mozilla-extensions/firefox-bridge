@@ -6,8 +6,7 @@ export function replaceMessage(element, l10nID, href) {
     return false;
   }
 
-  message = message.replace("{LinkStart}", `<a id="${l10nID}Link" href="">`);
-  message = message.replace("{LinkEnd}", "</a>");
+  message = message.replace("<a>", `<a id="${l10nID}Link" href="">`);
 
   // eslint-disable-next-line no-unsanitized/property
   element.innerHTML = message;
