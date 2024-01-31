@@ -9,7 +9,7 @@
     "test": "test"
   },
   "scripts": {
-    "test": "NODE_OPTIONS=\"$NODE_OPTIONS --experimental-vm-modules\" c8 jest",
+    "test": "npm run build:glean && NODE_OPTIONS=\"$NODE_OPTIONS --experimental-vm-modules\" c8 jest",
     "lint": "eslint src test",
     "coverage": "c8 report --reporter=lcov --reporter=text",
     "zip:firefox": "web-ext build --source-dir build/firefox --artifacts-dir dist --overwrite-dest --filename=firefox.zip",
