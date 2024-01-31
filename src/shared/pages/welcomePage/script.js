@@ -8,7 +8,7 @@ import { populateBrowserList } from "./browserList.js";
 import { getIsFirefoxInstalled } from "Interfaces/getters.js";
 import { handleChangeDefaultLaunchContextMenuClick } from "Interfaces/contextMenus.js";
 
-import { polyfillBrowser } from "Shared/backgroundScripts/polyfill.js";
+import "Shared/backgroundScripts/polyfill.js";
 
 /**
  * Check the private browsing checkbox if the current external browser is
@@ -229,7 +229,6 @@ export function applyMobileLogic() {
 }
 
 document.addEventListener("DOMContentLoaded", function () {
-  polyfillBrowser();
   activatePlatformSpecificElements();
   applyLocalization();
   updateTelemetry();
