@@ -27,7 +27,11 @@ export async function initGlean(showLogs = false) {
  * listener for messages sent through the storage API.
  */
 export function initTelemetryListeners() {
-  browser.runtime.onInstalled.addListener(async () => {
+  browser.runtime.onInstalled.addListener(async (details) => {
+    if (details.reason !== "install") {
+      return;
+    }
+    
     await initGlean();
     installEvent.dateInstalled.set(new Date());
     installEvent.browserType.set(
@@ -55,8 +59,9 @@ export function initTelemetryListeners() {
     startup.submit();
   });
 
-  browser.storage.onChanged.addListener((changes) => {
+  browser.storage.onChanged.addListener(async (changes) => {
     if (changes.telemetry && changes.telemetry.newValue) {
+      await initGlean();
       const telemetry = changes.telemetry.newValue;
       if (telemetry.type === "browserLaunch") {
         launchEvent.browserLaunch.record({
@@ -75,6 +80,7 @@ export function initTelemetryListeners() {
 
       browser.storage.local.set({ telemetry: null });
     } else if (changes.telemetryEnabled !== undefined) {
+      await initGlean();
       Glean.setUploadEnabled(changes.telemetryEnabled.newValue);
     }
   });

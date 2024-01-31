@@ -16,10 +16,8 @@
     "activeTab",
     "tabs",
     "storage",
-    "commands",
     "notifications",
-    "declarativeNetRequest",
-    "webRequest"
+    "declarativeNetRequest"
   ],
   "host_permissions": ["<all_urls>"],
   "background": {

@@ -127,7 +127,7 @@ export async function handlePlatformContextMenuClick(info, tab) {
   
   else if (info.menuItemId === "alternativeLaunchContextMenu") {
     // launch in the opposite mode to the default
-    if (await launchBrowser(tab, !(externalBrowserName === "Firefox"))) {
+    if (await launchBrowser(tab, externalBrowserName === "Firefox")) {
       const launchedBrowserName =
         (await getExternalBrowser()) === "Firefox"
           ? "Firefox Private Browsing"
@@ -143,7 +143,7 @@ export async function handlePlatformContextMenuClick(info, tab) {
   } 
   
   else if (info.menuItemId === "launchInExternalBrowserPrivate") {
-    if (await launchBrowser(tab, false)) {
+    if (await launchBrowser(tab, true)) {
       browser.storage.local.set({
         telemetry: {
           type: "browserLaunch",
@@ -156,7 +156,7 @@ export async function handlePlatformContextMenuClick(info, tab) {
   
   else if (info.menuItemId === "launchInExternalBrowserPrivateLink") {
     tab.url = info.linkUrl;
-    if (await launchBrowser(tab, false)) {
+    if (await launchBrowser(tab, true)) {
       browser.storage.local.set({
         telemetry: {
           type: "browserLaunch",
