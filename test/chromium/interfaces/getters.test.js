@@ -1,4 +1,5 @@
 import {
+  getIsFirefoxInstalled,
   getDefaultIconPath,
   getGreyedIconPath,
 } from "Interfaces/getters.js";
@@ -6,19 +7,19 @@ import {
 import { setStorage } from "../../setup.test.js";
 
 describe("chromium/interfaces/getters.js", () => {
-  // describe("getIsFirefoxInstalled()", () => {
-  //   it("should return true if a Firefox browser is installed", async () => {
-  //     setStorage("isFirefoxInstalled", true);
-  //     const result = await getIsFirefoxInstalled();
-  //     expect(result).toBeTruthy();
-  //   });
+  describe("getIsFirefoxInstalled()", () => {
+    it("should return true if a Firefox browser is installed", async () => {
+      setStorage("isFirefoxInstalled", true);
+      const result = await getIsFirefoxInstalled();
+      expect(result).toBeTruthy();
+    });
 
-  //   it("should return false if a Firefox browser is not installed", async () => {
-  //     setStorage("isFirefoxInstalled", false);
-  //     const result = await getIsFirefoxInstalled();
-  //     expect(result).toBeFalsy();
-  //   });
-  // });
+    it("should return false if a Firefox browser is not installed", async () => {
+      setStorage("isFirefoxInstalled", false);
+      const result = await getIsFirefoxInstalled();
+      expect(result).toBeFalsy();
+    });
+  });
 
   describe("getDefaultIconPath()", () => {
     it("should return the firefox icon path", async () => {
