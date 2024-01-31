@@ -1,23 +1,18 @@
-import { expect } from "chai";
-import { describe, it } from "mocha";
-
-import { launchBrowser } from "../../../build/chromium/interfaces/launchBrowser.js";
+import { launchBrowser } from "Interfaces/launchBrowser.js";
 
 import { setStorage } from "../../setup.test.js";
-import { setIsCurrentTabValidUrlScheme } from "../../../build/chromium/shared/backgroundScripts/validTab.js";
+import { setIsCurrentTabValidUrlScheme } from "Shared/backgroundScripts/validTab.js";
 
 describe("chromium/interfaces/launchBrowser.js", () => {
   describe("launchBrowser()", () => {
     it("should direct the user to the Firefox download page if Firefox is not installed", async () => {
       setStorage("isFirefoxInstalled", false);
       const result = await launchBrowser();
-      expect(result).to.be.false;
-      expect(browser.tabs.create.callCount).to.equal(1);
-      expect(
-        browser.tabs.create.calledWith({
-          url: "https://www.mozilla.org/firefox/",
-        })
-      ).to.be.true;
+      expect(result).toBeFalsy();
+      expect(browser.tabs.create).toHaveBeenCalled();
+      expect(browser.tabs.create).toHaveBeenCalledWith({
+        url: "https://www.mozilla.org/firefox/",
+      });
     });
 
     it("should launch the current tab in Firefox", async () => {
@@ -27,11 +22,11 @@ describe("chromium/interfaces/launchBrowser.js", () => {
         { id: 1, url: "https://mozilla.org" },
         true
       );
-      expect(result).to.be.true;
-      expect(browser.tabs.update.callCount).to.equal(1);
-      expect(
-        browser.tabs.update.calledWith(1, { url: "firefox:https://mozilla.org" })
-      ).to.be.true;
+      expect(result).toBeTruthy();
+      expect(browser.tabs.update).toHaveBeenCalled();
+      expect(browser.tabs.update).toHaveBeenCalledWith(1, {
+        url: "firefox:https://mozilla.org",
+      });
     });
 
     it("should launch the current tab in Firefox Private Browsing", async () => {
@@ -41,13 +36,11 @@ describe("chromium/interfaces/launchBrowser.js", () => {
         { id: 1, url: "https://mozilla.org" },
         false
       );
-      expect(result).to.be.true;
-      expect(browser.tabs.update.callCount).to.equal(1);
-      expect(
-        browser.tabs.update.calledWith(1, {
-          url: "firefox-private:https://mozilla.org",
-        })
-      ).to.be.true;
+      expect(result).toBeTruthy();
+      expect(browser.tabs.update).toHaveBeenCalled();
+      expect(browser.tabs.update).toHaveBeenCalledWith(1, {
+        url: "firefox-private:https://mozilla.org",
+      });
     });
 
     it("should not launch the current tab if the url scheme is not valid", async () => {
@@ -57,8 +50,9 @@ describe("chromium/interfaces/launchBrowser.js", () => {
         { id: 1, url: "https://mozilla.org" },
         true
       );
-      expect(result).to.be.false;
-      expect(browser.tabs.update.callCount).to.equal(0);
+      expect(result).toBeFalsy();
+      expect(browser.tabs.create).not.toHaveBeenCalled();
+      expect(browser.tabs.update).not.toHaveBeenCalled();
     });
   });
 });

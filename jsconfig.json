@@ -3,7 +3,7 @@
     "compilerOptions": {
       "baseUrl": "./src",
       "paths": {
-        "Interfaces/*": ["firefox/interfaces/*", "chromium/interfaces/*"],
+        "Interfaces/*": ["chromium/interfaces/*", "firefox/interfaces/*"],
         "Shared/*": ["shared/*"],
       }
     }

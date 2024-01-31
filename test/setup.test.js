@@ -103,7 +103,7 @@ global.document = {
 };
 
 export const setSyncStorage = (key, keyValue) => {
-  jest.spyOn(global.browser.storage.sync, "set").mockImplementation(() => {
+  jest.spyOn(global.browser.storage.sync, "get").mockImplementation(() => {
     return new Promise((resolve) => {
       resolve({ [key]: keyValue });
     });
@@ -111,7 +111,7 @@ export const setSyncStorage = (key, keyValue) => {
 };
 
 export const setLocalStorage = (key, keyValue) => {
-  jest.spyOn(global.browser.storage.local, "set").mockImplementation(() => {
+  jest.spyOn(global.browser.storage.local, "get").mockImplementation(() => {
     return new Promise((resolve) => {
       resolve({ [key]: keyValue });
     });
@@ -129,17 +129,21 @@ export const setStorage = (key, keyValue, storageLocation) => {
   }
 };
 
-export const setExtensionIsFirefoxExtension = (isFirefoxExtension) => {
-  // TODO: Do this when testing has been figured out
+export const setExtensionPlatform = (platform) => {
+  global.IS_FIREFOX_EXTENSION = platform === "firefox";
+  global.IS_CHROME_EXTENSION = platform === "chromium";
 };
 
 export const setCurrentTabURL = (currentTabURL) => {
-  global.browser.tabs.query.callsFake((queryInfo) => {
-    return [
-      {
-        url: currentTabURL,
-      },
-    ];
+  const browserTabsQueryMock = jest.spyOn(global.browser.tabs, "query");
+  browserTabsQueryMock.mockImplementation(() => {
+    return new Promise((resolve) => {
+      resolve([
+        {
+          url: currentTabURL,
+        },
+      ]);
+    });
   });
 };
 
@@ -169,6 +173,7 @@ jest.spyOn(global.browser.i18n, "getMessage").mockImplementation((key) => {
 beforeEach(async () => {
   await testResetGlean("firefox-launch");
   setStorage("isFirefoxInstalled", true);
+
 });
 
 afterEach(() => {
