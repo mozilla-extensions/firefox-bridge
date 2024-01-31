@@ -1,4 +1,4 @@
-import { initPlatformListeners } from "Interfaces/listeners.js";
+import { initPlatformListeners } from "../../../src/chromium/interfaces/listeners.js";
 
 import { setStorage } from "../../setup.test.js";
 

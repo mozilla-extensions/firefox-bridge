@@ -2,7 +2,7 @@ import {
   getIsFirefoxInstalled,
   getDefaultIconPath,
   getGreyedIconPath,
-} from "Interfaces/getters.js";
+} from "../../../src/chromium/interfaces/getters.js";
 
 import { setStorage } from "../../setup.test.js";
 

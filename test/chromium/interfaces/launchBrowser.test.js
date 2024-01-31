@@ -1,4 +1,4 @@
-import { launchBrowser } from "Interfaces/launchBrowser.js";
+import { launchBrowser } from "../../../src/chromium/interfaces/launchBrowser.js";
 
 import { setStorage } from "../../setup.test.js";
 import { setIsCurrentTabValidUrlScheme } from "Shared/backgroundScripts/validTab.js";
