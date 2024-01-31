@@ -8,7 +8,7 @@ XPCOMUtils.defineLazyServiceGetters(lazy, {
 
 const https = "https";
 const iconSize = 32;
-const browserNamesWin = ["Chrome", "Edge", "Opera", "Safari"];
+const browserNamesWin = ["Chrome", "Edge", "Opera"];
 const browserNamesMac = ["Safari", "Chrome", "Microsoft Edge", "Opera", "Arc"];
 let logs = [];
 
@@ -183,9 +183,9 @@ this.experiments_firefox_launch = class extends ExtensionAPI {
             }
           },
 
-          openPrivilegedUrl(url) {
+          openShortcutsPage() {
             let win = Services.wm.getMostRecentWindow("navigator:browser");
-            win.BrowserOpenAddonsMgr(url);
+            win.BrowserOpenAddonsMgr("addons://shortcuts/shortcuts");
           }
         },
       },

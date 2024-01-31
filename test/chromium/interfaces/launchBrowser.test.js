@@ -25,7 +25,7 @@ describe("chromium/interfaces/launchBrowser.js", () => {
       setIsCurrentTabValidUrlScheme(true);
       const result = await launchBrowser(
         { id: 1, url: "https://mozilla.org" },
-        true
+        false
       );
       expect(result).to.be.true;
       expect(browser.tabs.update.callCount).to.equal(1);
@@ -39,7 +39,7 @@ describe("chromium/interfaces/launchBrowser.js", () => {
       setIsCurrentTabValidUrlScheme(true);
       const result = await launchBrowser(
         { id: 1, url: "https://mozilla.org" },
-        false
+        true
       );
       expect(result).to.be.true;
       expect(browser.tabs.update.callCount).to.equal(1);

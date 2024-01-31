@@ -10,7 +10,7 @@ export function initPlatformListeners() {
     const browserName = await getExternalBrowser();
     const success = launchBrowser(
       tab,
-      browserName === "Firefox"
+      browserName !== "Firefox"
     );
     if (success) {
       browser.storage.local.set({

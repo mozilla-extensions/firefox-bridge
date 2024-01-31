@@ -40,17 +40,11 @@
         ]
       },
       {
-        "name": "openPrivilegedUrl",
+        "name": "openShortcutsPage",
         "type": "function",
         "async": false,
-        "description": "Opens a privileged URL in the browser",
-        "parameters": [
-          {
-            "name": "url",
-            "type": "string",
-            "description": "The URL to open"
-          }
-        ]
+        "description": "Opens the Firefox addons shortcuts page.",
+        "parameters": []
       }
     ]
   }

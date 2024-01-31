@@ -4,8 +4,7 @@ export function replaceMessage(element, l10nID, href) {
     return false;
   }
 
-  message = message.replace("{LinkStart}", `<a id="${l10nID}Link" href="">`);
-  message = message.replace("{LinkEnd}", "</a>");
+  message = message.replace("<a>", `<a id="${l10nID}Link" href="">`);
 
   // eslint-disable-next-line no-unsanitized/property
   element.innerHTML = message;
@@ -16,7 +15,7 @@ export function replaceMessage(element, l10nID, href) {
     link.addEventListener("click", (event) => {
       event.preventDefault();
       if (href.startsWith("addons://")) {
-        browser.experiments.firefox_launch.openPrivilegedUrl(href);
+        browser.experiments.firefox_launch.openShortcutsPage();
       } else {
         browser.tabs.create({
           url: href,
@@ -54,7 +53,7 @@ export function applyLocalization() {
   const hrefMapping = {
     welcomePageManageShortcutsChromium: "chrome://extensions/shortcuts",
     welcomePageManageShortcutsFirefox: "addons://shortcuts/shortcuts",
-    welcomePageErrorChromium: "https://www.mozilla.org/en-CA/firefox/new/",
+    welcomePageErrorChromium: "https://www.mozilla.org/firefox/new/",
     privacyNoticeLink: "",
   };
 

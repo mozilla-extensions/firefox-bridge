@@ -1,14 +1,25 @@
 {
   "launchInExternalBrowser": {
     "message": "Open page in $browser$",
-    "placeholders": { "browser": { "content": "$1" } }
+    "description": "The variable is replaced by the browser name (Firefox, Chrome, Safari, etc)",
+    "placeholders": {
+      "browser": {
+        "content": "$1"
+      }
+    }
   },
   "launchInExternalBrowserLink": {
     "message": "Open link in $browser$",
-    "placeholders": { "browser": { "content": "$1" } }
+    "description": "The variable is replaced by the browser name (Firefox, Chrome, Safari, etc)",
+    "placeholders": {
+      "browser": {
+        "content": "$1"
+      }
+    }
   },
   "welcomeHeading": {
-    "message": "Welcome to Firefox Launch"
+    "message": "Welcome to Launch in Firefox",
+    "description": "'Launch in Firefox' is the name of the extension. It should not be translated."
   },
   "manageExternalSitesContextMenus": {
     "message": "Manage My External Sites"
@@ -18,7 +29,12 @@
   },
   "addCurrentSiteToMySitesContextMenu": {
     "message": "Add $sld$ to My External Sites",
-    "placeholders": { "sld": { "content": "$1" } }
+    "description": "The variable is replaced by the current site’s second-level domain (e.g. 'mozilla.org')",
+    "placeholders": {
+      "sld": {
+        "content": "$1"
+      }
+    }
   },
   "changeDefaultLaunchContextMenu": {
     "message": "Always use Firefox Private Browsing"
@@ -27,7 +43,7 @@
     "message": "Firefox is not installed"
   },
   "notInstalledErrorText": {
-    "message": "Firefox Launch requires Firefox to be installed on your computer."
+    "message": "Launch in Firefox requires Firefox to be installed on your computer."
   },
   "notInstalledErrorAction": {
     "message": "Download Firefox"
@@ -60,39 +76,49 @@
     "message": "Always open sites in a Firefox Private window when switching"
   },
   "welcomePageTelemetryCheckbox": {
-    "message": "Allow Mozilla to collect information about how you use this extension so we can make it better. {LinkStart}Privacy Notice{LinkEnd}"
+    "message": "Allow Mozilla to collect information about how you use this extension so we can make it better. <a>Privacy Notice</a>"
   },
   "welcomePageNoShortcutsFirefox": {
-    "message": "You don't have any shortcuts set up for this extension. Create them by going to {LinkStart}extension settings.{LinkEnd}"
+    "message": "You don’t have any shortcuts set up for this extension. Create them by going to <a>extension settings.</a>"
   },
   "welcomePageNoShortcutsChromium": {
-    "message": "You don't have any shortcuts set up for this extension. Create them by going to {LinkStart}extension settings.{LinkEnd}"
+    "message": "You don’t have any shortcuts set up for this extension. Create them by going to <a>extension settings.</a>"
   },
   "welcomePageNoShortcutTo": {
-    "message": "You don't have a shortcut set up for launching your current page in $browser$",
-    "placeholders": { "browser": { "content": "$1" } }
+    "message": "You don’t have a shortcut set up for launching your current page in $browser$",
+    "description": "The variable is replaced by the browser name (Firefox, Chrome, Safari, etc)",
+    "placeholders": {
+      "browser": {
+        "content": "$1"
+      }
+    }
   },
   "welcomePageYesShortcutTo": {
     "message": "$hotkey$ launches your current page in $browser$",
+    "description": "The variable is replaced by the browser name (Firefox, Chrome, Safari, etc)",
     "placeholders": {
-      "hotkey": { "content": "$1" },
-      "browser": { "content": "$2" }
+      "hotkey": {
+        "content": "$1"
+      },
+      "browser": {
+        "content": "$2"
+      }
     }
   },
   "welcomePageShortcutTitle": {
     "message": "Shortcuts"
   },
   "welcomePageManageShortcutsFirefox": {
-    "message": "Find shortcuts for this extension by going to {LinkStart}extension settings.{LinkEnd}"
+    "message": "Find shortcuts for this extension by going to <a>extension settings.</a>"
   },
   "welcomePageManageShortcutsChromium": {
-    "message": "Find shortcuts for this extension by going to {LinkStart}extension settings.{LinkEnd}"
+    "message": "Find shortcuts for this extension by going to <a>extension settings.</a>"
   },
   "welcomePageTryFirefox": {
-    "message": "Want to Launch in Firefox? {LinkStart}Try our Chromium extension.{LinkEnd}"
+    "message": "Want to Launch in Firefox? <a>Try our Chromium extension.</a>"
   },
   "welcomePageTryChromium": {
-    "message": "Launch another browser with our {LinkStart}extension in Firefox.{LinkEnd}"
+    "message": "Launch another browser with our <a>extension in Firefox.</a>"
   },
   "welcomePageDefaultBrowser": {
     "message": "(Default Browser)"
@@ -101,9 +127,9 @@
     "message": "BETA"
   },
   "welcomePageNoExternalBrowserErrorChromium": {
-    "message": "Looks like Firefox isn't installed on this device. {LinkStart}Download Now{LinkEnd}"
+    "message": "Looks like Firefox isn’t installed on this device. <a>Download Now</a>"
   },
   "welcomePageNoExternalBrowserErrorFirefox": {
-    "message": "Looks like you don't have another browser on this device"
+    "message": "Looks like you don’t have another browser on this device"
   }
 }

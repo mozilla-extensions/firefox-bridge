@@ -4,7 +4,7 @@ A Chromium and Firefox extension that allows the user to open Firefox from Chrom
 
 ## Requirements
 
-- Firefox Nightly or Developer Edition 109+
+- Firefox Nightly or Developer Edition 122+
 - Some Chromium browser 88+ 
 
 ## Development
