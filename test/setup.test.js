@@ -1,122 +1,120 @@
-import sinon from "sinon";
-import { beforeEach, afterEach } from "mocha";
+import "@babel/preset-env";
 import { testResetGlean } from "@mozilla/glean/testing";
-
 import { isCurrentTabValidUrlScheme } from "../src/shared/backgroundScripts/validTab.js";
+import locales from "../src/_locales/en/messages.json";
+import jest from "jest-mock";
 
 /* global global */
 
 // Mock the chrome and browser API for each of the fields we use.
-global.chrome = {
+global.browser = {
   testEnv: true,
   contextMenus: {
-    create: sinon.stub(),
-    update: sinon.stub(),
+    create: jest.fn(),
+    update: jest.fn(),
     onClicked: {
-      addListener: sinon.stub(),
+      addListener: jest.fn(),
     },
   },
   storage: {
     sync: {
-      get: sinon.stub(),
+      get: jest.fn(),
       onChanged: {
-        addListener: sinon.stub(),
+        addListener: jest.fn(),
       },
-      set: sinon.stub(),
+      set: jest.fn(),
     },
     local: {
-      get: sinon.stub(),
-      set: sinon.stub(),
+      get: jest.fn(),
+      set: jest.fn(),
       onChanged: {
-        addListener: sinon.stub(),
+        addListener: jest.fn(),
       },
     },
     onChanged: {
-      addListener: sinon.stub(),
+      addListener: jest.fn(),
     },
   },
   runtime: {
     id: "test",
     onInstalled: {
-      addListener: sinon.stub(),
+      addListener: jest.fn(),
     },
-    getURL: sinon.stub(),
+    getURL: jest.fn(),
     onStartup: {
-      addListener: sinon.stub(),
+      addListener: jest.fn(),
     },
-    getManifest: sinon.stub(),
+    getManifest: jest.fn(),
   },
   action: {
-    setIcon: sinon.stub(),
+    setIcon: jest.fn(),
     onClicked: {
-      addListener: sinon.stub(),
+      addListener: jest.fn(),
     },
   },
   browserAction: {
-    setIcon: sinon.stub(),
+    setIcon: jest.fn(),
     onClicked: {
-      addListener: sinon.stub(),
+      addListener: jest.fn(),
     },
   },
   tabs: {
     onUpdated: {
-      addListener: sinon.stub(),
+      addListener: jest.fn(),
     },
     onActivated: {
-      addListener: sinon.stub(),
+      addListener: jest.fn(),
     },
     onCreated: {
-      addListener: sinon.stub(),
+      addListener: jest.fn(),
     },
-    update: sinon.stub(),
-    create: sinon.stub(),
-    query: sinon.stub(),
+    update: jest.fn(),
+    create: jest.fn(),
+    query: jest.fn(),
   },
   commands: {
     onCommand: {
-      addListener: sinon.stub(),
+      addListener: jest.fn(),
     },
   },
   i18n: {
-    getMessage: sinon.stub(),
+    getMessage: jest.fn(),
   },
   webRequest: {
     onBeforeRequest: {
-      addListener: sinon.stub(),
+      addListener: jest.fn(),
     },
   },
   declarativeNetRequest: {
-    updateDynamicRules: sinon.stub(),
-    getDynamicRules: sinon.stub(),
+    updateDynamicRules: jest.fn(),
+    getDynamicRules: jest.fn(),
+  },
+  experiments: {
+    firefox_launch: {
+      getAvailableBrowsers: jest.fn(),
+      getDefaultBrowser: jest.fn(),
+      launchApp: jest.fn(),
+    },
   },
 };
 
 global.document = {
-  addEventListener: sinon.stub(),
+  addEventListener: jest.fn(),
 };
-
-global.browser = global.chrome;
-global.browser.experiments = {
-  firefox_launch: {
-    getAvailableBrowsers: sinon.stub(),
-    getDefaultBrowser: sinon.stub(),
-    launchApp: sinon.stub(),
-  },
-};
-
-const locales = await import("../src/_locales/en/messages.json", {
-  assert: { type: "json" },
-});
 
 export const setSyncStorage = (key, keyValue) => {
-  global.browser.storage.sync.get.callsFake((_) => {
-    return { [key]: keyValue };
+  jest.spyOn(global.browser.storage.sync, "set").mockImplementation(() => {
+    return new Promise((resolve) => {
+      resolve({ [key]: keyValue });
+    });
   });
 };
 
 export const setLocalStorage = (key, keyValue) => {
-  global.browser.storage.local.get.callsFake((_) => {
-    return { [key]: keyValue };
+  jest.spyOn(global.browser.storage.local, "set").mockImplementation(() => {
+    return new Promise((resolve) => {
+      resolve({ [key]: keyValue });
+    });
   });
 };
 
@@ -150,7 +148,7 @@ export const getIsCurrentTabValidUrlScheme = () => {
 };
 
 export const getLocaleMessage = (key) => {
-  return locales.default[key].message;
+  return locales[key].message;
 };
 
 // Reset all stubs within our chrome and browser API.
@@ -158,21 +156,22 @@ function resetStubs(obj) {
   for (const prop in obj) {
     if (typeof obj[prop] === "object") {
       resetStubs(obj[prop]);
-    } else if (obj[prop].reset) {
-      obj[prop].reset();
+    } else if (obj[prop].mockClear) {
+      obj[prop].mockClear();
     }
   }
 }
 
+jest.spyOn(global.browser.i18n, "getMessage").mockImplementation((key) => {
+  return getLocaleMessage(key);
+});
+
 beforeEach(async () => {
   await testResetGlean("firefox-launch");
   setStorage("isFirefoxInstalled", true);
-  global.browser.i18n.getMessage.callsFake((key) => {
-    return getLocaleMessage(key);
-  });
 });
 
 afterEach(() => {
-  resetStubs(global.chrome);
+  resetStubs(global.browser);
   resetStubs(global.document);
 });

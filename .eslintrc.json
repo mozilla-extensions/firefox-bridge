@@ -10,7 +10,7 @@
     "worker": true
   },
   "plugins": ["no-unsanitized"],
-  "extends": "eslint:recommended",
+  "extends": ["eslint:recommended", "plugin:jest/recommended"],
   "rules": {
     "no-unsanitized/method": ["error"],
     "no-unsanitized/property": [
