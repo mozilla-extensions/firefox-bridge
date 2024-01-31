@@ -1,5 +1,3 @@
-/* global IS_FIREFOX_EXTENSION */
-
 /**
  * Retreives the name of the browser that opens on action button click.
  *
