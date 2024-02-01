@@ -6,7 +6,7 @@
   "env": {
     "browser": true,
     "webextensions": true,
-    "es6": true,
+    "es2023": true,
     "worker": true
   },
   "plugins": ["no-unsanitized"],
@@ -28,7 +28,6 @@
   "ignorePatterns": ["src/firefox/api.js"],
   "globals": {
     "IS_FIREFOX_EXTENSION": "readonly",
-    "IS_CHROMIUM_EXTENSION": "readonly",
-    "globalThis": "readonly"
+    "IS_CHROMIUM_EXTENSION": "readonly"
   }
 }
