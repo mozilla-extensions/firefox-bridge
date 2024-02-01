@@ -49,3 +49,6 @@ workflows:
   tests:
     jobs:
       - tests
+  codestyle:
+    jobs:
+      -lint
