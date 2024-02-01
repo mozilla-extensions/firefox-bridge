@@ -56,8 +56,20 @@ Since the Firefox and Chromium extension has a lot of shared logic, but also ind
 - During the build process in `build.js`, the `interfaces` imports will point to the correct folder depending on the browser.
 - Webpack is used for Glean telemetry, so `build/<browser>/background.bundle.js` is the entry point for the background script. The files not required anymore are removed in the `dist` zipped extension. Otherwise, they are used for testing in the `build` folder.
 
-### Experimental APIs
+## Experimental APIs
 
 In Firefox, we use experimental APIs to fetch which browsers are installed on the users computer as well as launch the browser without relying on the protocol handler. To learn more about the APIs, see the [Experiments Documentation](https://webextension-api.thunderbird.net/en/latest/how-to/experiments.html).
 
 Due to the privileged-ness of the Firefox extension, we must use manifest V2, hence the lack of callbacks and `browser.browserAction` vs `browser.action`.
+
+### Develop Experimental APIs
+
+To develop the experimental APIs, you will need to install the Firefox source code and build the browser.
+
+1. Follow the instructions to [install the Firefox source code.](https://firefox-source-docs.mozilla.org/setup/index.html)
+2. Navigate to `mozilla-unified/`
+2. Run `./mach build` to build the browser
+3. Run `./mach run` to run the browser
+4. Follow the above instructions to load the extension in Firefox
+
+Doing this, you will be able to have much more context in the console, including the ability to see the logs from the `console.log` statements in `api.js`.

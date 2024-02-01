@@ -8,9 +8,8 @@ export async function getExternalBrowser() {
   if (!result || result.currentExternalBrowser === undefined) {
     browser.storage.sync.set({ currentExternalBrowser: "Firefox" });
     return "Firefox";
-  } else {
-    return result.currentExternalBrowser;
   }
+  return result.currentExternalBrowser;
 }
 
 /**
@@ -23,9 +22,8 @@ export async function getTelemetryEnabled() {
   if (!result || result.telemetryEnabled === undefined) {
     browser.storage.sync.set({ telemetryEnabled: true });
     return true;
-  } else {
-    return result.telemetryEnabled;
   }
+  return result.telemetryEnabled;
 }
 
 // export function getIsAutoRedirect() {

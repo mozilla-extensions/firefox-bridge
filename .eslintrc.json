@@ -6,26 +6,14 @@
   "env": {
     "browser": true,
     "webextensions": true,
-    "es2023": true,
-    "worker": true
+    "es2023": true
   },
-  "plugins": ["no-unsanitized"],
-  "extends": ["eslint:recommended", "plugin:jest/recommended"],
+  "plugins": ["mozilla"],
+  "extends": ["eslint:recommended", "plugin:jest/recommended", "plugin:mozilla/recommended"],
   "rules": {
-    "no-unsanitized/method": ["error"],
-    "no-unsanitized/property": [
-      "error",
-      {
-        "escape": {
-          "taggedTemplates": ["escaped"]
-        }
-      }
-    ],
-    "indent": ["error", 2],
-    "quotes": ["error", "double"],
-    "semi": ["error", "always"]
+
   },
-  "ignorePatterns": ["src/firefox/api.js", "src/shared/generated/*"],
+  "ignorePatterns": ["src/shared/generated/*"],
   "globals": {
     "IS_FIREFOX_EXTENSION": "readonly",
     "IS_CHROMIUM_EXTENSION": "readonly"

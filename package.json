@@ -59,6 +59,7 @@
     "webpack-cli": "^5.1.4"
   },
   "dependencies": {
-    "@mozilla/glean": "^2.0.0"
+    "@mozilla/glean": "^2.0.0",
+    "eslint-plugin-mozilla": "^3.3.2"
   }
 }
