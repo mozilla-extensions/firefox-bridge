@@ -38,15 +38,8 @@
     "experiments_firefox_launch": {
       "schema": "schema.json",
       "parent": {
-        "scopes": [
-          "addon_parent"
-        ],
-        "paths": [
-          [
-            "experiments",
-            "firefox_launch"
-          ]
-        ],
+        "scopes": ["addon_parent"],
+        "paths": [["experiments", "firefox_launch"]],
         "script": "api.js"
       }
     }

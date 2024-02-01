@@ -17,7 +17,8 @@ function addErrorToEntry(entryDivId) {
   urlInput.style.border = "1px solid red";
   const errorMessage = document.createElement("p");
   errorMessage.className = "error";
-  errorMessage.innerText = "Invalid or duplicated URL. Please check the entry and try again.";
+  errorMessage.innerText =
+    "Invalid or duplicated URL. Please check the entry and try again.";
   entryDiv.appendChild(errorMessage);
 }
 
@@ -38,7 +39,7 @@ function validateEntry(entry) {
   const queryParamsPattern = "(?:\\?[a-zA-Z0-9_=%&]*)*";
 
   const urlPattern = new RegExp(
-    `^${subdomainPattern}*${domainPattern}${pathPattern}${queryParamsPattern}$`
+    `^${subdomainPattern}*${domainPattern}${pathPattern}${queryParamsPattern}$`,
   );
 
   entry.url = entry.url.replace(/\*+/g, "*"); // replace all groups of * with a single *
@@ -64,7 +65,7 @@ function saveEntry() {
 
   if (validateEntry(entry)) {
     entries.push(entry);
-    browser.storage.sync.set({ firefoxSites: entries }, function() {
+    browser.storage.sync.set({ firefoxSites: entries }, function () {
       renderEntries();
     });
     urlInput.value = "";
@@ -76,7 +77,7 @@ function saveEntry() {
 
 function deleteEntry(entryToDelete) {
   entries = entries.filter((entry) => entry.id !== entryToDelete.id);
-  browser.storage.sync.set({ firefoxSites: entries }, function() {
+  browser.storage.sync.set({ firefoxSites: entries }, function () {
     renderEntries();
     return true;
   });
@@ -96,14 +97,14 @@ function updateEntry(entryToUpdate) {
   }
 
   removeErrorFromEntry(entryToUpdate.id);
-  browser.storage.sync.set({ firefoxSites: entries }, function() {
+  browser.storage.sync.set({ firefoxSites: entries }, function () {
     renderEntries();
     return true;
   });
 }
 
 function fetchAndRenderEntries() {
-  browser.storage.sync.get("firefoxSites", function(data) {
+  browser.storage.sync.get("firefoxSites", function (data) {
     entries = data.firefoxSites || [];
     renderEntries();
   });
@@ -140,13 +141,13 @@ function renderEntries() {
 
     const deleteButton = document.createElement("button");
     deleteButton.innerText = "Delete";
-    deleteButton.addEventListener("click", function() {
+    deleteButton.addEventListener("click", function () {
       deleteEntry(entry);
     });
 
     const updateButton = document.createElement("button");
     updateButton.innerText = "Update";
-    updateButton.addEventListener("click", function() {
+    updateButton.addEventListener("click", function () {
       updateEntry(entry);
     });
 
@@ -163,6 +164,6 @@ function renderEntries() {
 // on load, fetch entries and render them
 fetchAndRenderEntries();
 
-document.addEventListener("DOMContentLoaded", function() {
+document.addEventListener("DOMContentLoaded", function () {
   document.getElementById("save").addEventListener("click", saveEntry);
 });

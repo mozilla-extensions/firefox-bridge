@@ -8,7 +8,7 @@
 //   ) {
 //     return;
 //   }
-  
+
 //   const sites = await getExternalSites();
 //   sites.sort((a, b) => b.isPrivate - a.isPrivate); // sort by private first
 //   for (const site of sites) {
@@ -32,7 +32,7 @@
 //   const oldRules = await browser.declarativeNetRequest.getDynamicRules();
 //   const newRules = [];
 //   const entries = await getExternalSites();
-  
+
 //   for (const entry of entries) {
 //     const url = entry.url.replace(/\./g, "\\.").replace(/\*+/g, ".*");
 //     const rule = {
@@ -51,7 +51,7 @@
 //     };
 //     newRules.push(rule);
 //   }
-  
+
 //   browser.declarativeNetRequest.updateDynamicRules({
 //     removeRuleIds: oldRules.map((rule) => rule.id),
 //     addRules: newRules,

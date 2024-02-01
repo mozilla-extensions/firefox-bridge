@@ -16,7 +16,7 @@ import "Shared/backgroundScripts/polyfill.js";
  */
 export async function checkPrivateBrowsing() {
   const alwaysPrivateCheckbox = document.getElementById(
-    "always-private-checkbox"
+    "always-private-checkbox",
   );
   const currentExternalBrowser = await getExternalBrowser();
   if (currentExternalBrowser === "Firefox Private Browsing") {
@@ -73,7 +73,7 @@ export async function checkFirefoxHotkeys() {
   // get hotkeys with id launchBrowser
   const hotkeys = await browser.commands.getAll();
   const launchBrowser = hotkeys.find(
-    (hotkey) => hotkey.name === "launchBrowser"
+    (hotkey) => hotkey.name === "launchBrowser",
   );
 
   const shortcutsList = document.getElementById("shortcuts-list");
@@ -98,12 +98,12 @@ export async function checkFirefoxHotkeys() {
     replaceMessage(
       p,
       "welcomePageNoShortcutsFirefox",
-      "addons://shortcuts/shortcuts"
+      "addons://shortcuts/shortcuts",
     );
 
     // remove the manage shortcuts text
     const manageShortcutsText = document.querySelector(
-      "[data-locale='welcomePageManageShortcuts']"
+      "[data-locale='welcomePageManageShortcuts']",
     );
     manageShortcutsText.remove();
   }
@@ -118,10 +118,10 @@ export async function checkFirefoxHotkeys() {
 export async function checkChromiumHotkeys() {
   const hotkeys = await browser.commands.getAll();
   const launchBrowser = hotkeys.find(
-    (hotkey) => hotkey.name === "launchBrowser"
+    (hotkey) => hotkey.name === "launchBrowser",
   );
   const launchFirefoxPrivate = hotkeys.find(
-    (hotkey) => hotkey.name === "launchFirefoxPrivate"
+    (hotkey) => hotkey.name === "launchFirefoxPrivate",
   );
 
   const shortcutsList = document.getElementById("shortcuts-list");
@@ -133,12 +133,12 @@ export async function checkChromiumHotkeys() {
     replaceMessage(
       preamble,
       "welcomePageNoShortcutsChromium",
-      "chrome://extensions/shortcuts"
+      "chrome://extensions/shortcuts",
     );
 
     // remove the manage shortcuts text
     const manageShortcutsText = document.querySelector(
-      "[data-locale='welcomePageManageShortcuts']"
+      "[data-locale='welcomePageManageShortcuts']",
     );
     manageShortcutsText.remove();
     return;
@@ -217,7 +217,7 @@ export function applyMobileLogic() {
   // move the manage shortcuts text to the bottom of the description and
   // remove the shortcuts container.
   const manageShortcutsText = document.querySelector(
-    "[data-locale='welcomePageManageShortcuts']"
+    "[data-locale='welcomePageManageShortcuts']",
   );
 
   document

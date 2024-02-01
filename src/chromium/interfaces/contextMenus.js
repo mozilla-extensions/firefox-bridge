@@ -23,7 +23,7 @@ export async function applyPlatformContextMenus() {
     id: "alternativeLaunchContextMenu",
     title: browser.i18n.getMessage(
       "launchInExternalBrowser",
-      alternateBrowserName
+      alternateBrowserName,
     ),
     contexts: ["action"],
   });
@@ -58,7 +58,7 @@ export async function applyPlatformContextMenus() {
     id: "launchInExternalBrowserPrivate",
     title: browser.i18n.getMessage(
       "launchInExternalBrowser",
-      "Firefox Private Browsing"
+      "Firefox Private Browsing",
     ),
     contexts: ["page"],
   });
@@ -68,7 +68,7 @@ export async function applyPlatformContextMenus() {
     id: "launchInExternalBrowserPrivateLink",
     title: browser.i18n.getMessage(
       "launchInExternalBrowserLink",
-      "Firefox Private Browsing"
+      "Firefox Private Browsing",
     ),
     contexts: ["link"],
   });
@@ -87,7 +87,7 @@ export async function handleChangeDefaultLaunchContextMenuClick() {
   browser.contextMenus.update("alternativeLaunchContextMenu", {
     title: browser.i18n.getMessage(
       "launchInExternalBrowser",
-      externalBrowserName
+      externalBrowserName,
     ),
   });
 
@@ -103,7 +103,7 @@ export async function handleChangeDefaultLaunchContextMenuClick() {
 
 /**
  * Handles the context menu clicks for the Chromium Extension.
- * 
+ *
  * @param {*} info  The context menu item info object.
  * @param {*} tab  The tab object to launch the browser with.
  */
@@ -123,9 +123,7 @@ export async function handlePlatformContextMenuClick(info, tab) {
         source: "action_context_menu",
       },
     });
-  } 
-  
-  else if (info.menuItemId === "alternativeLaunchContextMenu") {
+  } else if (info.menuItemId === "alternativeLaunchContextMenu") {
     // launch in the opposite mode to the default
     if (await launchBrowser(tab, externalBrowserName === "Firefox")) {
       const launchedBrowserName =
@@ -140,9 +138,7 @@ export async function handlePlatformContextMenuClick(info, tab) {
         },
       });
     }
-  } 
-  
-  else if (info.menuItemId === "launchInExternalBrowserPrivate") {
+  } else if (info.menuItemId === "launchInExternalBrowserPrivate") {
     if (await launchBrowser(tab, true)) {
       browser.storage.local.set({
         telemetry: {
@@ -152,9 +148,7 @@ export async function handlePlatformContextMenuClick(info, tab) {
         },
       });
     }
-  } 
-  
-  else if (info.menuItemId === "launchInExternalBrowserPrivateLink") {
+  } else if (info.menuItemId === "launchInExternalBrowserPrivateLink") {
     tab.url = info.linkUrl;
     if (await launchBrowser(tab, true)) {
       browser.storage.local.set({

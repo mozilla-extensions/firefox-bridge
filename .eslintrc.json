@@ -1,12 +1,12 @@
 {
   "parserOptions": {
-    "ecmaVersion": 8,
+    "ecmaVersion": 2023,
     "sourceType": "module"
   },
   "env": {
     "browser": true,
     "webextensions": true,
-    "es6": true,
+    "es2023": true,
     "worker": true
   },
   "plugins": ["no-unsanitized"],
@@ -24,5 +24,10 @@
     "indent": ["error", 2],
     "quotes": ["error", "double"],
     "semi": ["error", "always"]
+  },
+  "ignorePatterns": ["src/firefox/api.js", "src/shared/generated/*"],
+  "globals": {
+    "IS_FIREFOX_EXTENSION": "readonly",
+    "IS_CHROMIUM_EXTENSION": "readonly"
   }
 }

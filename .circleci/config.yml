@@ -30,8 +30,25 @@ jobs:
 
       - codecov/upload:
           file: ./coverage/lcov.info
+  codestyle:
+    docker:
+      - image: cimg/node:20.0.0
+
+    steps:
+      - checkout
+      
+      - run:
+          name: Install Dependencies
+          command: npm i
+      
+      - run:
+          name: Lint
+          command: npm run codestyle:check
 
 workflows:
   tests:
     jobs:
       - tests
+  codestyle:
+    jobs:
+      - codestyle

@@ -29,7 +29,7 @@ export function initTelemetryListeners() {
     if (details.reason !== "install") {
       return;
     }
-    
+
     await initGlean();
     installEvent.dateInstalled.set(new Date());
     installEvent.browserType.set(IS_FIREFOX_EXTENSION ? "firefox" : "chromium");
@@ -44,7 +44,7 @@ export function initTelemetryListeners() {
     startupEvent.browserLanguageLocale.set(navigator.language);
     startupEvent.extensionLanguageLocale.set(browser.i18n.getUILanguage());
     startupEvent.isPinned.set(
-      (await browser.action.getUserSettings()).isOnToolbar
+      (await browser.action.getUserSettings()).isOnToolbar,
     );
     const commands = await browser.commands.getAll();
     for (const command of commands) {

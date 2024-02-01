@@ -1,13 +1,11 @@
 import {
   getDefaultIconPath,
   getGreyedIconPath,
-  getExternalBrowserLaunchProtocol
+  getExternalBrowserLaunchProtocol,
 } from "../../../src/firefox/interfaces/getters.js";
 import { setStorage } from "../../setup.test.js";
 
-
 describe("firefox/interfaces/getters.js", () => {
-
   describe("getDefaultIconPath()", () => {
     it("should return the current browser icon path", async () => {
       setStorage("currentExternalBrowser", "chrome");

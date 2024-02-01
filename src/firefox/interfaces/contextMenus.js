@@ -30,13 +30,11 @@ export async function applyPlatformContextMenus() {
 
 /**
  * Handles the context menu click for the Firefox Extension.
- * 
+ *
  * @param {Object} info The context menu item info object.
  */
 export async function handlePlatformContextMenuClick(info) {
-  if (
-    info.menuItemId === "openWelcomePage"
-  ) {
+  if (info.menuItemId === "openWelcomePage") {
     browser.tabs.create({
       url: browser.runtime.getURL("shared/pages/welcomePage/index.html"),
     });
