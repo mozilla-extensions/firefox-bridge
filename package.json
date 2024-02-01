@@ -11,7 +11,7 @@
   "scripts": {
     "test": "npm run build:glean && NODE_OPTIONS=\"$NODE_OPTIONS --experimental-vm-modules\" c8 jest",
     "lint": "eslint --fix src test",
-    "format": "prettier --write \"src/**/*.js\" \"test/**/*.js\"",
+    "format": "prettier --write \"src/**/*.{js,css,json,html}\" \"test/**/*.js\"",
     "coverage": "c8 report --reporter=lcov --reporter=text",
     "zip:firefox": "web-ext build --source-dir build/firefox --artifacts-dir dist --overwrite-dest --filename=firefox.zip",
     "zip:chromium": "web-ext build --source-dir build/chromium --artifacts-dir dist --overwrite-dest --filename=chromium.zip",

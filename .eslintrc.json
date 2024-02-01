@@ -1,6 +1,6 @@
 {
   "parserOptions": {
-    "ecmaVersion": 8,
+    "ecmaVersion": 2023,
     "sourceType": "module"
   },
   "env": {
@@ -28,6 +28,7 @@
   "ignorePatterns": ["src/firefox/api.js"],
   "globals": {
     "IS_FIREFOX_EXTENSION": "readonly",
-    "IS_CHROMIUM_EXTENSION": "readonly"
+    "IS_CHROMIUM_EXTENSION": "readonly",
+    "globalThis": "readonly"
   }
 }
