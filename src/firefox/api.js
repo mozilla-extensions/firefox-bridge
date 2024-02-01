@@ -15,107 +15,134 @@ const browserNamesWin = ["Chrome", "Edge", "Opera"];
 const browserNamesMac = ["Safari", "Chrome", "Microsoft Edge", "Opera", "Arc"];
 let logs = [];
 
+function _isValidHandlerExecutable(aExecutable) {
+  let leafName;
+  if (AppConstants.platform == "win") {
+    leafName = `${AppConstants.MOZ_APP_NAME}.exe`;
+  } else if (AppConstants.platform == "macosx") {
+    leafName = AppConstants.MOZ_MACBUNDLE_NAME;
+  } else {
+    return false;
+  }
+  return (
+    aExecutable &&
+    aExecutable.exists() &&
+    aExecutable.isExecutable() &&
+    aExecutable.leafName !== leafName
+  );
+}
+
+function _isValidHandlerApp(aHandlerApp) {
+  if (!aHandlerApp) {
+    return false;
+  }
+
+  if (aHandlerApp instanceof Ci.nsILocalHandlerApp) {
+    return _isValidHandlerExecutable(aHandlerApp.executable);
+  }
+  return false;
+}
+
+// Get all windows able to open https protocol
+function _getAvailableBrowsersWin() {
+  let mimeInfo = lazy.gMIMEService.getFromTypeAndExtension(
+    "text/html",
+    "html",
+  );
+  let appList = mimeInfo.possibleLocalHandlers || [];
+  let appDataList = [];
+  for (let idx = 0; idx < appList.length; idx++) {
+    let app = appList.queryElementAt(idx, Ci.nsILocalHandlerApp);
+    logs.push("App: " + app.executable.path);
+    if (!_isValidHandlerApp(app)) {
+      logs.push("Invalid app");
+      continue;
+    }
+    let iconURI = Services.io.newFileURI(app.executable).spec;
+    let iconString = "moz-icon://" + iconURI + "?size=" + iconSize;
+    let appname =
+      app.executable.parent.leafName !== "Application"
+        ? app.executable.parent.leafName
+        : app.executable.parent.parent.leafName;
+
+    if (!browserNamesWin.includes(appname)) {
+      continue;
+    }
+
+    let appData = {
+      icon: iconString,
+      name: appname,
+      executable: app.executable.path,
+    };
+    appDataList.push(appData);
+  }
+  return appDataList;
+}
+
+function _getAvailableBrowsersMac() {
+  let shellService = Cc[
+    "@mozilla.org/browser/shell-service;1"
+  ].getService(Ci.nsIMacShellService);
+  let appList =
+    shellService.getAvailableApplicationsForProtocol(https);
+  let appDataList = [];
+  for (let app of appList) {
+    if (!browserNamesMac.includes(app[0])) {
+      continue;
+    } else if (app[0] === "Microsoft Edge") {
+      app[0] = "Edge";
+    }
+    let iconString = "moz-icon://" + app[1] + "?size=" + iconSize;
+    let appData = {
+      icon: iconString,
+      name: app[0],
+      executable: app[1],
+    };
+    appDataList.push(appData);
+    logs.push("Icon: " + iconString);
+    logs.push("Name: " + app[0]);
+    logs.push("Executable: " + app[1]);
+  }
+  return appDataList;
+}
+
+function _launchAppWin(appExecutable, handlerArgs) {
+  let file = Cc["@mozilla.org/file/local;1"].createInstance(
+    Ci.nsIFile,
+  );
+  let process = Cc["@mozilla.org/process/util;1"].createInstance(
+    Ci.nsIProcess,
+  );
+  file.initWithPath(appExecutable);
+  process.init(file);
+  process.run(false, handlerArgs, handlerArgs.length);
+}
+
+function _launchAppMac(appExecutable, handlerArgs) {
+  let opener = Cc["@mozilla.org/file/local;1"].createInstance(
+    Ci.nsIFile,
+  );
+  let process = Cc["@mozilla.org/process/util;1"].createInstance(
+    Ci.nsIProcess,
+  );
+  let uri = Services.io.newURI(appExecutable);
+  let file = uri.QueryInterface(Ci.nsIFileURL).file;
+  let argsToUse = ["-a", file.path, ...handlerArgs];
+  opener.initWithPath("/usr/bin/open");
+  process.init(opener);
+  process.run(false, argsToUse, argsToUse.length);
+}
+
 this.experiments_firefox_launch = class extends ExtensionAPI {
   getAPI(context) {
     return {
       experiments: {
         firefox_launch: {
-          _isValidHandlerExecutable(aExecutable) {
-            let leafName;
-            if (AppConstants.platform == "win") {
-              leafName = `${AppConstants.MOZ_APP_NAME}.exe`;
-            } else if (AppConstants.platform == "macosx") {
-              leafName = AppConstants.MOZ_MACBUNDLE_NAME;
-            } else {
-              return false;
-            }
-            return (
-              aExecutable &&
-              aExecutable.exists() &&
-              aExecutable.isExecutable() &&
-              aExecutable.leafName !== leafName
-            );
-          },
-
-          _isValidHandlerApp(aHandlerApp) {
-            if (!aHandlerApp) {
-              return false;
-            }
-
-            if (aHandlerApp instanceof Ci.nsILocalHandlerApp) {
-              return this._isValidHandlerExecutable(aHandlerApp.executable);
-            }
-            return false;
-          },
-
-          // Get all windows able to open https protocol
-          _getAvailableBrowsersWin() {
-            let mimeInfo = lazy.gMIMEService.getFromTypeAndExtension(
-              "text/html",
-              "html",
-            );
-            let appList = mimeInfo.possibleLocalHandlers || [];
-            let appDataList = [];
-            for (let idx = 0; idx < appList.length; idx++) {
-              let app = appList.queryElementAt(idx, Ci.nsILocalHandlerApp);
-              logs.push("App: " + app.executable.path);
-              if (!this._isValidHandlerApp(app)) {
-                logs.push("Invalid app");
-                continue;
-              }
-              let iconURI = Services.io.newFileURI(app.executable).spec;
-              let iconString = "moz-icon://" + iconURI + "?size=" + iconSize;
-              let appname =
-                app.executable.parent.leafName !== "Application"
-                  ? app.executable.parent.leafName
-                  : app.executable.parent.parent.leafName;
-
-              if (!browserNamesWin.includes(appname)) {
-                continue;
-              }
-
-              let appData = {
-                icon: iconString,
-                name: appname,
-                executable: app.executable.path,
-              };
-              appDataList.push(appData);
-            }
-            return appDataList;
-          },
-
-          _getAvailableBrowsersMac() {
-            let shellService = Cc[
-              "@mozilla.org/browser/shell-service;1"
-            ].getService(Ci.nsIMacShellService);
-            let appList =
-              shellService.getAvailableApplicationsForProtocol(https);
-            let appDataList = [];
-            for (let app of appList) {
-              if (!browserNamesMac.includes(app[0])) {
-                continue;
-              } else if (app[0] === "Microsoft Edge") {
-                app[0] = "Edge";
-              }
-              let iconString = "moz-icon://" + app[1] + "?size=" + iconSize;
-              let appData = {
-                icon: iconString,
-                name: app[0],
-                executable: app[1],
-              };
-              appDataList.push(appData);
-              logs.push("Icon: " + iconString);
-              logs.push("Name: " + app[0]);
-              logs.push("Executable: " + app[1]);
-            }
-            return appDataList;
-          },
-
           async getAvailableBrowsers() {
             if (AppConstants.platform == "win") {
-              return { browsers: this._getAvailableBrowsersWin(), logs };
+              return { browsers: _getAvailableBrowsersWin(), logs };
             } else if (AppConstants.platform == "macosx") {
-              return { browsers: this._getAvailableBrowsersMac(), logs };
+              return { browsers: _getAvailableBrowsersMac(), logs };
             }
             logs.push("Unsupported platform: " + AppConstants.platform);
             return { browsers: null, logs };
@@ -146,38 +173,11 @@ this.experiments_firefox_launch = class extends ExtensionAPI {
             return { name: handlerInfo.defaultDescription, logs };
           },
 
-          _launchAppWin(appExecutable, handlerArgs) {
-            let file = Cc["@mozilla.org/file/local;1"].createInstance(
-              Ci.nsIFile,
-            );
-            let process = Cc["@mozilla.org/process/util;1"].createInstance(
-              Ci.nsIProcess,
-            );
-            file.initWithPath(appExecutable);
-            process.init(file);
-            process.run(false, handlerArgs, handlerArgs.length);
-          },
-
-          _launchAppMac(appExecutable, handlerArgs) {
-            let opener = Cc["@mozilla.org/file/local;1"].createInstance(
-              Ci.nsIFile,
-            );
-            let process = Cc["@mozilla.org/process/util;1"].createInstance(
-              Ci.nsIProcess,
-            );
-            let uri = Services.io.newURI(appExecutable);
-            let file = uri.QueryInterface(Ci.nsIFileURL).file;
-            let argsToUse = ["-a", file.path, ...handlerArgs];
-            opener.initWithPath("/usr/bin/open");
-            process.init(opener);
-            process.run(false, argsToUse, argsToUse.length);
-          },
-
           launchApp(appExecutable, handlerArgs) {
             if (AppConstants.platform == "win") {
-              this._launchAppWin(appExecutable, handlerArgs);
+              _launchAppWin(appExecutable, handlerArgs);
             } else if (AppConstants.platform == "macosx") {
-              this._launchAppMac(appExecutable, handlerArgs);
+              _launchAppMac(appExecutable, handlerArgs);
             }
           },
 
