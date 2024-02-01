@@ -1,4 +1,7 @@
 "use strict";
+/* globals ExtensionAPI, Services, XPCOMUtils, AppConstants */
+// The globals above can be found after downloading the Firefox source code (see the README)
+// and here https://firefox-source-docs.mozilla.org/toolkit/components/extensions/webextensions/basics.html
 
 const lazy = {};
 
@@ -110,13 +113,12 @@ this.experiments_firefox_launch = class extends ExtensionAPI {
 
           async getAvailableBrowsers() {
             if (AppConstants.platform == "win") {
-              return { browsers: this._getAvailableBrowsersWin(), logs: logs };
+              return { browsers: this._getAvailableBrowsersWin(), logs };
             } else if (AppConstants.platform == "macosx") {
-              return { browsers: this._getAvailableBrowsersMac(), logs: logs };
-            } else {
-              logs.push("Unsupported platform: " + AppConstants.platform);
-              return { browsers: null, logs: logs };
+              return { browsers: this._getAvailableBrowsersMac(), logs };
             }
+            logs.push("Unsupported platform: " + AppConstants.platform);
+            return { browsers: null, logs };
           },
 
           getDefaultBrowser() {
@@ -132,16 +134,16 @@ this.experiments_firefox_launch = class extends ExtensionAPI {
             let handlerInfo = extProtocolSvc.getProtocolHandlerInfo(https);
             if (!handlerInfo.hasDefaultHandler) {
               logs.push("No default handler");
-              return { name: null, logs: logs };
+              return { name: null, logs };
             }
             if (
               !browserNamesMac.includes(handlerInfo.defaultDescription) &&
               !browserNamesWin.includes(handlerInfo.defaultDescription)
             ) {
               logs.push("Default handler not supported");
-              return { name: null, logs: logs };
+              return { name: null, logs };
             }
-            return { name: handlerInfo.defaultDescription, logs: logs };
+            return { name: handlerInfo.defaultDescription, logs };
           },
 
           _launchAppWin(appExecutable, handlerArgs) {
@@ -172,13 +174,10 @@ this.experiments_firefox_launch = class extends ExtensionAPI {
           },
 
           launchApp(appExecutable, handlerArgs) {
-            let file = null;
             if (AppConstants.platform == "win") {
               this._launchAppWin(appExecutable, handlerArgs);
             } else if (AppConstants.platform == "macosx") {
               this._launchAppMac(appExecutable, handlerArgs);
-            } else {
-              return;
             }
           },
 

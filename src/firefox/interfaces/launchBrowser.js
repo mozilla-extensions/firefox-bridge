@@ -13,11 +13,10 @@ export async function launchBrowser(tab) {
     if (launchProtocol) {
       browser.experiments.firefox_launch.launchApp(launchProtocol, [tab.url]);
       return true;
-    } else {
-      browser.tabs.create({
-        url: browser.runtime.getURL("shared/pages/welcomePage/index.html"),
-      });
     }
+    browser.tabs.create({
+      url: browser.runtime.getURL("shared/pages/welcomePage/index.html"),
+    });
   }
   return false;
 }

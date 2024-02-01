@@ -6,3 +6,4 @@ build/
 dist/
 .venv/
 src/shared/generated/
+mozilla-unified/

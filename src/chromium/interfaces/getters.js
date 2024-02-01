@@ -11,9 +11,8 @@ export async function getIsFirefoxInstalled() {
     // placeholder
     browser.storage.local.set({ isFirefoxInstalled: true });
     return true;
-  } else {
-    return result.isFirefoxInstalled;
   }
+  return result.isFirefoxInstalled;
 }
 
 /**
@@ -26,11 +25,10 @@ export async function getDefaultIconPath() {
     return {
       32: browser.runtime.getURL("images/firefox/firefox32.png"),
     };
-  } else {
-    return {
-      32: browser.runtime.getURL("images/firefox-private/private32.png"),
-    };
   }
+  return {
+    32: browser.runtime.getURL("images/firefox-private/private32.png"),
+  };
 }
 
 /**
@@ -43,9 +41,8 @@ export async function getGreyedIconPath() {
     return {
       32: browser.runtime.getURL("images/firefox/firefox32grey.png"),
     };
-  } else {
-    return {
-      32: browser.runtime.getURL("images/firefox-private/private32grey.png"),
-    };
   }
+  return {
+    32: browser.runtime.getURL("images/firefox-private/private32grey.png"),
+  };
 }

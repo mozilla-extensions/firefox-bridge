@@ -66,9 +66,9 @@ export function initTelemetryListeners() {
       }
 
       if (telemetry.type === "currentBrowserChange") {
-        settingEvent.currentBrowser["from"].set(telemetry.from);
-        settingEvent.currentBrowser["to"].set(telemetry.to);
-        settingEvent.currentBrowser["source"].set(telemetry.source);
+        settingEvent.currentBrowser.from.set(telemetry.from);
+        settingEvent.currentBrowser.to.set(telemetry.to);
+        settingEvent.currentBrowser.source.set(telemetry.source);
         settings.submit();
       }
 

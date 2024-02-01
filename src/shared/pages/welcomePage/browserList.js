@@ -31,10 +31,9 @@ export async function populateBrowserList() {
     .filter((localBrowser) => {
       if (loadedBrowsers.has(localBrowser.name)) {
         return false;
-      } else {
-        loadedBrowsers.add(localBrowser.name);
-        return true;
       }
+      loadedBrowsers.add(localBrowser.name);
+      return true;
     });
 
   const defaultBrowserName = await browser.experiments.firefox_launch
@@ -122,7 +121,7 @@ export async function populateBrowserList() {
       browserList.value = edge.name;
       browserList.dispatchEvent(new Event("change"));
     }
-  } else if (browsers.length > 0) {
+  } else if (browsers.length) {
     browserList.value = browsers[0].name;
     browserList.dispatchEvent(new Event("change"));
   } else {
