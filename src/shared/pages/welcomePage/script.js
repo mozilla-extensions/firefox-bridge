@@ -1,5 +1,3 @@
-import * as _ from "../../../browser-polyfill.js";
-
 import {
   getExternalBrowser,
   getTelemetryEnabled,
@@ -7,10 +5,10 @@ import {
 
 import { applyLocalization, replaceMessage } from "./localization.js";
 import { populateBrowserList } from "./browserList.js";
-import { getIsFirefoxInstalled } from "../../../chromium/interfaces/getters.js";
-import { handleChangeDefaultLaunchContextMenuClick } from "../../../chromium/interfaces/contextMenus.js";
+import { getIsFirefoxInstalled } from "Interfaces/getters.js";
+import { handleChangeDefaultLaunchContextMenuClick } from "Interfaces/contextMenus.js";
 
-const isChromium = browser.runtime.getManifest().minimum_chrome_version;
+import "Shared/backgroundScripts/polyfill.js";
 
 /**
  * Check the private browsing checkbox if the current external browser is
@@ -97,7 +95,11 @@ export async function checkFirefoxHotkeys() {
       await getExternalBrowser(),
     ]);
   } else {
-    replaceMessage(p, "welcomePageNoShortcutsFirefox", "addons://shortcuts/shortcuts");
+    replaceMessage(
+      p,
+      "welcomePageNoShortcutsFirefox",
+      "addons://shortcuts/shortcuts"
+    );
 
     // remove the manage shortcuts text
     const manageShortcutsText = document.querySelector(
@@ -181,7 +183,16 @@ export async function checkChromiumHotkeys() {
  * Add or remove certain elements from the page depending on the platform.
  */
 export async function activatePlatformSpecificElements() {
-  if (isChromium) {
+  if (IS_FIREFOX_EXTENSION) {
+    // remove objects with class chromium
+    const chromiumElements = document.getElementsByClassName("chromium");
+    const chromiumElementsArray = Array.from(chromiumElements);
+    chromiumElementsArray.forEach((element) => {
+      element.remove();
+    });
+    populateBrowserList();
+    checkFirefoxHotkeys();
+  } else if (IS_CHROMIUM_EXTENSION) {
     // remove objects with class firefox from the page
     const firefoxElements = document.getElementsByClassName("firefox");
     const firefoxElementsArray = Array.from(firefoxElements);
@@ -196,15 +207,6 @@ export async function activatePlatformSpecificElements() {
     if (!(await getIsFirefoxInstalled())) {
       document.getElementById("error-notification").style.display = "flex";
     }
-  } else {
-    // remove objects with class chromium
-    const chromiumElements = document.getElementsByClassName("chromium");
-    const chromiumElementsArray = Array.from(chromiumElements);
-    chromiumElementsArray.forEach((element) => {
-      element.remove();
-    });
-    populateBrowserList();
-    checkFirefoxHotkeys();
   }
 }
 
@@ -226,7 +228,7 @@ export function applyMobileLogic() {
   shortcutsContainer.remove();
 }
 
-document.addEventListener("DOMContentLoaded", function() {
+document.addEventListener("DOMContentLoaded", function () {
   activatePlatformSpecificElements();
   applyLocalization();
   updateTelemetry();

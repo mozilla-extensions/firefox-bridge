@@ -1,5 +1,3 @@
-// eslint-disable-next-line no-unused-vars
-import * as browserObjectForGlean from "../../browser-polyfill.js"; // required for Glean in chromium
 import Glean from "@mozilla/glean/webext";
 import { install, startup, launch, settings } from "../generated/pings.js";
 import * as installEvent from "../generated/installEvent.js";
@@ -11,14 +9,14 @@ import { getTelemetryEnabled } from "./getters.js";
 
 /**
  * Initialize the telemetry system.
- * 
+ *
  * @param {boolean} showLogs Whether to show logs in the console.
  */
 export async function initGlean(showLogs = false) {
   Glean.setLogPings(showLogs);
   Glean.initialize("firefox.launch", await getTelemetryEnabled(), {
     appDisplayVersion: browser.runtime.getManifest().version,
-    appBuild: browser.runtime.getManifest().minimum_chrome_version ? "chromium" : "firefox",
+    appBuild: IS_FIREFOX_EXTENSION ? "firefox" : "chromium",
   });
 }
 
@@ -34,18 +32,14 @@ export function initTelemetryListeners() {
     
     await initGlean();
     installEvent.dateInstalled.set(new Date());
-    installEvent.browserType.set(
-      browser.runtime.getManifest().minimum_chrome_version ? "chromium" : "firefox"
-    );
+    installEvent.browserType.set(IS_FIREFOX_EXTENSION ? "firefox" : "chromium");
     install.submit();
   });
 
   browser.runtime.onStartup.addListener(async () => {
     // 2. browser version (window.navigator.userAgent)
     await initGlean();
-    startupEvent.browserType.set(
-      browser.runtime.getManifest().minimum_chrome_version ? "chromium" : "firefox"
-    );
+    startupEvent.browserType.set(IS_FIREFOX_EXTENSION ? "firefox" : "chromium");
     startupEvent.dateStarted.set(new Date());
     startupEvent.browserLanguageLocale.set(navigator.language);
     startupEvent.extensionLanguageLocale.set(browser.i18n.getUILanguage());

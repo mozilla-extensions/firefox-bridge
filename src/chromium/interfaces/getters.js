@@ -1,4 +1,4 @@
-import { getExternalBrowser } from "../../shared/backgroundScripts/getters.js";
+import { getExternalBrowser } from "Shared/backgroundScripts/getters.js";
 
 /**
  * Determines whether Firefox is installed on the system.

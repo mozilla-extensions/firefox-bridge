@@ -1,6 +1,6 @@
 import { launchBrowser } from "./launchBrowser.js";
 import { getIsFirefoxInstalled } from "./getters.js";
-import { getExternalBrowser } from "../../shared/backgroundScripts/getters.js";
+import { getExternalBrowser } from "Shared/backgroundScripts/getters.js";
 
 /**
  * Initialize the chromium specific listeners.

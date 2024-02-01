@@ -1,5 +1,5 @@
 import { isCurrentTabValidUrlScheme } from "./validTab.js";
-import { getDefaultIconPath, getGreyedIconPath } from "../../chromium/interfaces/getters.js";
+import { getDefaultIconPath, getGreyedIconPath } from "Interfaces/getters.js";
 
 /**
  * Updates the toolbar icon to the current default browser icon
@@ -11,11 +11,5 @@ export async function updateToolbarIcon() {
   if (!isCurrentTabValidUrlScheme) {
     iconPath = await getGreyedIconPath();
   }
-
-  // Here for firefox mv2 vs chrome mv3 compatibility
-  if (browser.browserAction) {
-    browser.browserAction.setIcon({ path: iconPath });
-  } else {
-    browser.action.setIcon({ path: iconPath });
-  }
+  browser.action.setIcon({ path: iconPath });
 }

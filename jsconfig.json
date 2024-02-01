@@ -1,0 +1,11 @@
+// jsconfig.json or tsconfig.json
+{
+    "compilerOptions": {
+      "baseUrl": "./src",
+      "paths": {
+        "Interfaces/*": ["chromium/interfaces/*", "firefox/interfaces/*"],
+        "Shared/*": ["shared/*"],
+      }
+    }
+  }
+  

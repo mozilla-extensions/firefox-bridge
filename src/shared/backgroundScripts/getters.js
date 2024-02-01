@@ -27,6 +27,7 @@ export async function getTelemetryEnabled() {
     return result.telemetryEnabled;
   }
 }
+
 // export function getIsAutoRedirect() {
 //   return new Promise((resolve) => {
 //     browser.storage.local.get(["isAutoRedirect"], (result) => {

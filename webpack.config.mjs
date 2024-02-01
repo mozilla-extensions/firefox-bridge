@@ -1,26 +1,78 @@
 import path from "path";
+import webpack from "webpack";
+import CopyPlugin from "copy-webpack-plugin";
+
+const target = process.env.NODE_ENV;
+const isFirefoxExtension = target === "firefox";
+const isChromiumExtension = target === "chromium";
+
+const copyPluginPatterns = [
+  {
+    from: "src/_locales",
+    to: target + "/_locales",
+  },
+  {
+    from: "src/" + target,
+    to: target,
+    globOptions: {
+      ignore: ["**/*.js"],
+    },
+  },
+  {
+    from: "src/shared",
+    to: target + "/shared",
+    globOptions: {
+      ignore: ["**/*.js"],
+    },
+  }
+];
+
+// only copy the api.js file for firefox
+if (isFirefoxExtension) {
+  copyPluginPatterns.push({
+    from: "src/firefox/api.js",
+    to: target,
+  });
+}
+
+const alias = {
+  "Shared": path.resolve("src/shared"),
+};
+if (target === "firefox") {
+  alias["Interfaces"] = path.resolve("src/firefox/interfaces");
+} else {
+  alias["Interfaces"] = path.resolve("src/chromium/interfaces");
+}
+
+console.log("Building for " + target + "...\n");
 
 export default {
   entry: {
-    chromiumBackground: "./build/chromium/shared/backgroundScripts/background.js",
-    chromiumWelcomePage: "./build/chromium/shared/pages/welcomePage/script.js",
-    firefoxBackground: "./build/firefox/shared/backgroundScripts/background.js",
-    firefoxWelcomePage: "./build/firefox/shared/pages/welcomePage/script.js",
+    background: "./src/shared/backgroundScripts/background.js",
+    welcomePage: "./src/shared/pages/welcomePage/script.js",
   },
   output: {
     path: path.resolve("build"),
-    filename:({ chunk }) => {
-      if (chunk.name === "chromiumBackground") {
-        return "chromium/background.bundle.js";
-      } else if (chunk.name === "chromiumWelcomePage") {
-        return "chromium/shared/pages/welcomePage/script.bundle.js";
-      } else if (chunk.name === "firefoxBackground") {
-        return "firefox/background.bundle.js";
-      } else if (chunk.name === "firefoxWelcomePage") {
-        return "firefox/shared/pages/welcomePage/script.bundle.js";
+    filename: ({ chunk }) => {
+      if (chunk.name === "background") {
+        return target + "/background.bundle.js";
+      } else if (chunk.name === "welcomePage") {
+        return target + "/shared/pages/welcomePage/script.bundle.js";
       }
     },
   },
-  mode: "production",
+  resolve: {
+    alias: alias,
+  },
+  mode: "development",
   devtool: "inline-source-map",
+  plugins: [
+    new webpack.DefinePlugin({
+      IS_FIREFOX_EXTENSION: JSON.stringify(isFirefoxExtension),
+      IS_CHROMIUM_EXTENSION: JSON.stringify(isChromiumExtension)
+    }),
+    new CopyPlugin({
+      patterns: copyPluginPatterns,
+    }),
+  ],
 };

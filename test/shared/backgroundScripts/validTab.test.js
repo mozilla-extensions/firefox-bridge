@@ -1,11 +1,8 @@
-import { expect } from "chai";
-import { describe, it } from "mocha";
-
 import {
   checkAndUpdateURLScheme,
   isCurrentTabValidUrlScheme,
   setIsCurrentTabValidUrlScheme,
-} from "../../../build/chromium/shared/backgroundScripts/validTab.js";
+} from "Shared/backgroundScripts/validTab.js";
 
 describe("shared/backgroundScripts/validTab.js", () => {
   describe("checkAndUpdateURLScheme()", () => {
@@ -14,19 +11,19 @@ describe("shared/backgroundScripts/validTab.js", () => {
       checkAndUpdateURLScheme({
         url: "http://www.google.com",
       });
-      expect(isCurrentTabValidUrlScheme).to.be.true;
+      expect(isCurrentTabValidUrlScheme).toBeTruthy();
 
       setIsCurrentTabValidUrlScheme(false);
       checkAndUpdateURLScheme({
         url: "https://www.google.com",
       });
-      expect(isCurrentTabValidUrlScheme).to.be.true;
+      expect(isCurrentTabValidUrlScheme).toBeTruthy();
 
       setIsCurrentTabValidUrlScheme(false);
       checkAndUpdateURLScheme({
         url: "file://path/to/file",
       });
-      expect(isCurrentTabValidUrlScheme).to.be.true;
+      expect(isCurrentTabValidUrlScheme).toBeTruthy();
     });
 
     it("should return false if the scheme is not http or https", () => {
@@ -34,23 +31,23 @@ describe("shared/backgroundScripts/validTab.js", () => {
       checkAndUpdateURLScheme({
         url: "chrome://extensions/",
       });
-      expect(isCurrentTabValidUrlScheme).to.be.false;
+      expect(isCurrentTabValidUrlScheme).toBeFalsy();
 
       setIsCurrentTabValidUrlScheme(true);
       checkAndUpdateURLScheme({
         url: "about:blank",
       });
-      expect(isCurrentTabValidUrlScheme).to.be.false;
+      expect(isCurrentTabValidUrlScheme).toBeFalsy();
     });
   });
 
   describe("setIsCurrentTabValidUrlScheme()", () => {
     it("should set the value of isCurrentTabValidUrlScheme", () => {
       setIsCurrentTabValidUrlScheme(true);
-      expect(isCurrentTabValidUrlScheme).to.be.true;
+      expect(isCurrentTabValidUrlScheme).toBeTruthy();
 
       setIsCurrentTabValidUrlScheme(false);
-      expect(isCurrentTabValidUrlScheme).to.be.false;
+      expect(isCurrentTabValidUrlScheme).toBeFalsy();
     });
   });
 });

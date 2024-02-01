@@ -1,4 +1,4 @@
-import { getExternalBrowser } from "../../shared/backgroundScripts/getters.js";
+import { getExternalBrowser } from "Shared/backgroundScripts/getters.js";
 
 /**
  * Retrieve the non-greyed icon path for the current browser. If the browser is not

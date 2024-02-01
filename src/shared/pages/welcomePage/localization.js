@@ -1,5 +1,3 @@
-const isChromium = browser.runtime.getManifest().minimum_chrome_version;
-
 export function replaceMessage(element, l10nID, href) {
   let message = browser.i18n.getMessage(l10nID);
   if (!message) {
@@ -69,11 +67,11 @@ export function applyLocalization() {
     }
 
     // attempt to replace platform specific elements
-    if (isChromium) {
-      const platform = "Chromium";
-      replaceDataLocale(localeId, hrefMapping[localeId + platform], platform);
-    } else {
+    if (IS_FIREFOX_EXTENSION) {
       const platform = "Firefox";
+      replaceDataLocale(localeId, hrefMapping[localeId + platform], platform);
+    } else if (IS_CHROMIUM_EXTENSION){
+      const platform = "Chromium";
       replaceDataLocale(localeId, hrefMapping[localeId + platform], platform);
     }
   });

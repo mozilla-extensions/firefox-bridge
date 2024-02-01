@@ -1,5 +1,5 @@
 import { getIsFirefoxInstalled } from "./getters.js";
-import { isCurrentTabValidUrlScheme } from "../../shared/backgroundScripts/validTab.js";
+import { isCurrentTabValidUrlScheme } from "Shared/backgroundScripts/validTab.js";
 
 /**
  * Launches the Firefox variant. If Firefox is not installed, launch the Firefox download page.

@@ -1,4 +1,4 @@
-import { isCurrentTabValidUrlScheme } from "../../shared/backgroundScripts/validTab.js";
+import { isCurrentTabValidUrlScheme } from "Shared/backgroundScripts/validTab.js";
 import { getExternalBrowserLaunchProtocol } from "./getters.js";
 
 /**

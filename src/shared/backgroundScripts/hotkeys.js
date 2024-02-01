@@ -1,4 +1,4 @@
-import { launchBrowser } from "../../chromium/interfaces/launchBrowser.js";
+import { launchBrowser } from "Interfaces/launchBrowser.js";
 import { getExternalBrowser } from "./getters.js";
 
 /**

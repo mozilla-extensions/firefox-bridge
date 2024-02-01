@@ -1,10 +1,10 @@
-import { launchBrowser } from "../../chromium/interfaces/launchBrowser.js";
+import { launchBrowser } from "Interfaces/launchBrowser.js";
 import { getExternalBrowser } from "./getters.js";
 
 import {
   applyPlatformContextMenus,
   handlePlatformContextMenuClick,
-} from "../../chromium/interfaces/contextMenus.js";
+} from "Interfaces/contextMenus.js";
 
 /**
  * Initialize the context menu. This includes the page context menu, link context menu,
@@ -13,9 +13,7 @@ import {
 export async function initContextMenu() {
   const externalBrowser = await getExternalBrowser();
   // if we're in chromium, ensure we force Firefox as the option, otherwise use the default
-  const defaultLaunchMode = browser.runtime.getManifest().minimum_chrome_version
-    ? "Firefox"
-    : externalBrowser;
+  const defaultLaunchMode = IS_FIREFOX_EXTENSION ? externalBrowser : "Firefox";
 
   // page context menu
   browser.contextMenus.create({
@@ -69,9 +67,7 @@ export async function initContextMenu() {
 export async function handleBrowserNameChange() {
   const externalBrowser = await getExternalBrowser();
   // if we're in chromium, ensure we force Firefox as the option, otherwise use the default
-  const defaultLaunchMode = browser.runtime.getManifest().minimum_chrome_version
-    ? "Firefox"
-    : externalBrowser;
+  const defaultLaunchMode = IS_FIREFOX_EXTENSION ? externalBrowser : "Firefox";
 
   browser.contextMenus.update("launchInExternalBrowser", {
     title: browser.i18n.getMessage(

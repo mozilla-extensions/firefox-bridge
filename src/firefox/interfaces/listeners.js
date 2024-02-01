@@ -1,11 +1,11 @@
 import { launchBrowser } from "./launchBrowser.js";
-import { getExternalBrowser } from "../../shared/backgroundScripts/getters.js";
+import { getExternalBrowser } from "Shared/backgroundScripts/getters.js";
 
 /**
  * Initialize the firefox specific listeners.
  */
 export function initPlatformListeners() {
-  browser.browserAction.onClicked.addListener(async (tab) => {
+  browser.action.onClicked.addListener(async (tab) => {
     if (await launchBrowser(tab)) {
       browser.storage.local.set({
         telemetry: {
