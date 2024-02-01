@@ -7,7 +7,7 @@ import { getExternalBrowser } from "Shared/backgroundScripts/getters.js";
  * Initialize the chromium specific context menu items.
  */
 export async function applyPlatformContextMenus() {
-  const externalBrowserName = (await getExternalBrowser( )) || "Firefox";
+  const externalBrowserName = (await getExternalBrowser()) || "Firefox";
   const alternateBrowserName =
     externalBrowserName === "Firefox" ? "Firefox Private Browsing" : "Firefox";
 
