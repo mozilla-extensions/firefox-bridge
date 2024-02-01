@@ -30,7 +30,7 @@ jobs:
 
       - codecov/upload:
           file: ./coverage/lcov.info
-  lint:
+  codestyle:
     docker:
       - image: cimg/node:20.0.0
 
@@ -43,11 +43,12 @@ jobs:
       
       - run:
           name: Lint
-          command: npm run lint
+          command: npm run codestyle:check
+
 workflows:
   tests:
     jobs:
       - tests
   codestyle:
     jobs:
-      - lint
+      - codestyle
