@@ -1,5 +1,7 @@
 "use strict";
 /* globals ExtensionAPI, Services, XPCOMUtils, AppConstants */
+// The globals above can be found after downloading the Firefox source code (see the README)
+// and here https://firefox-source-docs.mozilla.org/toolkit/components/extensions/webextensions/basics.html
 
 const lazy = {};
 
