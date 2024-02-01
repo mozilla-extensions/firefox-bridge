@@ -51,4 +51,4 @@ workflows:
       - tests
   codestyle:
     jobs:
-      -lint
+      - lint
