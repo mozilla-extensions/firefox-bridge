@@ -1,7 +1,7 @@
 import { launchBrowser } from "./launchBrowser.js";
 
 import { updateToolbarIcon } from "Shared/backgroundScripts/actionButton.js";
-import { getExternalBrowser } from "Shared/backgroundScripts/getters.js";
+import { getExternalBrowser, getTelemetryEnabled } from "Shared/backgroundScripts/getters.js";
 
 /**
  * Initialize the chromium specific context menu items.

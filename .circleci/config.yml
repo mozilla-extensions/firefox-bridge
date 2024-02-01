@@ -43,8 +43,7 @@ jobs:
       
       - run:
           name: Lint
-          command: npx eslint src test
-
+          command: npm run lint
 workflows:
   tests:
     jobs:
