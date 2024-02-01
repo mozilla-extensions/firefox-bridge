@@ -31,7 +31,7 @@ jobs:
       - codecov/upload:
           file: ./coverage/lcov.info
   lint:
-      docker:
+    docker:
       - image: cimg/node:20.0.0
 
     steps:
