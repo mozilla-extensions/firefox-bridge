@@ -36,7 +36,7 @@ export async function getGreyedIconPath() {
  */
 export async function getExternalBrowserLaunchProtocol() {
   const result = await browser.storage.local.get(
-    "currentExternalBrowserLaunchProtocol"
+    "currentExternalBrowserLaunchProtocol",
   );
 
   return result.currentExternalBrowserLaunchProtocol || "";

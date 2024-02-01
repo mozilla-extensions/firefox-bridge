@@ -49,7 +49,7 @@ this.experiments_firefox_launch = class extends ExtensionAPI {
           _getAvailableBrowsersWin() {
             let mimeInfo = lazy.gMIMEService.getFromTypeAndExtension(
               "text/html",
-              "html"
+              "html",
             );
             let appList = mimeInfo.possibleLocalHandlers || [];
             let appDataList = [];
@@ -85,9 +85,8 @@ this.experiments_firefox_launch = class extends ExtensionAPI {
             let shellService = Cc[
               "@mozilla.org/browser/shell-service;1"
             ].getService(Ci.nsIMacShellService);
-            let appList = shellService.getAvailableApplicationsForProtocol(
-              https
-            );
+            let appList =
+              shellService.getAvailableApplicationsForProtocol(https);
             let appDataList = [];
             for (let app of appList) {
               if (!browserNamesMac.includes(app[0])) {
@@ -147,10 +146,10 @@ this.experiments_firefox_launch = class extends ExtensionAPI {
 
           _launchAppWin(appExecutable, handlerArgs) {
             let file = Cc["@mozilla.org/file/local;1"].createInstance(
-              Ci.nsIFile
+              Ci.nsIFile,
             );
             let process = Cc["@mozilla.org/process/util;1"].createInstance(
-              Ci.nsIProcess
+              Ci.nsIProcess,
             );
             file.initWithPath(appExecutable);
             process.init(file);
@@ -159,10 +158,10 @@ this.experiments_firefox_launch = class extends ExtensionAPI {
 
           _launchAppMac(appExecutable, handlerArgs) {
             let opener = Cc["@mozilla.org/file/local;1"].createInstance(
-              Ci.nsIFile
+              Ci.nsIFile,
             );
             let process = Cc["@mozilla.org/process/util;1"].createInstance(
-              Ci.nsIProcess
+              Ci.nsIProcess,
             );
             let uri = Services.io.newURI(appExecutable);
             let file = uri.QueryInterface(Ci.nsIFileURL).file;
@@ -186,7 +185,7 @@ this.experiments_firefox_launch = class extends ExtensionAPI {
           openShortcutsPage() {
             let win = Services.wm.getMostRecentWindow("navigator:browser");
             win.BrowserOpenAddonsMgr("addons://shortcuts/shortcuts");
-          }
+          },
         },
       },
     };

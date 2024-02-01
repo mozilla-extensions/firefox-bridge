@@ -20,7 +20,7 @@ export async function initContextMenu() {
     id: "launchInExternalBrowser",
     title: browser.i18n.getMessage(
       "launchInExternalBrowser",
-      defaultLaunchMode
+      defaultLaunchMode,
     ),
     contexts: ["page"],
   });
@@ -30,7 +30,7 @@ export async function initContextMenu() {
     id: "launchInExternalBrowserLink",
     title: browser.i18n.getMessage(
       "launchInExternalBrowserLink",
-      defaultLaunchMode
+      defaultLaunchMode,
     ),
     contexts: ["link"],
   });
@@ -72,13 +72,13 @@ export async function handleBrowserNameChange() {
   browser.contextMenus.update("launchInExternalBrowser", {
     title: browser.i18n.getMessage(
       "launchInExternalBrowser",
-      defaultLaunchMode
+      defaultLaunchMode,
     ),
   });
   browser.contextMenus.update("launchInExternalBrowserLink", {
     title: browser.i18n.getMessage(
       "launchInExternalBrowserLink",
-      defaultLaunchMode
+      defaultLaunchMode,
     ),
   });
 }

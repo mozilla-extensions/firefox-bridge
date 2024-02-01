@@ -7,7 +7,8 @@ export async function populateBrowserList() {
   let browserList = document.getElementById("browser-select");
   browserList.innerHTML = "";
 
-  const availableBrowsers = await browser.experiments.firefox_launch.getAvailableBrowsers();
+  const availableBrowsers =
+    await browser.experiments.firefox_launch.getAvailableBrowsers();
 
   // console.group("Experimental Api Logs");
   // availableBrowsers.logs.forEach((log) => {
@@ -49,7 +50,7 @@ export async function populateBrowserList() {
     const isDefaultBrowser = defaultBrowserName === localBrowser.name;
     if (isDefaultBrowser) {
       option.text = `${localBrowser.name} ${browser.i18n.getMessage(
-        "welcomePageDefaultBrowser"
+        "welcomePageDefaultBrowser",
       )}`;
     } else {
       option.text = localBrowser.name;
@@ -64,17 +65,18 @@ export async function populateBrowserList() {
     const oldBrowserName = await getExternalBrowser();
     const newBrowserName = event.target.value;
     const executable = event.target.selectedOptions[0].getAttribute(
-      "data-launch-protocol"
+      "data-launch-protocol",
     );
 
     // update launch-browser-shortcut
     const launchBrowserShortcutElement = document.getElementById(
-      "launch-browser-shortcut"
+      "launch-browser-shortcut",
     );
-    launchBrowserShortcutElement.innerText = launchBrowserShortcutElement.innerText.replace(
-      oldBrowserName,
-      newBrowserName
-    );
+    launchBrowserShortcutElement.innerText =
+      launchBrowserShortcutElement.innerText.replace(
+        oldBrowserName,
+        newBrowserName,
+      );
 
     browser.storage.local.set({
       currentExternalBrowserLaunchProtocol: executable,
@@ -103,37 +105,27 @@ export async function populateBrowserList() {
 
   if (currentBrowser !== "Firefox") {
     browserList.value = currentBrowser;
-  } 
-  
-  else if (defaultBrowserName) {
+  } else if (defaultBrowserName) {
     browserList.value = defaultBrowserName;
     browserList.dispatchEvent(new Event("change"));
-  } 
-  
-  else if (platform === "mac") {
+  } else if (platform === "mac") {
     const safari = browsers.find(
-      (localBrowser) => localBrowser.name === "Safari"
+      (localBrowser) => localBrowser.name === "Safari",
     );
     if (safari) {
       browserList.value = safari.name;
       browserList.dispatchEvent(new Event("change"));
     }
-  } 
-  
-  else if (platform === "win") {
+  } else if (platform === "win") {
     const edge = browsers.find((localBrowser) => localBrowser.name === "Edge");
     if (edge) {
       browserList.value = edge.name;
       browserList.dispatchEvent(new Event("change"));
     }
-  } 
-  
-  else if (browsers.length > 0) {
+  } else if (browsers.length > 0) {
     browserList.value = browsers[0].name;
     browserList.dispatchEvent(new Event("change"));
-  } 
-  
-  else {
+  } else {
     browserList.remove();
     document.getElementById("browser-list-message").innerText =
       "No browsers found.";

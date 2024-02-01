@@ -70,7 +70,7 @@ export function applyLocalization() {
     if (IS_FIREFOX_EXTENSION) {
       const platform = "Firefox";
       replaceDataLocale(localeId, hrefMapping[localeId + platform], platform);
-    } else if (IS_CHROMIUM_EXTENSION){
+    } else if (IS_CHROMIUM_EXTENSION) {
       const platform = "Chromium";
       replaceDataLocale(localeId, hrefMapping[localeId + platform], platform);
     }

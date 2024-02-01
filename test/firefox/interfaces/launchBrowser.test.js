@@ -26,9 +26,10 @@ describe("firefox/interfaces/launchBrowser.js", () => {
       const result = await launchBrowser({ url: "https://example.com" });
       expect(result).toEqual(true);
       expect(browser.experiments.firefox_launch.launchApp).toHaveBeenCalled();
-      expect(
-        browser.experiments.firefox_launch.launchApp
-      ).toHaveBeenCalledWith("test", ["https://example.com"]);
+      expect(browser.experiments.firefox_launch.launchApp).toHaveBeenCalledWith(
+        "test",
+        ["https://example.com"],
+      );
     });
   });
 });

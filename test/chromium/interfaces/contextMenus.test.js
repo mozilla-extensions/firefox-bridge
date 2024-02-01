@@ -43,7 +43,7 @@ describe("chromium/interfaces/contextMenus.js", () => {
         "alternativeLaunchContextMenu",
         {
           title: getLocaleMessage("launchInExternalBrowser"),
-        }
+        },
       );
       expect(browser.storage.sync.set).toHaveBeenCalledWith({
         currentExternalBrowser: "Firefox Private Browsing",
@@ -60,7 +60,7 @@ describe("chromium/interfaces/contextMenus.js", () => {
         "alternativeLaunchContextMenu",
         {
           title: getLocaleMessage("launchInExternalBrowser"),
-        }
+        },
       );
       expect(browser.storage.sync.set).toHaveBeenCalledWith({
         currentExternalBrowser: "Firefox",

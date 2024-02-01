@@ -1,7 +1,4 @@
-import {
-  applyPlatformContextMenus,
-  handlePlatformContextMenuClick,
-} from "../../../src/firefox/interfaces/contextMenus.js";
+import { handlePlatformContextMenuClick } from "../../../src/firefox/interfaces/contextMenus.js";
 
 import { setStorage } from "../../setup.test.js";
 
@@ -18,7 +15,7 @@ describe("firefox/interfaces/contextMenus.js", () => {
       });
       expect(browser.tabs.create).toHaveBeenCalled();
       expect(browser.runtime.getURL).toHaveBeenCalledWith(
-        "shared/pages/welcomePage/index.html"
+        "shared/pages/welcomePage/index.html",
       );
     });
   });
