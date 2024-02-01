@@ -30,6 +30,20 @@ jobs:
 
       - codecov/upload:
           file: ./coverage/lcov.info
+  lint:
+      docker:
+      - image: cimg/node:20.0.0
+
+    steps:
+      - checkout
+      
+      - run:
+          name: Install Dependencies
+          command: npm i
+      
+      - run:
+          name: Lint
+          command: npx eslint src test
 
 workflows:
   tests:

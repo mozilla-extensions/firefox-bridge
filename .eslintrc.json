@@ -25,7 +25,7 @@
     "quotes": ["error", "double"],
     "semi": ["error", "always"]
   },
-  "ignorePatterns": ["src/firefox/api.js"],
+  "ignorePatterns": ["src/firefox/api.js", "src/shared/generated/*"],
   "globals": {
     "IS_FIREFOX_EXTENSION": "readonly",
     "IS_CHROMIUM_EXTENSION": "readonly"
