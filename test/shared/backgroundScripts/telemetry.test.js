@@ -6,7 +6,7 @@ describe("shared/backgroundScripts/telemetry.js", () => {
       initTelemetryListeners();
       expect(browser.runtime.onInstalled.addListener).toHaveBeenCalled();
       expect(browser.runtime.onStartup.addListener).toHaveBeenCalled();
-      expect(browser.storage.onChanged.addListener).toHaveBeenCalled();
+      expect(browser.storage.sync.onChanged.addListener).toHaveBeenCalled();
     });
   });
 });

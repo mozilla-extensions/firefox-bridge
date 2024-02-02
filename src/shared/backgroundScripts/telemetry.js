@@ -48,7 +48,7 @@ export function initTelemetryListeners() {
     }
   });
 
-  browser.storage.onChanged.addListener(async (changes) => {
+  browser.storage.sync.onChanged.addListener(async (changes) => {
     if (changes.telemetryEnabled !== undefined) {
       await initGlean();
       Glean.setUploadEnabled(changes.telemetryEnabled.newValue);
