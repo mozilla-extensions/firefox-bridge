@@ -138,9 +138,7 @@ export const setCurrentTab = (tabObject) => {
   const browserTabsQueryMock = jest.spyOn(global.browser.tabs, "query");
   browserTabsQueryMock.mockImplementation(() => {
     return new Promise((resolve) => {
-      resolve([
-        tabObject
-      ]);
+      resolve([tabObject]);
     });
   });
 };

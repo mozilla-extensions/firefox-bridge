@@ -22,10 +22,7 @@ describe("chromium/interfaces/launchBrowser.js", () => {
         url: "https://mozilla.org",
       });
       setIsCurrentTabValidUrlScheme(true);
-      const result = await launchBrowser(
-         "https://mozilla.org",
-        false,
-      );
+      const result = await launchBrowser("https://mozilla.org", false);
       expect(result).toBeTruthy();
       expect(browser.tabs.update).toHaveBeenCalled();
       expect(browser.tabs.update).toHaveBeenCalledWith(1, {
@@ -40,10 +37,7 @@ describe("chromium/interfaces/launchBrowser.js", () => {
         url: "https://mozilla.org",
       });
       setIsCurrentTabValidUrlScheme(true);
-      const result = await launchBrowser(
-       "https://mozilla.org",
-        true,
-      );
+      const result = await launchBrowser("https://mozilla.org", true);
       expect(result).toBeTruthy();
       expect(browser.tabs.update).toHaveBeenCalled();
       expect(browser.tabs.update).toHaveBeenCalledWith(1, {
