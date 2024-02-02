@@ -4,7 +4,7 @@ import { getExternalBrowserLaunchProtocol } from "./getters.js";
 /**
  * Launches the user set browser. If the browser is not set, launch the welcome page.
  *
- * @param {*} url The url to launch in the browser.
+ * @param {string} url The url to launch in the browser.
  * @param {boolean} usePrivateBrowsing True if the browser should be launched in private browsing mode, false for normal mode.
  * @returns {boolean} True if the browser was launched, false otherwise.
  */
