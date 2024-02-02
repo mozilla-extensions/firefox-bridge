@@ -1,9 +1,6 @@
 import Glean from "@mozilla/glean/webext";
-import { install, startup, launch, settings } from "../generated/pings.js";
 import * as installEvent from "../generated/installEvent.js";
 import * as startupEvent from "../generated/startupEvent.js";
-import * as launchEvent from "../generated/launchEvent.js";
-import * as settingEvent from "../generated/settingEvent.js";
 
 import { getTelemetryEnabled } from "./getters.js";
 
@@ -33,7 +30,6 @@ export function initTelemetryListeners() {
     await initGlean();
     installEvent.dateInstalled.set(new Date());
     installEvent.browserType.set(IS_FIREFOX_EXTENSION ? "firefox" : "chromium");
-    install.submit();
   });
 
   browser.runtime.onStartup.addListener(async () => {
@@ -50,30 +46,10 @@ export function initTelemetryListeners() {
     for (const command of commands) {
       startupEvent.hotkeys[command.name.toLowerCase()].set(command.shortcut);
     }
-    startup.submit();
   });
 
   browser.storage.onChanged.addListener(async (changes) => {
-    if (changes.telemetry && changes.telemetry.newValue) {
-      await initGlean();
-      const telemetry = changes.telemetry.newValue;
-      if (telemetry.type === "browserLaunch") {
-        launchEvent.browserLaunch.record({
-          browser: telemetry.browser,
-          source: telemetry.source,
-        });
-        launch.submit();
-      }
-
-      if (telemetry.type === "currentBrowserChange") {
-        settingEvent.currentBrowser.from.set(telemetry.from);
-        settingEvent.currentBrowser.to.set(telemetry.to);
-        settingEvent.currentBrowser.source.set(telemetry.source);
-        settings.submit();
-      }
-
-      browser.storage.local.set({ telemetry: null });
-    } else if (changes.telemetryEnabled !== undefined) {
+    if (changes.telemetryEnabled !== undefined) {
       await initGlean();
       Glean.setUploadEnabled(changes.telemetryEnabled.newValue);
     }

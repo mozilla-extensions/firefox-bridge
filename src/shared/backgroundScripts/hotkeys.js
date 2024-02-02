@@ -1,5 +1,6 @@
 import { launchBrowser } from "Interfaces/launchBrowser.js";
 import { getExternalBrowser } from "./getters.js";
+import * as launchEvent from "Shared/generated/launchEvent.js";
 
 /**
  * Launches the user set browser on hotkey press.
@@ -10,22 +11,16 @@ import { getExternalBrowser } from "./getters.js";
 export async function handleHotkeyPress(command, tab) {
   if (command === "launchBrowser") {
     if (await launchBrowser(tab)) {
-      browser.storage.local.set({
-        telemetry: {
-          type: "browserLaunch",
-          browser: await getExternalBrowser(),
-          source: "hotkey",
-        },
+      launchEvent.browserLaunch.record({
+        browser: await getExternalBrowser(),
+        source: "hotkey",
       });
     }
   } else if (command === "launchFirefoxPrivate") {
     if (await launchBrowser(tab, true)) {
-      browser.storage.local.set({
-        telemetry: {
-          type: "browserLaunch",
-          browser: "Firefox Private Browsing",
-          source: "hotkey",
-        },
+      launchEvent.browserLaunch.record({
+        browser: "Firefox Private Browsing",
+        source: "hotkey",
       });
     }
   }

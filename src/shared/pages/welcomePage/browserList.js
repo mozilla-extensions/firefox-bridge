@@ -1,4 +1,5 @@
 import { getExternalBrowser } from "../../backgroundScripts/getters.js";
+import * as settingEvent from "../../generated/settingEvent.js";
 
 /**
  * Populate the browser list with the available browsers.
@@ -82,12 +83,10 @@ export async function populateBrowserList() {
     });
     browser.storage.sync.set({ currentExternalBrowser: newBrowserName });
 
-    browser.storage.local.set({
-      telemetry: {
-        type: "currentBrowserChange",
-        from: oldBrowserName,
-        to: newBrowserName,
-      },
+    settingEvent.currentBrowser.record({
+      from: oldBrowserName,
+      to: newBrowserName,
+      source: "browser_list",
     });
   });
 

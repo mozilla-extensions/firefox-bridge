@@ -2,6 +2,7 @@ import {
   getExternalBrowser,
   getTelemetryEnabled,
 } from "../../backgroundScripts/getters.js";
+import * as settingEvent from "../../generated/settingEvent.js";
 
 import { applyLocalization, replaceMessage } from "./localization.js";
 import { populateBrowserList } from "./browserList.js";
@@ -37,13 +38,10 @@ export async function checkPrivateBrowsing() {
       alwaysPrivateCheckbox.checked = false;
     }
 
-    browser.storage.local.set({
-      telemetry: {
-        type: "currentBrowserChange",
-        from,
-        to,
-        source: "welcome_page",
-      },
+    settingEvent.currentBrowser.record({
+      from,
+      to,
+      source: "always_private_checkbox",
     });
   });
 }

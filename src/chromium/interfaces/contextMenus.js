@@ -2,6 +2,8 @@ import { launchBrowser } from "./launchBrowser.js";
 
 import { updateToolbarIcon } from "Shared/backgroundScripts/actionButton.js";
 import { getExternalBrowser } from "Shared/backgroundScripts/getters.js";
+import * as settingEvent from "Shared/generated/settingEvent.js";
+import * as launchEvent from "Shared/generated/launchEvent.js";
 
 /**
  * Initialize the chromium specific context menu items.
@@ -112,17 +114,13 @@ export async function handlePlatformContextMenuClick(info, tab) {
 
   if (info.menuItemId === "changeDefaultLaunchContextMenu") {
     await handleChangeDefaultLaunchContextMenuClick();
-    browser.storage.local.set({
-      telemetry: {
-        type: "currentBrowserChange",
-        from: externalBrowserName,
-        to:
-          externalBrowserName === "Firefox"
-            ? "Firefox Private Browsing"
-            : "Firefox",
-        source: "action_context_menu",
-      },
-    });
+    settingEvent.currentBrowser.from.set(externalBrowserName);
+    settingEvent.currentBrowser.to.set(
+      externalBrowserName === "Firefox"
+        ? "Firefox Private Browsing"
+        : "Firefox",
+    );
+    settingEvent.currentBrowser.source.set("action_context_menu");
   } else if (info.menuItemId === "alternativeLaunchContextMenu") {
     // launch in the opposite mode to the default
     if (await launchBrowser(tab, externalBrowserName === "Firefox")) {
@@ -130,33 +128,24 @@ export async function handlePlatformContextMenuClick(info, tab) {
         (await getExternalBrowser()) === "Firefox"
           ? "Firefox Private Browsing"
           : "Firefox";
-      browser.storage.local.set({
-        telemetry: {
-          type: "browserLaunch",
-          browser: launchedBrowserName,
-          source: "action_context_menu",
-        },
+      launchEvent.browserLaunch.record({
+        browser: launchedBrowserName,
+        source: "action_context_menu",
       });
     }
   } else if (info.menuItemId === "launchInExternalBrowserPrivate") {
     if (await launchBrowser(tab, true)) {
-      browser.storage.local.set({
-        telemetry: {
-          type: "browserLaunch",
-          browser: "Firefox Private Browsing",
-          source: "page_context_menu",
-        },
+      launchEvent.browserLaunch.record({
+        browser: "Firefox Private Browsing",
+        source: "page_context_menu",
       });
     }
   } else if (info.menuItemId === "launchInExternalBrowserPrivateLink") {
     tab.url = info.linkUrl;
     if (await launchBrowser(tab, true)) {
-      browser.storage.local.set({
-        telemetry: {
-          type: "browserLaunch",
-          browser: "Firefox Private Browsing",
-          source: "link_context_menu",
-        },
+      launchEvent.browserLaunch.record({
+        browser: "Firefox Private Browsing",
+        source: "link_context_menu",
       });
     }
   }
