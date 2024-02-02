@@ -147,17 +147,17 @@ export const setSessionStorage = async (key, keyValue) => {
     });
   });
 };
-export const setStorage = (key, keyValue, storageLocation) => {
+export const setStorage = async (key, keyValue, storageLocation) => {
   if (storageLocation === "sync") {
-    setSyncStorage(key, keyValue);
+    await setSyncStorage(key, keyValue);
   } else if (storageLocation === "local") {
-    setLocalStorage(key, keyValue);
+    await setLocalStorage(key, keyValue);
   } else if (storageLocation === "session") {
-    setSessionStorage(key, keyValue);
+    await setSessionStorage(key, keyValue);
   } else {
-    setSyncStorage(key, keyValue);
-    setLocalStorage(key, keyValue);
-    setSessionStorage(key, keyValue);
+    await setSyncStorage(key, keyValue);
+    await setLocalStorage(key, keyValue);
+    await setSessionStorage(key, keyValue);
   }
 };
 
@@ -204,7 +204,7 @@ jest.spyOn(global.browser.i18n, "getMessage").mockImplementation((key) => {
 
 beforeEach(async () => {
   await testResetGlean("firefox-launch");
-  setStorage("isFirefoxInstalled", true, "session");
+  await setStorage("isFirefoxInstalled", true, "session");
 });
 
 afterEach(() => {

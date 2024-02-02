@@ -3,8 +3,8 @@ import { initPlatformListeners } from "../../../src/chromium/interfaces/listener
 import { setStorage } from "../../setup.test.js";
 
 describe("chromium/interfaces/listeners.js", () => {
-  beforeEach(() => {
-    setStorage("currentExternalBrowser", "Firefox");
+  beforeEach(async () => {
+    await setStorage("currentExternalBrowser", "Firefox");
   });
   describe("initPlatformListeners()", () => {
     it("should add the listeners", () => {

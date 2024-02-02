@@ -9,7 +9,7 @@ import {
 describe("shared/backgroundScripts/contextMenus.js", () => {
   describe("initContextMenu()", () => {
     it("should make the shared context menu", async () => {
-      setStorage("currentExternalBrowser", "Firefox");
+      await setStorage("currentExternalBrowser", "Firefox");
       setExtensionPlatform("chromium");
       await initContextMenu();
       expect(browser.contextMenus.create).toHaveBeenCalledWith({
