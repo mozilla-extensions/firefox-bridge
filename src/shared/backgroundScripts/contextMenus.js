@@ -87,11 +87,11 @@ export async function handleBrowserNameChange() {
  * Handles the context menu item clicks. Redirects to the proper handler.
  *
  * @param {Object} info The context menu item object.
- * @param {Object} tab The current tab object.
+ * @param {string} url The url the context menu will handle.
  */
-export async function handleContextMenuClick(info, tab) {
+export async function handleContextMenuClick(info, url) {
   if (info.menuItemId === "launchInExternalBrowser") {
-    if (await launchBrowser(tab)) {
+    if (await launchBrowser(url)) {
       browser.storage.local.set({
         telemetry: {
           type: "browserLaunch",
@@ -101,8 +101,7 @@ export async function handleContextMenuClick(info, tab) {
       });
     }
   } else if (info.menuItemId === "launchInExternalBrowserLink") {
-    tab.url = info.linkUrl;
-    if (await launchBrowser(tab)) {
+    if (await launchBrowser(url)) {
       browser.storage.local.set({
         telemetry: {
           type: "browserLaunch",
@@ -116,7 +115,7 @@ export async function handleContextMenuClick(info, tab) {
       url: browser.runtime.getURL("shared/pages/welcomePage/index.html"),
     });
   } else {
-    await handlePlatformContextMenuClick(info, tab);
+    await handlePlatformContextMenuClick(info, url);
   }
   // } else if (info.menuItemId === "manageExternalSitesContextMenu") {
   //   browser.tabs.create({

@@ -105,9 +105,9 @@ export async function handleChangeDefaultLaunchContextMenuClick() {
  * Handles the context menu clicks for the Chromium Extension.
  *
  * @param {*} info  The context menu item info object.
- * @param {*} tab  The tab object to launch the browser with.
+ * @param {string} url  The url the context menu will handle.
  */
-export async function handlePlatformContextMenuClick(info, tab) {
+export async function handlePlatformContextMenuClick(info, url) {
   const externalBrowserName = await getExternalBrowser();
 
   if (info.menuItemId === "changeDefaultLaunchContextMenu") {
@@ -125,7 +125,7 @@ export async function handlePlatformContextMenuClick(info, tab) {
     });
   } else if (info.menuItemId === "alternativeLaunchContextMenu") {
     // launch in the opposite mode to the default
-    if (await launchBrowser(tab, externalBrowserName === "Firefox")) {
+    if (await launchBrowser(url, externalBrowserName === "Firefox")) {
       const launchedBrowserName =
         (await getExternalBrowser()) === "Firefox"
           ? "Firefox Private Browsing"
@@ -139,7 +139,7 @@ export async function handlePlatformContextMenuClick(info, tab) {
       });
     }
   } else if (info.menuItemId === "launchInExternalBrowserPrivate") {
-    if (await launchBrowser(tab, true)) {
+    if (await launchBrowser(url, true)) {
       browser.storage.local.set({
         telemetry: {
           type: "browserLaunch",
@@ -149,8 +149,7 @@ export async function handlePlatformContextMenuClick(info, tab) {
       });
     }
   } else if (info.menuItemId === "launchInExternalBrowserPrivateLink") {
-    tab.url = info.linkUrl;
-    if (await launchBrowser(tab, true)) {
+    if (await launchBrowser(url, true)) {
       browser.storage.local.set({
         telemetry: {
           type: "browserLaunch",

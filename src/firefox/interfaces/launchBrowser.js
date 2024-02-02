@@ -4,14 +4,14 @@ import { getExternalBrowserLaunchProtocol } from "./getters.js";
 /**
  * Launches the user set browser. If the browser is not set, launch the welcome page.
  *
- * @param {*} tab The tab object to launch the browser with.
+ * @param {*} url The url to launch in the browser.
  * @returns {boolean} True if the browser was launched, false otherwise.
  */
-export async function launchBrowser(tab) {
+export async function launchBrowser(url) {
   if (isCurrentTabValidUrlScheme) {
     const launchProtocol = await getExternalBrowserLaunchProtocol();
     if (launchProtocol) {
-      browser.experiments.firefox_launch.launchApp(launchProtocol, [tab.url]);
+      browser.experiments.firefox_launch.launchApp(launchProtocol, [url]);
       return true;
     }
     browser.tabs.create({

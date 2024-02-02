@@ -8,7 +8,7 @@ import { getExternalBrowser } from "Shared/backgroundScripts/getters.js";
 export function initPlatformListeners() {
   browser.action.onClicked.addListener(async (tab) => {
     const browserName = await getExternalBrowser();
-    const success = launchBrowser(tab, browserName !== "Firefox");
+    const success = launchBrowser(tab.url, browserName !== "Firefox");
     if (success) {
       browser.storage.local.set({
         telemetry: {

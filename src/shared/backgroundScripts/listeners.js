@@ -20,7 +20,8 @@ export function initSharedListeners() {
   });
 
   browser.contextMenus.onClicked.addListener(async (info, tab) => {
-    await handleContextMenuClick(info, tab);
+    const url = info.linkUrl || tab.url;
+    await handleContextMenuClick(info, url);
   });
 
   browser.commands.onCommand.addListener(async (command) => {
