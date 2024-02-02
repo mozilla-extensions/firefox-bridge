@@ -1,4 +1,3 @@
-// jsconfig.json or tsconfig.json
 {
     "compilerOptions": {
       "baseUrl": "./src",
@@ -6,6 +5,7 @@
         "Interfaces/*": ["chromium/interfaces/*", "firefox/interfaces/*"],
         "Shared/*": ["shared/*"],
       }
-    }
+    },
+    "exclude": ["node_modules", "dist", "build", "mozilla-unified"]
   }
   
