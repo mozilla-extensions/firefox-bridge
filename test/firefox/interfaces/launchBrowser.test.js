@@ -12,6 +12,7 @@ describe("firefox/interfaces/launchBrowser.js", () => {
 
     it("should return false and open the welcome page if there is no launch protocol", async () => {
       setIsCurrentTabValidUrlScheme(true);
+      setStorage("currentExternalBrowserLaunchProtocol", "");
       const result = await launchBrowser({ url: "https://example.com" });
       expect(result).toEqual(false);
       expect(browser.tabs.create).toHaveBeenCalled();
