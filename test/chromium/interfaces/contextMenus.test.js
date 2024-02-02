@@ -29,6 +29,7 @@ describe("chromium/interfaces/contextMenus.js", () => {
         id: "launchInExternalBrowserPrivate",
         title: getLocaleMessage("launchInExternalBrowser"),
         contexts: ["page"],
+        documentUrlPatterns: ["http://*/*", "https://*/*", "file:///*"],
       });
     });
   });

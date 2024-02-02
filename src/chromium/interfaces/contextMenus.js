@@ -61,6 +61,7 @@ export async function applyPlatformContextMenus() {
       "Firefox Private Browsing",
     ),
     contexts: ["page"],
+    documentUrlPatterns: ["http://*/*", "https://*/*", "file:///*"],
   });
 
   // link context menu
@@ -71,6 +72,7 @@ export async function applyPlatformContextMenus() {
       "Firefox Private Browsing",
     ),
     contexts: ["link"],
+    targetUrlPatterns: ["http://*/*", "https://*/*", "file:///*"],
   });
 }
 

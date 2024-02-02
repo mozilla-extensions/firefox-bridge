@@ -23,6 +23,7 @@ export async function initContextMenu() {
       defaultLaunchMode,
     ),
     contexts: ["page"],
+    documentUrlPatterns: ["http://*/*", "https://*/*", "file:///*"],
   });
 
   // link context menu
@@ -33,6 +34,7 @@ export async function initContextMenu() {
       defaultLaunchMode,
     ),
     contexts: ["link"],
+    targetUrlPatterns: ["http://*/*", "https://*/*", "file:///*"],
   });
 
   const action = browser.action ? "action" : "browser_action"; // mv2 vs mv3
