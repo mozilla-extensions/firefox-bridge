@@ -112,7 +112,7 @@ global.document = {
 export const setSyncStorage = async (key, keyValue) => {
   let data = {};
   if (global.browser.storage.sync.get.mock) {
-    data = await global.browser.storage.sync.get() || {};
+    data = (await global.browser.storage.sync.get()) || {};
   }
   data[key] = keyValue;
   jest.spyOn(global.browser.storage.sync, "get").mockImplementation(() => {
@@ -125,7 +125,7 @@ export const setSyncStorage = async (key, keyValue) => {
 export const setLocalStorage = async (key, keyValue) => {
   let data = {};
   if (global.browser.storage.local.get.mock) {
-    data = await global.browser.storage.local.get() || {};
+    data = (await global.browser.storage.local.get()) || {};
   }
   data[key] = keyValue;
   jest.spyOn(global.browser.storage.local, "get").mockImplementation(() => {
@@ -138,7 +138,7 @@ export const setLocalStorage = async (key, keyValue) => {
 export const setSessionStorage = async (key, keyValue) => {
   let data = {};
   if (global.browser.storage.session.get.mock) {
-    data = await global.browser.storage.session.get() || {};
+    data = (await global.browser.storage.session.get()) || {};
   }
   data[key] = keyValue;
   jest.spyOn(global.browser.storage.session, "get").mockImplementation(() => {
