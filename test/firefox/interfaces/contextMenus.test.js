@@ -3,8 +3,8 @@ import { handlePlatformContextMenuClick } from "../../../src/firefox/interfaces/
 import { setStorage } from "../../setup.test.js";
 
 describe("firefox/interfaces/contextMenus.js", () => {
-  beforeEach(() => {
-    setStorage("currentExternalBrowser", "Firefox");
+  beforeEach(async () => {
+    await setStorage("currentExternalBrowser", "Firefox");
   });
   describe("applyPlatformContextMenus()", () => {});
 
