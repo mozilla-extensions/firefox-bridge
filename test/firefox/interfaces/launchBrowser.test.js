@@ -1,6 +1,7 @@
 import { launchBrowser } from "../../../src/firefox/interfaces/launchBrowser.js";
 import { setIsCurrentTabValidUrlScheme } from "Shared/backgroundScripts/validTab.js";
 import { setStorage } from "../../setup.test.js";
+import jest from "jest-mock";
 
 describe("firefox/interfaces/launchBrowser.js", () => {
   describe("launchBrowser()", () => {
@@ -30,6 +31,14 @@ describe("firefox/interfaces/launchBrowser.js", () => {
         "test",
         ["https://example.com"],
       );
+    });
+
+    it("should return false if the browser is launched in private mode", async () => {
+      setIsCurrentTabValidUrlScheme(true);
+      console.error = jest.fn();
+      const result = await launchBrowser("https://example.com", true);
+      expect(result).toEqual(false);
+      expect(console.error).toHaveBeenCalled();
     });
   });
 });
