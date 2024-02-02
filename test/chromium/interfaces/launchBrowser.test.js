@@ -1,13 +1,12 @@
 import { launchBrowser } from "../../../src/chromium/interfaces/launchBrowser.js";
-
 import { setCurrentTab, setStorage } from "../../setup.test.js";
-import { setIsCurrentTabValidUrlScheme } from "Shared/backgroundScripts/validTab.js";
+import jest from "jest-mock";
 
 describe("chromium/interfaces/launchBrowser.js", () => {
   describe("launchBrowser()", () => {
     it("should direct the user to the Firefox download page if Firefox is not installed", async () => {
       setStorage("isFirefoxInstalled", false);
-      const result = await launchBrowser();
+      const result = await launchBrowser("https://example.com", false);
       expect(result).toBeFalsy();
       expect(browser.tabs.create).toHaveBeenCalled();
       expect(browser.tabs.create).toHaveBeenCalledWith({
@@ -21,7 +20,6 @@ describe("chromium/interfaces/launchBrowser.js", () => {
         id: 1,
         url: "https://mozilla.org",
       });
-      setIsCurrentTabValidUrlScheme(true);
       const result = await launchBrowser("https://mozilla.org", false);
       expect(result).toBeTruthy();
       expect(browser.tabs.update).toHaveBeenCalled();
@@ -36,7 +34,6 @@ describe("chromium/interfaces/launchBrowser.js", () => {
         id: 1,
         url: "https://mozilla.org",
       });
-      setIsCurrentTabValidUrlScheme(true);
       const result = await launchBrowser("https://mozilla.org", true);
       expect(result).toBeTruthy();
       expect(browser.tabs.update).toHaveBeenCalled();
@@ -47,14 +44,13 @@ describe("chromium/interfaces/launchBrowser.js", () => {
 
     it("should not launch the current tab if the url scheme is not valid", async () => {
       setStorage("isFirefoxInstalled", true);
-      setIsCurrentTabValidUrlScheme(false);
-      const result = await launchBrowser(
-        { id: 1, url: "https://mozilla.org" },
-        true,
-      );
+      console.error = jest.fn();
+      const result = await launchBrowser("invalid-url://mozilla.org", true);
       expect(result).toBeFalsy();
+      expect(console.error).toHaveBeenCalled();
       expect(browser.tabs.create).not.toHaveBeenCalled();
       expect(browser.tabs.update).not.toHaveBeenCalled();
+      console.error.mockRestore();
     });
   });
 });

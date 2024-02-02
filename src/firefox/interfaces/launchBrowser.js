@@ -1,4 +1,3 @@
-import { isCurrentTabValidUrlScheme } from "Shared/backgroundScripts/validTab.js";
 import { getExternalBrowserLaunchProtocol } from "./getters.js";
 
 /**
@@ -17,15 +16,23 @@ export async function launchBrowser(url, usePrivateBrowsing = false) {
     return false;
   }
 
-  if (isCurrentTabValidUrlScheme) {
-    const launchProtocol = await getExternalBrowserLaunchProtocol();
-    if (launchProtocol) {
-      browser.experiments.firefox_launch.launchApp(launchProtocol, [url]);
-      return true;
-    }
-    browser.tabs.create({
-      url: browser.runtime.getURL("shared/pages/welcomePage/index.html"),
-    });
+  if (
+    url &&
+    !url.startsWith("https:") &&
+    !url.startsWith("http:") &&
+    !url.startsWith("file:")
+  ) {
+    console.error("Invalid URL scheme:", url);
+    return false;
   }
+
+  const launchProtocol = await getExternalBrowserLaunchProtocol();
+  if (launchProtocol) {
+    browser.experiments.firefox_launch.launchApp(launchProtocol, [url]);
+    return true;
+  }
+  browser.tabs.create({
+    url: browser.runtime.getURL("shared/pages/welcomePage/index.html"),
+  });
   return false;
 }
