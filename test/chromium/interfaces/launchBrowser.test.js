@@ -1,6 +1,6 @@
 import { launchBrowser } from "../../../src/chromium/interfaces/launchBrowser.js";
 
-import { setStorage } from "../../setup.test.js";
+import { setCurrentTab, setStorage } from "../../setup.test.js";
 import { setIsCurrentTabValidUrlScheme } from "Shared/backgroundScripts/validTab.js";
 
 describe("chromium/interfaces/launchBrowser.js", () => {
@@ -17,9 +17,13 @@ describe("chromium/interfaces/launchBrowser.js", () => {
 
     it("should launch the current tab in Firefox", async () => {
       setStorage("isFirefoxInstalled", true);
+      setCurrentTab({
+        id: 1,
+        url: "https://mozilla.org",
+      });
       setIsCurrentTabValidUrlScheme(true);
       const result = await launchBrowser(
-        { id: 1, url: "https://mozilla.org" },
+         "https://mozilla.org",
         false,
       );
       expect(result).toBeTruthy();
@@ -31,9 +35,13 @@ describe("chromium/interfaces/launchBrowser.js", () => {
 
     it("should launch the current tab in Firefox Private Browsing", async () => {
       setStorage("isFirefoxInstalled", true);
+      setCurrentTab({
+        id: 1,
+        url: "https://mozilla.org",
+      });
       setIsCurrentTabValidUrlScheme(true);
       const result = await launchBrowser(
-        { id: 1, url: "https://mozilla.org" },
+       "https://mozilla.org",
         true,
       );
       expect(result).toBeTruthy();

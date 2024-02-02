@@ -134,14 +134,12 @@ export const setExtensionPlatform = (platform) => {
   global.IS_CHROME_EXTENSION = platform === "chromium";
 };
 
-export const setCurrentTabURL = (currentTabURL) => {
+export const setCurrentTab = (tabObject) => {
   const browserTabsQueryMock = jest.spyOn(global.browser.tabs, "query");
   browserTabsQueryMock.mockImplementation(() => {
     return new Promise((resolve) => {
       resolve([
-        {
-          url: currentTabURL,
-        },
+        tabObject
       ]);
     });
   });

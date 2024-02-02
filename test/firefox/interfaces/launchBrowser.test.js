@@ -6,13 +6,13 @@ describe("firefox/interfaces/launchBrowser.js", () => {
   describe("launchBrowser()", () => {
     it("should return false if the url scheme is not valid", async () => {
       setIsCurrentTabValidUrlScheme(false);
-      const result = await launchBrowser({ url: "https://example.com" });
+      const result = await launchBrowser("https://example.com");
       expect(result).toEqual(false);
     });
 
     it("should return false and open the welcome page if there is no launch protocol", async () => {
       setIsCurrentTabValidUrlScheme(true);
-      const result = await launchBrowser({ url: "https://example.com" });
+      const result = await launchBrowser("https://example.com");
       expect(result).toEqual(false);
       expect(browser.tabs.create).toHaveBeenCalled();
       expect(browser.tabs.create).toHaveBeenCalledWith({
@@ -23,7 +23,7 @@ describe("firefox/interfaces/launchBrowser.js", () => {
     it("should return true if there is a launch protocol", async () => {
       setIsCurrentTabValidUrlScheme(true);
       setStorage("currentExternalBrowserLaunchProtocol", "test");
-      const result = await launchBrowser({ url: "https://example.com" });
+      const result = await launchBrowser("https://example.com");
       expect(result).toEqual(true);
       expect(browser.experiments.firefox_launch.launchApp).toHaveBeenCalled();
       expect(browser.experiments.firefox_launch.launchApp).toHaveBeenCalledWith(

@@ -15,7 +15,8 @@ export async function launchBrowser(url, usePrivateBrowsing = false) {
   }
 
   if (isCurrentTabValidUrlScheme) {
-    const currentTabId = await browser.tabs.query({ active: true, currentWindow: true }).then((tabs) => tabs[0].id);
+    const currentTab = await browser.tabs.query({ active: true, currentWindow: true });
+    const currentTabId = currentTab[0].id;
     if (usePrivateBrowsing) {
       browser.tabs.update(currentTabId, { url: "firefox-private:" + url });
     } else {
