@@ -7,7 +7,7 @@ import { setIsCurrentTabValidUrlScheme } from "Shared/backgroundScripts/validTab
 describe("shared/backgroundScripts/actionButton.js", () => {
   describe("updateToolbarIcon()", () => {
     it("should set the toolbar icon to the default icon path", async () => {
-      setStorage("currentExternalBrowser", "Firefox");
+      await setStorage("currentExternalBrowser", "Firefox");
       await updateToolbarIcon();
       expect(browser.action.setIcon).toHaveBeenCalled();
       expect(browser.action.setIcon).toHaveBeenCalledWith({
@@ -16,7 +16,7 @@ describe("shared/backgroundScripts/actionButton.js", () => {
     });
 
     it("should set the toolbar icon to the greyed icon path", async () => {
-      setStorage("currentExternalBrowser", "Firefox");
+      await setStorage("currentExternalBrowser", "Firefox");
       setIsCurrentTabValidUrlScheme(false);
       await updateToolbarIcon();
       expect(browser.action.setIcon).toHaveBeenCalled();

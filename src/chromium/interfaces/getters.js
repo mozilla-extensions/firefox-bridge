@@ -6,10 +6,11 @@ import { getExternalBrowser } from "Shared/backgroundScripts/getters.js";
  * @returns {Promise<boolean>} True if Firefox is installed on the system, false otherwise.
  */
 export async function getIsFirefoxInstalled() {
-  const result = await browser.storage.local.get("isFirefoxInstalled");
+  // NOTE: We are not currently handling the case where Firefox is not installed until
+  // native messaging is implemented. We will assume for now that Firefox is always installed.
+  const result = await browser.storage.session.get("isFirefoxInstalled");
   if (result.isFirefoxInstalled === undefined) {
-    // placeholder
-    browser.storage.local.set({ isFirefoxInstalled: true });
+    browser.storage.session.set({ isFirefoxInstalled: true });
     return true;
   }
   return result.isFirefoxInstalled;

@@ -5,7 +5,7 @@ import jest from "jest-mock";
 describe("chromium/interfaces/launchBrowser.js", () => {
   describe("launchBrowser()", () => {
     it("should direct the user to the Firefox download page if Firefox is not installed", async () => {
-      setStorage("isFirefoxInstalled", false);
+      await setStorage("isFirefoxInstalled", false);
       const result = await launchBrowser("https://example.com", false);
       expect(result).toBeFalsy();
       expect(browser.tabs.create).toHaveBeenCalled();
@@ -15,7 +15,7 @@ describe("chromium/interfaces/launchBrowser.js", () => {
     });
 
     it("should launch the current tab in Firefox", async () => {
-      setStorage("isFirefoxInstalled", true);
+      await setStorage("isFirefoxInstalled", true);
       setCurrentTab({
         id: 1,
         url: "https://mozilla.org",
@@ -29,7 +29,7 @@ describe("chromium/interfaces/launchBrowser.js", () => {
     });
 
     it("should launch the current tab in Firefox Private Browsing", async () => {
-      setStorage("isFirefoxInstalled", true);
+      await setStorage("isFirefoxInstalled", true);
       setCurrentTab({
         id: 1,
         url: "https://mozilla.org",
@@ -43,7 +43,7 @@ describe("chromium/interfaces/launchBrowser.js", () => {
     });
 
     it("should not launch the current tab if the url scheme is not valid", async () => {
-      setStorage("isFirefoxInstalled", true);
+      await setStorage("isFirefoxInstalled", true);
       console.error = jest.fn();
       const result = await launchBrowser("invalid-url://mozilla.org", true);
       expect(result).toBeFalsy();

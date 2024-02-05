@@ -6,8 +6,8 @@ import {
 import { setStorage, getLocaleMessage } from "../../setup.test.js";
 
 describe("chromium/interfaces/contextMenus.js", () => {
-  beforeEach(() => {
-    setStorage("currentExternalBrowser", "Firefox");
+  beforeEach(async () => {
+    await setStorage("currentExternalBrowser", "Firefox");
   });
   describe("applyPlatformContextMenus()", () => {
     it("should create the chrome context menu", async () => {
@@ -52,7 +52,7 @@ describe("chromium/interfaces/contextMenus.js", () => {
     });
 
     it("should swap the alternative launch mode and set the currentExternalBrowser to Firefox", async () => {
-      setStorage("currentExternalBrowser", "Firefox Private Browsing");
+      await setStorage("currentExternalBrowser", "Firefox Private Browsing");
       await handleChangeDefaultLaunchContextMenuClick({
         checked: false,
       });
