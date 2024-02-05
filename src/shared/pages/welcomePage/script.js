@@ -95,17 +95,13 @@ export async function checkFirefoxHotkeys() {
       await getExternalBrowser(),
     ]);
   } else {
-    replaceMessage(
-      p,
-      "welcomePageNoShortcutsFirefox",
-      "addons://shortcuts/shortcuts",
-    );
+    replaceMessage(p, "welcomePageNoShortcutsFirefox");
 
     // remove the manage shortcuts text
     const manageShortcutsText = document.querySelector(
       "[data-locale='welcomePageManageShortcuts']",
     );
-    manageShortcutsText.remove();
+    manageShortcutsText?.remove();
   }
 }
 
@@ -130,17 +126,13 @@ export async function checkChromiumHotkeys() {
   if (!launchBrowser.shortcut && !launchFirefoxPrivate.shortcut) {
     const preamble = document.createElement("p");
     shortcutsList.appendChild(preamble);
-    replaceMessage(
-      preamble,
-      "welcomePageNoShortcutsChromium",
-      "chrome://extensions/shortcuts",
-    );
+    replaceMessage(preamble, "welcomePageNoShortcutsChromium");
 
     // remove the manage shortcuts text
     const manageShortcutsText = document.querySelector(
       "[data-locale='welcomePageManageShortcuts']",
     );
-    manageShortcutsText.remove();
+    manageShortcutsText?.remove();
     return;
   }
 
