@@ -17,13 +17,19 @@ export function replaceMessage(element, l10nID, href) {
   }
 
   // handle browser shortcut page cases
-  if (l10nID === "welcomePageManageShortcutsFirefox") {
+  if (
+    l10nID === "welcomePageManageShortcutsFirefox" ||
+    l10nID === "welcomePageNoShortcutsFirefox"
+  ) {
     const link = document.getElementById(`${l10nID}Link`);
     link.addEventListener("click", (event) => {
       event.preventDefault();
       browser.experiments.firefox_launch.openShortcutsPage();
     });
-  } else if (l10nID === "welcomePageManageShortcutsChromium") {
+  } else if (
+    l10nID === "welcomePageManageShortcutsChromium" ||
+    l10nID === "welcomePageNoShortcutsChromium"
+  ) {
     const link = document.getElementById(`${l10nID}Link`);
     link.addEventListener("click", (event) => {
       event.preventDefault();
