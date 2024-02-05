@@ -5,8 +5,11 @@ import jest from "jest-mock";
 describe("firefox/interfaces/launchBrowser.js", () => {
   describe("launchBrowser()", () => {
     it("should return false if the url scheme is not valid", async () => {
-      const result = await launchBrowser("https://example.com");
+      console.error = jest.fn();
+      const result = await launchBrowser("fake://example.com");
       expect(result).toEqual(false);
+      expect(console.error).toHaveBeenCalled();
+      console.error.mockRestore();
     });
 
     it("should return false and open the welcome page if there is no launch protocol", async () => {
