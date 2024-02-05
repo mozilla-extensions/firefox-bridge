@@ -58,10 +58,16 @@ export async function updateTelemetry() {
 
   document
     .getElementById("telemetry-checkbox")
-    .addEventListener("change", async () => {
-      const telemetryEnabled = await getTelemetryEnabled();
-      browser.storage.sync.set({ telemetryEnabled: !telemetryEnabled });
+    .addEventListener("change", (event) => {
+      browser.storage.sync.set({ telemetryEnabled: event.target.checked });
     });
+
+  browser.storage.sync.onChanged.addListener((changes) => {
+    if (changes.telemetryEnabled !== undefined) {
+      document.getElementById("telemetry-checkbox").checked =
+        changes.telemetryEnabled.newValue;
+    }
+  });
 }
 
 /**
