@@ -12,8 +12,6 @@ export function replaceMessage(element, l10nID, href) {
     anchor.href = href || "";
     anchor.textContent = message.split("<a>")[1].split("</a>")[0];
     element.replaceChildren(prefix, anchor, suffix);
-
-    console.log("element", element);
   } else {
     element.replaceChildren(message);
   }
