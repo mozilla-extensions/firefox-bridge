@@ -7,24 +7,28 @@ export function replaceMessage(element, l10nID, href) {
   if (message.includes("<a>")) {
     const prefix = message.split("<a>")[0];
     const suffix = message.split("</a>")[1];
+    const text = message.split("<a>")[1].split("</a>")[0];
     const anchor = document.createElement("a");
-    anchor.id = `${l10nID}Link`;
     anchor.href = href || "";
-    anchor.textContent = message.split("<a>")[1].split("</a>")[0];
-    element.replaceChildren(prefix, anchor, suffix);
+    anchor.textContent = text;
+    if (anchor.protocol === "javascript:") {
+      element.replaceChildren(prefix, text, suffix);
+    } else {
+      element.replaceChildren(prefix, anchor, suffix);
+    }
   } else {
     element.replaceChildren(message);
   }
 
   // handle browser shortcut page cases
   if (l10nID === "welcomePageManageShortcutsFirefox") {
-    const link = document.getElementById(`${l10nID}Link`);
+    const link = element.querySelector("a");
     link.addEventListener("click", (event) => {
       event.preventDefault();
       browser.experiments.firefox_launch.openShortcutsPage();
     });
   } else if (l10nID === "welcomePageManageShortcutsChromium") {
-    const link = document.getElementById(`${l10nID}Link`);
+    const link = element.querySelector("a");
     link.addEventListener("click", (event) => {
       event.preventDefault();
       browser.tabs.create({ url: "chrome://extensions/shortcuts" });
