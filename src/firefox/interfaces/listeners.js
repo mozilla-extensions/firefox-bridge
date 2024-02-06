@@ -6,7 +6,7 @@ import { getExternalBrowser } from "Shared/backgroundScripts/getters.js";
  */
 export function initPlatformListeners() {
   browser.action.onClicked.addListener(async (tab) => {
-    if (await launchBrowser(tab)) {
+    if (await launchBrowser(tab.url)) {
       browser.storage.local.set({
         telemetry: {
           type: "browserLaunch",

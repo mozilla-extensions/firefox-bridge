@@ -61,6 +61,7 @@ export async function applyPlatformContextMenus() {
       "Firefox Private Browsing",
     ),
     contexts: ["page"],
+    documentUrlPatterns: ["http://*/*", "https://*/*", "file:///*"],
   });
 
   // link context menu
@@ -71,6 +72,7 @@ export async function applyPlatformContextMenus() {
       "Firefox Private Browsing",
     ),
     contexts: ["link"],
+    targetUrlPatterns: ["http://*/*", "https://*/*", "file:///*"],
   });
 }
 
@@ -125,7 +127,7 @@ export async function handlePlatformContextMenuClick(info, tab) {
     });
   } else if (info.menuItemId === "alternativeLaunchContextMenu") {
     // launch in the opposite mode to the default
-    if (await launchBrowser(tab, externalBrowserName === "Firefox")) {
+    if (await launchBrowser(tab.url, externalBrowserName === "Firefox")) {
       const launchedBrowserName =
         (await getExternalBrowser()) === "Firefox"
           ? "Firefox Private Browsing"
@@ -139,7 +141,7 @@ export async function handlePlatformContextMenuClick(info, tab) {
       });
     }
   } else if (info.menuItemId === "launchInExternalBrowserPrivate") {
-    if (await launchBrowser(tab, true)) {
+    if (await launchBrowser(tab.url, true)) {
       browser.storage.local.set({
         telemetry: {
           type: "browserLaunch",
@@ -149,8 +151,7 @@ export async function handlePlatformContextMenuClick(info, tab) {
       });
     }
   } else if (info.menuItemId === "launchInExternalBrowserPrivateLink") {
-    tab.url = info.linkUrl;
-    if (await launchBrowser(tab, true)) {
+    if (await launchBrowser(info.linkUrl, true)) {
       browser.storage.local.set({
         telemetry: {
           type: "browserLaunch",

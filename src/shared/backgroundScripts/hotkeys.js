@@ -9,7 +9,7 @@ import { getExternalBrowser } from "./getters.js";
  */
 export async function handleHotkeyPress(command, tab) {
   if (command === "launchBrowser") {
-    if (await launchBrowser(tab)) {
+    if (await launchBrowser(tab.url)) {
       browser.storage.local.set({
         telemetry: {
           type: "browserLaunch",
@@ -19,7 +19,7 @@ export async function handleHotkeyPress(command, tab) {
       });
     }
   } else if (command === "launchFirefoxPrivate") {
-    if (await launchBrowser(tab, true)) {
+    if (await launchBrowser(tab.url, true)) {
       browser.storage.local.set({
         telemetry: {
           type: "browserLaunch",
