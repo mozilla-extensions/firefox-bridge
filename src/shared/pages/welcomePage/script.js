@@ -38,7 +38,7 @@ export async function checkPrivateBrowsing() {
     } else {
       alwaysPrivateCheckbox.checked = false;
     }
-    
+
     settingEvent.currentBrowser.record({
       from,
       to,

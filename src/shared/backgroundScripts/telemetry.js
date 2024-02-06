@@ -26,7 +26,9 @@ export function initTelemetryListeners() {
     await initGlean();
     if (details.reason !== "install") {
       installEvent.dateInstalled.set(new Date());
-      installEvent.browserType.set(IS_FIREFOX_EXTENSION ? "firefox" : "chromium");
+      installEvent.browserType.set(
+        IS_FIREFOX_EXTENSION ? "firefox" : "chromium",
+      );
     }
   });
 
