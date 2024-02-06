@@ -20,7 +20,7 @@ export async function initContextMenu() {
     id: "launchInExternalBrowser",
     title: browser.i18n.getMessage(
       "launchInExternalBrowser",
-      defaultLaunchMode
+      defaultLaunchMode,
     ),
     contexts: ["page"],
     documentUrlPatterns: ["http://*/*", "https://*/*", "file:///*"],
@@ -31,14 +31,14 @@ export async function initContextMenu() {
     id: "launchInExternalBrowserLink",
     title: browser.i18n.getMessage(
       "launchInExternalBrowserLink",
-      defaultLaunchMode
+      defaultLaunchMode,
     ),
     contexts: ["link"],
     targetUrlPatterns: ["http://*/*", "https://*/*", "file:///*"],
   });
 
   const action = browser.browserAction ? "browser_action" : "action"; // mv2 vs mv3
-  
+
   //separator
   browser.contextMenus.create({
     id: "separator",
@@ -75,13 +75,13 @@ export async function handleBrowserNameChange() {
   browser.contextMenus.update("launchInExternalBrowser", {
     title: browser.i18n.getMessage(
       "launchInExternalBrowser",
-      defaultLaunchMode
+      defaultLaunchMode,
     ),
   });
   browser.contextMenus.update("launchInExternalBrowserLink", {
     title: browser.i18n.getMessage(
       "launchInExternalBrowserLink",
-      defaultLaunchMode
+      defaultLaunchMode,
     ),
   });
 }
