@@ -23,13 +23,11 @@ export async function initGlean(showLogs = false) {
  */
 export function initTelemetryListeners() {
   browser.runtime.onInstalled.addListener(async (details) => {
-    if (details.reason !== "install") {
-      return;
-    }
-
     await initGlean();
-    installEvent.dateInstalled.set(new Date());
-    installEvent.browserType.set(IS_FIREFOX_EXTENSION ? "firefox" : "chromium");
+    if (details.reason !== "install") {
+      installEvent.dateInstalled.set(new Date());
+      installEvent.browserType.set(IS_FIREFOX_EXTENSION ? "firefox" : "chromium");
+    }
   });
 
   browser.runtime.onStartup.addListener(async () => {
