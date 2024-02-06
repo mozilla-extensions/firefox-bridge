@@ -78,10 +78,11 @@ export async function populateBrowserList() {
       from: oldBrowserName,
       to: newBrowserName,
       source: "browser_list",
+    });
+
     const shortcutsList = document.getElementById("shortcuts-list");
     shortcutsList.innerHTML = "";
     await checkFirefoxHotkeys();
-    });
   });
 
   // Now select the proper browser.
