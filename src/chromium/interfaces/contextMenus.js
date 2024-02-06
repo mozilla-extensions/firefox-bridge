@@ -114,13 +114,14 @@ export async function handlePlatformContextMenuClick(info, tab) {
 
   if (info.menuItemId === "changeDefaultLaunchContextMenu") {
     await handleChangeDefaultLaunchContextMenuClick();
-    settingEvent.currentBrowser.from.set(externalBrowserName);
-    settingEvent.currentBrowser.to.set(
-      externalBrowserName === "Firefox"
-        ? "Firefox Private Browsing"
-        : "Firefox",
-    );
-    settingEvent.currentBrowser.source.set("action_context_menu");
+    settingEvent.currentBrowser.record({
+      from: externalBrowserName,
+      to:
+        externalBrowserName === "Firefox"
+          ? "Firefox Private Browsing"
+          : "Firefox",
+      source: "action_context_menu",
+    });
   } else if (info.menuItemId === "alternativeLaunchContextMenu") {
     // launch in the opposite mode to the default
     if (await launchBrowser(tab, externalBrowserName === "Firefox")) {

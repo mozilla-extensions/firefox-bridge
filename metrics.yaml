@@ -120,7 +120,7 @@ launch_event:
         type: string
 setting_event:
   current_browser:
-    type: labeled_string
+    type: event
     lifetime: ping
     description: The external browser has been changed
     bugs:
@@ -128,7 +128,17 @@ setting_event:
     data_reviews:
       - https://linktodatareviews.page
     notification_emails:
-      - gsherman@mozilla.com
+      - gsherman@mozilla.co
+    extra_keys:
+      from:
+        description: The previously set browser
+        type: string
+      to:
+        description: The newly set external browser
+        type: string
+      source:
+        description: The location that this setting was changed from
+        type: string
     expires: never
 
 
