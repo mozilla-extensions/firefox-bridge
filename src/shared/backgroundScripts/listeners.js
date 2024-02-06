@@ -10,12 +10,18 @@ import { handleBrowserNameChange } from "./contextMenus.js";
  * Initialize the listeners that are shared between Firefox and Chromium.
  */
 export function initSharedListeners() {
-  browser.runtime.onInstalled.addListener(async () => {
+  browser.runtime.onInstalled.addListener(async (details) => {
     // await getIsAutoRedirect(); // resolve to true on fresh install
-    browser.tabs.create({
-      url: browser.runtime.getURL("shared/pages/welcomePage/index.html"),
-    });
+    if (details.reason === "install") {
+      browser.tabs.create({
+        url: browser.runtime.getURL("shared/pages/welcomePage/index.html"),
+      });
+    }
     await initContextMenu();
+    await updateToolbarIcon();
+  });
+
+  browser.runtime.onStartup.addListener(async () => {
     await updateToolbarIcon();
   });
 

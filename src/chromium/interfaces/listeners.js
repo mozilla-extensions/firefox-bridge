@@ -9,7 +9,7 @@ import * as launchEvent from "Shared/generated/launchEvent.js";
 export function initPlatformListeners() {
   browser.action.onClicked.addListener(async (tab) => {
     const browserName = await getExternalBrowser();
-    const success = launchBrowser(tab, browserName !== "Firefox");
+    const success = launchBrowser(tab.url, browserName !== "Firefox");
     if (success) {
       launchEvent.browserLaunch.record({
         browser: await getExternalBrowser(),

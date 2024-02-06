@@ -63,6 +63,7 @@ export async function applyPlatformContextMenus() {
       "Firefox Private Browsing",
     ),
     contexts: ["page"],
+    documentUrlPatterns: ["http://*/*", "https://*/*", "file:///*"],
   });
 
   // link context menu
@@ -73,6 +74,7 @@ export async function applyPlatformContextMenus() {
       "Firefox Private Browsing",
     ),
     contexts: ["link"],
+    targetUrlPatterns: ["http://*/*", "https://*/*", "file:///*"],
   });
 }
 
@@ -124,7 +126,7 @@ export async function handlePlatformContextMenuClick(info, tab) {
     });
   } else if (info.menuItemId === "alternativeLaunchContextMenu") {
     // launch in the opposite mode to the default
-    if (await launchBrowser(tab, externalBrowserName === "Firefox")) {
+    if (await launchBrowser(tab.url, externalBrowserName === "Firefox")) {
       const launchedBrowserName =
         (await getExternalBrowser()) === "Firefox"
           ? "Firefox Private Browsing"

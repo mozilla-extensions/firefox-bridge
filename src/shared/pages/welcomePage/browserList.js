@@ -1,5 +1,6 @@
 import { getExternalBrowser } from "../../backgroundScripts/getters.js";
 import * as settingEvent from "../../generated/settingEvent.js";
+import { checkFirefoxHotkeys } from "./script.js";
 
 /**
  * Populate the browser list with the available browsers.
@@ -68,16 +69,6 @@ export async function populateBrowserList() {
       "data-launch-protocol",
     );
 
-    // update launch-browser-shortcut
-    const launchBrowserShortcutElement = document.getElementById(
-      "launch-browser-shortcut",
-    );
-    launchBrowserShortcutElement.innerText =
-      launchBrowserShortcutElement.innerText.replace(
-        oldBrowserName,
-        newBrowserName,
-      );
-
     browser.storage.local.set({
       currentExternalBrowserLaunchProtocol: executable,
     });
@@ -87,6 +78,9 @@ export async function populateBrowserList() {
       from: oldBrowserName,
       to: newBrowserName,
       source: "browser_list",
+    const shortcutsList = document.getElementById("shortcuts-list");
+    shortcutsList.innerHTML = "";
+    await checkFirefoxHotkeys();
     });
   });
 

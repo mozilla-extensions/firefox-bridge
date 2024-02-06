@@ -15,13 +15,13 @@ export async function getExternalBrowser() {
 /**
  * Retreives whether telemetry is enabled.
  *
- * @returns {Promise<boolean>} True if telemetry is enabled or not specified, false otherwise.
+ * @returns {Promise<boolean>} True if telemetry is enabled, false otherwise.
  */
 export async function getTelemetryEnabled() {
   const result = await browser.storage.sync.get("telemetryEnabled");
   if (!result || result.telemetryEnabled === undefined) {
-    browser.storage.sync.set({ telemetryEnabled: true });
-    return true;
+    browser.storage.sync.set({ telemetryEnabled: false });
+    return false;
   }
   return result.telemetryEnabled;
 }

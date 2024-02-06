@@ -16,16 +16,18 @@ describe("shared/backgroundScripts/contextMenus.js", () => {
         id: "launchInExternalBrowser",
         title: getLocaleMessage("launchInExternalBrowser"),
         contexts: ["page"],
+        documentUrlPatterns: ["http://*/*", "https://*/*", "file:///*"],
       });
       expect(browser.contextMenus.create).toHaveBeenCalledWith({
         id: "launchInExternalBrowserLink",
         title: getLocaleMessage("launchInExternalBrowserLink"),
         contexts: ["link"],
+        targetUrlPatterns: ["http://*/*", "https://*/*", "file:///*"],
       });
       expect(browser.contextMenus.create).toHaveBeenCalledWith({
         id: "openWelcomePage",
         title: getLocaleMessage("openWelcomePage"),
-        contexts: ["action"],
+        contexts: ["browser_action"],
       });
     });
   });

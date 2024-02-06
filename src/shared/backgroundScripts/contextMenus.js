@@ -24,6 +24,7 @@ export async function initContextMenu() {
       defaultLaunchMode,
     ),
     contexts: ["page"],
+    documentUrlPatterns: ["http://*/*", "https://*/*", "file:///*"],
   });
 
   // link context menu
@@ -34,9 +35,11 @@ export async function initContextMenu() {
       defaultLaunchMode,
     ),
     contexts: ["link"],
+    targetUrlPatterns: ["http://*/*", "https://*/*", "file:///*"],
   });
 
-  const action = browser.action ? "action" : "browser_action"; // mv2 vs mv3
+  const action = browser.browserAction ? "browser_action" : "action"; // mv2 vs mv3
+
   //separator
   browser.contextMenus.create({
     id: "separator",
@@ -88,7 +91,7 @@ export async function handleBrowserNameChange() {
  * Handles the context menu item clicks. Redirects to the proper handler.
  *
  * @param {Object} info The context menu item object.
- * @param {Object} tab The current tab object.
+ * @param {Object} tab The tab object to launch the browser with.
  */
 export async function handleContextMenuClick(info, tab) {
   if (info.menuItemId === "launchInExternalBrowser") {

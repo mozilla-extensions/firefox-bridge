@@ -50,17 +50,22 @@ export async function checkPrivateBrowsing() {
  * Update the telemetry checkbox and initialize the listener.
  */
 export async function updateTelemetry() {
-  // check storage to see if telemetry is enabled/disabled. If neither, set to true.
+  // check storage to see if telemetry is enabled/disabled. If neither, false is default
   const telemetryEnabled = await getTelemetryEnabled();
-  browser.storage.sync.set({ telemetryEnabled });
   document.getElementById("telemetry-checkbox").checked = telemetryEnabled;
 
   document
     .getElementById("telemetry-checkbox")
-    .addEventListener("change", async () => {
-      const telemetryEnabled = await getTelemetryEnabled();
-      browser.storage.sync.set({ telemetryEnabled: !telemetryEnabled });
+    .addEventListener("change", (event) => {
+      browser.storage.sync.set({ telemetryEnabled: event.target.checked });
     });
+
+  browser.storage.sync.onChanged.addListener((changes) => {
+    if (changes.telemetryEnabled !== undefined) {
+      document.getElementById("telemetry-checkbox").checked =
+        changes.telemetryEnabled.newValue;
+    }
+  });
 }
 
 /**
