@@ -27,7 +27,7 @@ describe("shared/backgroundScripts/contextMenus.js", () => {
       expect(browser.contextMenus.create).toHaveBeenCalledWith({
         id: "openWelcomePage",
         title: getLocaleMessage("openWelcomePage"),
-        contexts: ["action"],
+        contexts: ["browser_action"],
       });
     });
   });

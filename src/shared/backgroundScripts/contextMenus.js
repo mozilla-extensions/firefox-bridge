@@ -37,7 +37,8 @@ export async function initContextMenu() {
     targetUrlPatterns: ["http://*/*", "https://*/*", "file:///*"],
   });
 
-  const action = browser.action ? "action" : "browser_action"; // mv2 vs mv3
+  const action = browser.browserAction ? "browser_action" : "action"; // mv2 vs mv3
+
   //separator
   browser.contextMenus.create({
     id: "separator",
