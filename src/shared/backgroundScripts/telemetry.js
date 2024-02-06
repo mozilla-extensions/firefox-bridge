@@ -24,7 +24,7 @@ export async function initGlean(showLogs = false) {
 export function initTelemetryListeners() {
   browser.runtime.onInstalled.addListener(async (details) => {
     await initGlean();
-    if (details.reason !== "install") {
+    if (details.reason === "install") {
       installEvent.dateInstalled.set(new Date());
       installEvent.browserType.set(
         IS_FIREFOX_EXTENSION ? "firefox" : "chromium",
