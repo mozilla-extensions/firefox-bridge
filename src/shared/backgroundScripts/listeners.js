@@ -18,6 +18,7 @@ export function initSharedListeners() {
       });
     }
     await initContextMenu();
+    await updateToolbarIcon();
   });
 
   browser.runtime.onStartup.addListener(async () => {
