@@ -10,6 +10,7 @@ import { getIsFirefoxInstalled } from "Interfaces/getters.js";
 import { handleChangeDefaultLaunchContextMenuClick } from "Interfaces/contextMenus.js";
 
 import "Shared/backgroundScripts/polyfill.js";
+import { initGlean } from "Shared/backgroundScripts/telemetry.js";
 
 /**
  * Check the private browsing checkbox if the current external browser is
@@ -37,7 +38,7 @@ export async function checkPrivateBrowsing() {
     } else {
       alwaysPrivateCheckbox.checked = false;
     }
-
+    
     settingEvent.currentBrowser.record({
       from,
       to,
@@ -232,6 +233,7 @@ export function applyMobileLogic() {
 }
 
 document.addEventListener("DOMContentLoaded", function () {
+  initGlean();
   activatePlatformSpecificElements();
   applyLocalization();
   updateTelemetry();
