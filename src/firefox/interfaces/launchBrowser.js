@@ -1,4 +1,5 @@
 import { getExternalBrowserLaunchProtocol } from "./getters.js";
+import { isURLValid } from "Shared/backgroundScripts/validTab.js";
 
 /**
  * Launches the user set browser. If the browser is not set, launch the welcome page.
@@ -16,12 +17,7 @@ export async function launchBrowser(url, usePrivateBrowsing = false) {
     return false;
   }
 
-  if (
-    url &&
-    !url.startsWith("https:") &&
-    !url.startsWith("http:") &&
-    !url.startsWith("file:")
-  ) {
+  if (!isURLValid(url)) {
     console.error("Invalid URL scheme:", url);
     return false;
   }

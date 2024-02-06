@@ -1,3 +1,4 @@
+import { isURLValid } from "Shared/backgroundScripts/validTab.js";
 import { getIsFirefoxInstalled } from "./getters.js";
 
 /**
@@ -8,12 +9,7 @@ import { getIsFirefoxInstalled } from "./getters.js";
  * @returns {boolean} True if the browser was launched, false otherwise.
  */
 export async function launchBrowser(url, usePrivateBrowsing = false) {
-  if (
-    url &&
-    !url.startsWith("https:") &&
-    !url.startsWith("http:") &&
-    !url.startsWith("file:")
-  ) {
+  if (!isURLValid(url)) {
     console.error("Invalid URL scheme:", url);
     return false;
   }
