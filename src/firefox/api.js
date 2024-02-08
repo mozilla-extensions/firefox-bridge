@@ -21,7 +21,7 @@ const https = "https";
 // The windows names are specified in _getAvailableBrowsersWin(). However, the names
 // may not match up with what getDefaultBrowser() returns. For example, "Google Chrome Canary"
 // is the name returned by getDefaultBrowser(), but the name returned by _getAvailableBrowsersWin()
-// is "Chrome SxS". 
+// is "Chrome SxS".
 
 // TODO: Either map the names to the desired ones, or update the possibleLocalHandlers type
 // to include the names given by getDefaultBrowser().
@@ -31,7 +31,6 @@ const browserNamesMap = {
   "Microsoft Edge": "Edge",
   "Chrome SxS": "Chrome Canary",
 };
-
 
 /**
  * Determines whether the executable file for an application is valid.
@@ -104,7 +103,7 @@ function _getAvailableBrowsersWin() {
  */
 function _getAvailableBrowsersMac() {
   let shellService = Cc["@mozilla.org/browser/shell-service;1"].getService(
-    Ci.nsIMacShellService
+    Ci.nsIMacShellService,
   );
   let appList = shellService.getAvailableApplicationsForProtocol(https);
   let appDataList = [];
@@ -246,7 +245,6 @@ this.experiments_firefox_launch = class extends ExtensionAPI {
             if (!handlerInfo.hasDefaultHandler) {
               return null;
             }
-            console.log(handlerInfo.defaultDescription);
             if (
               (!browserNamesMac.includes(handlerInfo.defaultDescription) &&
                 AppConstants.platform == "macosx") ||
