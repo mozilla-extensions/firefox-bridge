@@ -10,7 +10,6 @@ XPCOMUtils.defineLazyServiceGetters(lazy, {
 });
 
 const https = "https";
-const iconSize = 32;
 const browserNamesWin = ["Chrome", "Edge", "Opera"];
 const browserNamesMac = ["Safari", "Chrome", "Microsoft Edge", "Opera", "Arc"];
 
@@ -41,7 +40,7 @@ function _isValidHandlerExecutable(aExecutable) {
 /**
  * Gets the available browsers on Windows to be potentially used for launching.
  *
- * @returns {Array<{ icon: string, name: string, executable: string }>} The icon, name, and executable
+ * @returns {Array<{ name: string, executable: string }>} The name and executable
  * of the available browsers on Windows
  */
 function _getAvailableBrowsersWin() {
@@ -53,8 +52,6 @@ function _getAvailableBrowsersWin() {
     if (!_isValidHandlerExecutable(app?.executable)) {
       continue;
     }
-    let iconURI = Services.io.newFileURI(app.executable).spec;
-    let iconString = "moz-icon://" + iconURI + "?size=" + iconSize;
     let appname =
       app.executable.parent.leafName !== "Application"
         ? app.executable.parent.leafName
@@ -65,7 +62,6 @@ function _getAvailableBrowsersWin() {
     }
 
     let appData = {
-      icon: iconString,
       name: appname,
       executable: app.executable.path,
     };
@@ -77,7 +73,7 @@ function _getAvailableBrowsersWin() {
 /**
  * Gets the available browsers on Mac to be potentially used for launching.
  *
- * @returns {Array<{ icon: string, name: string, executable: string }>} The icon, name, and executable
+ * @returns {Array<{ name: string, executable: string }>} The name and executable
  * of the available browsers on Mac
  */
 function _getAvailableBrowsersMac() {
@@ -92,9 +88,7 @@ function _getAvailableBrowsersMac() {
     } else if (app[0] === "Microsoft Edge") {
       app[0] = "Edge";
     }
-    let iconString = "moz-icon://" + app[1] + "?size=" + iconSize;
     let appData = {
-      icon: iconString,
       name: app[0],
       executable: app[1],
     };
@@ -103,16 +97,27 @@ function _getAvailableBrowsersMac() {
   return appDataList;
 }
 
-function _getExecutablePathForBrowserWin(browserIdentifier) {
-  // either use the current getavailablebrowsers, or find a way
-  // to store the path here
-}
+/**
+ * Gets the path of the executable file for a browser.
+ *
+ * @param {string} browserIdentifier The identifier of the browser to launch
+ * @returns {string} The path of the executable file for the browser if it exists, null otherwise
+ */
+function _getExecutablePathForBrowser(browserIdentifier) {
+  let appList;
+  if (AppConstants.platform == "win") {
+    appList = _getAvailableBrowsersWin();
+  } else if (AppConstants.platform == "macosx") {
+    appList = _getAvailableBrowsersMac();
+  }
 
-function _getExecutablePathForBrowserMac(browserIdentifier) {
-  // either use the current getavailablebrowsers, or find a way
-  // to store the path here
+  for (let app of appList) {
+    if (app.name == browserIdentifier) {
+      return app.executable;
+    }
+  }
 
-
+  throw new Error("Invalid browser identifier");
 }
 
 /**
@@ -121,10 +126,13 @@ function _getExecutablePathForBrowserMac(browserIdentifier) {
  * @param {string} browserIdentifier The identifier of the browser to launch
  * @param {string} url The URL to open
  */
-function _launchAppWin(browserIdentifier, url) {
+function _launchBrowserWin(browserIdentifier, url) {
   let file = Cc["@mozilla.org/file/local;1"].createInstance(Ci.nsIFile);
   let process = Cc["@mozilla.org/process/util;1"].createInstance(Ci.nsIProcess);
-  let appExecutable = _getExecutablePathForBrowserWin(browserIdentifier);
+  let appExecutable = _getExecutablePathForBrowser(browserIdentifier);
+  if (!appExecutable) {
+    throw new Error("Invalid browser identifier");
+  }
   file.initWithPath(appExecutable);
   process.init(file);
   process.run(false, [url], 1);
@@ -136,16 +144,36 @@ function _launchAppWin(browserIdentifier, url) {
  * @param {string} browserIdentifier The identifier of the browser to launch
  * @param {string} url The URL to open
  */
-function _launchAppMac(browserIdentifier, url) {
+function _launchBrowserMac(browserIdentifier, url) {
   let opener = Cc["@mozilla.org/file/local;1"].createInstance(Ci.nsIFile);
   let process = Cc["@mozilla.org/process/util;1"].createInstance(Ci.nsIProcess);
-  let appExecutable = _getExecutablePathForBrowserMac(browserIdentifier);
+  let appExecutable = _getExecutablePathForBrowser(browserIdentifier);
+  if (!appExecutable) {
+    throw new Error("Invalid browser identifier");
+  }
   let uri = Services.io.newURI(appExecutable);
   let file = uri.QueryInterface(Ci.nsIFileURL).file;
   let argsToUse = ["-a", file.path, url];
   opener.initWithPath("/usr/bin/open");
   process.init(opener);
   process.run(false, argsToUse, argsToUse.length);
+}
+
+/**
+ * Determines whether a URL is valid.
+ *
+ * @param {string} url
+ * @returns {boolean} Whether the URL is valid
+ */
+function _isValidURL(url) {
+  try {
+    let uri = Services.io.newURI(url);
+    return (
+      uri.schemeIs("http") || uri.schemeIs("https") || uri.schemeIs("file")
+    );
+  } catch (e) {
+    return false;
+  }
 }
 
 this.experiments_firefox_launch = class extends ExtensionAPI {
@@ -156,7 +184,7 @@ this.experiments_firefox_launch = class extends ExtensionAPI {
           /**
            * Gets the available browsers to be potentially used for launching.
            *
-           * @returns {Promise<Array<{ icon: string, name: string, executable: string }>}
+           * @returns {Promise<Array<{ name: string, executable: string }>}
            * The available browsers
            */
           async getAvailableBrowsers() {
@@ -197,18 +225,20 @@ this.experiments_firefox_launch = class extends ExtensionAPI {
           },
 
           /**
-           * Launches an application.
+           * Launches a browser.
            *
            * @param {string} browserIdentifier The identifier of the browser to launch
            * @param {string} url The URL to open
            */
-          launchApp(browserIdentifier, url) {
-            let uri = Services.io.newURI(url[0]);
+          launchBrowser(browserIdentifier, url) {
+            if (!_isValidURL(url)) {
+              throw new Error("Invalid URL");
+            }
 
             if (AppConstants.platform == "win") {
-              _launchAppWin(browserIdentifier, uri.spec);
+              _launchBrowserWin(browserIdentifier, url);
             } else if (AppConstants.platform == "macosx") {
-              _launchAppMac(browserIdentifier, uri.spec);
+              _launchBrowserMac(browserIdentifier, url);
             }
           },
 

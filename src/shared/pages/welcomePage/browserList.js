@@ -55,8 +55,6 @@ export async function populateBrowserList() {
     } else {
       option.text = localBrowser.name;
     }
-
-    option.setAttribute("data-launch-protocol", localBrowser.executable);
     browserList.appendChild(option);
   });
 
@@ -64,13 +62,7 @@ export async function populateBrowserList() {
   browserList.addEventListener("change", async (event) => {
     const oldBrowserName = await getExternalBrowser();
     const newBrowserName = event.target.value;
-    const executable = event.target.selectedOptions[0].getAttribute(
-      "data-launch-protocol",
-    );
 
-    browser.storage.local.set({
-      currentExternalBrowserLaunchProtocol: executable,
-    });
     browser.storage.sync.set({ currentExternalBrowser: newBrowserName });
 
     const shortcutsList = document.getElementById("shortcuts-list");
