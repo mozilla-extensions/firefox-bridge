@@ -184,16 +184,20 @@ this.experiments_firefox_launch = class extends ExtensionAPI {
           /**
            * Gets the available browsers to be potentially used for launching.
            *
-           * @returns {Promise<Array<{ name: string, executable: string }>}
+           * @returns {Promise<Array<string>}
            * The available browsers
            */
           async getAvailableBrowsers() {
+            let applist;
             if (AppConstants.platform == "win") {
-              return _getAvailableBrowsersWin();
+              applist = _getAvailableBrowsersWin();
             } else if (AppConstants.platform == "macosx") {
-              return _getAvailableBrowsersMac();
+              applist = _getAvailableBrowsersMac();
             }
-            return null;
+            // remove the executable field from each app data
+            return applist.map((app) => {
+              return app.name;
+            });
           },
 
           /**

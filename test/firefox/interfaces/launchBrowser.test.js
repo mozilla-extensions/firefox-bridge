@@ -12,7 +12,7 @@ describe("firefox/interfaces/launchBrowser.js", () => {
       console.error.mockRestore();
     });
 
-    it("should return false and open the welcome page if there is no launch protocol", async () => {
+    it("should return false and open the welcome page if there is no set browser", async () => {
       await setStorage("currentExternalBrowser", "");
       const result = await launchBrowser("https://example.com");
       expect(result).toEqual(false);
@@ -22,7 +22,7 @@ describe("firefox/interfaces/launchBrowser.js", () => {
       });
     });
 
-    it("should return true if there is a launch protocol", async () => {
+    it("should return true if there is a set browser", async () => {
       await setStorage("currentExternalBrowser", "test");
       const result = await launchBrowser("https://example.com");
       expect(result).toEqual(true);

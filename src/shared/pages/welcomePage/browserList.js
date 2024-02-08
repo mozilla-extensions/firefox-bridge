@@ -10,13 +10,6 @@ export async function populateBrowserList() {
 
   const availableBrowsers =
     await browser.experiments.firefox_launch.getAvailableBrowsers();
-  console.log(availableBrowsers);
-
-  // console.group("Experimental Api Logs");
-  // availableBrowsers.logs.forEach((log) => {
-  //   console.log(log);
-  // });
-  // console.groupEnd();
 
   // if no browsers are available, remove the browser-list element and display a message
   if (availableBrowsers.length === 0) {
@@ -26,34 +19,25 @@ export async function populateBrowserList() {
     return;
   }
 
-  // sort browsers by name alphabetically and remove duplicate names
-  const loadedBrowsers = new Set();
-  const browsers = availableBrowsers
-    .sort((a, b) => a.name.localeCompare(b.name))
-    .filter((localBrowser) => {
-      if (loadedBrowsers.has(localBrowser.name)) {
-        return false;
-      }
-      loadedBrowsers.add(localBrowser.name);
-      return true;
-    });
-
   const defaultBrowserName =
     await browser.experiments.firefox_launch.getDefaultBrowser();
+
+  // sort the browsers and remove duplicates
+  const browsers = [...new Set(availableBrowsers)].sort();
 
   // add browsers to the list
   browsers.forEach((localBrowser) => {
     const option = document.createElement("option");
-    option.value = localBrowser.name;
+    option.value = localBrowser;
 
     // if it's the user's default browser, add a message to the option
-    const isDefaultBrowser = defaultBrowserName === localBrowser.name;
+    const isDefaultBrowser = defaultBrowserName === localBrowser;
     if (isDefaultBrowser) {
-      option.text = `${localBrowser.name} ${browser.i18n.getMessage(
+      option.text = `${localBrowser} ${browser.i18n.getMessage(
         "welcomePageDefaultBrowser",
       )}`;
     } else {
-      option.text = localBrowser.name;
+      option.text = localBrowser;
     }
     browserList.appendChild(option);
   });
