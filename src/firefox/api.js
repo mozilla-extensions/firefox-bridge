@@ -82,7 +82,7 @@ function _getAvailableBrowsersWin() {
  */
 function _getAvailableBrowsersMac() {
   let shellService = Cc["@mozilla.org/browser/shell-service;1"].getService(
-    Ci.nsIMacShellService,
+    Ci.nsIMacShellService
   );
   let appList = shellService.getAvailableApplicationsForProtocol(https);
   let appDataList = [];
@@ -225,8 +225,10 @@ this.experiments_firefox_launch = class extends ExtensionAPI {
               return null;
             }
             if (
-              !browserNamesMac.includes(handlerInfo.defaultDescription) &&
-              !browserNamesWin.includes(handlerInfo.defaultDescription)
+              (!browserNamesMac.includes(handlerInfo.defaultDescription) &&
+                AppConstants.platform == "macosx") ||
+              (!browserNamesWin.includes(handlerInfo.defaultDescription) &&
+                AppConstants.platform == "win")
             ) {
               return null;
             }
