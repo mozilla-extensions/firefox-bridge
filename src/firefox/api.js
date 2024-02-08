@@ -103,32 +103,46 @@ function _getAvailableBrowsersMac() {
   return appDataList;
 }
 
+function _getExecutablePathForBrowserWin(browserIdentifier) {
+  // either use the current getavailablebrowsers, or find a way
+  // to store the path here
+}
+
+function _getExecutablePathForBrowserMac(browserIdentifier) {
+  // either use the current getavailablebrowsers, or find a way
+  // to store the path here
+
+
+}
+
 /**
  * Launches an application on Windows.
  *
- * @param {*} appExecutable The executable file for an application
- * @param {*} handlerArgs The arguments to pass to the application
+ * @param {string} browserIdentifier The identifier of the browser to launch
+ * @param {string} url The URL to open
  */
-function _launchAppWin(appExecutable, handlerArgs) {
+function _launchAppWin(browserIdentifier, url) {
   let file = Cc["@mozilla.org/file/local;1"].createInstance(Ci.nsIFile);
   let process = Cc["@mozilla.org/process/util;1"].createInstance(Ci.nsIProcess);
+  let appExecutable = _getExecutablePathForBrowserWin(browserIdentifier);
   file.initWithPath(appExecutable);
   process.init(file);
-  process.run(false, handlerArgs, handlerArgs.length);
+  process.run(false, [url], 1);
 }
 
 /**
  * Launches an application on Mac.
  *
- * @param {*} appExecutable The executable file for an application
- * @param {*} handlerArgs The arguments to pass to the application
+ * @param {string} browserIdentifier The identifier of the browser to launch
+ * @param {string} url The URL to open
  */
-function _launchAppMac(appExecutable, handlerArgs) {
+function _launchAppMac(browserIdentifier, url) {
   let opener = Cc["@mozilla.org/file/local;1"].createInstance(Ci.nsIFile);
   let process = Cc["@mozilla.org/process/util;1"].createInstance(Ci.nsIProcess);
+  let appExecutable = _getExecutablePathForBrowserMac(browserIdentifier);
   let uri = Services.io.newURI(appExecutable);
   let file = uri.QueryInterface(Ci.nsIFileURL).file;
-  let argsToUse = ["-a", file.path, ...handlerArgs];
+  let argsToUse = ["-a", file.path, url];
   opener.initWithPath("/usr/bin/open");
   process.init(opener);
   process.run(false, argsToUse, argsToUse.length);
@@ -185,14 +199,16 @@ this.experiments_firefox_launch = class extends ExtensionAPI {
           /**
            * Launches an application.
            *
-           * @param {*} appExecutable The executable file for an application
-           * @param {*} handlerArgs The arguments to pass to the application
+           * @param {string} browserIdentifier The identifier of the browser to launch
+           * @param {string} url The URL to open
            */
-          launchApp(appExecutable, handlerArgs) {
+          launchApp(browserIdentifier, url) {
+            let uri = Services.io.newURI(url[0]);
+
             if (AppConstants.platform == "win") {
-              _launchAppWin(appExecutable, handlerArgs);
+              _launchAppWin(browserIdentifier, uri.spec);
             } else if (AppConstants.platform == "macosx") {
-              _launchAppMac(appExecutable, handlerArgs);
+              _launchAppMac(browserIdentifier, uri.spec);
             }
           },
 
