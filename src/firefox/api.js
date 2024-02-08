@@ -14,6 +14,7 @@ const browserNamesWin = ["Chrome", "Edge", "Opera"];
 const browserNamesMac = ["Safari", "Chrome", "Microsoft Edge", "Opera", "Arc"];
 const browserNamesMap = {
   "Microsoft Edge": "Edge",
+  "Chrome SxS": "Chrome Canary",
 };
 
 /**
@@ -55,15 +56,20 @@ function _getAvailableBrowsersWin() {
     if (!_isValidHandlerExecutable(app?.executable)) {
       continue;
     }
-    console.log("APP", app);
+
+    // Attempt to get the name of the application from the executable's parent directory.
+    // Most applications will have the name of the executable in the parent directory (eg. "Opera/Launcher.exe")
+    // But Chrome, for example, is structured differently (eg. "Google/Chrome/Application/chrome.exe")
     let appname =
       app.executable.parent.leafName !== "Application"
         ? app.executable.parent.leafName
-        : app.executable.parent.parent.leafName;
+        : app.executable.parent.parent?.leafName;
 
     if (!browserNamesWin.includes(appname)) {
       continue;
     }
+
+    appname = browserNamesMap[appname] || appname;
 
     let appData = {
       name: appname,
