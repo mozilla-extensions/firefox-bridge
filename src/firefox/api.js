@@ -10,12 +10,28 @@ XPCOMUtils.defineLazyServiceGetters(lazy, {
 });
 
 const https = "https";
+
+// The list of browsers to be potentially used for launching
+// There are some differences in the names of the browsers on Windows and Mac,
+// so separate lists are used for each, then we map the names to the desired one.
+
+// The mac names are the bundle names, which are the names returned by getDefaultBrowser() and
+// the names returned by _getAvailableBrowsersMac().
+
+// The windows names are specified in _getAvailableBrowsersWin(). However, the names
+// may not match up with what getDefaultBrowser() returns. For example, "Google Chrome Canary"
+// is the name returned by getDefaultBrowser(), but the name returned by _getAvailableBrowsersWin()
+// is "Chrome SxS". 
+
+// TODO: Either map the names to the desired ones, or update the possibleLocalHandlers type
+// to include the names given by getDefaultBrowser().
 const browserNamesWin = ["Chrome", "Edge", "Opera"];
 const browserNamesMac = ["Safari", "Chrome", "Microsoft Edge", "Opera", "Arc"];
 const browserNamesMap = {
   "Microsoft Edge": "Edge",
   "Chrome SxS": "Chrome Canary",
 };
+
 
 /**
  * Determines whether the executable file for an application is valid.
@@ -230,6 +246,7 @@ this.experiments_firefox_launch = class extends ExtensionAPI {
             if (!handlerInfo.hasDefaultHandler) {
               return null;
             }
+            console.log(handlerInfo.defaultDescription);
             if (
               (!browserNamesMac.includes(handlerInfo.defaultDescription) &&
                 AppConstants.platform == "macosx") ||
