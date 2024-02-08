@@ -10,6 +10,7 @@ export async function populateBrowserList() {
 
   const availableBrowsers =
     await browser.experiments.firefox_launch.getAvailableBrowsers();
+  console.log(availableBrowsers);
 
   // console.group("Experimental Api Logs");
   // availableBrowsers.logs.forEach((log) => {
@@ -18,7 +19,7 @@ export async function populateBrowserList() {
   // console.groupEnd();
 
   // if no browsers are available, remove the browser-list element and display a message
-  if (availableBrowsers.browsers.length === 0) {
+  if (availableBrowsers.length === 0) {
     document.getElementById("browser-list-container").remove();
     document.getElementById("error-notification").style.display = "flex";
     document.getElementById("shortcuts-list").remove();
@@ -27,7 +28,7 @@ export async function populateBrowserList() {
 
   // sort browsers by name alphabetically and remove duplicate names
   const loadedBrowsers = new Set();
-  const browsers = availableBrowsers.browsers
+  const browsers = availableBrowsers
     .sort((a, b) => a.name.localeCompare(b.name))
     .filter((localBrowser) => {
       if (loadedBrowsers.has(localBrowser.name)) {
@@ -37,9 +38,8 @@ export async function populateBrowserList() {
       return true;
     });
 
-  const defaultBrowserName = await browser.experiments.firefox_launch
-    .getDefaultBrowser()
-    .then((localBrowser) => localBrowser.name);
+  const defaultBrowserName =
+    await browser.experiments.firefox_launch.getDefaultBrowser();
 
   // add browsers to the list
   browsers.forEach((localBrowser) => {
