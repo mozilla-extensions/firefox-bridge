@@ -12,6 +12,9 @@ XPCOMUtils.defineLazyServiceGetters(lazy, {
 const https = "https";
 const browserNamesWin = ["Chrome", "Edge", "Opera"];
 const browserNamesMac = ["Safari", "Chrome", "Microsoft Edge", "Opera", "Arc"];
+const browserNamesMap = {
+  "Microsoft Edge": "Edge",
+};
 
 /**
  * Determines whether the executable file for an application is valid.
@@ -52,6 +55,7 @@ function _getAvailableBrowsersWin() {
     if (!_isValidHandlerExecutable(app?.executable)) {
       continue;
     }
+    console.log("APP", app);
     let appname =
       app.executable.parent.leafName !== "Application"
         ? app.executable.parent.leafName
@@ -83,14 +87,15 @@ function _getAvailableBrowsersMac() {
   let appList = shellService.getAvailableApplicationsForProtocol(https);
   let appDataList = [];
   for (let app of appList) {
-    if (!browserNamesMac.includes(app[0])) {
+    let [displayName, executable] = app;
+    if (!browserNamesMac.includes(displayName)) {
       continue;
-    } else if (app[0] === "Microsoft Edge") {
-      app[0] = "Edge";
     }
+
+    displayName = browserNamesMap[displayName] || displayName;
     let appData = {
-      name: app[0],
-      executable: app[1],
+      name: displayName,
+      executable,
     };
     appDataList.push(appData);
   }
