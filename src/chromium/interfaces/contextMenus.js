@@ -21,18 +21,18 @@ export async function applyPlatformContextMenus() {
       type: "checkbox",
       checked: !(externalBrowserName === "Firefox"),
     },
-    handleDuplicateIDError
+    handleDuplicateIDError,
   );
   await browser.contextMenus.create(
     {
       id: "alternativeLaunchContextMenu",
       title: browser.i18n.getMessage(
         "launchInExternalBrowser",
-        alternateBrowserName
+        alternateBrowserName,
       ),
       contexts: ["action"],
     },
-    handleDuplicateIDError
+    handleDuplicateIDError,
   );
 
   // separator
@@ -42,7 +42,7 @@ export async function applyPlatformContextMenus() {
       type: "separator",
       contexts: ["action"],
     },
-    handleDuplicateIDError
+    handleDuplicateIDError,
   );
 
   // External sites context menu
@@ -76,12 +76,12 @@ export async function applyPlatformContextMenus() {
       id: "launchInExternalBrowserPrivatePage",
       title: browser.i18n.getMessage(
         "launchInExternalBrowser",
-        "Firefox Private Browsing"
+        "Firefox Private Browsing",
       ),
       contexts: ["page"],
       documentUrlPatterns: ["http://*/*", "https://*/*", "file:///*"],
     },
-    handleDuplicateIDError
+    handleDuplicateIDError,
   );
 
   // link context menu
@@ -90,12 +90,12 @@ export async function applyPlatformContextMenus() {
       id: "launchInExternalBrowserPrivateLink",
       title: browser.i18n.getMessage(
         "launchInExternalBrowserLink",
-        "Firefox Private Browsing"
+        "Firefox Private Browsing",
       ),
       contexts: ["link"],
       targetUrlPatterns: ["http://*/*", "https://*/*", "file:///*"],
     },
-    handleDuplicateIDError
+    handleDuplicateIDError,
   );
 }
 
@@ -112,7 +112,7 @@ export async function handleChangeDefaultLaunchContextMenuClick() {
   browser.contextMenus.update("alternativeLaunchContextMenu", {
     title: browser.i18n.getMessage(
       "launchInExternalBrowser",
-      externalBrowserName
+      externalBrowserName,
     ),
   });
 
