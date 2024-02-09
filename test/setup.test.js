@@ -201,6 +201,7 @@ jest.spyOn(global.browser.i18n, "getMessage").mockImplementation((key) => {
 beforeEach(async () => {
   await testResetGlean("firefox-launch");
   await setStorage("isFirefoxInstalled", true, "session");
+  setExtensionPlatform("firefox");
 });
 
 afterEach(() => {
