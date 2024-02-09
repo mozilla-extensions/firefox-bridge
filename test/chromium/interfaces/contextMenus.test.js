@@ -26,7 +26,7 @@ describe("chromium/interfaces/contextMenus.js", () => {
         contexts: ["action"],
       });
       expect(browser.contextMenus.create).toHaveBeenCalledWith({
-        id: "launchInExternalBrowserPrivate",
+        id: "launchInExternalBrowserPrivatePage",
         title: getLocaleMessage("launchInExternalBrowser"),
         contexts: ["page"],
         documentUrlPatterns: ["http://*/*", "https://*/*", "file:///*"],
