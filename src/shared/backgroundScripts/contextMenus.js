@@ -17,7 +17,7 @@ export async function initContextMenu() {
 
   // page context menu
   browser.contextMenus.create({
-    id: "launchInExternalBrowser",
+    id: "launchInExternalBrowserPage",
     title: browser.i18n.getMessage(
       "launchInExternalBrowser",
       defaultLaunchMode,
@@ -72,7 +72,7 @@ export async function handleBrowserNameChange() {
   // if we're in chromium, ensure we force Firefox as the option, otherwise use the default
   const defaultLaunchMode = IS_FIREFOX_EXTENSION ? externalBrowser : "Firefox";
 
-  browser.contextMenus.update("launchInExternalBrowser", {
+  browser.contextMenus.update("launchInExternalBrowserPage", {
     title: browser.i18n.getMessage(
       "launchInExternalBrowser",
       defaultLaunchMode,
@@ -93,8 +93,8 @@ export async function handleBrowserNameChange() {
  * @param {Object} tab The tab object to launch the browser with.
  */
 export async function handleContextMenuClick(info, tab) {
-  if (info.menuItemId === "launchInExternalBrowser") {
-    if (await launchBrowser(tab.url)) {
+  if (info.menuItemId === "launchInExternalBrowserPage") {
+    if (await launchBrowser(info.pageUrl)) {
       browser.storage.local.set({
         telemetry: {
           type: "browserLaunch",

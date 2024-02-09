@@ -55,7 +55,7 @@ export async function applyPlatformContextMenus() {
 
   // page context menu
   browser.contextMenus.create({
-    id: "launchInExternalBrowserPrivate",
+    id: "launchInExternalBrowserPrivatePage",
     title: browser.i18n.getMessage(
       "launchInExternalBrowser",
       "Firefox Private Browsing",
@@ -140,8 +140,8 @@ export async function handlePlatformContextMenuClick(info, tab) {
         },
       });
     }
-  } else if (info.menuItemId === "launchInExternalBrowserPrivate") {
-    if (await launchBrowser(tab.url, true)) {
+  } else if (info.menuItemId === "launchInExternalBrowserPrivatePage") {
+    if (await launchBrowser(info.pageUrl, true)) {
       browser.storage.local.set({
         telemetry: {
           type: "browserLaunch",

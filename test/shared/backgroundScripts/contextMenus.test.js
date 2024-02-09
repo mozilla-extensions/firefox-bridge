@@ -13,7 +13,7 @@ describe("shared/backgroundScripts/contextMenus.js", () => {
       setExtensionPlatform("chromium");
       await initContextMenu();
       expect(browser.contextMenus.create).toHaveBeenCalledWith({
-        id: "launchInExternalBrowser",
+        id: "launchInExternalBrowserPage",
         title: getLocaleMessage("launchInExternalBrowser"),
         contexts: ["page"],
         documentUrlPatterns: ["http://*/*", "https://*/*", "file:///*"],
