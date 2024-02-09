@@ -10,14 +10,15 @@ import { handleBrowserNameChange } from "./contextMenus.js";
  * Initialize the listeners that are shared between Firefox and Chromium.
  */
 export function initSharedListeners() {
-
   // Initialize the context menu if it hasn't been initialized yet
-  browser.storage.session.get("isContextMenuInitialized").then(async (result) => {
-    if (result.isContextMenuInitialized === undefined) {
-      await initContextMenu();
-      browser.storage.session.set({ isContextMenuInitialized: true });
-    }
-  });
+  browser.storage.session
+    .get("isContextMenuInitialized")
+    .then(async (result) => {
+      if (result.isContextMenuInitialized === undefined) {
+        await initContextMenu();
+        browser.storage.session.set({ isContextMenuInitialized: true });
+      }
+    });
 
   browser.runtime.onInstalled.addListener(async (details) => {
     // await getIsAutoRedirect(); // resolve to true on fresh install
