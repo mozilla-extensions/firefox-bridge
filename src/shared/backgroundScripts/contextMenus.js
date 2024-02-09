@@ -7,6 +7,19 @@ import {
 } from "Interfaces/contextMenus.js";
 
 /**
+ * Suppresses logs for duplicate id errors when creating context menus. This
+ * often happens when disabling and re-enabling the extension.
+ */
+export const handleDuplicateIDError = () => {
+  if (
+    browser.runtime.lastError &&
+    !browser.runtime.lastError.message.includes("duplicate id")
+  ) {
+    console.error("Error: ", browser.runtime.lastError);
+  }
+};
+
+/**
  * Initialize the context menu. This includes the page context menu, link context menu,
  * and platform specific context menus.
  */
@@ -16,52 +29,67 @@ export async function initContextMenu() {
   const defaultLaunchMode = IS_FIREFOX_EXTENSION ? externalBrowser : "Firefox";
 
   // page context menu
-  browser.contextMenus.create({
-    id: "launchInExternalBrowserPage",
-    title: browser.i18n.getMessage(
-      "launchInExternalBrowser",
-      defaultLaunchMode,
-    ),
-    contexts: ["page"],
-    documentUrlPatterns: ["http://*/*", "https://*/*", "file:///*"],
-  });
+  browser.contextMenus.create(
+    {
+      id: "launchInExternalBrowserPage",
+      title: browser.i18n.getMessage(
+        "launchInExternalBrowser",
+        defaultLaunchMode,
+      ),
+      contexts: ["page"],
+      documentUrlPatterns: ["http://*/*", "https://*/*", "file:///*"],
+    },
+    handleDuplicateIDError,
+  );
 
   // link context menu
-  browser.contextMenus.create({
-    id: "launchInExternalBrowserLink",
-    title: browser.i18n.getMessage(
-      "launchInExternalBrowserLink",
-      defaultLaunchMode,
-    ),
-    contexts: ["link"],
-    targetUrlPatterns: ["http://*/*", "https://*/*", "file:///*"],
-  });
+  browser.contextMenus.create(
+    {
+      id: "launchInExternalBrowserLink",
+      title: browser.i18n.getMessage(
+        "launchInExternalBrowserLink",
+        defaultLaunchMode,
+      ),
+      contexts: ["link"],
+      targetUrlPatterns: ["http://*/*", "https://*/*", "file:///*"],
+    },
+    handleDuplicateIDError,
+  );
 
   const action = browser.browserAction ? "browser_action" : "action"; // mv2 vs mv3
 
   //separator
-  browser.contextMenus.create({
-    id: "separator",
-    type: "separator",
-    contexts: [action],
-  });
+  browser.contextMenus.create(
+    {
+      id: "separator",
+      type: "separator",
+      contexts: [action],
+    },
+    handleDuplicateIDError,
+  );
 
   // platform specific menu
   await applyPlatformContextMenus();
 
   //separator
-  browser.contextMenus.create({
-    id: "separator2",
-    type: "separator",
-    contexts: [action],
-  });
+  browser.contextMenus.create(
+    {
+      id: "separator2",
+      type: "separator",
+      contexts: [action],
+    },
+    handleDuplicateIDError,
+  );
 
   // action menu welcome page
-  browser.contextMenus.create({
-    id: "openWelcomePage",
-    title: browser.i18n.getMessage("openWelcomePage"),
-    contexts: [action],
-  });
+  browser.contextMenus.create(
+    {
+      id: "openWelcomePage",
+      title: browser.i18n.getMessage("openWelcomePage"),
+      contexts: [action],
+    },
+    handleDuplicateIDError,
+  );
 }
 
 /**
