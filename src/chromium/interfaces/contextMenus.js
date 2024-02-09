@@ -13,7 +13,7 @@ export async function applyPlatformContextMenus() {
     externalBrowserName === "Firefox" ? "Firefox Private Browsing" : "Firefox";
 
   // action context menu
-  browser.contextMenus.create(
+  await browser.contextMenus.create(
     {
       id: "changeDefaultLaunchContextMenu",
       title: browser.i18n.getMessage("changeDefaultLaunchContextMenu"),
@@ -21,18 +21,28 @@ export async function applyPlatformContextMenus() {
       type: "checkbox",
       checked: !(externalBrowserName === "Firefox"),
     },
-    handleDuplicateIDError,
+    handleDuplicateIDError
   );
-  browser.contextMenus.create(
+  await browser.contextMenus.create(
     {
       id: "alternativeLaunchContextMenu",
       title: browser.i18n.getMessage(
         "launchInExternalBrowser",
-        alternateBrowserName,
+        alternateBrowserName
       ),
       contexts: ["action"],
     },
-    handleDuplicateIDError,
+    handleDuplicateIDError
+  );
+
+  // separator
+  await browser.contextMenus.create(
+    {
+      id: "separator2",
+      type: "separator",
+      contexts: ["action"],
+    },
+    handleDuplicateIDError
   );
 
   // External sites context menu
@@ -61,31 +71,31 @@ export async function applyPlatformContextMenus() {
   // });
 
   // page context menu
-  browser.contextMenus.create(
+  await browser.contextMenus.create(
     {
       id: "launchInExternalBrowserPrivatePage",
       title: browser.i18n.getMessage(
         "launchInExternalBrowser",
-        "Firefox Private Browsing",
+        "Firefox Private Browsing"
       ),
       contexts: ["page"],
       documentUrlPatterns: ["http://*/*", "https://*/*", "file:///*"],
     },
-    handleDuplicateIDError,
+    handleDuplicateIDError
   );
 
   // link context menu
-  browser.contextMenus.create(
+  await browser.contextMenus.create(
     {
       id: "launchInExternalBrowserPrivateLink",
       title: browser.i18n.getMessage(
         "launchInExternalBrowserLink",
-        "Firefox Private Browsing",
+        "Firefox Private Browsing"
       ),
       contexts: ["link"],
       targetUrlPatterns: ["http://*/*", "https://*/*", "file:///*"],
     },
-    handleDuplicateIDError,
+    handleDuplicateIDError
   );
 }
 
@@ -102,7 +112,7 @@ export async function handleChangeDefaultLaunchContextMenuClick() {
   browser.contextMenus.update("alternativeLaunchContextMenu", {
     title: browser.i18n.getMessage(
       "launchInExternalBrowser",
-      externalBrowserName,
+      externalBrowserName
     ),
   });
 

@@ -13,7 +13,7 @@ describe("chromium/interfaces/contextMenus.js", () => {
   describe("applyPlatformContextMenus()", () => {
     it("should create the chrome context menu", async () => {
       await applyPlatformContextMenus();
-      expect(browser.contextMenus.create).toHaveBeenCalledTimes(4);
+      expect(browser.contextMenus.create).toHaveBeenCalledTimes(5);
       expect(browser.contextMenus.create).toHaveBeenCalledWith(
         {
           id: "changeDefaultLaunchContextMenu",
@@ -22,7 +22,7 @@ describe("chromium/interfaces/contextMenus.js", () => {
           type: "checkbox",
           checked: false,
         },
-        handleDuplicateIDError,
+        handleDuplicateIDError
       );
       expect(browser.contextMenus.create).toHaveBeenCalledWith(
         {
@@ -30,7 +30,7 @@ describe("chromium/interfaces/contextMenus.js", () => {
           title: getLocaleMessage("launchInExternalBrowser"),
           contexts: ["action"],
         },
-        handleDuplicateIDError,
+        handleDuplicateIDError
       );
       expect(browser.contextMenus.create).toHaveBeenCalledWith(
         {
@@ -39,7 +39,15 @@ describe("chromium/interfaces/contextMenus.js", () => {
           contexts: ["page"],
           documentUrlPatterns: ["http://*/*", "https://*/*", "file:///*"],
         },
-        handleDuplicateIDError,
+        handleDuplicateIDError
+      );
+      expect(browser.contextMenus.create).toHaveBeenCalledWith(
+        {
+          id: "separator2",
+          type: "separator",
+          contexts: ["action"],
+        },
+        handleDuplicateIDError
       );
     });
   });
@@ -54,7 +62,7 @@ describe("chromium/interfaces/contextMenus.js", () => {
         "alternativeLaunchContextMenu",
         {
           title: getLocaleMessage("launchInExternalBrowser"),
-        },
+        }
       );
       expect(browser.storage.sync.set).toHaveBeenCalledWith({
         currentExternalBrowser: "Firefox Private Browsing",
@@ -71,7 +79,7 @@ describe("chromium/interfaces/contextMenus.js", () => {
         "alternativeLaunchContextMenu",
         {
           title: getLocaleMessage("launchInExternalBrowser"),
-        },
+        }
       );
       expect(browser.storage.sync.set).toHaveBeenCalledWith({
         currentExternalBrowser: "Firefox",
