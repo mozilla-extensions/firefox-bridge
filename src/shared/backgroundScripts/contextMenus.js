@@ -29,7 +29,7 @@ export async function initContextMenu() {
   const defaultLaunchMode = IS_FIREFOX_EXTENSION ? externalBrowser : "Firefox";
 
   // page context menu
-  browser.contextMenus.create(
+  await browser.contextMenus.create(
     {
       id: "launchInExternalBrowserPage",
       title: browser.i18n.getMessage(
@@ -43,7 +43,7 @@ export async function initContextMenu() {
   );
 
   // link context menu
-  browser.contextMenus.create(
+  await browser.contextMenus.create(
     {
       id: "launchInExternalBrowserLink",
       title: browser.i18n.getMessage(
@@ -59,7 +59,7 @@ export async function initContextMenu() {
   const action = browser.browserAction ? "browser_action" : "action"; // mv2 vs mv3
 
   //separator
-  browser.contextMenus.create(
+  await browser.contextMenus.create(
     {
       id: "separator",
       type: "separator",
@@ -71,18 +71,8 @@ export async function initContextMenu() {
   // platform specific menu
   await applyPlatformContextMenus();
 
-  //separator
-  browser.contextMenus.create(
-    {
-      id: "separator2",
-      type: "separator",
-      contexts: [action],
-    },
-    handleDuplicateIDError,
-  );
-
   // action menu welcome page
-  browser.contextMenus.create(
+  await browser.contextMenus.create(
     {
       id: "openWelcomePage",
       title: browser.i18n.getMessage("openWelcomePage"),

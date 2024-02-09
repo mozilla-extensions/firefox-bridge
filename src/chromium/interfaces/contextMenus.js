@@ -13,7 +13,7 @@ export async function applyPlatformContextMenus() {
     externalBrowserName === "Firefox" ? "Firefox Private Browsing" : "Firefox";
 
   // action context menu
-  browser.contextMenus.create(
+  await browser.contextMenus.create(
     {
       id: "changeDefaultLaunchContextMenu",
       title: browser.i18n.getMessage("changeDefaultLaunchContextMenu"),
@@ -23,13 +23,23 @@ export async function applyPlatformContextMenus() {
     },
     handleDuplicateIDError,
   );
-  browser.contextMenus.create(
+  await browser.contextMenus.create(
     {
       id: "alternativeLaunchContextMenu",
       title: browser.i18n.getMessage(
         "launchInExternalBrowser",
         alternateBrowserName,
       ),
+      contexts: ["action"],
+    },
+    handleDuplicateIDError,
+  );
+
+  // separator
+  await browser.contextMenus.create(
+    {
+      id: "separator2",
+      type: "separator",
       contexts: ["action"],
     },
     handleDuplicateIDError,
@@ -61,7 +71,7 @@ export async function applyPlatformContextMenus() {
   // });
 
   // page context menu
-  browser.contextMenus.create(
+  await browser.contextMenus.create(
     {
       id: "launchInExternalBrowserPrivatePage",
       title: browser.i18n.getMessage(
@@ -75,7 +85,7 @@ export async function applyPlatformContextMenus() {
   );
 
   // link context menu
-  browser.contextMenus.create(
+  await browser.contextMenus.create(
     {
       id: "launchInExternalBrowserPrivateLink",
       title: browser.i18n.getMessage(
