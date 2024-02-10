@@ -53,8 +53,7 @@ Since the Firefox and Chromium extension has a lot of shared logic, but also ind
 - The `src` folder contains the `shared`, `_locales`, `firefox`, and `chromium` folders. 
 - The `chromium` and `firefox` folders contain an `interfaces` folder that contains the interfaces for the shared logic.
 - The import statements within the `shared` folder will always point to the code in the `chromium/interfaces` folder. This is to simplify development within the IDE.
-- During the build process in `build.js`, the `interfaces` imports will point to the correct folder depending on the browser.
-- Webpack is used for Glean telemetry, so `build/<browser>/background.bundle.js` is the entry point for the background script. The files not required anymore are removed in the `dist` zipped extension. Otherwise, they are used for testing in the `build` folder.
+- The `build` directory holds the built extension and the `dist` folder holds the zipped version.
 
 ## Experimental APIs
 
