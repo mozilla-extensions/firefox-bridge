@@ -9,7 +9,7 @@ import { getTelemetryEnabled } from "./getters.js";
  *
  * @param {boolean} showLogs Whether to show logs in the console.
  */
-export async function initGlean(showLogs = true) {
+export async function initGlean(showLogs = false) {
   Glean.setLogPings(showLogs);
   Glean.initialize("firefox.launch", await getTelemetryEnabled(), {
     appDisplayVersion: browser.runtime.getManifest().version,
@@ -21,13 +21,19 @@ export async function initGlean(showLogs = true) {
  * Initialize the telemetry listeners. This includes the install, startup, and
  * listener for messages sent through the storage API.
  */
-export async function initTelemetryListeners() {
-  await initGlean();
-  browser.runtime.onInstalled.addListener(async (details) => {
+export function initTelemetryListeners() {
+  browser.storage.session.get("telemetryInitialized").then(async (result) => {
+    if (result.telemetryInitialized === undefined) {
+      await initGlean();
+      browser.storage.session.set({ telemetryInitialized: true });
+    }
+  });
+
+  browser.runtime.onInstalled.addListener((details) => {
     if (details.reason === "install") {
       installEvent.dateInstalled.set(new Date());
       installEvent.browserType.set(
-        IS_FIREFOX_EXTENSION ? "firefox" : "chromium",
+        IS_FIREFOX_EXTENSION ? "firefox" : "chromium"
       );
     }
   });
@@ -39,7 +45,7 @@ export async function initTelemetryListeners() {
     startupEvent.browserLanguageLocale.set(navigator.language);
     startupEvent.extensionLanguageLocale.set(browser.i18n.getUILanguage());
     startupEvent.isPinned.set(
-      (await browser.action.getUserSettings()).isOnToolbar,
+      (await browser.action.getUserSettings()).isOnToolbar
     );
     const commands = await browser.commands.getAll();
     for (const command of commands) {
@@ -47,7 +53,7 @@ export async function initTelemetryListeners() {
     }
   });
 
-  browser.storage.sync.onChanged.addListener(async (changes) => {
+  browser.storage.sync.onChanged.addListener((changes) => {
     if (changes.telemetryEnabled !== undefined) {
       Glean.setUploadEnabled(changes.telemetryEnabled.newValue);
     }
