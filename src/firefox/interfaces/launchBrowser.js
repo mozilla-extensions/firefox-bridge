@@ -1,4 +1,4 @@
-import { getExternalBrowserLaunchProtocol } from "./getters.js";
+import { getExternalBrowser } from "Shared/backgroundScripts/getters.js";
 import { isURLValid } from "Shared/backgroundScripts/validTab.js";
 
 /**
@@ -22,13 +22,13 @@ export async function launchBrowser(url, usePrivateBrowsing = false) {
     return false;
   }
 
-  const launchProtocol = await getExternalBrowserLaunchProtocol();
-  if (launchProtocol) {
-    browser.experiments.firefox_launch.launchApp(launchProtocol, [url]);
-    return true;
+  const externalBrowser = await getExternalBrowser();
+  if (!externalBrowser) {
+    browser.tabs.create({
+      url: browser.runtime.getURL("shared/pages/welcomePage/index.html"),
+    });
+    return false;
   }
-  browser.tabs.create({
-    url: browser.runtime.getURL("shared/pages/welcomePage/index.html"),
-  });
-  return false;
+  browser.experiments.firefox_launch.launchBrowser(externalBrowser, url);
+  return true;
 }

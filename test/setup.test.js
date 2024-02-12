@@ -100,7 +100,7 @@ global.browser = {
     firefox_launch: {
       getAvailableBrowsers: jest.fn(),
       getDefaultBrowser: jest.fn(),
-      launchApp: jest.fn(),
+      launchBrowser: jest.fn(),
     },
   },
 };

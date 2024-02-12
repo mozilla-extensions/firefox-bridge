@@ -12,8 +12,8 @@ describe("firefox/interfaces/launchBrowser.js", () => {
       console.error.mockRestore();
     });
 
-    it("should return false and open the welcome page if there is no launch protocol", async () => {
-      await setStorage("currentExternalBrowserLaunchProtocol", "");
+    it("should return false and open the welcome page if there is no set browser", async () => {
+      await setStorage("currentExternalBrowser", "");
       const result = await launchBrowser("https://example.com");
       expect(result).toEqual(false);
       expect(browser.tabs.create).toHaveBeenCalled();
@@ -22,15 +22,16 @@ describe("firefox/interfaces/launchBrowser.js", () => {
       });
     });
 
-    it("should return true if there is a launch protocol", async () => {
-      await setStorage("currentExternalBrowserLaunchProtocol", "test");
+    it("should return true if there is a set browser", async () => {
+      await setStorage("currentExternalBrowser", "test");
       const result = await launchBrowser("https://example.com");
       expect(result).toEqual(true);
-      expect(browser.experiments.firefox_launch.launchApp).toHaveBeenCalled();
-      expect(browser.experiments.firefox_launch.launchApp).toHaveBeenCalledWith(
-        "test",
-        ["https://example.com"],
-      );
+      expect(
+        browser.experiments.firefox_launch.launchBrowser,
+      ).toHaveBeenCalled();
+      expect(
+        browser.experiments.firefox_launch.launchBrowser,
+      ).toHaveBeenCalledWith("test", "https://example.com");
     });
 
     it("should return false if the browser is launched in private mode", async () => {
