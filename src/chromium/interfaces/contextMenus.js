@@ -6,7 +6,6 @@ import * as settingEvent from "Shared/generated/settingEvent.js";
 import * as launchEvent from "Shared/generated/launchEvent.js";
 import { handleDuplicateIDError } from "Shared/backgroundScripts/contextMenus.js";
 
-
 /**
  * Initialize the chromium specific context menu items.
  */
