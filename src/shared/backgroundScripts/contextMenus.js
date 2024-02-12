@@ -5,6 +5,8 @@ import {
   applyPlatformContextMenus,
   handlePlatformContextMenuClick,
 } from "Interfaces/contextMenus.js";
+import { updateToolbarIcon } from "./actionButton.js";
+import { getGreyedIconPath } from "Interfaces/getters.js";
 
 /**
  * Suppresses logs for duplicate id errors when creating context menus. This
@@ -102,6 +104,16 @@ export async function handleBrowserNameChange() {
       defaultLaunchMode,
     ),
   });
+
+  // On firefox, a new tab won't fire the webNavigation.onCommitted event, so we need to update the general
+  // default icon before the per-tab icons.
+  await browser.action.setIcon({ path: await getGreyedIconPath() });
+
+  // iterate through all tabs and change the action icon to reflect the new default
+  const tabs = await browser.tabs.query({});
+  for (const tab of tabs) {
+    await updateToolbarIcon(tab.id, tab.url);
+  }
 }
 
 /**

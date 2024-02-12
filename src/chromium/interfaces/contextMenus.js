@@ -1,6 +1,4 @@
 import { launchBrowser } from "./launchBrowser.js";
-
-import { updateToolbarIcon } from "Shared/backgroundScripts/actionButton.js";
 import { getExternalBrowser } from "Shared/backgroundScripts/getters.js";
 import { handleDuplicateIDError } from "Shared/backgroundScripts/contextMenus.js";
 
@@ -123,7 +121,6 @@ export async function handleChangeDefaultLaunchContextMenuClick() {
   } else {
     browser.storage.sync.set({ currentExternalBrowser: "Firefox" });
   }
-  await updateToolbarIcon();
 }
 
 /**

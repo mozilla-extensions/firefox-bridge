@@ -8,7 +8,8 @@
     "tabs",
     "storage",
     "notifications",
-    "declarativeNetRequest"
+    "declarativeNetRequest",
+    "webNavigation"
   ],
   "background": {
     "scripts": ["background.bundle.js"],
@@ -16,7 +17,7 @@
   },
   "browser_action": {
     "default_icon": {
-      "32": "images/firefox-launch/32.png"
+      "32": "images/firefox-launch/32grey.png"
     }
   },
   "commands": {

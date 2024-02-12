@@ -78,22 +78,14 @@ export async function populateBrowserList() {
   } else if (defaultBrowserName) {
     browserList.value = defaultBrowserName;
     browserList.dispatchEvent(new Event("change"));
-  } else if (platform === "mac") {
-    const safari = browsers.find(
-      (localBrowser) => localBrowser.name === "Safari",
-    );
-    if (safari) {
-      browserList.value = safari.name;
-      browserList.dispatchEvent(new Event("change"));
-    }
-  } else if (platform === "win") {
-    const edge = browsers.find((localBrowser) => localBrowser.name === "Edge");
-    if (edge) {
-      browserList.value = edge.name;
-      browserList.dispatchEvent(new Event("change"));
-    }
+  } else if (platform === "mac" && browsers.includes("Safari")) {
+    browserList.value = "Safari";
+    browserList.dispatchEvent(new Event("change"));
+  } else if (platform === "win" && browsers.includes("Edge")) {
+    browserList.value = "Edge";
+    browserList.dispatchEvent(new Event("change"));
   } else if (browsers.length) {
-    browserList.value = browsers[0].name;
+    browserList.value = browsers[0];
     browserList.dispatchEvent(new Event("change"));
   } else {
     browserList.remove();
