@@ -2,7 +2,8 @@
 import { initContextMenu, handleContextMenuClick } from "./contextMenus.js";
 import { handleHotkeyPress } from "./hotkeys.js";
 import { handleBrowserNameChange } from "./contextMenus.js";
-import { updateToolbarIcon } from "./actionButton.js";
+import { getDefaultIconPath } from "Interfaces/getters.js";
+import { isURLValid } from "./validTab.js";
 // import { handleAutoRedirect, refreshDeclarativeNetRequestRules } from "./autoRedirect.js";
 
 /**
@@ -19,21 +20,38 @@ export function initSharedListeners() {
       }
     });
 
-  // Update the toolbar icon when the tab is changed
-  browser.webNavigation.onCommitted.addListener(async (details) => {
-    if (details.frameId === 0) {
-      await updateToolbarIcon(details.tabId, details.url);
-    }
-  });
-
   // Update the toolbar icon whenever the extension is activated.
   // This can be done via installation, enabling/disabling the extension, updating the extension,
   // or when the service worker is updated.
+  getDefaultIconPath().then(async (iconPath) => {
+    await browser.action.setIcon({ path: iconPath });
+  });
+
+  // make the default state disabled, then enable if the tab is valid
   browser.tabs.query({}).then(async (tabs) => {
+    await browser.action.disable();
     for (const tab of tabs) {
-      await updateToolbarIcon(tab.id, tab.url);
+      if (isURLValid(tab.url)) {
+        browser.action.enable(tab.id);
+      }
     }
   });
+
+  // Update the toolbar icon when the tab is changed
+  browser.webNavigation.onCommitted.addListener(
+    async (details) => {
+      if (details.frameId === 0) {
+        await browser.action.enable(details.tabId);
+      }
+    },
+    {
+      url: [
+        {
+          schemes: ["http", "https", "file"],
+        },
+      ],
+    },
+  );
 
   browser.runtime.onInstalled.addListener(async (details) => {
     // await getIsAutoRedirect(); // resolve to true on fresh install
@@ -59,6 +77,7 @@ export function initSharedListeners() {
   browser.storage.sync.onChanged.addListener(async (changes) => {
     if (changes.currentExternalBrowser !== undefined) {
       await handleBrowserNameChange();
+      await browser.action.setIcon({ path: await getDefaultIconPath() });
     }
     // if (changes.firefoxSites !== undefined && await getIsAutoRedirect()) {
     //   refreshDeclarativeNetRequestRules();

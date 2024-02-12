@@ -57,12 +57,16 @@ global.browser = {
     onClicked: {
       addListener: jest.fn(),
     },
+    enable: jest.fn(),
+    disable: jest.fn(),
   },
   browserAction: {
     setIcon: jest.fn(),
     onClicked: {
       addListener: jest.fn(),
     },
+    enable: jest.fn(),
+    disable: jest.fn(),
   },
   tabs: {
     onUpdated: {
