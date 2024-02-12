@@ -10,8 +10,27 @@ XPCOMUtils.defineLazyServiceGetters(lazy, {
 });
 
 const https = "https";
+
+// The list of browsers to be potentially used for launching
+// There are some differences in the names of the browsers on Windows and Mac,
+// so separate lists are used for each, then we map the names to the desired one.
+
+// The mac names are the bundle names, which are the names returned by getDefaultBrowser() and
+// the names returned by _getAvailableBrowsersMac().
+
+// The windows names are specified in _getAvailableBrowsersWin(). However, the names
+// may not match up with what getDefaultBrowser() returns. For example, "Google Chrome Canary"
+// is the name returned by getDefaultBrowser(), but the name returned by _getAvailableBrowsersWin()
+// is "Chrome SxS".
+
+// TODO: Either map the names to the desired ones, or update the possibleLocalHandlers type
+// to include the names given by getDefaultBrowser().
 const browserNamesWin = ["Chrome", "Edge", "Opera"];
 const browserNamesMac = ["Safari", "Chrome", "Microsoft Edge", "Opera", "Arc"];
+const browserNamesMap = {
+  "Microsoft Edge": "Edge",
+  "Chrome SxS": "Chrome Canary",
+};
 
 /**
  * Determines whether the executable file for an application is valid.
@@ -52,14 +71,20 @@ function _getAvailableBrowsersWin() {
     if (!_isValidHandlerExecutable(app?.executable)) {
       continue;
     }
+
+    // Attempt to get the name of the application from the executable's parent directory.
+    // Most applications will have the name of the executable in the parent directory (eg. "Opera/Launcher.exe")
+    // But Chrome, for example, is structured differently (eg. "Google/Chrome/Application/chrome.exe")
     let appname =
       app.executable.parent.leafName !== "Application"
         ? app.executable.parent.leafName
-        : app.executable.parent.parent.leafName;
+        : app.executable.parent.parent?.leafName;
 
     if (!browserNamesWin.includes(appname)) {
       continue;
     }
+
+    appname = browserNamesMap[appname] || appname;
 
     let appData = {
       name: appname,
@@ -83,14 +108,15 @@ function _getAvailableBrowsersMac() {
   let appList = shellService.getAvailableApplicationsForProtocol(https);
   let appDataList = [];
   for (let app of appList) {
-    if (!browserNamesMac.includes(app[0])) {
+    let [displayName, executable] = app;
+    if (!browserNamesMac.includes(displayName)) {
       continue;
-    } else if (app[0] === "Microsoft Edge") {
-      app[0] = "Edge";
     }
+
+    displayName = browserNamesMap[displayName] || displayName;
     let appData = {
-      name: app[0],
-      executable: app[1],
+      name: displayName,
+      executable,
     };
     appDataList.push(appData);
   }
@@ -220,8 +246,10 @@ this.experiments_firefox_launch = class extends ExtensionAPI {
               return null;
             }
             if (
-              !browserNamesMac.includes(handlerInfo.defaultDescription) &&
-              !browserNamesWin.includes(handlerInfo.defaultDescription)
+              (!browserNamesMac.includes(handlerInfo.defaultDescription) &&
+                AppConstants.platform == "macosx") ||
+              (!browserNamesWin.includes(handlerInfo.defaultDescription) &&
+                AppConstants.platform == "win")
             ) {
               return null;
             }
