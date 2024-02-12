@@ -9,7 +9,7 @@ import { getTelemetryEnabled } from "./getters.js";
  *
  * @param {boolean} showLogs Whether to show logs in the console.
  */
-export async function initGlean(showLogs = false) {
+export async function initGlean(showLogs = true) {
   Glean.setLogPings(showLogs);
   Glean.initialize("firefox.launch", await getTelemetryEnabled(), {
     appDisplayVersion: browser.runtime.getManifest().version,
@@ -21,9 +21,9 @@ export async function initGlean(showLogs = false) {
  * Initialize the telemetry listeners. This includes the install, startup, and
  * listener for messages sent through the storage API.
  */
-export function initTelemetryListeners() {
+export async function initTelemetryListeners() {
+  await initGlean();
   browser.runtime.onInstalled.addListener(async (details) => {
-    await initGlean();
     if (details.reason === "install") {
       installEvent.dateInstalled.set(new Date());
       installEvent.browserType.set(
@@ -34,7 +34,6 @@ export function initTelemetryListeners() {
 
   browser.runtime.onStartup.addListener(async () => {
     // 2. browser version (window.navigator.userAgent)
-    await initGlean();
     startupEvent.browserType.set(IS_FIREFOX_EXTENSION ? "firefox" : "chromium");
     startupEvent.dateStarted.set(new Date());
     startupEvent.browserLanguageLocale.set(navigator.language);
@@ -50,7 +49,6 @@ export function initTelemetryListeners() {
 
   browser.storage.sync.onChanged.addListener(async (changes) => {
     if (changes.telemetryEnabled !== undefined) {
-      await initGlean();
       Glean.setUploadEnabled(changes.telemetryEnabled.newValue);
     }
   });
