@@ -21,7 +21,6 @@ export function initSharedListeners() {
 
   // Update the toolbar icon when the tab is changed
   browser.webNavigation.onCommitted.addListener(async (details) => {
-    console.log("onCommitted", details);
     if (details.frameId === 0) {
       await updateToolbarIcon(details.tabId, details.url);
     }
