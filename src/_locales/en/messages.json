@@ -95,13 +95,25 @@
   },
   "welcomePageYesShortcutTo": {
     "message": "$hotkey$ launches your current page in $browser$",
-    "description": "The variable is replaced by the browser name (Firefox, Chrome, Safari, etc)",
+    "description": "The first variable is replaced by the hotkey to launch the current page in a browser. The second variable is replaced by the browser name (Firefox, Chrome, Safari, etc)",
     "placeholders": {
       "hotkey": {
         "content": "$1"
       },
       "browser": {
         "content": "$2"
+      }
+    }
+  },
+  "welcomePageNoShortcutToFirefoxPrivate": {
+    "message": "You don’t have a shortcut set up for launching your current page in Firefox Private Browsing"
+  },
+  "welcomePageYesShortcutToFirefoxPrivate": {
+    "message": "$hotkey$ launches your current page in Firefox Private Browsing",
+    "description": "The variable is replaced by the hotkey to launch the current page in Firefox Private Browsing",
+    "placeholders": {
+      "hotkey": {
+        "content": "$1"
       }
     }
   },

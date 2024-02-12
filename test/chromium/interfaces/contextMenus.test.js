@@ -4,6 +4,7 @@ import {
 } from "../../../src/chromium/interfaces/contextMenus.js";
 
 import { setStorage, getLocaleMessage } from "../../setup.test.js";
+import { handleDuplicateIDError } from "Shared/backgroundScripts/contextMenus.js";
 
 describe("chromium/interfaces/contextMenus.js", () => {
   beforeEach(async () => {
@@ -12,25 +13,42 @@ describe("chromium/interfaces/contextMenus.js", () => {
   describe("applyPlatformContextMenus()", () => {
     it("should create the chrome context menu", async () => {
       await applyPlatformContextMenus();
-      expect(browser.contextMenus.create).toHaveBeenCalledTimes(4);
-      expect(browser.contextMenus.create).toHaveBeenCalledWith({
-        id: "changeDefaultLaunchContextMenu",
-        title: getLocaleMessage("changeDefaultLaunchContextMenu"),
-        contexts: ["action"],
-        type: "checkbox",
-        checked: false,
-      });
-      expect(browser.contextMenus.create).toHaveBeenCalledWith({
-        id: "alternativeLaunchContextMenu",
-        title: getLocaleMessage("launchInExternalBrowser"),
-        contexts: ["action"],
-      });
-      expect(browser.contextMenus.create).toHaveBeenCalledWith({
-        id: "launchInExternalBrowserPrivate",
-        title: getLocaleMessage("launchInExternalBrowser"),
-        contexts: ["page"],
-        documentUrlPatterns: ["http://*/*", "https://*/*", "file:///*"],
-      });
+      expect(browser.contextMenus.create).toHaveBeenCalledTimes(5);
+      expect(browser.contextMenus.create).toHaveBeenCalledWith(
+        {
+          id: "changeDefaultLaunchContextMenu",
+          title: getLocaleMessage("changeDefaultLaunchContextMenu"),
+          contexts: ["action"],
+          type: "checkbox",
+          checked: false,
+        },
+        handleDuplicateIDError,
+      );
+      expect(browser.contextMenus.create).toHaveBeenCalledWith(
+        {
+          id: "alternativeLaunchContextMenu",
+          title: getLocaleMessage("launchInExternalBrowser"),
+          contexts: ["action"],
+        },
+        handleDuplicateIDError,
+      );
+      expect(browser.contextMenus.create).toHaveBeenCalledWith(
+        {
+          id: "launchInExternalBrowserPrivatePage",
+          title: getLocaleMessage("launchInExternalBrowser"),
+          contexts: ["page"],
+          documentUrlPatterns: ["http://*/*", "https://*/*", "file:///*"],
+        },
+        handleDuplicateIDError,
+      );
+      expect(browser.contextMenus.create).toHaveBeenCalledWith(
+        {
+          id: "separator2",
+          type: "separator",
+          contexts: ["action"],
+        },
+        handleDuplicateIDError,
+      );
     });
   });
 

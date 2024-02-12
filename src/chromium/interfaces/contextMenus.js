@@ -4,6 +4,8 @@ import { updateToolbarIcon } from "Shared/backgroundScripts/actionButton.js";
 import { getExternalBrowser } from "Shared/backgroundScripts/getters.js";
 import * as settingEvent from "Shared/generated/settingEvent.js";
 import * as launchEvent from "Shared/generated/launchEvent.js";
+import { handleDuplicateIDError } from "Shared/backgroundScripts/contextMenus.js";
+
 
 /**
  * Initialize the chromium specific context menu items.
@@ -14,21 +16,37 @@ export async function applyPlatformContextMenus() {
     externalBrowserName === "Firefox" ? "Firefox Private Browsing" : "Firefox";
 
   // action context menu
-  browser.contextMenus.create({
-    id: "changeDefaultLaunchContextMenu",
-    title: browser.i18n.getMessage("changeDefaultLaunchContextMenu"),
-    contexts: ["action"],
-    type: "checkbox",
-    checked: !(externalBrowserName === "Firefox"),
-  });
-  browser.contextMenus.create({
-    id: "alternativeLaunchContextMenu",
-    title: browser.i18n.getMessage(
-      "launchInExternalBrowser",
-      alternateBrowserName,
-    ),
-    contexts: ["action"],
-  });
+  await browser.contextMenus.create(
+    {
+      id: "changeDefaultLaunchContextMenu",
+      title: browser.i18n.getMessage("changeDefaultLaunchContextMenu"),
+      contexts: ["action"],
+      type: "checkbox",
+      checked: !(externalBrowserName === "Firefox"),
+    },
+    handleDuplicateIDError,
+  );
+  await browser.contextMenus.create(
+    {
+      id: "alternativeLaunchContextMenu",
+      title: browser.i18n.getMessage(
+        "launchInExternalBrowser",
+        alternateBrowserName,
+      ),
+      contexts: ["action"],
+    },
+    handleDuplicateIDError,
+  );
+
+  // separator
+  await browser.contextMenus.create(
+    {
+      id: "separator2",
+      type: "separator",
+      contexts: ["action"],
+    },
+    handleDuplicateIDError,
+  );
 
   // External sites context menu
   // browser.contextMenus.create({
@@ -56,26 +74,32 @@ export async function applyPlatformContextMenus() {
   // });
 
   // page context menu
-  browser.contextMenus.create({
-    id: "launchInExternalBrowserPrivate",
-    title: browser.i18n.getMessage(
-      "launchInExternalBrowser",
-      "Firefox Private Browsing",
-    ),
-    contexts: ["page"],
-    documentUrlPatterns: ["http://*/*", "https://*/*", "file:///*"],
-  });
+  await browser.contextMenus.create(
+    {
+      id: "launchInExternalBrowserPrivatePage",
+      title: browser.i18n.getMessage(
+        "launchInExternalBrowser",
+        "Firefox Private Browsing",
+      ),
+      contexts: ["page"],
+      documentUrlPatterns: ["http://*/*", "https://*/*", "file:///*"],
+    },
+    handleDuplicateIDError,
+  );
 
   // link context menu
-  browser.contextMenus.create({
-    id: "launchInExternalBrowserPrivateLink",
-    title: browser.i18n.getMessage(
-      "launchInExternalBrowserLink",
-      "Firefox Private Browsing",
-    ),
-    contexts: ["link"],
-    targetUrlPatterns: ["http://*/*", "https://*/*", "file:///*"],
-  });
+  await browser.contextMenus.create(
+    {
+      id: "launchInExternalBrowserPrivateLink",
+      title: browser.i18n.getMessage(
+        "launchInExternalBrowserLink",
+        "Firefox Private Browsing",
+      ),
+      contexts: ["link"],
+      targetUrlPatterns: ["http://*/*", "https://*/*", "file:///*"],
+    },
+    handleDuplicateIDError,
+  );
 }
 
 /**
@@ -136,7 +160,7 @@ export async function handlePlatformContextMenuClick(info, tab) {
         source: "action_context_menu",
       });
     }
-  } else if (info.menuItemId === "launchInExternalBrowserPrivate") {
+  } else if (info.menuItemId === "launchInExternalBrowserPrivatePage") {
     if (await launchBrowser(tab, true)) {
       launchEvent.browserLaunch.record({
         browser: "Firefox Private Browsing",

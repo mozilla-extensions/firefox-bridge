@@ -1,4 +1,7 @@
-import { initContextMenu } from "Shared/backgroundScripts/contextMenus.js";
+import {
+  handleDuplicateIDError,
+  initContextMenu,
+} from "Shared/backgroundScripts/contextMenus.js";
 
 import {
   setStorage,
@@ -12,23 +15,32 @@ describe("shared/backgroundScripts/contextMenus.js", () => {
       await setStorage("currentExternalBrowser", "Firefox");
       setExtensionPlatform("chromium");
       await initContextMenu();
-      expect(browser.contextMenus.create).toHaveBeenCalledWith({
-        id: "launchInExternalBrowser",
-        title: getLocaleMessage("launchInExternalBrowser"),
-        contexts: ["page"],
-        documentUrlPatterns: ["http://*/*", "https://*/*", "file:///*"],
-      });
-      expect(browser.contextMenus.create).toHaveBeenCalledWith({
-        id: "launchInExternalBrowserLink",
-        title: getLocaleMessage("launchInExternalBrowserLink"),
-        contexts: ["link"],
-        targetUrlPatterns: ["http://*/*", "https://*/*", "file:///*"],
-      });
-      expect(browser.contextMenus.create).toHaveBeenCalledWith({
-        id: "openWelcomePage",
-        title: getLocaleMessage("openWelcomePage"),
-        contexts: ["browser_action"],
-      });
+      expect(browser.contextMenus.create).toHaveBeenCalledWith(
+        {
+          id: "launchInExternalBrowserPage",
+          title: getLocaleMessage("launchInExternalBrowser"),
+          contexts: ["page"],
+          documentUrlPatterns: ["http://*/*", "https://*/*", "file:///*"],
+        },
+        handleDuplicateIDError,
+      );
+      expect(browser.contextMenus.create).toHaveBeenCalledWith(
+        {
+          id: "launchInExternalBrowserLink",
+          title: getLocaleMessage("launchInExternalBrowserLink"),
+          contexts: ["link"],
+          targetUrlPatterns: ["http://*/*", "https://*/*", "file:///*"],
+        },
+        handleDuplicateIDError,
+      );
+      expect(browser.contextMenus.create).toHaveBeenCalledWith(
+        {
+          id: "openWelcomePage",
+          title: getLocaleMessage("openWelcomePage"),
+          contexts: ["browser_action"],
+        },
+        handleDuplicateIDError,
+      );
     });
   });
 });

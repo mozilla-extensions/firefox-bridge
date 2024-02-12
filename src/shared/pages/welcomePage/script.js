@@ -170,15 +170,12 @@ export async function checkChromiumHotkeys() {
   if (launchFirefoxPrivate.shortcut) {
     const launchFirefoxPrivateHotkey = launchFirefoxPrivate.shortcut;
     span2.innerText =
-      browser.i18n.getMessage("welcomePageYesShortcutTo", [
+      browser.i18n.getMessage("welcomePageYesShortcutToFirefoxPrivate", [
         launchFirefoxPrivateHotkey.toUpperCase(),
-        "Firefox private browsing",
       ]) + "\n";
   } else {
     span2.innerText =
-      browser.i18n.getMessage("welcomePageNoShortcutTo", [
-        "Firefox private browsing",
-      ]) + "\n";
+      browser.i18n.getMessage("welcomePageNoShortcutToFirefoxPrivate") + "\n";
   }
   shortcutsList.appendChild(span2);
 }
