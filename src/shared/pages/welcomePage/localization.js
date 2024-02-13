@@ -63,7 +63,7 @@ export function applyLocalization() {
   const elements = document.querySelectorAll("[data-locale]");
   const hrefMapping = {
     welcomePageErrorChromium: "https://www.mozilla.org/firefox/new/",
-    welcomePageTelemetryCheckbox: "https://example.com/",
+    welcomePageTelemetryCheckbox: "https://example.com/", // TODO: replace with privacy policy link
   };
 
   // attempt to replace each element
