@@ -11,7 +11,8 @@ import { getTelemetryEnabled } from "./getters.js";
  */
 export async function initGlean(showLogs = false) {
   Glean.setLogPings(showLogs);
-  Glean.initialize("firefox.launch", await getTelemetryEnabled(), {
+  Glean.setDebugViewTag("firefox-bridge");
+  Glean.initialize("firefox.bridge", await getTelemetryEnabled(), {
     appDisplayVersion: browser.runtime.getManifest().version,
     appBuild: IS_FIREFOX_EXTENSION ? "firefox" : "chromium",
   });
@@ -41,7 +42,7 @@ export function initTelemetryListeners() {
   browser.runtime.onStartup.addListener(async () => {
     // 2. browser version (window.navigator.userAgent)
     startupEvent.browserType.set(IS_FIREFOX_EXTENSION ? "firefox" : "chromium");
-    startupEvent.dateStarted.set(new Date());
+    startupEvent.dateStarted.set();
     startupEvent.browserLanguageLocale.set(navigator.language);
     startupEvent.extensionLanguageLocale.set(browser.i18n.getUILanguage());
     startupEvent.isPinned.set(
