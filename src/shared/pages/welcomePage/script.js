@@ -45,6 +45,16 @@ export async function checkPrivateBrowsing() {
       source: "always_private_checkbox",
     });
   });
+
+  browser.storage.sync.onChanged.addListener((changes) => {
+    if (changes.currentExternalBrowser !== undefined) {
+      if (changes.currentExternalBrowser.newValue === "Firefox Private Browsing") {
+        alwaysPrivateCheckbox.checked = true;
+      } else {
+        alwaysPrivateCheckbox.checked = false;
+      }
+    }
+  });
 }
 
 /**
@@ -148,7 +158,7 @@ export async function checkChromiumHotkeys() {
     span.innerText =
       browser.i18n.getMessage("welcomePageYesShortcutTo", [
         launchBrowserHotkey.toUpperCase(),
-        await getExternalBrowser(),
+        "Firefox",
       ]) + "\n";
   } else {
     span.innerText =
@@ -221,8 +231,8 @@ export function applyMobileLogic() {
   shortcutsContainer.remove();
 }
 
-document.addEventListener("DOMContentLoaded", function () {
-  initGlean();
+document.addEventListener("DOMContentLoaded", async function () {
+  await initGlean();
   activatePlatformSpecificElements();
   applyLocalization();
   updateTelemetry();
