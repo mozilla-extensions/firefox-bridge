@@ -48,7 +48,9 @@ export async function checkPrivateBrowsing() {
 
   browser.storage.sync.onChanged.addListener((changes) => {
     if (changes.currentExternalBrowser !== undefined) {
-      if (changes.currentExternalBrowser.newValue === "Firefox Private Browsing") {
+      if (
+        changes.currentExternalBrowser.newValue === "Firefox Private Browsing"
+      ) {
         alwaysPrivateCheckbox.checked = true;
       } else {
         alwaysPrivateCheckbox.checked = false;
