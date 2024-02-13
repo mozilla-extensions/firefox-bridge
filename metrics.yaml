@@ -128,7 +128,7 @@ setting_event:
     data_reviews:
       - https://linktodatareviews.page
     notification_emails:
-      - gsherman@mozilla.co
+      - gsherman@mozilla.com
     extra_keys:
       from:
         description: The previously set browser
