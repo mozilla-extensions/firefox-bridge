@@ -2,6 +2,7 @@ import {
   getExternalBrowser,
   getTelemetryEnabled,
 } from "../../backgroundScripts/getters.js";
+import * as settingEvent from "../../generated/settingEvent.js";
 
 import { applyLocalization, replaceMessage } from "./localization.js";
 import { populateBrowserList } from "./browserList.js";
@@ -9,6 +10,7 @@ import { getIsFirefoxInstalled } from "Interfaces/getters.js";
 import { handleChangeDefaultLaunchContextMenuClick } from "Interfaces/contextMenus.js";
 
 import "Shared/backgroundScripts/polyfill.js";
+import { initGlean } from "Shared/backgroundScripts/telemetry.js";
 
 /**
  * Check the private browsing checkbox if the current external browser is
@@ -37,13 +39,10 @@ export async function checkPrivateBrowsing() {
       alwaysPrivateCheckbox.checked = false;
     }
 
-    browser.storage.local.set({
-      telemetry: {
-        type: "currentBrowserChange",
-        from,
-        to,
-        source: "welcome_page",
-      },
+    settingEvent.currentBrowser.record({
+      from,
+      to,
+      source: "always_private_checkbox",
     });
   });
 }
@@ -231,6 +230,7 @@ export function applyMobileLogic() {
 }
 
 document.addEventListener("DOMContentLoaded", function () {
+  initGlean();
   activatePlatformSpecificElements();
   applyLocalization();
   updateTelemetry();

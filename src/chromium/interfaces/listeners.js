@@ -1,6 +1,7 @@
 import { launchBrowser } from "./launchBrowser.js";
 import { getIsFirefoxInstalled } from "./getters.js";
 import { getExternalBrowser } from "Shared/backgroundScripts/getters.js";
+import * as launchEvent from "Shared/generated/launchEvent.js";
 
 /**
  * Initialize the chromium specific listeners.
@@ -10,12 +11,9 @@ export function initPlatformListeners() {
     const browserName = await getExternalBrowser();
     const success = launchBrowser(tab.url, browserName !== "Firefox");
     if (success) {
-      browser.storage.local.set({
-        telemetry: {
-          type: "browserLaunch",
-          browser: await getExternalBrowser(),
-          source: "action_button",
-        },
+      launchEvent.browserLaunch.record({
+        browser: await getExternalBrowser(),
+        source: "action_button",
       });
     }
   });
