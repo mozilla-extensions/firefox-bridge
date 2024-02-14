@@ -1,4 +1,5 @@
 import { getExternalBrowser } from "../../backgroundScripts/getters.js";
+import * as settingEvent from "../../generated/settingEvent.js";
 import { checkFirefoxHotkeys } from "./script.js";
 
 /**
@@ -49,17 +50,15 @@ export async function populateBrowserList() {
 
     browser.storage.sync.set({ currentExternalBrowser: newBrowserName });
 
+    settingEvent.currentBrowser.record({
+      from: oldBrowserName,
+      to: newBrowserName,
+      source: "browser_list",
+    });
+
     const shortcutsList = document.getElementById("shortcuts-list");
     shortcutsList.innerHTML = "";
     await checkFirefoxHotkeys();
-
-    browser.storage.local.set({
-      telemetry: {
-        type: "currentBrowserChange",
-        from: oldBrowserName,
-        to: newBrowserName,
-      },
-    });
   });
 
   // Now select the proper browser.

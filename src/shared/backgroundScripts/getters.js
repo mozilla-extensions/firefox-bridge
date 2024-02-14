@@ -20,8 +20,8 @@ export async function getExternalBrowser() {
 export async function getTelemetryEnabled() {
   const result = await browser.storage.sync.get("telemetryEnabled");
   if (!result || result.telemetryEnabled === undefined) {
-    browser.storage.sync.set({ telemetryEnabled: false });
-    return false;
+    browser.storage.sync.set({ telemetryEnabled: true });
+    return true;
   }
   return result.telemetryEnabled;
 }

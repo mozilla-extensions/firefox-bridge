@@ -5,7 +5,7 @@ install_event:
     type: datetime
     lifetime: ping
     send_in_pings:
-      - install
+      - events
     description: |
       The date and time the extension was installed and launched for the first time
     bugs:
@@ -19,7 +19,7 @@ install_event:
     type: string
     lifetime: ping
     send_in_pings:
-      - install
+      - events
     description: |
       The name of the browser the extension is running on
     bugs:
@@ -34,7 +34,7 @@ startup_event:
     type: datetime
     lifetime: ping
     send_in_pings:
-      - startup
+      - events
     description: |
       The date and time the extension was started up
     bugs:
@@ -48,7 +48,7 @@ startup_event:
     type: string
     lifetime: ping
     send_in_pings:
-      - startup
+      - events
     description: |
       The name of the browser the extension is running on
     bugs:
@@ -62,7 +62,7 @@ startup_event:
     type: string
     lifetime: ping
     send_in_pings:
-      - startup
+      - events
     description: |
       The user's preferred language of the browser
     bugs:
@@ -76,7 +76,7 @@ startup_event:
     type: string
     lifetime: ping
     send_in_pings:
-      - startup
+      - events
     description: |
       The language of the extension
     bugs:
@@ -90,7 +90,7 @@ startup_event:
     type: boolean
     lifetime: ping
     send_in_pings:
-      - startup
+      - events
     description: |
       Whether or not the action button is pinned to the toolbar
     bugs:
@@ -104,7 +104,7 @@ startup_event:
     type: labeled_string
     lifetime: ping
     send_in_pings:
-      - startup
+      - events
     description: |
       Which hotkeys are set for each command
     bugs:
@@ -114,12 +114,10 @@ startup_event:
     notification_emails:
       - gsherman@mozilla.com
     expires: never
-launch_event: 
+launch_event:
   browser_launch:
     type: event
     lifetime: ping
-    send_in_pings:
-      - launch
     description: |
       The user launched the browser from the action button
     bugs:
@@ -138,10 +136,8 @@ launch_event:
         type: string
 setting_event:
   current_browser:
-    type: labeled_string
+    type: event
     lifetime: ping
-    send_in_pings:
-      - settings
     description: The external browser has been changed
     bugs:
       - https://linktobugs.page
@@ -149,6 +145,14 @@ setting_event:
       - https://linktodatareviews.page
     notification_emails:
       - gsherman@mozilla.com
+    extra_keys:
+      from:
+        description: The previously set browser
+        type: string
+      to:
+        description: The newly set external browser
+        type: string
+      source:
+        description: The location that this setting was changed from
+        type: string
     expires: never
-
-

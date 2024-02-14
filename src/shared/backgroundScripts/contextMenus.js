@@ -1,5 +1,6 @@
 import { launchBrowser } from "Interfaces/launchBrowser.js";
 import { getExternalBrowser } from "./getters.js";
+import * as launchEvent from "Shared/generated/launchEvent.js";
 
 import {
   applyPlatformContextMenus,
@@ -112,23 +113,18 @@ export async function handleBrowserNameChange() {
  */
 export async function handleContextMenuClick(info, tab) {
   if (info.menuItemId === "launchInExternalBrowserPage") {
-    if (await launchBrowser(info.pageUrl)) {
-      browser.storage.local.set({
-        telemetry: {
-          type: "browserLaunch",
-          browser: await getExternalBrowser(),
-          source: "page_context_menu",
-        },
+    if (await launchBrowser(tab)) {
+      launchEvent.browserLaunch.record({
+        browser: await getExternalBrowser(),
+        source: "page_context_menu",
       });
     }
   } else if (info.menuItemId === "launchInExternalBrowserLink") {
-    if (await launchBrowser(info.linkUrl)) {
-      browser.storage.local.set({
-        telemetry: {
-          type: "browserLaunch",
-          browser: await getExternalBrowser(),
-          source: "link_context_menu",
-        },
+    tab.url = info.linkUrl;
+    if (await launchBrowser(tab)) {
+      launchEvent.browserLaunch.record({
+        browser: await getExternalBrowser(),
+        source: "link_context_menu",
       });
     }
   } else if (info.menuItemId === "openWelcomePage") {

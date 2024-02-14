@@ -2,6 +2,7 @@ import {
   getExternalBrowser,
   getTelemetryEnabled,
 } from "../../backgroundScripts/getters.js";
+import * as settingEvent from "../../generated/settingEvent.js";
 
 import { applyLocalization, replaceMessage } from "./localization.js";
 import { populateBrowserList } from "./browserList.js";
@@ -9,6 +10,7 @@ import { getIsFirefoxInstalled } from "Interfaces/getters.js";
 import { handleChangeDefaultLaunchContextMenuClick } from "Interfaces/contextMenus.js";
 
 import "Shared/backgroundScripts/polyfill.js";
+import { initGlean } from "Shared/backgroundScripts/telemetry.js";
 
 /**
  * Check the private browsing checkbox if the current external browser is
@@ -37,14 +39,23 @@ export async function checkPrivateBrowsing() {
       alwaysPrivateCheckbox.checked = false;
     }
 
-    browser.storage.local.set({
-      telemetry: {
-        type: "currentBrowserChange",
-        from,
-        to,
-        source: "welcome_page",
-      },
+    settingEvent.currentBrowser.record({
+      from,
+      to,
+      source: "always_private_checkbox",
     });
+  });
+
+  browser.storage.sync.onChanged.addListener((changes) => {
+    if (changes.currentExternalBrowser !== undefined) {
+      if (
+        changes.currentExternalBrowser.newValue === "Firefox Private Browsing"
+      ) {
+        alwaysPrivateCheckbox.checked = true;
+      } else {
+        alwaysPrivateCheckbox.checked = false;
+      }
+    }
   });
 }
 
@@ -100,17 +111,13 @@ export async function checkFirefoxHotkeys() {
       await getExternalBrowser(),
     ]);
   } else {
-    replaceMessage(
-      p,
-      "welcomePageNoShortcutsFirefox",
-      "addons://shortcuts/shortcuts",
-    );
+    replaceMessage(p, "welcomePageNoShortcutsFirefox");
 
     // remove the manage shortcuts text
     const manageShortcutsText = document.querySelector(
       "[data-locale='welcomePageManageShortcuts']",
     );
-    manageShortcutsText.remove();
+    manageShortcutsText?.remove();
   }
 }
 
@@ -135,17 +142,13 @@ export async function checkChromiumHotkeys() {
   if (!launchBrowser.shortcut && !launchFirefoxPrivate.shortcut) {
     const preamble = document.createElement("p");
     shortcutsList.appendChild(preamble);
-    replaceMessage(
-      preamble,
-      "welcomePageNoShortcutsChromium",
-      "chrome://extensions/shortcuts",
-    );
+    replaceMessage(preamble, "welcomePageNoShortcutsChromium");
 
     // remove the manage shortcuts text
     const manageShortcutsText = document.querySelector(
       "[data-locale='welcomePageManageShortcuts']",
     );
-    manageShortcutsText.remove();
+    manageShortcutsText?.remove();
     return;
   }
 
@@ -157,7 +160,7 @@ export async function checkChromiumHotkeys() {
     span.innerText =
       browser.i18n.getMessage("welcomePageYesShortcutTo", [
         launchBrowserHotkey.toUpperCase(),
-        await getExternalBrowser(),
+        "Firefox",
       ]) + "\n";
   } else {
     span.innerText =
@@ -230,7 +233,8 @@ export function applyMobileLogic() {
   shortcutsContainer.remove();
 }
 
-document.addEventListener("DOMContentLoaded", function () {
+document.addEventListener("DOMContentLoaded", async function () {
+  await initGlean();
   activatePlatformSpecificElements();
   applyLocalization();
   updateTelemetry();

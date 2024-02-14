@@ -1,6 +1,6 @@
 {
   "manifest_version": 2,
-  "name": "Firefox in Firefox",
+  "name": "Firefox Bridge",
   "description": "Easily hop from Firefox to another browser when you want to use a specific feature or keep your browsing separate.",
   "version": "0.1",
   "permissions": [
@@ -13,7 +13,8 @@
   ],
   "background": {
     "scripts": ["background.bundle.js"],
-    "type": "module"
+    "type": "module",
+    "persistent": false
   },
   "browser_action": {
     "default_icon": {

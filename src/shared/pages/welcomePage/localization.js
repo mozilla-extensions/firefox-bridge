@@ -4,23 +4,40 @@ export function replaceMessage(element, l10nID, href) {
     return false;
   }
 
-  message = message.replace("<a>", `<a id="${l10nID}Link" href="">`);
+  if (message.includes("<a>")) {
+    const prefix = message.split("<a>")[0];
+    const suffix = message.split("</a>")[1];
+    const text = message.split("<a>")[1].split("</a>")[0];
+    const anchor = document.createElement("a");
+    anchor.href = href || "";
+    anchor.textContent = text;
+    if (anchor.protocol === "javascript:") {
+      element.replaceChildren(prefix, text, suffix);
+    } else {
+      element.replaceChildren(prefix, anchor, suffix);
+    }
+  } else {
+    element.replaceChildren(message);
+  }
 
-  // eslint-disable-next-line no-unsanitized/property
-  element.innerHTML = message;
-
-  // add a listener to the link if required
-  if (href) {
-    const link = document.getElementById(`${l10nID}Link`);
+  // handle browser shortcut page cases
+  if (
+    l10nID === "welcomePageManageShortcutsFirefox" ||
+    l10nID === "welcomePageNoShortcutsFirefox"
+  ) {
+    const link = element.querySelector("a");
     link.addEventListener("click", (event) => {
       event.preventDefault();
-      if (href.startsWith("addons://")) {
-        browser.experiments.firefox_launch.openShortcutsPage();
-      } else {
-        browser.tabs.create({
-          url: href,
-        });
-      }
+      browser.experiments.firefox_launch.openShortcutsPage();
+    });
+  } else if (
+    l10nID === "welcomePageManageShortcutsChromium" ||
+    l10nID === "welcomePageNoShortcutsChromium"
+  ) {
+    const link = element.querySelector("a");
+    link.addEventListener("click", (event) => {
+      event.preventDefault();
+      browser.tabs.create({ url: "chrome://extensions/shortcuts" });
     });
   }
 
@@ -51,10 +68,8 @@ export function replaceDataLocale(id, href, platform = "") {
 export function applyLocalization() {
   const elements = document.querySelectorAll("[data-locale]");
   const hrefMapping = {
-    welcomePageManageShortcutsChromium: "chrome://extensions/shortcuts",
-    welcomePageManageShortcutsFirefox: "addons://shortcuts/shortcuts",
     welcomePageErrorChromium: "https://www.mozilla.org/firefox/new/",
-    privacyNoticeLink: "",
+    welcomePageTelemetryCheckbox: "https://example.com/", // TODO: replace with privacy policy link
   };
 
   // attempt to replace each element
