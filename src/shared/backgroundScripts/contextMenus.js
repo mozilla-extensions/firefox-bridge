@@ -113,7 +113,7 @@ export async function handleBrowserNameChange() {
  */
 export async function handleContextMenuClick(info, tab) {
   if (info.menuItemId === "launchInExternalBrowserPage") {
-    if (await launchBrowser(tab)) {
+    if (await launchBrowser(info.pageUrl)) {
       launchEvent.browserLaunch.record({
         browser: await getExternalBrowser(),
         source: "page_context_menu",
@@ -121,7 +121,7 @@ export async function handleContextMenuClick(info, tab) {
     }
   } else if (info.menuItemId === "launchInExternalBrowserLink") {
     tab.url = info.linkUrl;
-    if (await launchBrowser(tab)) {
+    if (await launchBrowser(info.linkUrl)) {
       launchEvent.browserLaunch.record({
         browser: await getExternalBrowser(),
         source: "link_context_menu",

@@ -7,7 +7,7 @@ import * as launchEvent from "Shared/generated/launchEvent.js";
  */
 export function initPlatformListeners() {
   browser.action.onClicked.addListener(async (tab) => {
-    if (await launchBrowser(tab)) {
+    if (await launchBrowser(tab.url)) {
       launchEvent.browserLaunch.record({
         browser: await getExternalBrowser(),
         source: "action_button",
