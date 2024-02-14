@@ -3,7 +3,6 @@ import { initSharedListeners } from "Shared/backgroundScripts/listeners.js";
 describe("shared/backgroundScripts/listeners.js", () => {
   describe("initSharedListeners()", () => {
     it("should add the listeners", () => {
-      browser.tabs.query.mockResolvedValue([]);
       initSharedListeners();
       expect(browser.storage.session.get).toHaveBeenCalled();
       expect(browser.runtime.onInstalled.addListener).toHaveBeenCalled();

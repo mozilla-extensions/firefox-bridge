@@ -15,6 +15,9 @@ global.browser = {
       addListener: jest.fn(),
     },
   },
+  extension: {
+    inIncognitoContext: false,
+  },
   storage: {
     sync: {
       get: jest.fn(),
@@ -98,6 +101,14 @@ global.browser = {
   declarativeNetRequest: {
     updateDynamicRules: jest.fn(),
     getDynamicRules: jest.fn(),
+  },
+  declarativeContent: {
+    onPageChanged: {
+      addRules: jest.fn(),
+      removeRules: jest.fn(),
+    },
+    PageStateMatcher: jest.fn(),
+    ShowAction: jest.fn(),
   },
   webNavigation: {
     onCommitted: {

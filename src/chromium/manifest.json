@@ -1,6 +1,6 @@
 {
   "manifest_version": 3,
-  "minimum_chrome_version": "92",
+  "minimum_chrome_version": "97",
   "name": "Firefox Bridge",
   "description": "Easily switch from Chrome to Firefox when you want to use Firefox's extra privacy features.",
   "version": "0.1",
@@ -17,7 +17,7 @@
     "storage",
     "notifications",
     "declarativeNetRequest",
-    "webNavigation"
+    "declarativeContent"
   ],
   "host_permissions": ["<all_urls>"],
   "background": {
