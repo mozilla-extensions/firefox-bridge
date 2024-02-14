@@ -10,14 +10,14 @@ import * as launchEvent from "Shared/generated/launchEvent.js";
  */
 export async function handleHotkeyPress(command, tab) {
   if (command === "launchBrowser") {
-    if (await launchBrowser(tab)) {
+    if (await launchBrowser(tab.url)) {
       launchEvent.browserLaunch.record({
         browser: await getExternalBrowser(),
         source: "hotkey",
       });
     }
   } else if (command === "launchFirefoxPrivate") {
-    if (await launchBrowser(tab, true)) {
+    if (await launchBrowser(tab.url, true)) {
       launchEvent.browserLaunch.record({
         browser: "Firefox Private Browsing",
         source: "hotkey",

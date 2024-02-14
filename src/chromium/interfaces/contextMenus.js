@@ -157,15 +157,14 @@ export async function handlePlatformContextMenuClick(info, tab) {
       });
     }
   } else if (info.menuItemId === "launchInExternalBrowserPrivatePage") {
-    if (await launchBrowser(tab, true)) {
+    if (await launchBrowser(info.pageUrl, true)) {
       launchEvent.browserLaunch.record({
         browser: "Firefox Private Browsing",
         source: "page_context_menu",
       });
     }
   } else if (info.menuItemId === "launchInExternalBrowserPrivateLink") {
-    tab.url = info.linkUrl;
-    if (await launchBrowser(tab, true)) {
+    if (await launchBrowser(info.linkUrl, true)) {
       launchEvent.browserLaunch.record({
         browser: "Firefox Private Browsing",
         source: "link_context_menu",
