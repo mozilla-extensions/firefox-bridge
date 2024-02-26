@@ -8,9 +8,6 @@ describe("shared/backgroundScripts/listeners.js", () => {
       expect(browser.runtime.onInstalled.addListener).toHaveBeenCalled();
       expect(browser.contextMenus.onClicked.addListener).toHaveBeenCalled();
       expect(browser.commands.onCommand.addListener).toHaveBeenCalled();
-      expect(browser.tabs.onUpdated.addListener).toHaveBeenCalled();
-      expect(browser.tabs.onCreated.addListener).toHaveBeenCalled();
-      expect(browser.tabs.onActivated.addListener).toHaveBeenCalled();
       expect(browser.storage.sync.onChanged.addListener).toHaveBeenCalled();
     });
   });

@@ -1,6 +1,5 @@
 import "@babel/preset-env";
 import { testResetGlean } from "@mozilla/glean/testing";
-import { isCurrentTabValidUrlScheme } from "../src/shared/backgroundScripts/validTab.js";
 import locales from "../src/_locales/en/messages.json";
 import jest from "jest-mock";
 
@@ -15,6 +14,9 @@ global.browser = {
     onClicked: {
       addListener: jest.fn(),
     },
+  },
+  extension: {
+    inIncognitoContext: false,
   },
   storage: {
     sync: {
@@ -58,12 +60,16 @@ global.browser = {
     onClicked: {
       addListener: jest.fn(),
     },
+    enable: jest.fn(),
+    disable: jest.fn(),
   },
   browserAction: {
     setIcon: jest.fn(),
     onClicked: {
       addListener: jest.fn(),
     },
+    enable: jest.fn(),
+    disable: jest.fn(),
   },
   tabs: {
     onUpdated: {
@@ -95,6 +101,19 @@ global.browser = {
   declarativeNetRequest: {
     updateDynamicRules: jest.fn(),
     getDynamicRules: jest.fn(),
+  },
+  declarativeContent: {
+    onPageChanged: {
+      addRules: jest.fn(),
+      removeRules: jest.fn(),
+    },
+    PageStateMatcher: jest.fn(),
+    ShowAction: jest.fn(),
+  },
+  webNavigation: {
+    onCommitted: {
+      addListener: jest.fn(),
+    },
   },
   experiments: {
     firefox_launch: {
@@ -173,10 +192,6 @@ export const setCurrentTab = (tabObject) => {
       resolve([tabObject]);
     });
   });
-};
-
-export const getIsCurrentTabValidUrlScheme = () => {
-  return isCurrentTabValidUrlScheme;
 };
 
 export const getLocaleMessage = (key) => {

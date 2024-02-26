@@ -1,9 +1,8 @@
 // shared imports
 import { initContextMenu, handleContextMenuClick } from "./contextMenus.js";
-import { checkAndUpdateURLScheme } from "./validTab.js";
 import { handleHotkeyPress } from "./hotkeys.js";
-import { updateToolbarIcon } from "./actionButton.js";
 import { handleBrowserNameChange } from "./contextMenus.js";
+import { getDefaultIconPath } from "Interfaces/getters.js";
 // import { handleAutoRedirect, refreshDeclarativeNetRequestRules } from "./autoRedirect.js";
 
 /**
@@ -20,6 +19,13 @@ export function initSharedListeners() {
       }
     });
 
+  // Update the toolbar icon whenever the extension is activated.
+  // This can be done via installation, enabling/disabling the extension, updating the extension,
+  // or when the service worker is updated.
+  getDefaultIconPath().then(async (iconPath) => {
+    await browser.action.setIcon({ path: iconPath });
+  });
+
   browser.runtime.onInstalled.addListener(async (details) => {
     // await getIsAutoRedirect(); // resolve to true on fresh install
     if (details.reason === "install") {
@@ -27,11 +33,6 @@ export function initSharedListeners() {
         url: browser.runtime.getURL("shared/pages/welcomePage/index.html"),
       });
     }
-    await updateToolbarIcon();
-  });
-
-  browser.runtime.onStartup.addListener(async () => {
-    await updateToolbarIcon();
   });
 
   browser.contextMenus.onClicked.addListener(async (info, tab) => {
@@ -46,29 +47,10 @@ export function initSharedListeners() {
     handleHotkeyPress(command, tabs[0]);
   });
 
-  browser.tabs.onUpdated.addListener(async (tabId, changeInfo, tab) => {
-    checkAndUpdateURLScheme(tab);
-    updateToolbarIcon();
-    // updateAddCurrentSiteToMySitesContextMenu();
-  });
-
-  browser.tabs.onCreated.addListener(async (tab) => {
-    checkAndUpdateURLScheme(tab);
-    updateToolbarIcon();
-    // updateAddCurrentSiteToMySitesContextMenu();
-  });
-
-  browser.tabs.onActivated.addListener(async (activeInfo) => {
-    const tab = await browser.tabs.get(activeInfo.tabId);
-    checkAndUpdateURLScheme(tab);
-    updateToolbarIcon();
-    //   updateAddCurrentSiteToMySitesContextMenu();
-  });
-
   browser.storage.sync.onChanged.addListener(async (changes) => {
     if (changes.currentExternalBrowser !== undefined) {
       await handleBrowserNameChange();
-      await updateToolbarIcon();
+      await browser.action.setIcon({ path: await getDefaultIconPath() });
     }
     // if (changes.firefoxSites !== undefined && await getIsAutoRedirect()) {
     //   refreshDeclarativeNetRequestRules();

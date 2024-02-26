@@ -1,6 +1,4 @@
 import { launchBrowser } from "./launchBrowser.js";
-
-import { updateToolbarIcon } from "Shared/backgroundScripts/actionButton.js";
 import { getExternalBrowser } from "Shared/backgroundScripts/getters.js";
 import * as settingEvent from "Shared/generated/settingEvent.js";
 import * as launchEvent from "Shared/generated/launchEvent.js";
@@ -125,7 +123,6 @@ export async function handleChangeDefaultLaunchContextMenuClick() {
   } else {
     browser.storage.sync.set({ currentExternalBrowser: "Firefox" });
   }
-  await updateToolbarIcon();
 }
 
 /**
