@@ -45,23 +45,4 @@ export function initPlatformListeners() {
     await getIsFirefoxInstalled();
     browser.storage.sync.set({ currentExternalBrowser: "Firefox" });
   });
-
-  // From: https://github.com/Rob--W/crxviewer/blob/942b02fa871ff4ef6a29cf18b266711725314e86/src/background.js#L325-L341
-
-  //// Work-around for crbug.com/388231: onInstalled is not fired when the
-  //// extension was disabled during an update.
-  browser.runtime.onStartup.addListener(() => {
-    registerEventRules();
-  });
-
-  //// Work-around for crbug.com/264963: onInstalled is not fired when the
-  //// extension is run in incognito mode. Although not documented, incognito
-  //// contexts have their own declarativeContent rule store.
-  if (browser.extension.inIncognitoContext) {
-    browser.declarativeContent.onPageChanged.getRules(function (rules) {
-      if (!rules.length) {
-        registerEventRules();
-      }
-    });
-  }
 }
