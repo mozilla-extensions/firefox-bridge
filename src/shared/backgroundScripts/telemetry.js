@@ -1,8 +1,15 @@
 import Glean from "@mozilla/glean/webext";
+import UAParser from "ua-parser-js";
 import * as installEvent from "../generated/installEvent.js";
 import * as startupEvent from "../generated/startupEvent.js";
 
-import { getTelemetryEnabled } from "./getters.js";
+import { getExternalBrowser, getTelemetryEnabled } from "./getters.js";
+
+export function getParsedUserAgent() {
+  const userAgent = navigator.userAgent;
+  const uaParser = new UAParser(userAgent);
+  return uaParser.getResult();
+}
 
 /**
  * Initialize the telemetry system.
@@ -12,9 +19,14 @@ import { getTelemetryEnabled } from "./getters.js";
 export async function initGlean(showLogs = false) {
   Glean.setLogPings(showLogs);
   Glean.setDebugViewTag("firefox-bridge");
+
+  const userAgent = getParsedUserAgent();
+
   Glean.initialize("firefox.bridge", await getTelemetryEnabled(), {
     appDisplayVersion: browser.runtime.getManifest().version,
     appBuild: IS_FIREFOX_EXTENSION ? "firefox" : "chromium",
+    os: userAgent.os.name,
+    osVersion: userAgent.os.version,
   });
 }
 
@@ -36,12 +48,19 @@ export function initTelemetryListeners() {
       installEvent.browserType.set(
         IS_FIREFOX_EXTENSION ? "firefox" : "chromium",
       );
+
+      const userAgent = getParsedUserAgent();
+      installEvent.browserVersion.set(userAgent.browser.version);
+      installEvent.browserName.set(userAgent.browser.name);
     }
   });
 
   browser.runtime.onStartup.addListener(async () => {
-    // 2. browser version (window.navigator.userAgent)
+    const userAgent = getParsedUserAgent();
+
     startupEvent.browserType.set(IS_FIREFOX_EXTENSION ? "firefox" : "chromium");
+    startupEvent.browserVersion.set(userAgent.browser.version);
+    startupEvent.browserName.set(userAgent.browser.name);
     startupEvent.dateStarted.set();
     startupEvent.browserLanguageLocale.set(navigator.language);
     startupEvent.extensionLanguageLocale.set(browser.i18n.getUILanguage());
@@ -51,6 +70,9 @@ export function initTelemetryListeners() {
     const commands = await browser.commands.getAll();
     for (const command of commands) {
       startupEvent.hotkeys[command.name.toLowerCase()].set(command.shortcut);
+    }
+    if (IS_FIREFOX_EXTENSION) {
+      startupEvent.externalBrowser.set(await getExternalBrowser());
     }
   });
 
