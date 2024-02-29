@@ -128,6 +128,10 @@ global.document = {
   addEventListener: jest.fn(),
 };
 
+global.navigator = {
+  userAgent: "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36",
+};
+
 export const setSyncStorage = async (key, keyValue) => {
   let data = {};
   if (global.browser.storage.sync.get.mock) {
