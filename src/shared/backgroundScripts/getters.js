@@ -6,7 +6,7 @@
 export async function getExternalBrowser() {
   const result = await browser.storage.sync.get("currentExternalBrowser");
   if (!result || result.currentExternalBrowser === undefined) {
-    await browser.storage.sync.set({ currentExternalBrowser: "Firefox" });
+    browser.storage.sync.set({ currentExternalBrowser: "Firefox" });
     return "Firefox";
   }
   return result.currentExternalBrowser;
