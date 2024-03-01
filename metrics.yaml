@@ -21,6 +21,34 @@ install_event:
     send_in_pings:
       - events
     description: |
+      The type of the browser the extension is running on (chromium vs firefox)
+    bugs:
+      - https://linktobugs.page
+    data_reviews:
+      - https://linktodatareviews.page
+    notification_emails:
+      - gsherman@mozilla.com
+    expires: never
+  browser_version:
+    type: string
+    lifetime: ping
+    send_in_pings:
+      - events
+    description: |
+      The name of the browser the extension is running on
+    bugs:
+      - https://linktobugs.page
+    data_reviews:
+      - https://linktodatareviews.page
+    notification_emails:
+      - gsherman@mozilla.com
+    expires: never
+  browser_name:
+    type: string
+    lifetime: ping
+    send_in_pings:
+      - events
+    description: |
       The name of the browser the extension is running on
     bugs:
       - https://linktobugs.page
@@ -107,6 +135,48 @@ startup_event:
       - events
     description: |
       Which hotkeys are set for each command
+    bugs:
+      - https://linktobugs.page
+    data_reviews:
+      - https://linktodatareviews.page
+    notification_emails:
+      - gsherman@mozilla.com
+    expires: never
+  browser_name:
+    type: string
+    lifetime: ping
+    send_in_pings:
+      - events
+    description: |
+      The name of the user's browser
+    bugs:
+      - https://linktobugs.page
+    data_reviews:
+      - https://linktodatareviews.page
+    notification_emails:
+      - gsherman@mozilla.com
+    expires: never
+  browser_version:
+    type: string
+    lifetime: ping
+    send_in_pings:
+      - events
+    description: |
+      The version of the user's browser
+    bugs:
+      - https://linktobugs.page
+    data_reviews:
+      - https://linktodatareviews.page
+    notification_emails:
+      - gsherman@mozilla.com
+    expires: never
+  external_browser:
+    type: string
+    lifetime: ping
+    send_in_pings:
+      - events
+    description: |
+      The name of the user's set external browser (Firefox only)
     bugs:
       - https://linktobugs.page
     data_reviews:
