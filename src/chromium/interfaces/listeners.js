@@ -1,5 +1,4 @@
 import { launchBrowser } from "./launchBrowser.js";
-import { getIsFirefoxInstalled } from "./getters.js";
 import { getExternalBrowser } from "Shared/backgroundScripts/getters.js";
 import * as launchEvent from "Shared/generated/launchEvent.js";
 
@@ -42,7 +41,5 @@ export function initPlatformListeners() {
 
   browser.runtime.onInstalled.addListener(async () => {
     registerEventRules();
-    await getIsFirefoxInstalled();
-    browser.storage.sync.set({ currentExternalBrowser: "Firefox" });
   });
 }
