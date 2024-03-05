@@ -36,33 +36,40 @@
 
         <div class="always-private chromium">
           <div class="always-private-checkbox-container">
-            <label
-              class="switch"
-              id="always-private-switch"
-              for="always-private-checkbox"
-              tabindex="0"
-            >
+            <label class="switch">
               <input type="checkbox" id="always-private-checkbox" />
-              <span class="slider round"></span>
+              <span
+                class="slider round"
+                id="always-private-slider"
+                tabindex="0"
+                role="checkbox"
+                aria-labelledby="always-private-checkbox-label"
+              ></span>
             </label>
           </div>
           <label
             data-locale="welcomePageAlwaysPrivateCheckbox"
-            for="always-private-checkbox"
+            id="always-private-checkbox-label"
           >
           </label>
         </div>
 
         <div class="telemetry">
           <div class="telemetry-checkbox-container">
-            <label class="switch" id="telemetry-switch" tabindex="0">
+            <label class="switch">
               <input type="checkbox" id="telemetry-checkbox" />
-              <span class="slider round" for="telemetry-checkbox"></span>
+              <span
+                class="slider round"
+                tabindex="0"
+                id="telemetry-slider"
+                role="checkbox"
+                aria-labelledby="telemetry-checkbox-label"
+              ></span>
             </label>
           </div>
           <label
             data-locale="welcomePageTelemetryCheckbox"
-            for="telemetry-checkbox"
+            id="telemetry-checkbox-label"
           ></label>
         </div>
 
