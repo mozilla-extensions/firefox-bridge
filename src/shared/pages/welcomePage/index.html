@@ -3,18 +3,18 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Welcome to Firefox Launch Extension</title>
+    <title>Firefox Bridge</title>
     <script src="script.bundle.js"></script>
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
-    <image id="mozilla-logo" src="images/mozilla-logo.svg" />
+    <image id="mozilla-logo" src="images/mozilla-logo.svg" alt="Mozilla logo" />
     <div class="error-notification" id="error-notification">
       <p data-locale="welcomePageNoExternalBrowserError"></p>
       <img src="images/close.svg" class="close-button" id="close-button" />
     </div>
     <div class="welcome-content">
-      <image id="welcome-image" src="images/splash.svg" />
+      <image id="welcome-image" src="images/splash.svg" alt="Splash logo" />
       <div class="welcome-info">
         <div class="welcome-header">
           <h1 data-locale="welcomePageTitle"></h1>
@@ -36,7 +36,12 @@
 
         <div class="always-private chromium">
           <div class="always-private-checkbox-container">
-            <label class="switch">
+            <label
+              class="switch"
+              id="always-private-switch"
+              for="always-private-checkbox"
+              tabindex="0"
+            >
               <input type="checkbox" id="always-private-checkbox" />
               <span class="slider round"></span>
             </label>
@@ -50,9 +55,9 @@
 
         <div class="telemetry">
           <div class="telemetry-checkbox-container">
-            <label class="switch">
+            <label class="switch" id="telemetry-switch" tabindex="0">
               <input type="checkbox" id="telemetry-checkbox" />
-              <span class="slider round"></span>
+              <span class="slider round" for="telemetry-checkbox"></span>
             </label>
           </div>
           <label

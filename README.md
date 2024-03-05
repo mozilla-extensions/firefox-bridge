@@ -26,7 +26,7 @@ To see console logs, inspect the service worker.
 
 ### Run in Firefox
 
-Since Firefox Launch for Firefox uses experimental APIs, you will need to use Firefox Nightly or Beta, then:
+Since Firefox Bridge for Firefox uses experimental APIs, you will need to use Firefox Nightly or Beta, then:
 
 1. Open your Firefox browser
 2. Go to about:config

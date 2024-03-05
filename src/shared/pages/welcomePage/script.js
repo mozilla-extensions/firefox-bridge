@@ -20,31 +20,13 @@ export async function checkPrivateBrowsing() {
   const alwaysPrivateCheckbox = document.getElementById(
     "always-private-checkbox",
   );
+
   const currentExternalBrowser = await getExternalBrowser();
   if (currentExternalBrowser === "Firefox Private Browsing") {
     alwaysPrivateCheckbox.checked = true;
   } else {
     alwaysPrivateCheckbox.checked = false;
   }
-
-  // On change, update the default launch mode
-  alwaysPrivateCheckbox.addEventListener("change", async () => {
-    let from = await getExternalBrowser();
-    await handleChangeDefaultLaunchContextMenuClick();
-    let to = await getExternalBrowser();
-
-    if (to === "Firefox Private Browsing") {
-      alwaysPrivateCheckbox.checked = true;
-    } else {
-      alwaysPrivateCheckbox.checked = false;
-    }
-
-    settingEvent.currentBrowser.record({
-      from,
-      to,
-      source: "always_private_checkbox",
-    });
-  });
 
   browser.storage.sync.onChanged.addListener((changes) => {
     if (changes.currentExternalBrowser !== undefined) {
@@ -57,6 +39,26 @@ export async function checkPrivateBrowsing() {
       }
     }
   });
+
+  async function handleAlwaysPrivateSwitchClick() {
+    let from = await getExternalBrowser();
+    await handleChangeDefaultLaunchContextMenuClick();
+    let to = await getExternalBrowser();
+
+    settingEvent.currentBrowser.record({
+      from,
+      to,
+      source: "always_private_checkbox",
+    });
+  }
+
+  const alwaysPrivateSwitch = document.getElementById("always-private-switch");
+  alwaysPrivateSwitch.addEventListener("click", handleAlwaysPrivateSwitchClick);
+  alwaysPrivateSwitch.addEventListener("keydown", (event) => {
+    if (event.key === "Enter") {
+      handleAlwaysPrivateSwitchClick();
+    }
+  });
 }
 
 /**
@@ -65,13 +67,22 @@ export async function checkPrivateBrowsing() {
 export async function updateTelemetry() {
   // check storage to see if telemetry is enabled/disabled. If neither, false is default
   const telemetryEnabled = await getTelemetryEnabled();
-  document.getElementById("telemetry-checkbox").checked = telemetryEnabled;
+  const telemetrySwitch = document.getElementById("telemetry-switch");
+  const telemetryCheckbox = document.getElementById("telemetry-checkbox");
+  telemetryCheckbox.checked = telemetryEnabled;
 
-  document
-    .getElementById("telemetry-checkbox")
-    .addEventListener("change", (event) => {
-      browser.storage.sync.set({ telemetryEnabled: event.target.checked });
-    });
+  telemetrySwitch.addEventListener("keydown", function (event) {
+    if (event.key === "Enter") {
+      // Toggle checkbox on Enter key press
+      telemetryCheckbox.checked = !telemetryCheckbox.checked;
+      browser.storage.sync.set({ telemetryEnabled: telemetryCheckbox.checked });
+    }
+  });
+
+  telemetrySwitch.addEventListener("click", function () {
+    telemetryCheckbox.checked = !telemetryCheckbox.checked;
+    browser.storage.sync.set({ telemetryEnabled: telemetryCheckbox.checked });
+  });
 
   browser.storage.sync.onChanged.addListener((changes) => {
     if (changes.telemetryEnabled !== undefined) {
