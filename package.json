@@ -13,7 +13,7 @@
     "codestyle:check": "eslint src test && prettier --check \"src/**/*.{js,css,json,html}\" \"test/**/*.js\"",
     "codestyle:fix": "eslint --fix src test && prettier --write \"src/**/*.{js,css,json,html}\" \"test/**/*.js\"",
     "coverage": "c8 report --reporter=lcov --reporter=text",
-    "zip:firefox": "web-ext build --source-dir build/firefox --artifacts-dir dist --overwrite-dest --filename=firefox-bridge.zip",
+    "zip:firefox": "web-ext build --source-dir build/firefox --artifacts-dir dist --overwrite-dest --filename=firefox-bridge.xpi",
     "zip:chromium": "web-ext build --source-dir build/chromium --artifacts-dir dist --overwrite-dest --filename=firefox-bridge-chromium.zip",
     "build": "npm run build:firefox && npm run build:chromium && npm run zip:firefox && npm run zip:chromium",
     "build:chromium": "npm run build:glean && webpack --node-env=chromium --config webpack.config.mjs",
