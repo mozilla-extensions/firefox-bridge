@@ -3,11 +3,7 @@
   "name": "firefox-bridge",
   "private": true,
   "version": "1.0.0",
-  "description": "Extenision that enables the user to launch Firefox from the other browser",
-  "main": "backgroundScripts/background.js",
-  "directories": {
-    "test": "test"
-  },
+  "description": "A Firefox and Chromium extension that allows the user to open Firefox from Chromium quickly as well as open other browsers from Firefox.",
   "scripts": {
     "test": "npm run build:glean && NODE_OPTIONS=\"$NODE_OPTIONS --experimental-vm-modules\" c8 jest",
     "codestyle:check": "eslint src test && prettier --check \"src/**/*.{js,css,json,html}\" \"test/**/*.js\"",
@@ -26,14 +22,8 @@
     "type": "git",
     "url": "git+https://github.com/mozilla-extensions/firefox-bridge"
   },
-  "keywords": [
-    "firefox",
-    "addon",
-    "chrome",
-    "edge"
-  ],
-  "author": "mozilla",
-  "license": "ISC",
+  "author": "s/mozilla/Mozilla",
+  "license": "MPL-2.0",
   "bugs": {
     "url": "https://github.com/mozilla-extensions/firefox-bridge/issues"
   },

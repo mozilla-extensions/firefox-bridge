@@ -10,7 +10,7 @@ export async function populateBrowserList() {
   browserList.innerHTML = "";
 
   const availableBrowsers =
-    await browser.experiments.firefox_launch.getAvailableBrowsers();
+    await browser.experiments.firefox_bridge.getAvailableBrowsers();
 
   // if no browsers are available, remove the browser-list element and display a message
   if (availableBrowsers.length === 0) {
@@ -21,7 +21,7 @@ export async function populateBrowserList() {
   }
 
   const defaultBrowserName =
-    await browser.experiments.firefox_launch.getDefaultBrowser();
+    await browser.experiments.firefox_bridge.getDefaultBrowser();
 
   // sort the browsers and remove duplicates
   const browsers = [...new Set(availableBrowsers)].sort();

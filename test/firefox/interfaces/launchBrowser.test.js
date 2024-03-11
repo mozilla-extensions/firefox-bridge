@@ -27,10 +27,10 @@ describe("firefox/interfaces/launchBrowser.js", () => {
       const result = await launchBrowser("https://example.com");
       expect(result).toEqual(true);
       expect(
-        browser.experiments.firefox_launch.launchBrowser,
+        browser.experiments.firefox_bridge.launchBrowser,
       ).toHaveBeenCalled();
       expect(
-        browser.experiments.firefox_launch.launchBrowser,
+        browser.experiments.firefox_bridge.launchBrowser,
       ).toHaveBeenCalledWith("test", "https://example.com");
     });
 

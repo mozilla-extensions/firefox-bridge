@@ -28,7 +28,7 @@ export function replaceMessage(element, l10nID, href) {
     const link = element.querySelector("a");
     link.addEventListener("click", (event) => {
       event.preventDefault();
-      browser.experiments.firefox_launch.openShortcutsPage();
+      browser.experiments.firefox_bridge.openShortcutsPage();
     });
   } else if (
     l10nID === "welcomePageManageShortcutsChromium" ||

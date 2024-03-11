@@ -202,11 +202,11 @@ function _isValidURL(url) {
   }
 }
 
-this.experiments_firefox_launch = class extends ExtensionAPI {
+this.experiments_firefox_bridge = class extends ExtensionAPI {
   getAPI(context) {
     return {
       experiments: {
-        firefox_launch: {
+        firefox_bridge: {
           /**
            * Gets the available browsers to be potentially used for launching.
            *

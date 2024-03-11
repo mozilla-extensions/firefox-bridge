@@ -1,7 +1,7 @@
 [
   {
-    "namespace": "experiments.firefox_launch",
-    "description": "APIs supporting firefox_launch",
+    "namespace": "experiments.firefox_bridge",
+    "description": "APIs supporting firefox_bridge",
     "functions": [
       {
         "name": "getAvailableBrowsers",

@@ -29,6 +29,6 @@ export async function launchBrowser(url, usePrivateBrowsing = false) {
     });
     return false;
   }
-  browser.experiments.firefox_launch.launchBrowser(externalBrowser, url);
+  browser.experiments.firefox_bridge.launchBrowser(externalBrowser, url);
   return true;
 }
