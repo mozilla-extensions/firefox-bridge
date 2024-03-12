@@ -1,62 +1,5 @@
 $schema: moz://mozilla.org/schemas/glean/metrics/2-0-0
 
-install_event:
-  date_installed:
-    type: datetime
-    lifetime: ping
-    send_in_pings:
-      - events
-    description: |
-      The date and time the extension was installed and launched for the first time
-    bugs:
-      - https://linktobugs.page
-    data_reviews:
-      - https://linktodatareviews.page
-    notification_emails:
-      - gsherman@mozilla.com
-    expires: never
-  browser_type:
-    type: string
-    lifetime: ping
-    send_in_pings:
-      - events
-    description: |
-      The type of the browser the extension is running on (chromium vs firefox)
-    bugs:
-      - https://linktobugs.page
-    data_reviews:
-      - https://linktodatareviews.page
-    notification_emails:
-      - gsherman@mozilla.com
-    expires: never
-  browser_version:
-    type: string
-    lifetime: ping
-    send_in_pings:
-      - events
-    description: |
-      The name of the browser the extension is running on
-    bugs:
-      - https://linktobugs.page
-    data_reviews:
-      - https://linktodatareviews.page
-    notification_emails:
-      - gsherman@mozilla.com
-    expires: never
-  browser_name:
-    type: string
-    lifetime: ping
-    send_in_pings:
-      - events
-    description: |
-      The name of the browser the extension is running on
-    bugs:
-      - https://linktobugs.page
-    data_reviews:
-      - https://linktodatareviews.page
-    notification_emails:
-      - gsherman@mozilla.com
-    expires: never
 startup_event:
   date_started:
     type: datetime
@@ -177,6 +120,34 @@ startup_event:
       - events
     description: |
       The name of the user's set external browser (Firefox only)
+    bugs:
+      - https://linktobugs.page
+    data_reviews:
+      - https://linktodatareviews.page
+    notification_emails:
+      - gsherman@mozilla.com
+    expires: never
+  os_name:
+    type: string
+    lifetime: ping
+    send_in_pings:
+      - events
+    description: |
+      The name of the user's OS
+    bugs:
+      - https://linktobugs.page
+    data_reviews:
+      - https://linktodatareviews.page
+    notification_emails:
+      - gsherman@mozilla.com
+    expires: never
+  os_version:
+    type: string
+    lifetime: ping
+    send_in_pings:
+      - events
+    description: |
+      The version of the user's OS
     bugs:
       - https://linktobugs.page
     data_reviews:
