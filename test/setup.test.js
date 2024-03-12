@@ -116,7 +116,7 @@ global.browser = {
     },
   },
   experiments: {
-    firefox_launch: {
+    firefox_bridge: {
       getAvailableBrowsers: jest.fn(),
       getDefaultBrowser: jest.fn(),
       launchBrowser: jest.fn(),

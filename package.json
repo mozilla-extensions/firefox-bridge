@@ -1,20 +1,16 @@
 {
   "type": "module",
-  "name": "firefox-launch",
+  "name": "firefox-bridge",
   "private": true,
   "version": "1.0.0",
-  "description": "Extenision that enables the user to launch Firefox from the other browser",
-  "main": "backgroundScripts/background.js",
-  "directories": {
-    "test": "test"
-  },
+  "description": "A Firefox and Chromium extension that allows the user to open Firefox from Chromium quickly as well as open other browsers from Firefox.",
   "scripts": {
     "test": "npm run build:glean && NODE_OPTIONS=\"$NODE_OPTIONS --experimental-vm-modules\" c8 jest",
     "codestyle:check": "eslint src test && prettier --check \"src/**/*.{js,css,json,html}\" \"test/**/*.js\"",
     "codestyle:fix": "eslint --fix src test && prettier --write \"src/**/*.{js,css,json,html}\" \"test/**/*.js\"",
     "coverage": "c8 report --reporter=lcov --reporter=text",
-    "zip:firefox": "web-ext build --source-dir build/firefox --artifacts-dir dist --overwrite-dest --filename=firefox.zip",
-    "zip:chromium": "web-ext build --source-dir build/chromium --artifacts-dir dist --overwrite-dest --filename=chromium.zip",
+    "zip:firefox": "web-ext build --source-dir build/firefox --artifacts-dir dist --overwrite-dest --filename=firefox-bridge.xpi",
+    "zip:chromium": "web-ext build --source-dir build/chromium --artifacts-dir dist --overwrite-dest --filename=firefox-bridge-chromium.zip",
     "build": "npm run build:firefox && npm run build:chromium && npm run zip:firefox && npm run zip:chromium",
     "build:chromium": "npm run build:glean && webpack --node-env=chromium --config webpack.config.mjs",
     "build:firefox": "npm run build:glean && webpack --node-env=firefox --config webpack.config.mjs",
@@ -24,20 +20,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/mozilla/firefox-launch.git"
+    "url": "git+https://github.com/mozilla-extensions/firefox-bridge"
   },
-  "keywords": [
-    "firefox",
-    "addon",
-    "chrome",
-    "edge"
-  ],
-  "author": "mozilla",
-  "license": "ISC",
+  "author": "Mozilla",
+  "license": "MPL-2.0",
   "bugs": {
-    "url": "https://github.com/mozilla/firefox-launch/issues"
+    "url": "https://github.com/mozilla-extensions/firefox-bridge/issues"
   },
-  "homepage": "https://github.com/mozilla/firefox-launch#readme",
+  "homepage": "https://github.com/mozilla-extensions/firefox-bridge#readme",
   "devDependencies": {
     "@babel/core": "^7.23.9",
     "@babel/preset-env": "^7.23.9",

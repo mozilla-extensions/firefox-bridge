@@ -9,7 +9,8 @@
     "storage",
     "notifications",
     "declarativeNetRequest",
-    "webNavigation"
+    "webNavigation",
+    "mozillaAddons"
   ],
   "background": {
     "scripts": ["background.bundle.js"],
@@ -18,7 +19,7 @@
   },
   "browser_action": {
     "default_icon": {
-      "32": "images/firefox-launch/32grey.png"
+      "32": "images/firefox-bridge/32.png"
     }
   },
   "commands": {
@@ -32,16 +33,16 @@
   "default_locale": "en",
   "browser_specific_settings": {
     "gecko": {
-      "id": "firefox-launch@mozilla.com"
+      "id": "firefox-bridge@mozilla.com"
     },
     "strict_min_version": "122.0a1"
   },
   "experiment_apis": {
-    "experiments_firefox_launch": {
+    "experiments_firefox_bridge": {
       "schema": "schema.json",
       "parent": {
         "scopes": ["addon_parent"],
-        "paths": [["experiments", "firefox_launch"]],
+        "paths": [["experiments", "firefox_bridge"]],
         "script": "api.js"
       }
     }

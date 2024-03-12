@@ -1,4 +1,4 @@
-# Firefox Launch
+# Firefox Bridge
 
 A Chromium and Firefox extension that allows the user to open Firefox from Chromium quickly as well as open other browsers from Firefox.
 
