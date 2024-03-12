@@ -31,7 +31,7 @@ export async function checkPrivateBrowsing() {
     }
   });
 
-  alwaysPrivateCheckbox.addEventListener("click", async () => {
+  alwaysPrivateCheckbox.addEventListener("change", async () => {
     let from = await getExternalBrowser();
     await handleChangeDefaultLaunchContextMenuClick();
     let to = await getExternalBrowser();
@@ -52,7 +52,7 @@ export async function updateTelemetry() {
   const telemetryCheckbox = document.getElementById("telemetry-checkbox");
   telemetryCheckbox.checked = await getTelemetryEnabled();
 
-  telemetryCheckbox.addEventListener("click", function () {
+  telemetryCheckbox.addEventListener("change", function () {
     browser.storage.sync.set({ telemetryEnabled: telemetryCheckbox.checked });
   });
 
