@@ -32,7 +32,7 @@ describe("chromium/interfaces/launchBrowser.js", () => {
         {
           command: "LaunchFirefox",
           data: { url: "https://mozilla.org" },
-        }
+        },
       );
     });
 
@@ -52,7 +52,7 @@ describe("chromium/interfaces/launchBrowser.js", () => {
         {
           command: "LaunchFirefoxPrivate",
           data: { url: "https://mozilla.org" },
-        }
+        },
       );
     });
 
@@ -74,11 +74,11 @@ describe("chromium/interfaces/launchBrowser.js", () => {
         {
           command: "LaunchFirefox",
           data: { url: "https://mozilla.org" },
-        }
+        },
       );
       expect(console.error).toHaveBeenCalledWith(
         "Error attempting to launch Firefox with org.mozilla.firefox_bridge_nmh_dev:",
-        ""
+        "",
       );
       console.error.mockRestore();
     });

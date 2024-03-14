@@ -33,7 +33,7 @@ export async function launchBrowser(url, usePrivateBrowsing = false) {
       {
         command,
         data: { url },
-      }
+      },
     );
 
     if (response.result_code === 1) {
@@ -43,7 +43,7 @@ export async function launchBrowser(url, usePrivateBrowsing = false) {
   } catch (error) {
     console.error(
       `Error attempting to launch Firefox with ${nativeMessagingHost}:`,
-      error.message
+      error.message,
     );
   }
 
