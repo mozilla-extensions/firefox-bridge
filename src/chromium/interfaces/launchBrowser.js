@@ -1,12 +1,12 @@
 import { isURLValid } from "Shared/backgroundScripts/validTab.js";
-import { getIsFirefoxInstalled } from "./getters.js";
+import { getInstalledFirefoxVariant } from "./getters.js";
 
 /**
  * Launches the Firefox variant. If Firefox is not installed, launch the Firefox download page.
  *
  * @param {string} url The url to launch in the browser.
- * @param {boolean} usePrivateBrowsing  True if firefox should be launched in private browsing mode, false for normal mode.
- * @returns {boolean} True if the browser was launched, false otherwise.
+ * @param {boolean} usePrivateBrowsing True if firefox should be launched in private browsing mode, false for normal mode.
+ * @returns {Promise<boolean>} A promise that resolves to true if the browser was launched, false otherwise.
  */
 export async function launchBrowser(url, usePrivateBrowsing = false) {
   if (!isURLValid(url)) {
@@ -14,20 +14,38 @@ export async function launchBrowser(url, usePrivateBrowsing = false) {
     return false;
   }
 
-  if (!(await getIsFirefoxInstalled())) {
-    browser.tabs.create({ url: "https://www.mozilla.org/firefox/" });
+  const nativeMessagingHost = await getInstalledFirefoxVariant();
+  if (!nativeMessagingHost) {
+    // No Firefox variant is installed. Direct the user to the Firefox download page.
+    await browser.tabs.create({
+      url: "https://www.mozilla.org/firefox/new/",
+    });
     return false;
   }
 
-  const currentTab = await browser.tabs.query({
-    active: true,
-    currentWindow: true,
-  });
-  const currentTabId = currentTab[0].id;
-  if (usePrivateBrowsing) {
-    browser.tabs.update(currentTabId, { url: "firefox-private:" + url });
-  } else {
-    browser.tabs.update(currentTabId, { url: "firefox:" + url });
+  // Launch the first installed firefox variant of dev, nightly, release, or esr.
+  try {
+    const command = usePrivateBrowsing
+      ? "LaunchFirefoxPrivate"
+      : "LaunchFirefox";
+    const response = await browser.runtime.sendNativeMessage(
+      nativeMessagingHost,
+      {
+        command,
+        data: { url },
+      }
+    );
+
+    if (response.result_code === 1) {
+      throw new Error(response.message);
+    }
+    return true;
+  } catch (error) {
+    console.error(
+      `Error attempting to launch Firefox with ${nativeMessagingHost}:`,
+      error.message
+    );
   }
-  return true;
+
+  return false;
 }

@@ -54,6 +54,7 @@ global.browser = {
       addListener: jest.fn(),
     },
     getManifest: jest.fn(),
+    sendNativeMessage: jest.fn(),
   },
   action: {
     setIcon: jest.fn(),

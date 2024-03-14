@@ -17,7 +17,8 @@
     "storage",
     "notifications",
     "declarativeNetRequest",
-    "declarativeContent"
+    "declarativeContent",
+    "nativeMessaging"
   ],
   "host_permissions": ["<all_urls>"],
   "background": {

@@ -1,5 +1,5 @@
 import {
-  getIsFirefoxInstalled,
+  getInstalledFirefoxVariant,
   getDefaultIconPath,
   getGreyedIconPath,
 } from "../../../src/chromium/interfaces/getters.js";
@@ -7,16 +7,20 @@ import {
 import { setStorage } from "../../setup.test.js";
 
 describe("chromium/interfaces/getters.js", () => {
-  describe("getIsFirefoxInstalled()", () => {
+  describe("getInstalledFirefoxVariant()", () => {
     it("should return true if a Firefox browser is installed", async () => {
-      await setStorage("isFirefoxInstalled", true);
-      const result = await getIsFirefoxInstalled();
+      browser.runtime.sendNativeMessage.mockResolvedValue({
+        version: "1.0",
+      });
+      const result = await getInstalledFirefoxVariant();
       expect(result).toBeTruthy();
     });
 
     it("should return false if a Firefox browser is not installed", async () => {
-      await setStorage("isFirefoxInstalled", false);
-      const result = await getIsFirefoxInstalled();
+      browser.runtime.sendNativeMessage.mockRejectedValue({
+        message: "Receiving end does not exist.",
+      });
+      const result = await getInstalledFirefoxVariant();
       expect(result).toBeFalsy();
     });
   });
