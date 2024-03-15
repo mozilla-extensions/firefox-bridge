@@ -36,7 +36,7 @@ export async function launchBrowser(url, usePrivateBrowsing = false) {
       },
     );
 
-    if (response.result_code === 1) {
+    if (response.result_code !== 0) {
       throw new Error(response.message);
     }
     return true;
