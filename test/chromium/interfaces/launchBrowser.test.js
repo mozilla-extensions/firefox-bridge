@@ -11,9 +11,9 @@ describe("chromium/interfaces/launchBrowser.js", () => {
       const result = await launchBrowser("https://example.com", false);
       expect(result).toBeFalsy();
       expect(browser.tabs.create).toHaveBeenCalled();
-      expect(browser.tabs.create).toHaveBeenCalledWith({
-        url: "https://www.mozilla.org/firefox/new/",
-      });
+      expect(browser.runtime.getURL).toHaveBeenCalledWith(
+        "shared/pages/welcomePage/index.html",
+      );
     });
 
     it("should launch the current tab in Firefox", async () => {

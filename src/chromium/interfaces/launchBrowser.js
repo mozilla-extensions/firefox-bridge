@@ -17,9 +17,9 @@ export async function launchBrowser(url, usePrivateBrowsing = false) {
 
   const nativeMessagingHost = await getInstalledFirefoxVariant();
   if (!nativeMessagingHost) {
-    // No Firefox variant is installed. Direct the user to the Firefox download page.
+    // No Firefox variant is installed. Direct the user to the welcome page.
     await browser.tabs.create({
-      url: "https://www.mozilla.org/firefox/new/",
+      url: browser.runtime.getURL("shared/pages/welcomePage/index.html"),
     });
     return false;
   }

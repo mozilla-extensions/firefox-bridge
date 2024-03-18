@@ -191,7 +191,7 @@ launch_event:
       command:
         description: The command used within the NMH. LaunchFirefox/LaunchFirefoxPrivate
       native_messaging_host:
-        description: The NMH that was used to launch the browser
+        description: The id of the NMH used to launch the browser, which equates to the build channel and only to the build channel.
         type: string
       message:
         description: The error message
