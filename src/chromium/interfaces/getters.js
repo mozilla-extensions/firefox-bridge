@@ -14,15 +14,33 @@ const nativeApps = [
  * @returns {Promise<string>} The name of the installed Firefox variant, or undefined if a Firefox variant is not installed.
  */
 export async function getInstalledFirefoxVariant() {
-  // Check for installed variants using the respective native messaging host.
-  for (const nativeApp of nativeApps) {
+  const isNativeAppValid = async (nativeApp) => {
     try {
       await browser.runtime.sendNativeMessage(nativeApp, {
         command: "GetVersion",
       });
-      return nativeApp;
-    } catch (error) {}
+      return true;
+    } catch (error) {
+      return false;
+    }
+  };
+
+  const previousNativeApp = await browser.storage.local.get("nativeApp");
+  if (
+    previousNativeApp &&
+    (await isNativeAppValid(previousNativeApp.nativeApp))
+  ) {
+    return previousNativeApp.nativeApp;
   }
+
+  // Check for installed variants using the respective native messaging host.
+  for (const nativeApp of nativeApps) {
+    if (await isNativeAppValid(nativeApp)) {
+      await browser.storage.local.set({ nativeApp });
+      return nativeApp;
+    }
+  }
+
   return undefined;
 }
 

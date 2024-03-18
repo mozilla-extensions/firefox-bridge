@@ -1,5 +1,6 @@
 import { isURLValid } from "Shared/backgroundScripts/validTab.js";
 import { getInstalledFirefoxVariant } from "./getters.js";
+import { failedBrowserLaunch } from "Shared/generated/launchEvent.js";
 
 /**
  * Launches the Firefox variant. If Firefox is not installed, launch the Firefox download page.
@@ -24,10 +25,8 @@ export async function launchBrowser(url, usePrivateBrowsing = false) {
   }
 
   // Launch the first installed firefox variant of dev, nightly, release, or esr.
+  const command = usePrivateBrowsing ? "LaunchFirefoxPrivate" : "LaunchFirefox";
   try {
-    const command = usePrivateBrowsing
-      ? "LaunchFirefoxPrivate"
-      : "LaunchFirefox";
     const response = await browser.runtime.sendNativeMessage(
       nativeMessagingHost,
       {
@@ -37,10 +36,17 @@ export async function launchBrowser(url, usePrivateBrowsing = false) {
     );
 
     if (response.result_code !== 0) {
+      // NMH failure.
+      failedBrowserLaunch.record({
+        command,
+        native_messaging_host: nativeMessagingHost,
+        message: response.message,
+      });
       throw new Error(response.message);
     }
     return true;
   } catch (error) {
+    // Should not occur as nativeMessagingHost is checked for validity.
     console.error(
       `Error attempting to launch Firefox with ${nativeMessagingHost}:`,
       error.message,
