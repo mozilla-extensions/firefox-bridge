@@ -188,31 +188,10 @@ export async function activatePlatformSpecificElements() {
     });
     checkChromiumHotkeys();
     checkPrivateBrowsing();
-    if (browser.runtime.getPlatformInfo().os === "android") {
-      applyMobileLogic();
-    }
     if (!(await getInstalledFirefoxVariant())) {
       document.getElementById("error-notification").style.display = "flex";
     }
   }
-}
-
-/**
- * Apply logic for mobile browsers.
- */
-export function applyMobileLogic() {
-  // move the manage shortcuts text to the bottom of the description and
-  // remove the shortcuts container.
-  const manageShortcutsText = document.querySelector(
-    "[data-locale='welcomePageManageShortcuts']",
-  );
-
-  document
-    .querySelector("[data-locale='welcomePageDescription']")
-    .insertAdjacentElement("afterend", manageShortcutsText);
-
-  const shortcutsContainer = document.getElementById("shortcuts-container");
-  shortcutsContainer.remove();
 }
 
 document.addEventListener("DOMContentLoaded", async function () {

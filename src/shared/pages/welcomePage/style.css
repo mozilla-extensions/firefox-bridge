@@ -99,18 +99,10 @@ span {
   }
 }
 
-/* Title and Beta Styling */
+/* Title Styling */
 .welcome-header {
   display: flex;
   align-items: center;
-}
-
-.welcome-header span {
-  border-radius: 8px;
-  border: #cfcfd8 solid 2px;
-  font-weight: lighter;
-  padding: 12px;
-  margin-left: 10px;
 }
 
 /* Subtitle Styling */

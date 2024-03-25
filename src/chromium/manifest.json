@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "minimum_chrome_version": "97",
-  "name": "Firefox Bridge",
+  "name": "Firefox Bridge (Beta)",
   "description": "Easily switch from Chrome to Firefox when you want to use Firefox's extra privacy features.",
   "version": "0.1",
   "icons": {
