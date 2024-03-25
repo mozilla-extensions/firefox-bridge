@@ -77,7 +77,6 @@ export function applyLocalization() {
   // attempt to replace each element
   elements.forEach((element) => {
     const localeId = element.getAttribute("data-locale");
-    console.log(element, localeId, hrefMapping[localeId]);
 
     // attempt to replace the element with the localized string
     if (replaceDataLocale(localeId, hrefMapping[localeId])) {
