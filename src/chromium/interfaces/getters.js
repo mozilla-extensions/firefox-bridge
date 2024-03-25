@@ -1,19 +1,47 @@
 import { getExternalBrowser } from "Shared/backgroundScripts/getters.js";
 
+const nativeApps = [
+  "org.mozilla.firefox_bridge_nmh_dev",
+  "org.mozilla.firefox_bridge_nmh_nightly",
+  "org.mozilla.firefox_bridge_nmh",
+  "org.mozilla.firefox_bridge_nmh_esr",
+];
+
 /**
- * Determines whether Firefox is installed on the system.
+ * Determines whether Firefox is installed on the system and returns the name of the installed Firefox variant in
+ * order of preference: dev, nightly, release, esr.
  *
- * @returns {Promise<boolean>} True if Firefox is installed on the system, false otherwise.
+ * @returns {Promise<string>} The name of the installed Firefox variant, or undefined if a Firefox variant is not installed.
  */
-export async function getIsFirefoxInstalled() {
-  // NOTE: We are not currently handling the case where Firefox is not installed until
-  // native messaging is implemented. We will assume for now that Firefox is always installed.
-  const result = await browser.storage.session.get("isFirefoxInstalled");
-  if (result.isFirefoxInstalled === undefined) {
-    browser.storage.session.set({ isFirefoxInstalled: true });
-    return true;
+export async function getInstalledFirefoxVariant() {
+  const isNativeAppValid = async (nativeApp) => {
+    try {
+      await browser.runtime.sendNativeMessage(nativeApp, {
+        command: "GetVersion",
+      });
+      return true;
+    } catch (error) {
+      return false;
+    }
+  };
+
+  const previousNativeApp = await browser.storage.local.get("nativeApp");
+  if (
+    previousNativeApp &&
+    (await isNativeAppValid(previousNativeApp.nativeApp))
+  ) {
+    return previousNativeApp.nativeApp;
   }
-  return result.isFirefoxInstalled;
+
+  // Check for installed variants using the respective native messaging host.
+  for (const nativeApp of nativeApps) {
+    if (await isNativeAppValid(nativeApp)) {
+      await browser.storage.local.set({ nativeApp });
+      return nativeApp;
+    }
+  }
+
+  return undefined;
 }
 
 /**

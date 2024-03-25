@@ -70,6 +70,8 @@ export function applyLocalization() {
   const hrefMapping = {
     welcomePageErrorChromium: "https://www.mozilla.org/firefox/new/",
     welcomePageTelemetryCheckbox: "https://example.com/", // TODO: replace with privacy policy link
+    welcomePageNoExternalBrowserErrorChromium:
+      "https://www.mozilla.org/firefox/new/",
   };
 
   // attempt to replace each element

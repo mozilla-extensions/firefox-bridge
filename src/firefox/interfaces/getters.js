@@ -28,4 +28,4 @@ export async function getGreyedIconPath() {
   return { 32: browser.runtime.getURL(`images/${browserName}/32grey.png`) };
 }
 
-export function getIsFirefoxInstalled() {}
+export function getInstalledFirefoxVariant() {}

@@ -30,7 +30,7 @@ function registerEventRules() {
 export function initPlatformListeners() {
   browser.action.onClicked.addListener(async (tab) => {
     const browserName = await getExternalBrowser();
-    const success = launchBrowser(tab.url, browserName !== "Firefox");
+    const success = await launchBrowser(tab.url, browserName !== "Firefox");
     if (success) {
       launchEvent.browserLaunch.record({
         browser: await getExternalBrowser(),

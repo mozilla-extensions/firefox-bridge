@@ -4,42 +4,83 @@ import jest from "jest-mock";
 
 describe("chromium/interfaces/launchBrowser.js", () => {
   describe("launchBrowser()", () => {
-    it("should direct the user to the Firefox download page if Firefox is not installed", async () => {
-      await setStorage("isFirefoxInstalled", false);
+    it("should direct the user to the Firefox download page if a Firefox variant is not installed", async () => {
+      browser.runtime.sendNativeMessage.mockRejectedValue({
+        message: "Receiving end does not exist.",
+      });
       const result = await launchBrowser("https://example.com", false);
       expect(result).toBeFalsy();
       expect(browser.tabs.create).toHaveBeenCalled();
-      expect(browser.tabs.create).toHaveBeenCalledWith({
-        url: "https://www.mozilla.org/firefox/",
-      });
+      expect(browser.runtime.getURL).toHaveBeenCalledWith(
+        "shared/pages/welcomePage/index.html",
+      );
     });
 
     it("should launch the current tab in Firefox", async () => {
-      await setStorage("isFirefoxInstalled", true);
+      browser.runtime.sendNativeMessage.mockResolvedValue({
+        result_code: 0,
+      });
       setCurrentTab({
         id: 1,
         url: "https://mozilla.org",
       });
       const result = await launchBrowser("https://mozilla.org", false);
       expect(result).toBeTruthy();
-      expect(browser.tabs.update).toHaveBeenCalled();
-      expect(browser.tabs.update).toHaveBeenCalledWith(1, {
-        url: "firefox:https://mozilla.org",
-      });
+      expect(browser.runtime.sendNativeMessage).toHaveBeenCalled();
+      expect(browser.runtime.sendNativeMessage).toHaveBeenCalledWith(
+        "org.mozilla.firefox_bridge_nmh_dev",
+        {
+          command: "LaunchFirefox",
+          data: { url: "https://mozilla.org" },
+        },
+      );
     });
 
     it("should launch the current tab in Firefox Private Browsing", async () => {
-      await setStorage("isFirefoxInstalled", true);
+      browser.runtime.sendNativeMessage.mockResolvedValue({
+        result_code: 0,
+      });
       setCurrentTab({
         id: 1,
         url: "https://mozilla.org",
       });
       const result = await launchBrowser("https://mozilla.org", true);
       expect(result).toBeTruthy();
-      expect(browser.tabs.update).toHaveBeenCalled();
-      expect(browser.tabs.update).toHaveBeenCalledWith(1, {
-        url: "firefox-private:https://mozilla.org",
+      expect(browser.runtime.sendNativeMessage).toHaveBeenCalled();
+      expect(browser.runtime.sendNativeMessage).toHaveBeenCalledWith(
+        "org.mozilla.firefox_bridge_nmh_dev",
+        {
+          command: "LaunchFirefoxPrivate",
+          data: { url: "https://mozilla.org" },
+        },
+      );
+    });
+
+    it("should fail launching the current tab in an installed Firefox variant", async () => {
+      browser.runtime.sendNativeMessage.mockResolvedValue({
+        result_code: 1,
       });
+      // mock console.error
+      console.error = jest.fn();
+      setCurrentTab({
+        id: 1,
+        url: "https://mozilla.org",
+      });
+      const result = await launchBrowser("https://mozilla.org", false);
+      expect(result).toBeFalsy();
+      expect(browser.runtime.sendNativeMessage).toHaveBeenCalled();
+      expect(browser.runtime.sendNativeMessage).toHaveBeenCalledWith(
+        "org.mozilla.firefox_bridge_nmh_dev",
+        {
+          command: "LaunchFirefox",
+          data: { url: "https://mozilla.org" },
+        },
+      );
+      expect(console.error).toHaveBeenCalledWith(
+        "Error attempting to launch Firefox with org.mozilla.firefox_bridge_nmh_dev:",
+        "",
+      );
+      console.error.mockRestore();
     });
 
     it("should not launch the current tab if the url scheme is not valid", async () => {

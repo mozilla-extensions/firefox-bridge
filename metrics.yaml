@@ -175,6 +175,27 @@ launch_event:
       source:
         description: Where the browser was launched from
         type: string
+  failed_browser_launch:
+    type: event
+    lifetime: ping
+    description: |
+      The browser did not launch due to a native messaging host fault. (Chromium Only)
+    bugs:
+      - https://linktobugs.page
+    data_reviews:
+      - https://linktodatareviews.page
+    notification_emails:
+      - gsherman@mozilla.com
+    expires: never
+    extra_keys:
+      command:
+        description: The command used within the NMH. LaunchFirefox/LaunchFirefoxPrivate
+      native_messaging_host:
+        description: The id of the NMH used to launch the browser, which equates to the build channel and only to the build channel.
+        type: string
+      message:
+        description: The error message
+        type: string
 setting_event:
   current_browser:
     type: event
