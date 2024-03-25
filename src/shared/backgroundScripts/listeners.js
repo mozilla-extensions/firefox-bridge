@@ -35,6 +35,8 @@ export function initSharedListeners() {
     }
   });
 
+  browser.runtime.setUninstallURL("https://mzl.la/dbe-uninstall");
+
   browser.contextMenus.onClicked.addListener(async (info, tab) => {
     await handleContextMenuClick(info, tab);
   });

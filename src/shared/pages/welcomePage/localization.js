@@ -68,10 +68,12 @@ export function replaceDataLocale(id, href, platform = "") {
 export function applyLocalization() {
   const elements = document.querySelectorAll("[data-locale]");
   const hrefMapping = {
-    welcomePageErrorChromium: "https://www.mozilla.org/firefox/new/",
+    welcomePageErrorChromium: "https://mzl.la/dbe-fxinstall",
     welcomePageTelemetryCheckbox: "https://example.com/", // TODO: replace with privacy policy link
     welcomePageNoExternalBrowserErrorChromium:
       "https://www.mozilla.org/firefox/new/",
+    welcomePageTryChromium: "https://mzl.la/dbe-firefox",
+    welcomePageTryFirefox: "https://mzl.la/dbe-chromium",
   };
 
   // attempt to replace each element
