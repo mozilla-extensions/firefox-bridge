@@ -71,32 +71,8 @@ span {
   margin-top: 20px;
 }
 
-#welcome-image-mobile {
-  display: none;
-}
-
 .welcome-info {
   min-width: 60%;
-}
-
-/* Mobile & Small Screen Styling */
-@media (max-width: 768px) {
-  .welcome-content {
-    flex-direction: column;
-    padding: 20px;
-  }
-
-  #welcome-image {
-    display: none;
-  }
-
-  #welcome-image-mobile {
-    display: block;
-    max-width: 50%;
-    margin-bottom: 20px;
-    margin-left: auto;
-    margin-right: auto;
-  }
 }
 
 /* Title Styling */
