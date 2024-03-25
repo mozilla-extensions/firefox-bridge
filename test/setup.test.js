@@ -55,6 +55,7 @@ global.browser = {
     },
     getManifest: jest.fn(),
     sendNativeMessage: jest.fn(),
+    setUninstallURL: jest.fn(),
   },
   action: {
     setIcon: jest.fn(),
