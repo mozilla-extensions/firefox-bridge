@@ -13,24 +13,34 @@ const https = "https";
 
 // The list of browsers to be potentially used for launching
 // There are some differences in the names of the browsers on Windows and Mac,
-// so separate lists are used for each, then we map the names to the desired one.
+// so separate lists are used for each.
 
 // The mac names are the bundle names, which are the names returned by getDefaultBrowser() and
 // the names returned by _getAvailableBrowsersMac().
 
-// The windows names are specified in _getAvailableBrowsersWin(). However, the names
-// may not match up with what getDefaultBrowser() returns. For example, "Google Chrome Canary"
-// is the name returned by getDefaultBrowser(), but the name returned by _getAvailableBrowsersWin()
-// is "Chrome SxS".
-
-// TODO: Either map the names to the desired ones, or update the possibleLocalHandlers type
-// to include the names given by getDefaultBrowser().
-const browserNamesWin = ["Chrome", "Edge", "Opera"];
+// The windows names are the ApplicationName from the registry, which are the names returned by
+// getDefaultBrowser() and the names returned by _getAvailableBrowsersWin().
+const browserNamesWin = [
+  "Google Chrome",
+  "Google Chrome Beta",
+  "Google Chrome Dev",
+  "Google Chrome Canary",
+  "Microsoft Edge",
+  "Microsoft Edge Beta",
+  "Microsoft Edge Dev",
+  "Microsoft Edge Canary",
+  "Opera Internet Browser",
+  "Opera GX Internet Browser",
+  "Opera beta Internet Browser",
+  "Opera developer Internet Browser",
+  "Vivaldi",
+  "Brave",
+  "Brave Beta",
+  "Brave Nightly",
+  "DuckDuckGo",
+  // "Arc" (Not yet available on windows)
+];
 const browserNamesMac = ["Safari", "Chrome", "Microsoft Edge", "Opera", "Arc"];
-const browserNamesMap = {
-  "Microsoft Edge": "Edge",
-  "Chrome SxS": "Chrome Canary",
-};
 
 /**
  * Determines whether the executable file for an application is valid.
@@ -59,10 +69,10 @@ function _isValidHandlerExecutable(aExecutable) {
 /**
  * Gets the available browsers on Windows to be potentially used for launching.
  *
- * @returns {Array<{ name: string, executable: string }>} The name and executable
+ * @returns {Array<{ name: string, executable: string }>} The name and executable path
  * of the available browsers on Windows
  */
-function _getAvailableBrowsersWin() {
+async function _getAvailableBrowsersWin() {
   let mimeInfo = lazy.gMIMEService.getFromTypeAndExtension("text/html", "html");
   let appList = mimeInfo.possibleLocalHandlers || [];
   let appDataList = [];
@@ -72,19 +82,11 @@ function _getAvailableBrowsersWin() {
       continue;
     }
 
-    // Attempt to get the name of the application from the executable's parent directory.
-    // Most applications will have the name of the executable in the parent directory (eg. "Opera/Launcher.exe")
-    // But Chrome, for example, is structured differently (eg. "Google/Chrome/Application/chrome.exe")
-    let appname =
-      app.executable.parent.leafName !== "Application"
-        ? app.executable.parent.leafName
-        : app.executable.parent.parent?.leafName;
+    let appname = await app.prettyNameAsync();
 
     if (!browserNamesWin.includes(appname)) {
       continue;
     }
-
-    appname = browserNamesMap[appname] || appname;
 
     let appData = {
       name: appname,
@@ -98,7 +100,7 @@ function _getAvailableBrowsersWin() {
 /**
  * Gets the available browsers on Mac to be potentially used for launching.
  *
- * @returns {Array<{ name: string, executable: string }>} The name and executable
+ * @returns {Array<{ name: string, executable: string }>} The name and executable path
  * of the available browsers on Mac
  */
 function _getAvailableBrowsersMac() {
@@ -113,7 +115,6 @@ function _getAvailableBrowsersMac() {
       continue;
     }
 
-    displayName = browserNamesMap[displayName] || displayName;
     let appData = {
       name: displayName,
       executable,
@@ -129,10 +130,10 @@ function _getAvailableBrowsersMac() {
  * @param {string} browserIdentifier The identifier of the browser to launch
  * @returns {string} The path of the executable file for the browser if it exists, null otherwise
  */
-function _getExecutablePathForBrowser(browserIdentifier) {
+async function _getExecutablePathForBrowser(browserIdentifier) {
   let appList;
   if (AppConstants.platform == "win") {
-    appList = _getAvailableBrowsersWin();
+    appList = await _getAvailableBrowsersWin();
   } else if (AppConstants.platform == "macosx") {
     appList = _getAvailableBrowsersMac();
   }
@@ -216,7 +217,7 @@ this.experiments_firefox_bridge = class extends ExtensionAPI {
           async getAvailableBrowsers() {
             let applist;
             if (AppConstants.platform == "win") {
-              applist = _getAvailableBrowsersWin();
+              applist = await _getAvailableBrowsersWin();
             } else if (AppConstants.platform == "macosx") {
               applist = _getAvailableBrowsersMac();
             }
