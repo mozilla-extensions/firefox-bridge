@@ -21,26 +21,46 @@ const https = "https";
 // The windows names are the ApplicationName from the registry, which are the names returned by
 // getDefaultBrowser() and the names returned by _getAvailableBrowsersWin().
 const browserNamesWin = [
-  "Google Chrome",
+  // "Arc" (Not yet available on windows)
+  "Brave Beta",
+  "Brave Nightly",
+  "Brave",
+  "DuckDuckGo",
   "Google Chrome Beta",
-  "Google Chrome Dev",
   "Google Chrome Canary",
-  "Microsoft Edge",
+  "Google Chrome Dev",
+  "Google Chrome",
   "Microsoft Edge Beta",
-  "Microsoft Edge Dev",
   "Microsoft Edge Canary",
-  "Opera Internet Browser",
+  "Microsoft Edge Dev",
+  "Microsoft Edge",
   "Opera GX Internet Browser",
+  "Opera Internet Browser",
   "Opera beta Internet Browser",
   "Opera developer Internet Browser",
   "Vivaldi",
-  "Brave",
+];
+const browserNamesMac = [
+  "Arc",
   "Brave Beta",
   "Brave Nightly",
+  "Brave",
+  "Chrome Beta",
+  "Chrome Canary",
+  "Chrome Dev",
+  "Chrome",
   "DuckDuckGo",
-  // "Arc" (Not yet available on windows)
+  "Microsoft Edge Dev",
+  "Microsoft Edge Beta",
+  "Microsoft Edge Canary",
+  "Microsoft Edge",
+  "Opera Beta",
+  "Opera Developer",
+  "Opera GX",
+  "Opera",
+  "Safari",
+  "Vivaldi",
 ];
-const browserNamesMac = ["Safari", "Chrome", "Microsoft Edge", "Opera", "Arc"];
 
 /**
  * Determines whether the executable file for an application is valid.
@@ -111,6 +131,7 @@ function _getAvailableBrowsersMac() {
   let appDataList = [];
   for (let app of appList) {
     let [displayName, executable] = app;
+
     if (!browserNamesMac.includes(displayName)) {
       continue;
     }
