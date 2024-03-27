@@ -1,5 +1,6 @@
 import { launchBrowser } from "./launchBrowser.js";
 import { getExternalBrowser } from "Shared/backgroundScripts/getters.js";
+import { getDefaultIconPath } from "./getters.js";
 import * as launchEvent from "Shared/generated/launchEvent.js";
 
 function registerEventRules() {
@@ -41,5 +42,18 @@ export function initPlatformListeners() {
 
   browser.runtime.onInstalled.addListener(async () => {
     registerEventRules();
+  });
+
+  // Update the toolbar icon whenever the extension is activated.
+  // This can be done via installation, enabling/disabling the extension, updating the extension,
+  // or when the service worker is updated.
+  getDefaultIconPath().then(async (iconPath) => {
+    await browser.action.setIcon({ path: iconPath });
+  });
+
+  browser.storage.sync.onChanged.addListener(async (changes) => {
+    if (changes.currentExternalBrowser !== undefined) {
+      await browser.action.setIcon({ path: await getDefaultIconPath() });
+    }
   });
 }
