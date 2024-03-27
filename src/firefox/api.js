@@ -174,10 +174,10 @@ async function _getExecutablePathForBrowser(browserIdentifier) {
  * @param {string} browserIdentifier The identifier of the browser to launch
  * @param {string} url The URL to open
  */
-function _launchBrowserWin(browserIdentifier, url) {
+async function _launchBrowserWin(browserIdentifier, url) {
   let file = Cc["@mozilla.org/file/local;1"].createInstance(Ci.nsIFile);
   let process = Cc["@mozilla.org/process/util;1"].createInstance(Ci.nsIProcess);
-  let appExecutable = _getExecutablePathForBrowser(browserIdentifier);
+  let appExecutable = await _getExecutablePathForBrowser(browserIdentifier);
   if (!appExecutable) {
     throw new Error("Invalid browser identifier");
   }
@@ -192,13 +192,14 @@ function _launchBrowserWin(browserIdentifier, url) {
  * @param {string} browserIdentifier The identifier of the browser to launch
  * @param {string} url The URL to open
  */
-function _launchBrowserMac(browserIdentifier, url) {
+async function _launchBrowserMac(browserIdentifier, url) {
   let opener = Cc["@mozilla.org/file/local;1"].createInstance(Ci.nsIFile);
   let process = Cc["@mozilla.org/process/util;1"].createInstance(Ci.nsIProcess);
-  let appExecutable = _getExecutablePathForBrowser(browserIdentifier);
+  let appExecutable = await _getExecutablePathForBrowser(browserIdentifier);
   if (!appExecutable) {
     throw new Error("Invalid browser identifier");
   }
+  console.log("appExecutable", appExecutable);
   let uri = Services.io.newURI(appExecutable);
   let file = uri.QueryInterface(Ci.nsIFileURL).file;
   let argsToUse = ["-a", file.path, url];
@@ -284,15 +285,15 @@ this.experiments_firefox_bridge = class extends ExtensionAPI {
            * @param {string} browserIdentifier The identifier of the browser to launch
            * @param {string} url The URL to open
            */
-          launchBrowser(browserIdentifier, url) {
+          async launchBrowser(browserIdentifier, url) {
             if (!_isValidURL(url)) {
               throw new Error("Invalid URL");
             }
 
             if (AppConstants.platform == "win") {
-              _launchBrowserWin(browserIdentifier, url);
+              await _launchBrowserWin(browserIdentifier, url);
             } else if (AppConstants.platform == "macosx") {
-              _launchBrowserMac(browserIdentifier, url);
+              await _launchBrowserMac(browserIdentifier, url);
             }
           },
 
