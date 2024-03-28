@@ -27,7 +27,7 @@
   },
   "action": {
     "default_icon": {
-      "32": "images/firefox/firefox32grey.png"
+      "32": "images/firefox/firefox32.png"
     }
   },
   "commands": {

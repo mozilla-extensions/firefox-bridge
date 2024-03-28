@@ -59,19 +59,3 @@ export async function getDefaultIconPath() {
     32: browser.runtime.getURL("images/firefox-private/private32.png"),
   };
 }
-
-/**
- * Get the greyed icon path for Firefox or Firefox Private.
- *
- * @returns {Promise<string>} The path to the greyed icon.
- */
-export async function getGreyedIconPath() {
-  if ((await getExternalBrowser()) === "Firefox") {
-    return {
-      32: browser.runtime.getURL("images/firefox/firefox32grey.png"),
-    };
-  }
-  return {
-    32: browser.runtime.getURL("images/firefox-private/private32grey.png"),
-  };
-}

@@ -2,7 +2,6 @@
 import { initContextMenu, handleContextMenuClick } from "./contextMenus.js";
 import { handleHotkeyPress } from "./hotkeys.js";
 import { handleBrowserNameChange } from "./contextMenus.js";
-import { getDefaultIconPath } from "Interfaces/getters.js";
 // import { handleAutoRedirect, refreshDeclarativeNetRequestRules } from "./autoRedirect.js";
 
 /**
@@ -18,13 +17,6 @@ export function initSharedListeners() {
         browser.storage.session.set({ isContextMenuInitialized: true });
       }
     });
-
-  // Update the toolbar icon whenever the extension is activated.
-  // This can be done via installation, enabling/disabling the extension, updating the extension,
-  // or when the service worker is updated.
-  getDefaultIconPath().then(async (iconPath) => {
-    await browser.action.setIcon({ path: iconPath });
-  });
 
   browser.runtime.onInstalled.addListener(async (details) => {
     // await getIsAutoRedirect(); // resolve to true on fresh install
@@ -52,7 +44,6 @@ export function initSharedListeners() {
   browser.storage.sync.onChanged.addListener(async (changes) => {
     if (changes.currentExternalBrowser !== undefined) {
       await handleBrowserNameChange();
-      await browser.action.setIcon({ path: await getDefaultIconPath() });
     }
     // if (changes.firefoxSites !== undefined && await getIsAutoRedirect()) {
     //   refreshDeclarativeNetRequestRules();
