@@ -19,7 +19,7 @@
   },
   "welcomeHeading": {
     "message": "Welcome to Firefox Bridge",
-    "description": "'Firefox Bridge' is the name of the extension. It should not be translated."
+    "description": "'Firefox Bridge' is the name of the extension. Do not translate 'Firefox Bridge'."
   },
   "manageExternalSitesContextMenus": {
     "message": "Manage My External Sites"
@@ -43,7 +43,8 @@
     "message": "Firefox is not installed"
   },
   "notInstalledErrorText": {
-    "message": "Firefox Bridge requires Firefox to be installed on your computer."
+    "message": "Firefox Bridge requires Firefox to be installed on your computer.",
+    "description": "Do not translate 'Firefox Bridge'"
   },
   "notInstalledErrorAction": {
     "message": "Download Firefox"
@@ -52,10 +53,12 @@
     "message": "Extension Settings"
   },
   "welcomePageTabTitleFirefox": {
-    "message": "Firefox Bridge (Beta)"
+    "message": "Firefox Bridge (Beta)",
+    "description": "Do not translate 'Firefox Bridge'"
   },
   "welcomePageTitleFirefox": {
-    "message": "Firefox Bridge (Beta)"
+    "message": "Firefox Bridge (Beta)",
+    "description": "Do not translate 'Firefox Bridge'"
   },
   "welcomePageSubtitleFirefox": {
     "message": "Switch between browsers in one click."
@@ -64,10 +67,12 @@
     "message": "Sometimes, you just want to use a different browser.\nThis extension helps you easily open sites in other browsers."
   },
   "welcomePageTabTitleChromium": {
-    "message": "Firefox Bridge (Beta)"
+    "message": "Firefox Bridge (Beta)",
+    "description": "Do not translate 'Firefox Bridge'"
   },
   "welcomePageTitleChromium": {
-    "message": "Firefox Bridge (Beta)"
+    "message": "Firefox Bridge (Beta)",
+    "description": "Do not translate 'Firefox Bridge'"
   },
   "welcomePageSubtitleChromium": {
     "message": "Switch from your current browser to Firefox in one click."
@@ -79,7 +84,7 @@
     "message": "Select other browser"
   },
   "welcomePageAlwaysPrivateCheckbox": {
-    "message": "Always open sites in a Firefox Private window when switching"
+    "message": "Always open sites in a Firefox Private Window when switching"
   },
   "welcomePageTelemetryCheckbox": {
     "message": "Allow Mozilla to collect information about how you use this extension so we can make it better. <a>Privacy Notice</a>"
