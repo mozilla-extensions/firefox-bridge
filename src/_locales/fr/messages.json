@@ -140,6 +140,9 @@
   "welcomePageTryFirefox": {
     "message": "Vous voulez revenir sur Firefox ? <a>Essayez notre extension Chromium.</a>"
   },
+  "welcomePageTryChromium": {
+    "message": "Revenez rapidement dans ce navigateur grâce à <a>notre extension dans Firefox.</a>"
+  },
   "welcomePageDefaultBrowser": {
     "message": "(Navigateur par défaut)"
   },
