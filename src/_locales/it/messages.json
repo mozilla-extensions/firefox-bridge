@@ -64,7 +64,7 @@
     "message": "Passa da un browser all’altro in un clic."
   },
   "welcomePageDescriptionFirefox": {
-    "message": "A volte si desidera utilizzare un browser diverso.\nQuesta estensione ti aiuta ad aprire facilmente i siti in altri browser."
+    "message": "In certe occasioni vuoi semplicemente utilizzare un browser diverso.\nQuesta estensione ti aiuta ad aprire facilmente i tuoi siti in altri browser."
   },
   "welcomePageTabTitleChromium": {
     "message": "Firefox Bridge (beta)",
@@ -78,25 +78,25 @@
     "message": "Passa da questo browser a Firefox in un clic."
   },
   "welcomePageDescriptionChromium": {
-    "message": "A volte, vuoi solo un browser più riservato. Questa estensione ti aiuta ad aprire facilmente i siti in Firefox."
+    "message": "Ci sono giorni in cui hai bisogno di un browser più riservato. Questa estensione ti aiuta ad aprire facilmente i tuoi siti in Firefox."
   },
   "welcomePageBrowserSelector": {
     "message": "Seleziona un altro browser"
   },
   "welcomePageAlwaysPrivateCheckbox": {
-    "message": "Apri sempre i siti in una finestra anonima di Firefox quando passi al browser"
+    "message": "Apri sempre i siti in una finestra anonima quando passi a Firefox"
   },
   "welcomePageTelemetryCheckbox": {
-    "message": "Consenti a Mozilla di raccogliere informazioni su come utilizzi questa estensione per migliorarla. <a>Informativa sulla privacy</a>"
+    "message": "Consenti a Mozilla di raccogliere informazioni per contribuire al miglioramento di questa estensione. <a>Informativa sulla privacy</a>"
   },
   "welcomePageNoShortcutsFirefox": {
-    "message": "Non sono state configurate scorciatoie per questa estensione. Creali andando nelle <a>impostazioni estensioni</a>"
+    "message": "Non sono state configurate scorciatoie per questa estensione. Puoi crearle nelle <a>impostazioni dell’estensione</a>."
   },
   "welcomePageNoShortcutsChromium": {
-    "message": "Non sono state configurate scorciatoie per questa estensione. Creali andando nelle <a>impostazioni estensioni</a>"
+    "message": "Non sono state configurate scorciatoie per questa estensione. Puoi crearle nelle <a>impostazioni dell’estensione</a>."
   },
   "welcomePageNoShortcutTo": {
-    "message": "Non hai impostato una scorciatoia per avviare la pagina corrente in $browser$",
+    "message": "Non hai impostato una scorciatoia per aprire la pagina corrente in $browser$",
     "description": "The variable is replaced by the browser name (Firefox, Chrome, Safari, etc)",
     "placeholders": {
       "browser": {
@@ -105,7 +105,7 @@
     }
   },
   "welcomePageYesShortcutTo": {
-    "message": "$hotkey$ avvia la pagina corrente in $browser$",
+    "message": "$hotkey$ apre la pagina corrente in $browser$",
     "description": "The first variable is replaced by the hotkey to launch the current page in a browser. The second variable is replaced by the browser name (Firefox, Chrome, Safari, etc)",
     "placeholders": {
       "hotkey": {
@@ -117,10 +117,10 @@
     }
   },
   "welcomePageNoShortcutToFirefoxPrivate": {
-    "message": "Non è stata impostata una scorciatoia per aprire la pagina corrente nella Navigazione anonima di Firefox"
+    "message": "Non è stata impostata una scorciatoia per aprire la pagina corrente in Firefox con navigazione anonima"
   },
   "welcomePageYesShortcutToFirefoxPrivate": {
-    "message": "$hotkey$ avvia la pagina corrente nella Navigazione anonima di Firefox",
+    "message": "$hotkey$ avvia la pagina corrente in Firefox con navigazione anonima",
     "description": "The variable is replaced by the hotkey to launch the current page in Firefox Private Browsing",
     "placeholders": {
       "hotkey": {
@@ -132,13 +132,13 @@
     "message": "Scorciatoie"
   },
   "welcomePageManageShortcutsFirefox": {
-    "message": "Trova le scorciatoie per questa estensione nelle <a>impostazioni estensioni</a>"
+    "message": "Trova le scorciatoie per questa estensione nelle <a>impostazioni dell’estensione</a>."
   },
   "welcomePageManageShortcutsChromium": {
-    "message": "Trova le scorciatoie per questa estensione nelle <a>impostazioni estensioni</a>"
+    "message": "Trova le scorciatoie per questa estensione nelle <a>impostazioni dell’estensione</a>."
   },
   "welcomePageTryFirefox": {
-    "message": "Vuoi tornare a Firefox? <a>Prova la nostra estensione per Chromium.</a>"
+    "message": "Vuoi passare velocemente a Firefox? <a>Prova la nostra estensione per Chromium.</a>"
   },
   "welcomePageTryChromium": {
     "message": "Torna indietro da un altro browser con la nostra <a>estensione per Firefox.</a>"
@@ -147,9 +147,9 @@
     "message": "(Browser predefinito)"
   },
   "welcomePageNoExternalBrowserErrorChromium": {
-    "message": "Sembra che Firefox non sia installato su questo dispositivo. <a>Scarica ora</a>"
+    "message": "Sembra che Firefox non sia installato su questo dispositivo. <a>Scaricalo ora</a>"
   },
   "welcomePageNoExternalBrowserErrorFirefox": {
-    "message": "Sembra che tu non abbia un altro browser su questo dispositivo"
+    "message": "Sembra che tu non abbia altri browser su questo dispositivo"
   }
 }
