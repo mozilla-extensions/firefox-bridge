@@ -1,5 +1,5 @@
 import "@babel/preset-env";
-import { testResetGlean } from "@mozilla/glean/testing";
+import { testInitializeGlean } from "@mozilla/glean/testing";
 import locales from "../src/_locales/en/messages.json";
 import jest from "jest-mock";
 
@@ -219,13 +219,14 @@ jest.spyOn(global.browser.i18n, "getMessage").mockImplementation((key) => {
   return getLocaleMessage(key);
 });
 
+await testInitializeGlean("firefox-bridge", false);
+
 beforeEach(async () => {
-  await testResetGlean("firefox-launch");
   await setStorage("isFirefoxInstalled", true, "session");
   setExtensionPlatform("firefox");
 });
 
-afterEach(() => {
+afterEach(async () => {
   resetStubs(global.browser);
   resetStubs(global.document);
 });

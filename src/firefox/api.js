@@ -199,7 +199,7 @@ async function _launchBrowserMac(browserIdentifier, url) {
   if (!appExecutable) {
     throw new Error("Invalid browser identifier");
   }
-  console.log("appExecutable", appExecutable);
+
   let uri = Services.io.newURI(appExecutable);
   let file = uri.QueryInterface(Ci.nsIFileURL).file;
   let argsToUse = ["-a", file.path, url];
@@ -303,6 +303,19 @@ this.experiments_firefox_bridge = class extends ExtensionAPI {
           openShortcutsPage() {
             let win = Services.wm.getMostRecentWindow("navigator:browser");
             win.BrowserOpenAddonsMgr("addons://shortcuts/shortcuts");
+          },
+
+          /**
+           * Gets the telemetry ID for the Firefox profile to link to the extension.
+           *
+           * @returns {Promise<string>} The telemetry ID
+           */
+          async getTelemetryID() {
+            let telemetryID = Services.prefs.getStringPref(
+              "browser.firefoxbridge.installId",
+              undefined,
+            );
+            return telemetryID;
           },
         },
       },

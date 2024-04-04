@@ -6,8 +6,9 @@ describe("chromium/interfaces/launchBrowser.js", () => {
   describe("launchBrowser()", () => {
     it("should direct the user to the Firefox download page if a Firefox variant is not installed", async () => {
       browser.runtime.sendNativeMessage.mockRejectedValue({
-        message: "Receiving end does not exist.",
+        result_code: 1,
       });
+      console.error = jest.fn();
       const result = await launchBrowser("https://example.com", false);
       expect(result).toBeFalsy();
       expect(browser.tabs.create).toHaveBeenCalled();
@@ -57,7 +58,12 @@ describe("chromium/interfaces/launchBrowser.js", () => {
     });
 
     it("should fail launching the current tab in an installed Firefox variant", async () => {
-      browser.runtime.sendNativeMessage.mockResolvedValue({
+      // Pass the version check
+      browser.runtime.sendNativeMessage.mockResolvedValueOnce({
+        result_code: 0,
+      });
+      // Fail the launch
+      browser.runtime.sendNativeMessage.mockResolvedValueOnce({
         result_code: 1,
       });
       // mock console.error

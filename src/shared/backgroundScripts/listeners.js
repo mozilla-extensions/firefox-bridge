@@ -2,6 +2,7 @@
 import { initContextMenu, handleContextMenuClick } from "./contextMenus.js";
 import { handleHotkeyPress } from "./hotkeys.js";
 import { handleBrowserNameChange } from "./contextMenus.js";
+import { getTelemetryID } from "Interfaces/getters.js";
 // import { handleAutoRedirect, refreshDeclarativeNetRequestRules } from "./autoRedirect.js";
 
 /**
@@ -24,6 +25,7 @@ export function initSharedListeners() {
       browser.tabs.create({
         url: browser.runtime.getURL("shared/pages/welcomePage/index.html"),
       });
+      await browser.storage.local.set({ telemetryID: await getTelemetryID() });
     }
   });
 
