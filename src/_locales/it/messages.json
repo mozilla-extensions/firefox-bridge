@@ -1,6 +1,6 @@
 {
   "launchInExternalBrowser": {
-    "message": "Apri la pagina in $browser$",
+    "message": "Apri pagina in $browser$",
     "description": "The variable is replaced by the browser name (Firefox, Chrome, Safari, etc)",
     "placeholders": {
       "browser": {
@@ -28,7 +28,7 @@
     "message": "Reindirizzamento automatico dei siti esterni"
   },
   "addCurrentSiteToMySitesContextMenu": {
-    "message": "Aggiungi $sld$ a I miei siti esterni",
+    "message": "Aggiungi $sld$ ai miei siti esterni",
     "description": "The variable is replaced by the current site’s second-level domain (e.g. 'mozilla.org')",
     "placeholders": {
       "sld": {
@@ -37,20 +37,20 @@
     }
   },
   "changeDefaultLaunchContextMenu": {
-    "message": "Utilizza sempre la Navigazione anonima di Firefox"
+    "message": "Utilizza sempre la navigazione anonima in Firefox"
   },
   "notInstalledErrorHeading": {
     "message": "Firefox non è installato"
   },
   "notInstalledErrorText": {
-    "message": "Firefox Bridge richiede che Firefox sia installato sul computer.",
+    "message": "Firefox deve essere installato sul computer per poter utilizzare Firefox Bridge.",
     "description": "Do not translate 'Firefox Bridge'"
   },
   "notInstalledErrorAction": {
     "message": "Scarica Firefox"
   },
   "openWelcomePage": {
-    "message": "Impostazioni estensioni"
+    "message": "Impostazioni estensione"
   },
   "welcomePageTabTitleFirefox": {
     "message": "Firefox Bridge (beta)",
@@ -61,7 +61,7 @@
     "description": "Do not translate 'Firefox Bridge'"
   },
   "welcomePageSubtitleFirefox": {
-    "message": "Passa da un browser all’altro con un clic."
+    "message": "Passa da un browser all’altro in un clic."
   },
   "welcomePageDescriptionFirefox": {
     "message": "A volte si desidera utilizzare un browser diverso.\nQuesta estensione ti aiuta ad aprire facilmente i siti in altri browser."
@@ -75,7 +75,7 @@
     "description": "Do not translate 'Firefox Bridge'"
   },
   "welcomePageSubtitleChromium": {
-    "message": "Passa dal browser attuale a Firefox in un clic."
+    "message": "Passa da questo browser a Firefox in un clic."
   },
   "welcomePageDescriptionChromium": {
     "message": "A volte, vuoi solo un browser più riservato. Questa estensione ti aiuta ad aprire facilmente i siti in Firefox."
