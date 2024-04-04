@@ -50,7 +50,7 @@
     "message": "Firefox herunterladen"
   },
   "openWelcomePage": {
-    "message": "Erweiterungs-Einstellungen"
+    "message": "Erweiterungseinstellungen"
   },
   "welcomePageTabTitleFirefox": {
     "message": "Firefox Bridge (Beta)",
@@ -90,10 +90,10 @@
     "message": "Erlauben Sie Mozilla, Daten darüber zu sammeln, wie Sie diese Erweiterung verwenden, damit wir sie verbessern können. <a>Datenschutzhinweis</a>"
   },
   "welcomePageNoShortcutsFirefox": {
-    "message": "Für diese Erweiterung sind keine Tastenkombinationen eingerichtet. Erstellen Sie sie in den <a>Erweiterungs-Einstellungen</a>."
+    "message": "Für diese Erweiterung sind keine Tastenkombinationen eingerichtet. Erstellen Sie sie in den <a>Erweiterungseinstellungen</a>."
   },
   "welcomePageNoShortcutsChromium": {
-    "message": "Für diese Erweiterung sind keine Tastenkombinationen eingerichtet. Erstellen Sie sie in den <a>Erweiterungs-Einstellungen</a>."
+    "message": "Für diese Erweiterung sind keine Tastenkombinationen eingerichtet. Erstellen Sie sie in den <a>Erweiterungseinstellungen</a>."
   },
   "welcomePageNoShortcutTo": {
     "message": "Sie haben keine Tastenkombination zum Starten Ihrer aktuellen Seite in $browser$ eingerichtet",
@@ -136,5 +136,20 @@
   },
   "welcomePageManageShortcutsChromium": {
     "message": "Tastenkombinationen für diese Erweiterung finden Sie in den <a>Erweiterungseinstellungen</a>"
+  },
+  "welcomePageTryFirefox": {
+    "message": "Möchten Sie zurück zu Firefox springen? <a>Probieren Sie unsere Chromium-Erweiterung aus.</a>"
+  },
+  "welcomePageTryChromium": {
+    "message": "Wechseln Sie mit unserer <a>Erweiterung in Firefox</a> von einem anderen Browser zurück."
+  },
+  "welcomePageDefaultBrowser": {
+    "message": "(Standard-Browser)"
+  },
+  "welcomePageNoExternalBrowserErrorChromium": {
+    "message": "Anscheinend ist Firefox auf diesem Gerät nicht installiert. <a>Jetzt herunterladen</a>"
+  },
+  "welcomePageNoExternalBrowserErrorFirefox": {
+    "message": "Anscheinend haben Sie keinen anderen Browser auf diesem Gerät"
   }
 }
