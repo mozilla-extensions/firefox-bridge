@@ -77,8 +77,14 @@
   "welcomePageSubtitleChromium": {
     "message": "Passez de votre navigateur actuel à Firefox en un clic."
   },
+  "welcomePageDescriptionChromium": {
+    "message": "Parfois, vous souhaitez simplement utiliser un navigateur plus privé. Cette extension vous aide à ouvrir facilement des sites dans Firefox."
+  },
   "welcomePageBrowserSelector": {
     "message": "Sélectionnez un autre navigateur"
+  },
+  "welcomePageAlwaysPrivateCheckbox": {
+    "message": "Toujours ouvrir les sites dans une fenêtre privée de Firefox lors du basculement"
   },
   "welcomePageTelemetryCheckbox": {
     "message": "Autoriser Mozilla à collecter des informations sur la façon dont vous utilisez cette extension, afin que nous puissions l’améliorer. <a>Politique de confidentialité</a>"
