@@ -59,5 +59,22 @@
   "welcomePageTitleFirefox": {
     "message": "Firefox Bridge (Bêta)",
     "description": "Do not translate 'Firefox Bridge'"
+  },
+  "welcomePageSubtitleFirefox": {
+    "message": "Passez d’un navigateur à l’autre en un clic."
+  },
+  "welcomePageDescriptionFirefox": {
+    "message": "Parfois, vous souhaitez simplement utiliser un autre navigateur.\nCette extension vous aide à ouvrir facilement des sites dans d’autres navigateurs."
+  },
+  "welcomePageTabTitleChromium": {
+    "message": "Firefox Bridge (Bêta)",
+    "description": "Do not translate 'Firefox Bridge'"
+  },
+  "welcomePageTitleChromium": {
+    "message": "Firefox Bridge (Bêta)",
+    "description": "Do not translate 'Firefox Bridge'"
+  },
+  "welcomePageSubtitleChromium": {
+    "message": "Passez de votre navigateur actuel à Firefox en un clic."
   }
 }
