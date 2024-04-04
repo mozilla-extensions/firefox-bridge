@@ -109,5 +109,20 @@
         "content": "$2"
       }
     }
+  },
+  "welcomePageShortcutTitle": {
+    "message": "Raccourcis"
+  },
+  "welcomePageManageShortcutsFirefox": {
+    "message": "Retrouvez les raccourcis de cette extension en vous rendant dans les <a>paramètres de l’extension</a>."
+  },
+  "welcomePageManageShortcutsChromium": {
+    "message": "Retrouvez les raccourcis de cette extension en vous rendant dans les <a>paramètres de l’extension</a>."
+  },
+  "welcomePageTryFirefox": {
+    "message": "Vous voulez revenir sur Firefox ? <a>Essayez notre extension Chromium.</a>"
+  },
+  "welcomePageDefaultBrowser": {
+    "message": "(Navigateur par défaut)"
   }
 }
