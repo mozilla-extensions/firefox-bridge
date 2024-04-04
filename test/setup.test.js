@@ -122,6 +122,7 @@ global.browser = {
       getAvailableBrowsers: jest.fn(),
       getDefaultBrowser: jest.fn(),
       launchBrowser: jest.fn(),
+      getTelemetryID: jest.fn(),
     },
   },
 };

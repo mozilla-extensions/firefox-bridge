@@ -1,6 +1,7 @@
 import {
   getInstalledFirefoxVariant,
   getDefaultIconPath,
+  getTelemetryID,
 } from "../../../src/chromium/interfaces/getters.js";
 
 import { setStorage } from "../../setup.test.js";
@@ -81,6 +82,60 @@ describe("chromium/interfaces/getters.js", () => {
       expect(result).toStrictEqual({
         32: browser.runtime.getURL("images/firefox-private/private32.png"),
       });
+    });
+  });
+
+  describe("getTelemetryID()", () => {
+    it("should return the telemetry ID", async () => {
+      // pass the validity test
+      browser.runtime.sendNativeMessage.mockResolvedValueOnce({
+        result_code: 0,
+      });
+      // mock the telemetry ID
+      browser.runtime.sendNativeMessage.mockResolvedValueOnce({
+        result_code: 0,
+        message: "sample_telemetry_id",
+      });
+      const result = await getTelemetryID();
+      expect(result).toBe("sample_telemetry_id");
+    });
+
+    it("should return undefined if the telemetry ID cannot be retrieved", async () => {
+      // pass the validity test
+      browser.runtime.sendNativeMessage.mockResolvedValueOnce({
+        result_code: 0,
+      });
+      // fail the telemetry ID retrieval
+      browser.runtime.sendNativeMessage.mockRejectedValueOnce({
+        result_code: 1,
+        message: "sample_error_message",
+      });
+      console.error = jest.fn();
+      const result = await getTelemetryID();
+      expect(result).toBeFalsy();
+      expect(console.error).toHaveBeenCalledWith(
+        "Error getting telemetry ID:",
+        "sample_error_message",
+      );
+      console.error.mockRestore();
+    });
+
+    it("should return undefined if all validity tests fails", async () => {
+      // fail the validity test
+      browser.runtime.sendNativeMessage.mockRejectedValue({
+        result_code: 1,
+        message: "sample_error_message",
+      });
+      console.error = jest.fn();
+      const result = await getTelemetryID();
+      expect(result).toBeFalsy();
+      // called 5 times, once for storage NMH, once for each NMH variant after
+      expect(console.error).toHaveBeenCalledTimes(5);
+      expect(console.error).toHaveBeenCalledWith(
+        "Error getting NMH version:",
+        "sample_error_message",
+      );
+      console.error.mockRestore();
     });
   });
 });

@@ -25,7 +25,7 @@ export async function getInstalledFirefoxVariant() {
       }
       return true;
     } catch (error) {
-      console.error("Error getting NMH version:", error);
+      console.error("Error getting NMH version:", error.message);
       return false;
     }
   };
@@ -69,15 +69,9 @@ export async function getDefaultIconPath() {
  * Using native messaging, ets the telemetry ID for the Firefox profile to
  * link to the extension.
  *
- * @returns {string} The telemetry ID
+ * @returns {Promise<string>} The telemetry ID
  */
 export async function getTelemetryID() {
-  // Check if the telemetry ID is already stored in local storage.
-  const result = await browser.storage.local.get("telemetryID");
-  if (result.telemetryID !== undefined) {
-    return result.telemetryID;
-  }
-
   const nativeApp = await getInstalledFirefoxVariant();
   if (!nativeApp) {
     return undefined;
@@ -92,10 +86,9 @@ export async function getTelemetryID() {
     if (response.result_code !== 0) {
       throw new Error(response.message);
     }
-    await browser.storage.local.set({ telemetryID: response.message });
     return response.message;
   } catch (error) {
-    console.error("Error getting telemetry ID:", error);
+    console.error("Error getting telemetry ID:", error.message);
     return undefined;
   }
 }
