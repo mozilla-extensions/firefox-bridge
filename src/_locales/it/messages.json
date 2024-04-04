@@ -1,0 +1,155 @@
+{
+  "launchInExternalBrowser": {
+    "message": "Apri la pagina in $browser$",
+    "description": "The variable is replaced by the browser name (Firefox, Chrome, Safari, etc)",
+    "placeholders": {
+      "browser": {
+        "content": "$1"
+      }
+    }
+  },
+  "launchInExternalBrowserLink": {
+    "message": "Apri link in $browser$",
+    "description": "The variable is replaced by the browser name (Firefox, Chrome, Safari, etc)",
+    "placeholders": {
+      "browser": {
+        "content": "$1"
+      }
+    }
+  },
+  "welcomeHeading": {
+    "message": "Benvenuto in Firefox Bridge",
+    "description": "'Firefox Bridge' is the name of the extension. Do not translate 'Firefox Bridge'."
+  },
+  "manageExternalSitesContextMenus": {
+    "message": "Gestisci i miei siti esterni"
+  },
+  "autoRedirectCheckboxContextMenu": {
+    "message": "Reindirizzamento automatico dei siti esterni"
+  },
+  "addCurrentSiteToMySitesContextMenu": {
+    "message": "Aggiungi $sld$ a I miei siti esterni",
+    "description": "The variable is replaced by the current site’s second-level domain (e.g. 'mozilla.org')",
+    "placeholders": {
+      "sld": {
+        "content": "$1"
+      }
+    }
+  },
+  "changeDefaultLaunchContextMenu": {
+    "message": "Utilizza sempre la Navigazione anonima di Firefox"
+  },
+  "notInstalledErrorHeading": {
+    "message": "Firefox non è installato"
+  },
+  "notInstalledErrorText": {
+    "message": "Firefox Bridge richiede che Firefox sia installato sul computer.",
+    "description": "Do not translate 'Firefox Bridge'"
+  },
+  "notInstalledErrorAction": {
+    "message": "Scarica Firefox"
+  },
+  "openWelcomePage": {
+    "message": "Impostazioni estensioni"
+  },
+  "welcomePageTabTitleFirefox": {
+    "message": "Firefox Bridge (beta)",
+    "description": "Do not translate 'Firefox Bridge'"
+  },
+  "welcomePageTitleFirefox": {
+    "message": "Firefox Bridge (beta)",
+    "description": "Do not translate 'Firefox Bridge'"
+  },
+  "welcomePageSubtitleFirefox": {
+    "message": "Passa da un browser all’altro con un clic."
+  },
+  "welcomePageDescriptionFirefox": {
+    "message": "A volte si desidera utilizzare un browser diverso.\nQuesta estensione ti aiuta ad aprire facilmente i siti in altri browser."
+  },
+  "welcomePageTabTitleChromium": {
+    "message": "Firefox Bridge (beta)",
+    "description": "Do not translate 'Firefox Bridge'"
+  },
+  "welcomePageTitleChromium": {
+    "message": "Firefox Bridge (beta)",
+    "description": "Do not translate 'Firefox Bridge'"
+  },
+  "welcomePageSubtitleChromium": {
+    "message": "Passa dal browser attuale a Firefox in un clic."
+  },
+  "welcomePageDescriptionChromium": {
+    "message": "A volte, vuoi solo un browser più riservato. Questa estensione ti aiuta ad aprire facilmente i siti in Firefox."
+  },
+  "welcomePageBrowserSelector": {
+    "message": "Seleziona un altro browser"
+  },
+  "welcomePageAlwaysPrivateCheckbox": {
+    "message": "Apri sempre i siti in una finestra anonima di Firefox quando passi al browser"
+  },
+  "welcomePageTelemetryCheckbox": {
+    "message": "Consenti a Mozilla di raccogliere informazioni su come utilizzi questa estensione per migliorarla. <a>Informativa sulla privacy</a>"
+  },
+  "welcomePageNoShortcutsFirefox": {
+    "message": "Non sono state configurate scorciatoie per questa estensione. Creali andando nelle <a>impostazioni estensioni</a>"
+  },
+  "welcomePageNoShortcutsChromium": {
+    "message": "Non sono state configurate scorciatoie per questa estensione. Creali andando nelle <a>impostazioni estensioni</a>"
+  },
+  "welcomePageNoShortcutTo": {
+    "message": "Non hai impostato una scorciatoia per avviare la pagina corrente in $browser$",
+    "description": "The variable is replaced by the browser name (Firefox, Chrome, Safari, etc)",
+    "placeholders": {
+      "browser": {
+        "content": "$1"
+      }
+    }
+  },
+  "welcomePageYesShortcutTo": {
+    "message": "$hotkey$ avvia la pagina corrente in $browser$",
+    "description": "The first variable is replaced by the hotkey to launch the current page in a browser. The second variable is replaced by the browser name (Firefox, Chrome, Safari, etc)",
+    "placeholders": {
+      "hotkey": {
+        "content": "$1"
+      },
+      "browser": {
+        "content": "$2"
+      }
+    }
+  },
+  "welcomePageNoShortcutToFirefoxPrivate": {
+    "message": "Non è stata impostata una scorciatoia per aprire la pagina corrente nella Navigazione anonima di Firefox"
+  },
+  "welcomePageYesShortcutToFirefoxPrivate": {
+    "message": "$hotkey$ avvia la pagina corrente nella Navigazione anonima di Firefox",
+    "description": "The variable is replaced by the hotkey to launch the current page in Firefox Private Browsing",
+    "placeholders": {
+      "hotkey": {
+        "content": "$1"
+      }
+    }
+  },
+  "welcomePageShortcutTitle": {
+    "message": "Scorciatoie"
+  },
+  "welcomePageManageShortcutsFirefox": {
+    "message": "Trova le scorciatoie per questa estensione nelle <a>impostazioni estensioni</a>"
+  },
+  "welcomePageManageShortcutsChromium": {
+    "message": "Trova le scorciatoie per questa estensione nelle <a>impostazioni estensioni</a>"
+  },
+  "welcomePageTryFirefox": {
+    "message": "Vuoi tornare a Firefox? <a>Prova la nostra estensione per Chromium.</a>"
+  },
+  "welcomePageTryChromium": {
+    "message": "Torna indietro da un altro browser con la nostra <a>estensione per Firefox.</a>"
+  },
+  "welcomePageDefaultBrowser": {
+    "message": "(Browser predefinito)"
+  },
+  "welcomePageNoExternalBrowserErrorChromium": {
+    "message": "Sembra che Firefox non sia installato su questo dispositivo. <a>Scarica ora</a>"
+  },
+  "welcomePageNoExternalBrowserErrorFirefox": {
+    "message": "Sembra che tu non abbia un altro browser su questo dispositivo"
+  }
+}
