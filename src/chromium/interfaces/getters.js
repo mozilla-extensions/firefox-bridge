@@ -74,7 +74,7 @@ export async function getDefaultIconPath() {
 export async function getTelemetryID() {
   const nativeApp = await getInstalledFirefoxVariant();
   if (!nativeApp) {
-    return undefined;
+    return "";
   }
 
   // Get the telemetry ID from the native messaging host.
@@ -89,6 +89,6 @@ export async function getTelemetryID() {
     return response.message;
   } catch (error) {
     console.error("Error getting telemetry ID:", error.message);
-    return undefined;
+    return "";
   }
 }

@@ -5,7 +5,6 @@ import {
 } from "../../../src/chromium/interfaces/getters.js";
 
 import { setStorage } from "../../setup.test.js";
-import jest from "jest-mock";
 
 describe("chromium/interfaces/getters.js", () => {
   describe("getInstalledFirefoxVariant()", () => {
@@ -23,10 +22,8 @@ describe("chromium/interfaces/getters.js", () => {
       browser.runtime.sendNativeMessage.mockRejectedValue({
         result_code: 1,
       });
-      console.error = jest.fn();
       const result = await getInstalledFirefoxVariant();
       expect(result).toBeFalsy();
-      console.error.mockRestore();
     });
 
     it("should return the stored variant if storage correctly indicates a Firefox browser is installed", async () => {
@@ -45,10 +42,9 @@ describe("chromium/interfaces/getters.js", () => {
       browser.runtime.sendNativeMessage.mockRejectedValue({
         result_code: 1,
       });
-      console.error = jest.fn();
+
       const result = await getInstalledFirefoxVariant();
       expect(result).toBeFalsy();
-      console.error.mockRestore();
     });
 
     it("should return a valid Firefox variant if the storage Firefox variant is invalid and there exists another valid variant", async () => {
@@ -60,10 +56,9 @@ describe("chromium/interfaces/getters.js", () => {
       browser.runtime.sendNativeMessage.mockResolvedValueOnce({
         result_code: 0,
       });
-      console.error = jest.fn();
+
       const result = await getInstalledFirefoxVariant();
       expect(result).toBe("org.mozilla.firefox_bridge_nmh_dev"); // this is the first variant in the list
-      console.error.mockRestore();
     });
   });
 
@@ -110,14 +105,13 @@ describe("chromium/interfaces/getters.js", () => {
         result_code: 1,
         message: "sample_error_message",
       });
-      console.error = jest.fn();
+
       const result = await getTelemetryID();
       expect(result).toBeFalsy();
       expect(console.error).toHaveBeenCalledWith(
         "Error getting telemetry ID:",
         "sample_error_message",
       );
-      console.error.mockRestore();
     });
 
     it("should return undefined if all validity tests fails", async () => {
@@ -126,7 +120,7 @@ describe("chromium/interfaces/getters.js", () => {
         result_code: 1,
         message: "sample_error_message",
       });
-      console.error = jest.fn();
+
       const result = await getTelemetryID();
       expect(result).toBeFalsy();
       // called 5 times, once for storage NMH, once for each NMH variant after
@@ -135,7 +129,6 @@ describe("chromium/interfaces/getters.js", () => {
         "Error getting NMH version:",
         "sample_error_message",
       );
-      console.error.mockRestore();
     });
   });
 });

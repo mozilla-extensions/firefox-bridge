@@ -225,9 +225,11 @@ await testInitializeGlean("firefox-bridge", false);
 beforeEach(async () => {
   await setStorage("isFirefoxInstalled", true, "session");
   setExtensionPlatform("firefox");
+  global.console.error = jest.fn();
 });
 
 afterEach(() => {
   resetStubs(global.browser);
   resetStubs(global.document);
+  global.console.error.mockRestore();
 });

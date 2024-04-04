@@ -313,7 +313,7 @@ this.experiments_firefox_bridge = class extends ExtensionAPI {
           async getTelemetryID() {
             let telemetryID = Services.prefs.getStringPref(
               "browser.firefoxbridge.installId",
-              undefined,
+              "",
             );
             return telemetryID;
           },

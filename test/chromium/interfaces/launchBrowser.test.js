@@ -1,6 +1,5 @@
 import { launchBrowser } from "../../../src/chromium/interfaces/launchBrowser.js";
 import { setCurrentTab, setStorage } from "../../setup.test.js";
-import jest from "jest-mock";
 
 describe("chromium/interfaces/launchBrowser.js", () => {
   describe("launchBrowser()", () => {
@@ -8,7 +7,7 @@ describe("chromium/interfaces/launchBrowser.js", () => {
       browser.runtime.sendNativeMessage.mockRejectedValue({
         result_code: 1,
       });
-      console.error = jest.fn();
+
       const result = await launchBrowser("https://example.com", false);
       expect(result).toBeFalsy();
       expect(browser.tabs.create).toHaveBeenCalled();
@@ -67,7 +66,7 @@ describe("chromium/interfaces/launchBrowser.js", () => {
         result_code: 1,
       });
       // mock console.error
-      console.error = jest.fn();
+
       setCurrentTab({
         id: 1,
         url: "https://mozilla.org",
@@ -86,18 +85,16 @@ describe("chromium/interfaces/launchBrowser.js", () => {
         "Error attempting to launch Firefox with org.mozilla.firefox_bridge_nmh_dev:",
         "",
       );
-      console.error.mockRestore();
     });
 
     it("should not launch the current tab if the url scheme is not valid", async () => {
       await setStorage("isFirefoxInstalled", true);
-      console.error = jest.fn();
+
       const result = await launchBrowser("invalid-url://mozilla.org", true);
       expect(result).toBeFalsy();
       expect(console.error).toHaveBeenCalled();
       expect(browser.tabs.create).not.toHaveBeenCalled();
       expect(browser.tabs.update).not.toHaveBeenCalled();
-      console.error.mockRestore();
     });
   });
 });
