@@ -41,6 +41,13 @@
         "async": false,
         "description": "Opens the Firefox addons shortcuts page.",
         "parameters": []
+      },
+      {
+        "name": "getTelemetryID",
+        "type": "function",
+        "async": true,
+        "description": "Gets the telemetry ID from Firefox to link to the extension.",
+        "parameters": []
       }
     ]
   }
