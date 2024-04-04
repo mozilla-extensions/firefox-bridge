@@ -124,5 +124,11 @@
   },
   "welcomePageDefaultBrowser": {
     "message": "(Navigateur par défaut)"
+  },
+  "welcomePageNoExternalBrowserErrorChromium": {
+    "message": "Il semble que Firefox ne soit pas installé sur cet appareil. <a>Télécharger</a>"
+  },
+  "welcomePageNoExternalBrowserErrorFirefox": {
+    "message": "Il semble que vous n’ayez pas d’autre navigateur installé sur cet appareil"
   }
 }
