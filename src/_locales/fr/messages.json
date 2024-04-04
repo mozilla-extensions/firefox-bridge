@@ -1,0 +1,63 @@
+{
+  "launchInExternalBrowser": {
+    "message": "Ouvrir la page dans $browser$",
+    "description": "The variable is replaced by the browser name (Firefox, Chrome, Safari, etc)",
+    "placeholders": {
+      "browser": {
+        "content": "$1"
+      }
+    }
+  },
+  "launchInExternalBrowserLink": {
+    "message": "Ouvrir le lien dans $browser$",
+    "description": "The variable is replaced by the browser name (Firefox, Chrome, Safari, etc)",
+    "placeholders": {
+      "browser": {
+        "content": "$1"
+      }
+    }
+  },
+  "welcomeHeading": {
+    "message": "Bienvenue dans Firefox Bridge",
+    "description": "'Firefox Bridge' is the name of the extension. Do not translate 'Firefox Bridge'."
+  },
+  "manageExternalSitesContextMenus": {
+    "message": "Gérer mes sites externes"
+  },
+  "autoRedirectCheckboxContextMenu": {
+    "message": "Rediriger automatiquement mes sites externes"
+  },
+  "addCurrentSiteToMySitesContextMenu": {
+    "message": "Ajouter $sld$ à la liste des sites externes",
+    "description": "The variable is replaced by the current site’s second-level domain (e.g. 'mozilla.org')",
+    "placeholders": {
+      "sld": {
+        "content": "$1"
+      }
+    }
+  },
+  "changeDefaultLaunchContextMenu": {
+    "message": "Toujours utiliser la navigation privée de Firefox"
+  },
+  "notInstalledErrorHeading": {
+    "message": "Firefox n’est pas installé"
+  },
+  "notInstalledErrorText": {
+    "message": "Firefox Bridge nécessite que Firefox soit installé sur votre ordinateur.",
+    "description": "Do not translate 'Firefox Bridge'"
+  },
+  "notInstalledErrorAction": {
+    "message": "Télécharger Firefox"
+  },
+  "openWelcomePage": {
+    "message": "Paramètres de l’extension"
+  },
+  "welcomePageTabTitleFirefox": {
+    "message": "Firefox Bridge (Bêta)",
+    "description": "Do not translate 'Firefox Bridge'"
+  },
+  "welcomePageTitleFirefox": {
+    "message": "Firefox Bridge (Bêta)",
+    "description": "Do not translate 'Firefox Bridge'"
+  }
+}
