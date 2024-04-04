@@ -75,7 +75,7 @@
     "description": "Do not translate 'Firefox Bridge'"
   },
   "welcomePageSubtitleChromium": {
-    "message": "Passa da questo browser a Firefox in un clic."
+    "message": "Passa a Firefox in un clic."
   },
   "welcomePageDescriptionChromium": {
     "message": "Ci sono giorni in cui hai bisogno di un browser più riservato. Questa estensione ti aiuta ad aprire facilmente i tuoi siti in Firefox."
@@ -141,7 +141,7 @@
     "message": "Vuoi passare velocemente a Firefox? <a>Prova la nostra estensione per Chromium.</a>"
   },
   "welcomePageTryChromium": {
-    "message": "Passa velocemente da un altro browser con la nostra <a>estensione per Firefox</a>."
+    "message": "Passa velocemente a questo browser con la nostra <a>estensione per Firefox</a>."
   },
   "welcomePageDefaultBrowser": {
     "message": "(Browser predefinito)"
