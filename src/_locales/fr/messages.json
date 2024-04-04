@@ -110,6 +110,18 @@
       }
     }
   },
+  "welcomePageNoShortcutToFirefoxPrivate": {
+    "message": "Vous n’avez pas configuré de raccourci pour ouvrir la page actuelle en navigation privée dans Firefox"
+  },
+  "welcomePageYesShortcutToFirefoxPrivate": {
+    "message": "$hotkey$ ouvre la page actuelle en navigation privée dans Firefox",
+    "description": "The variable is replaced by the hotkey to launch the current page in Firefox Private Browsing",
+    "placeholders": {
+      "hotkey": {
+        "content": "$1"
+      }
+    }
+  },
   "welcomePageShortcutTitle": {
     "message": "Raccourcis"
   },
