@@ -227,7 +227,7 @@ beforeEach(async () => {
   setExtensionPlatform("firefox");
 });
 
-afterEach(async () => {
+afterEach(() => {
   resetStubs(global.browser);
   resetStubs(global.document);
 });
