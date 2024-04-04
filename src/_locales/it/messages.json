@@ -141,7 +141,7 @@
     "message": "Vuoi passare velocemente a Firefox? <a>Prova la nostra estensione per Chromium.</a>"
   },
   "welcomePageTryChromium": {
-    "message": "Torna indietro da un altro browser con la nostra <a>estensione per Firefox.</a>"
+    "message": "Passa velocemente da un altro browser con la nostra <a>estensione per Firefox</a>."
   },
   "welcomePageDefaultBrowser": {
     "message": "(Browser predefinito)"
