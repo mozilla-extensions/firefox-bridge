@@ -1,0 +1,140 @@
+{
+  "launchInExternalBrowser": {
+    "message": "Seite in $browser$ öffnen",
+    "description": "The variable is replaced by the browser name (Firefox, Chrome, Safari, etc)",
+    "placeholders": {
+      "browser": {
+        "content": "$1"
+      }
+    }
+  },
+  "launchInExternalBrowserLink": {
+    "message": "Link in $browser$ öffnen",
+    "description": "The variable is replaced by the browser name (Firefox, Chrome, Safari, etc)",
+    "placeholders": {
+      "browser": {
+        "content": "$1"
+      }
+    }
+  },
+  "welcomeHeading": {
+    "message": "Willkommen bei Firefox Bridge",
+    "description": "'Firefox Bridge' is the name of the extension. Do not translate 'Firefox Bridge'."
+  },
+  "manageExternalSitesContextMenus": {
+    "message": "Meine externen Websites verwalten"
+  },
+  "autoRedirectCheckboxContextMenu": {
+    "message": "Meine externen Websites automatisch weiterleiten"
+  },
+  "addCurrentSiteToMySitesContextMenu": {
+    "message": "$sld$ zu meinen externen Websites hinzufügen",
+    "description": "The variable is replaced by the current site’s second-level domain (e.g. 'mozilla.org')",
+    "placeholders": {
+      "sld": {
+        "content": "$1"
+      }
+    }
+  },
+  "changeDefaultLaunchContextMenu": {
+    "message": "Immer den Privaten Modus von Firefox verwenden"
+  },
+  "notInstalledErrorHeading": {
+    "message": "Firefox ist nicht installiert"
+  },
+  "notInstalledErrorText": {
+    "message": "Firefox Bridge erfordert, dass Firefox auf Ihrem Computer installiert ist.",
+    "description": "Do not translate 'Firefox Bridge'"
+  },
+  "notInstalledErrorAction": {
+    "message": "Firefox herunterladen"
+  },
+  "openWelcomePage": {
+    "message": "Erweiterungs-Einstellungen"
+  },
+  "welcomePageTabTitleFirefox": {
+    "message": "Firefox Bridge (Beta)",
+    "description": "Do not translate 'Firefox Bridge'"
+  },
+  "welcomePageTitleFirefox": {
+    "message": "Firefox Bridge (Beta)",
+    "description": "Do not translate 'Firefox Bridge'"
+  },
+  "welcomePageSubtitleFirefox": {
+    "message": "Wechseln Sie mit einem Klick zwischen den Browsern."
+  },
+  "welcomePageDescriptionFirefox": {
+    "message": "Manchmal möchten Sie einfach einen anderen Browser verwenden.\nDiese Erweiterung hilft Ihnen, Websites ganz einfach in anderen Browsern zu öffnen."
+  },
+  "welcomePageTabTitleChromium": {
+    "message": "Firefox Bridge (Beta)",
+    "description": "Do not translate 'Firefox Bridge'"
+  },
+  "welcomePageTitleChromium": {
+    "message": "Firefox Bridge (Beta)",
+    "description": "Do not translate 'Firefox Bridge'"
+  },
+  "welcomePageSubtitleChromium": {
+    "message": "Wechseln Sie mit einem Klick von Ihrem aktuellen Browser zu Firefox."
+  },
+  "welcomePageDescriptionChromium": {
+    "message": "Manchmal möchten Sie nur einen privateren Browser. Diese Erweiterung hilft Ihnen, Websites ganz einfach in Firefox zu öffnen."
+  },
+  "welcomePageBrowserSelector": {
+    "message": "Anderen Browser auswählen"
+  },
+  "welcomePageAlwaysPrivateCheckbox": {
+    "message": "Websites beim Wechseln immer in einem privaten Fenster von Firefox öffnen"
+  },
+  "welcomePageTelemetryCheckbox": {
+    "message": "Erlauben Sie Mozilla, Daten darüber zu sammeln, wie Sie diese Erweiterung verwenden, damit wir sie verbessern können. <a>Datenschutzhinweis</a>"
+  },
+  "welcomePageNoShortcutsFirefox": {
+    "message": "Für diese Erweiterung sind keine Tastenkombinationen eingerichtet. Erstellen Sie sie in den <a>Erweiterungs-Einstellungen</a>."
+  },
+  "welcomePageNoShortcutsChromium": {
+    "message": "Für diese Erweiterung sind keine Tastenkombinationen eingerichtet. Erstellen Sie sie in den <a>Erweiterungs-Einstellungen</a>."
+  },
+  "welcomePageNoShortcutTo": {
+    "message": "Sie haben keine Tastenkombination zum Starten Ihrer aktuellen Seite in $browser$ eingerichtet",
+    "description": "The variable is replaced by the browser name (Firefox, Chrome, Safari, etc)",
+    "placeholders": {
+      "browser": {
+        "content": "$1"
+      }
+    }
+  },
+  "welcomePageYesShortcutTo": {
+    "message": "$hotkey$ öffnet Ihre aktuelle Seite in $browser$",
+    "description": "The first variable is replaced by the hotkey to launch the current page in a browser. The second variable is replaced by the browser name (Firefox, Chrome, Safari, etc)",
+    "placeholders": {
+      "hotkey": {
+        "content": "$1"
+      },
+      "browser": {
+        "content": "$2"
+      }
+    }
+  },
+  "welcomePageNoShortcutToFirefoxPrivate": {
+    "message": "Sie haben keine Tastenkombination zum Starten Ihrer aktuellen Seite im Privaten Modus von Firefox eingerichtet"
+  },
+  "welcomePageYesShortcutToFirefoxPrivate": {
+    "message": "$hotkey$ startet die aktuelle Seite im Privaten Modus von Firefox",
+    "description": "The variable is replaced by the hotkey to launch the current page in Firefox Private Browsing",
+    "placeholders": {
+      "hotkey": {
+        "content": "$1"
+      }
+    }
+  },
+  "welcomePageShortcutTitle": {
+    "message": "Tastenkombinationen"
+  },
+  "welcomePageManageShortcutsFirefox": {
+    "message": "Tastenkombinationen für diese Erweiterung finden Sie in den <a>Erweiterungseinstellungen</a>"
+  },
+  "welcomePageManageShortcutsChromium": {
+    "message": "Tastenkombinationen für diese Erweiterung finden Sie in den <a>Erweiterungseinstellungen</a>"
+  }
+}
