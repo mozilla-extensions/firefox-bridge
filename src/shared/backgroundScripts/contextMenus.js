@@ -59,7 +59,7 @@ export async function initContextMenu() {
 
   const action = browser.browserAction ? "browser_action" : "action"; // mv2 vs mv3
 
-  //separator
+  // separator
   await browser.contextMenus.create(
     {
       id: "separator",
@@ -77,6 +77,16 @@ export async function initContextMenu() {
     {
       id: "openWelcomePage",
       title: browser.i18n.getMessage("openWelcomePage"),
+      contexts: [action],
+    },
+    handleDuplicateIDError,
+  );
+
+  // action menu leave feedback
+  await browser.contextMenus.create(
+    {
+      id: "leaveFeedback",
+      title: browser.i18n.getMessage("leaveFeedbackContextMenu"),
       contexts: [action],
     },
     handleDuplicateIDError,
@@ -130,6 +140,10 @@ export async function handleContextMenuClick(info, tab) {
   } else if (info.menuItemId === "openWelcomePage") {
     browser.tabs.create({
       url: browser.runtime.getURL("shared/pages/welcomePage/index.html"),
+    });
+  } else if (info.menuItemId === "leaveFeedback") {
+    browser.tabs.create({
+      url: "https://mzl.la/dbe-feedback",
     });
   } else {
     await handlePlatformContextMenuClick(info, tab);

@@ -21,6 +21,9 @@
     "message": "Welcome to Firefox Bridge",
     "description": "'Firefox Bridge' is the name of the extension. Do not translate 'Firefox Bridge'."
   },
+  "leaveFeedbackContextMenu": {
+    "message": "Leave Feedback"
+  },
   "manageExternalSitesContextMenus": {
     "message": "Manage My External Sites"
   },
