@@ -27,7 +27,7 @@
       "suggested_key": {
         "default": "Ctrl+Shift+E"
       },
-      "description": "Open Site in your Selected Browser"
+      "description": "__MSG_shortcutPageLaunchBrowserDescription__"
     }
   },
   "default_locale": "en",

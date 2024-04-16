@@ -35,13 +35,13 @@
       "suggested_key": {
         "default": "Ctrl+Shift+F"
       },
-      "description": "Open Site in Firefox"
+      "description": "__MSG_shortcutPageLaunchFirefoxDescription__"
     },
     "launchFirefoxPrivate": {
       "suggested_key": {
         "default": "Ctrl+Shift+P"
       },
-      "description": "Open Site in Firefox Private Window"
+      "description": "__MSG_shortcutPageLaunchFirefoPrivateDescription__"
     }
   },
   "default_locale": "en"

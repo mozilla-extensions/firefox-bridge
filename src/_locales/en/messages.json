@@ -151,5 +151,14 @@
   },
   "welcomePageNoExternalBrowserErrorFirefox": {
     "message": "Looks like you don’t have another browser on this device"
+  },
+  "shortcutPageLaunchFirefoxDescription": {
+    "message": "Open Site in Firefox"
+  },
+  "shortcutPageLaunchFirefoxPrivateDescription": {
+    "message": "Open Site in Firefox Private Window"
+  },
+  "shortcutPageLaunchBrowserDescription": {
+    "message": "Open Site in your Selected Browser"
   }
 }
