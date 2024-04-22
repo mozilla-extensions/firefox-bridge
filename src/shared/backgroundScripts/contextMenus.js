@@ -59,16 +59,6 @@ export async function initContextMenu() {
 
   const action = browser.browserAction ? "browser_action" : "action"; // mv2 vs mv3
 
-  // separator
-  await browser.contextMenus.create(
-    {
-      id: "separator",
-      type: "separator",
-      contexts: [action],
-    },
-    handleDuplicateIDError,
-  );
-
   // platform specific menu
   await applyPlatformContextMenus();
 

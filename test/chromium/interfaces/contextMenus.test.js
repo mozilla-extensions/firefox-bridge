@@ -13,7 +13,7 @@ describe("chromium/interfaces/contextMenus.js", () => {
   describe("applyPlatformContextMenus()", () => {
     it("should create the chrome context menu", async () => {
       await applyPlatformContextMenus();
-      expect(browser.contextMenus.create).toHaveBeenCalledTimes(7);
+      expect(browser.contextMenus.create).toHaveBeenCalledTimes(6);
       expect(browser.contextMenus.create).toHaveBeenCalledWith(
         {
           id: "changeDefaultLaunchContextMenu",
@@ -51,7 +51,16 @@ describe("chromium/interfaces/contextMenus.js", () => {
       );
       expect(browser.contextMenus.create).toHaveBeenCalledWith(
         {
-          id: "separator2",
+          id: "launchInExternalBrowserPrivateLink",
+          title: getLocaleMessage("launchInExternalBrowserLink"),
+          contexts: ["link"],
+          targetUrlPatterns: ["http://*/*", "https://*/*", "file:///*"],
+        },
+        handleDuplicateIDError,
+      );
+      expect(browser.contextMenus.create).toHaveBeenCalledWith(
+        {
+          id: "separator",
           type: "separator",
           contexts: ["action"],
         },

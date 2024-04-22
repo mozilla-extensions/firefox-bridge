@@ -34,15 +34,6 @@ export async function applyPlatformContextMenus() {
 
   await browser.contextMenus.create(
     {
-      id: "separatorForLaunchModes",
-      type: "separator",
-      contexts: ["action"],
-    },
-    handleDuplicateIDError,
-  );
-
-  await browser.contextMenus.create(
-    {
       id: "changeDefaultLaunchContextMenu",
       title: browser.i18n.getMessage("changeDefaultLaunchContextMenu"),
       contexts: ["action"],
@@ -55,7 +46,7 @@ export async function applyPlatformContextMenus() {
   // separator
   await browser.contextMenus.create(
     {
-      id: "separator2",
+      id: "separator",
       type: "separator",
       contexts: ["action"],
     },
