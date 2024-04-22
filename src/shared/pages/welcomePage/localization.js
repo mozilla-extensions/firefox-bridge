@@ -72,8 +72,8 @@ export function applyLocalization() {
     welcomePageTelemetryCheckbox: "https://example.com/", // TODO: replace with privacy policy link
     welcomePageNoExternalBrowserErrorChromium:
       "https://www.mozilla.org/firefox/new/",
-    welcomePageTryChromium: "https://mzl.la/dbe-firefox",
-    welcomePageTryFirefox: "https://mzl.la/dbe-chromium",
+    welcomePageTryOtherExtensionChromium: "https://mzl.la/dbe-firefox",
+    welcomePageTryOtherExtensionFirefox: "https://mzl.la/dbe-chromium",
   };
 
   // attempt to replace each element

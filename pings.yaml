@@ -5,7 +5,7 @@ $schema: moz://mozilla.org/schemas/glean/pings/2-0-0
 #   include_client_id: true
 #   send_if_empty: false
 #   bugs:
-#     - https://github.com/mozilla-extensions/firefox-bridge/issues/
+#     - https://github.com/mozilla-extensions/firefox-bridge/issues/87
 #   data_reviews:
 #     - https://github.com/mozilla-extensions/firefox-bridge/issues/87
 #   notification_emails:
@@ -15,7 +15,7 @@ $schema: moz://mozilla.org/schemas/glean/pings/2-0-0
 #   include_client_id: true
 #   send_if_empty: false
 #   bugs:
-#     - https://github.com/mozilla-extensions/firefox-bridge/issues/
+#     - https://github.com/mozilla-extensions/firefox-bridge/issues/87
 #   data_reviews:
 #     - https://github.com/mozilla-extensions/firefox-bridge/issues/87
 #   notification_emails:
@@ -25,7 +25,7 @@ $schema: moz://mozilla.org/schemas/glean/pings/2-0-0
 #   include_client_id: true
 #   send_if_empty: false
 #   bugs:
-#     - https://github.com/mozilla-extensions/firefox-bridge/issues/
+#     - https://github.com/mozilla-extensions/firefox-bridge/issues/87
 #   data_reviews:
 #     - https://github.com/mozilla-extensions/firefox-bridge/issues/87
 #   notification_emails:
@@ -35,7 +35,7 @@ $schema: moz://mozilla.org/schemas/glean/pings/2-0-0
 #   include_client_id: true
 #   send_if_empty: false
 #   bugs:
-#     - https://github.com/mozilla-extensions/firefox-bridge/issues/
+#     - https://github.com/mozilla-extensions/firefox-bridge/issues/87
 #   data_reviews:
 #     - https://github.com/mozilla-extensions/firefox-bridge/issues/87
 #   notification_emails:

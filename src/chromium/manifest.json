@@ -41,7 +41,7 @@
       "suggested_key": {
         "default": "Ctrl+Shift+P"
       },
-      "description": "__MSG_shortcutPageLaunchFirefoPrivateDescription__"
+      "description": "__MSG_shortcutPageLaunchFirefoxPrivateDescription__"
     }
   },
   "default_locale": "en"

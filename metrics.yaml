@@ -9,7 +9,7 @@ startup_event:
     description: |
       The date and time the extension was started up
     bugs:
-      - https://github.com/mozilla-extensions/firefox-bridge/issues/
+      - https://github.com/mozilla-extensions/firefox-bridge/issues/87
     data_reviews:
       - https://github.com/mozilla-extensions/firefox-bridge/issues/87
     notification_emails:
@@ -23,7 +23,7 @@ startup_event:
     description: |
       The name of the browser the extension is running on
     bugs:
-      - https://github.com/mozilla-extensions/firefox-bridge/issues/
+      - https://github.com/mozilla-extensions/firefox-bridge/issues/87
     data_reviews:
       - https://github.com/mozilla-extensions/firefox-bridge/issues/87
     notification_emails:
@@ -37,7 +37,7 @@ startup_event:
     description: |
       The user's preferred language of the browser
     bugs:
-      - https://github.com/mozilla-extensions/firefox-bridge/issues/
+      - https://github.com/mozilla-extensions/firefox-bridge/issues/87
     data_reviews:
       - https://github.com/mozilla-extensions/firefox-bridge/issues/87
     notification_emails:
@@ -51,7 +51,7 @@ startup_event:
     description: |
       The language of the extension
     bugs:
-      - https://github.com/mozilla-extensions/firefox-bridge/issues/
+      - https://github.com/mozilla-extensions/firefox-bridge/issues/87
     data_reviews:
       - https://github.com/mozilla-extensions/firefox-bridge/issues/87
     notification_emails:
@@ -65,7 +65,7 @@ startup_event:
     description: |
       Whether or not the action button is pinned to the toolbar
     bugs:
-      - https://github.com/mozilla-extensions/firefox-bridge/issues/
+      - https://github.com/mozilla-extensions/firefox-bridge/issues/87
     data_reviews:
       - https://github.com/mozilla-extensions/firefox-bridge/issues/87
     notification_emails:
@@ -79,7 +79,7 @@ startup_event:
     description: |
       Which hotkeys are set for each command
     bugs:
-      - https://github.com/mozilla-extensions/firefox-bridge/issues/
+      - https://github.com/mozilla-extensions/firefox-bridge/issues/87
     data_reviews:
       - https://github.com/mozilla-extensions/firefox-bridge/issues/87
     notification_emails:
@@ -93,7 +93,7 @@ startup_event:
     description: |
       The name of the user's browser
     bugs:
-      - https://github.com/mozilla-extensions/firefox-bridge/issues/
+      - https://github.com/mozilla-extensions/firefox-bridge/issues/87
     data_reviews:
       - https://github.com/mozilla-extensions/firefox-bridge/issues/87
     notification_emails:
@@ -107,7 +107,7 @@ startup_event:
     description: |
       The version of the user's browser
     bugs:
-      - https://github.com/mozilla-extensions/firefox-bridge/issues/
+      - https://github.com/mozilla-extensions/firefox-bridge/issues/87
     data_reviews:
       - https://github.com/mozilla-extensions/firefox-bridge/issues/87
     notification_emails:
@@ -121,7 +121,7 @@ startup_event:
     description: |
       The name of the user's set external browser (Firefox only)
     bugs:
-      - https://github.com/mozilla-extensions/firefox-bridge/issues/
+      - https://github.com/mozilla-extensions/firefox-bridge/issues/87
     data_reviews:
       - https://github.com/mozilla-extensions/firefox-bridge/issues/87
     notification_emails:
@@ -135,7 +135,7 @@ startup_event:
     description: |
       The name of the user's OS
     bugs:
-      - https://github.com/mozilla-extensions/firefox-bridge/issues/
+      - https://github.com/mozilla-extensions/firefox-bridge/issues/87
     data_reviews:
       - https://github.com/mozilla-extensions/firefox-bridge/issues/87
     notification_emails:
@@ -149,7 +149,7 @@ startup_event:
     description: |
       The version of the user's OS
     bugs:
-      - https://github.com/mozilla-extensions/firefox-bridge/issues/
+      - https://github.com/mozilla-extensions/firefox-bridge/issues/87
     data_reviews:
       - https://github.com/mozilla-extensions/firefox-bridge/issues/87
     notification_emails:
@@ -162,7 +162,7 @@ launch_event:
     description: |
       The user launched the browser from the action button
     bugs:
-      - https://github.com/mozilla-extensions/firefox-bridge/issues/
+      - https://github.com/mozilla-extensions/firefox-bridge/issues/87
     data_reviews:
       - https://github.com/mozilla-extensions/firefox-bridge/issues/87
     notification_emails:
@@ -181,7 +181,7 @@ launch_event:
     description: |
       The browser did not launch due to a native messaging host fault. (Chromium Only)
     bugs:
-      - https://github.com/mozilla-extensions/firefox-bridge/issues/
+      - https://github.com/mozilla-extensions/firefox-bridge/issues/87
     data_reviews:
       - https://github.com/mozilla-extensions/firefox-bridge/issues/87
     notification_emails:
@@ -203,7 +203,7 @@ setting_event:
     lifetime: ping
     description: The external browser has been changed
     bugs:
-      - https://github.com/mozilla-extensions/firefox-bridge/issues/
+      - https://github.com/mozilla-extensions/firefox-bridge/issues/87
     data_reviews:
       - https://github.com/mozilla-extensions/firefox-bridge/issues/87
     notification_emails:
@@ -227,7 +227,7 @@ telemetry_event:
       - events
     description: The ID used to link the extensions and firefox together
     bugs:
-      - https://github.com/mozilla-extensions/firefox-bridge/issues/
+      - https://github.com/mozilla-extensions/firefox-bridge/issues/87
     data_reviews:
       - https://github.com/mozilla-extensions/firefox-bridge/issues/87
     notification_emails:
