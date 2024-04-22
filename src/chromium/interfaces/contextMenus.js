@@ -9,10 +9,29 @@ import { handleDuplicateIDError } from "Shared/backgroundScripts/contextMenus.js
  */
 export async function applyPlatformContextMenus() {
   const externalBrowserName = (await getExternalBrowser()) || "Firefox";
-  const alternateBrowserName =
-    externalBrowserName === "Firefox" ? "Firefox Private Browsing" : "Firefox";
 
   // action context menu
+  await browser.contextMenus.create(
+    {
+      id: "launchInFirefoxContextMenu",
+      title: browser.i18n.getMessage("launchInExternalBrowser", "Firefox"),
+      contexts: ["action"],
+    },
+    handleDuplicateIDError,
+  );
+
+  await browser.contextMenus.create(
+    {
+      id: "launchInFirefoxPrivateContextMenu",
+      title: browser.i18n.getMessage(
+        "launchInExternalBrowser",
+        "Firefox Private Browsing",
+      ),
+      contexts: ["action"],
+    },
+    handleDuplicateIDError,
+  );
+
   await browser.contextMenus.create(
     {
       id: "changeDefaultLaunchContextMenu",
@@ -23,22 +42,11 @@ export async function applyPlatformContextMenus() {
     },
     handleDuplicateIDError,
   );
-  await browser.contextMenus.create(
-    {
-      id: "alternativeLaunchContextMenu",
-      title: browser.i18n.getMessage(
-        "launchInExternalBrowser",
-        alternateBrowserName,
-      ),
-      contexts: ["action"],
-    },
-    handleDuplicateIDError,
-  );
 
   // separator
   await browser.contextMenus.create(
     {
-      id: "separator2",
+      id: "separator",
       type: "separator",
       contexts: ["action"],
     },
@@ -109,12 +117,6 @@ export async function handleChangeDefaultLaunchContextMenuClick() {
   browser.contextMenus.update("changeDefaultLaunchContextMenu", {
     checked: externalBrowserName === "Firefox",
   });
-  browser.contextMenus.update("alternativeLaunchContextMenu", {
-    title: browser.i18n.getMessage(
-      "launchInExternalBrowser",
-      externalBrowserName,
-    ),
-  });
 
   if (externalBrowserName === "Firefox") {
     browser.storage.sync.set({
@@ -144,15 +146,17 @@ export async function handlePlatformContextMenuClick(info, tab) {
           : "Firefox",
       source: "action_context_menu",
     });
-  } else if (info.menuItemId === "alternativeLaunchContextMenu") {
-    // launch in the opposite mode to the default
-    if (await launchBrowser(tab.url, externalBrowserName === "Firefox")) {
-      const launchedBrowserName =
-        (await getExternalBrowser()) === "Firefox"
-          ? "Firefox Private Browsing"
-          : "Firefox";
+  } else if (info.menuItemId === "launchInFirefoxContextMenu") {
+    if (await launchBrowser(tab.url)) {
       launchEvent.browserLaunch.record({
-        browser: launchedBrowserName,
+        browser: "Firefox",
+        source: "action_context_menu",
+      });
+    }
+  } else if (info.menuItemId === "launchInFirefoxPrivateContextMenu") {
+    if (await launchBrowser(tab.url, true)) {
+      launchEvent.browserLaunch.record({
+        browser: "Firefox Private Browsing",
         source: "action_context_menu",
       });
     }

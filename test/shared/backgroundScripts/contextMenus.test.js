@@ -41,6 +41,14 @@ describe("shared/backgroundScripts/contextMenus.js", () => {
         },
         handleDuplicateIDError,
       );
+      expect(browser.contextMenus.create).toHaveBeenCalledWith(
+        {
+          id: "leaveFeedback",
+          title: getLocaleMessage("leaveFeedbackContextMenu"),
+          contexts: ["browser_action"],
+        },
+        handleDuplicateIDError,
+      );
     });
   });
 });
