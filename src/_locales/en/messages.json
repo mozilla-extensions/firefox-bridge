@@ -137,11 +137,11 @@
   "welcomePageManageShortcutsChromium": {
     "message": "Find shortcuts for this extension by going to <a>extension settings.</a>"
   },
-  "welcomePageTryFirefox": {
-    "message": "Want to hop back to Firefox? <a>Try our Chromium extension.</a>"
+  "welcomePageTryOtherExtensionFirefox": {
+    "message": "Want to hop back to Firefox from another browser? <a>Try our Chrome extension.</a>"
   },
-  "welcomePageTryChromium": {
-    "message": "Hop back from another browser with our <a>extension in Firefox.</a>"
+  "welcomePageTryOtherExtensionChromium": {
+    "message": "Hop back to this browser with our <a>extension in Firefox.</a>"
   },
   "welcomePageDefaultBrowser": {
     "message": "(Default Browser)"
@@ -151,5 +151,14 @@
   },
   "welcomePageNoExternalBrowserErrorFirefox": {
     "message": "Looks like you don’t have another browser on this device"
+  },
+  "shortcutPageLaunchFirefoxDescription": {
+    "message": "Open Site in Firefox"
+  },
+  "shortcutPageLaunchFirefoxPrivateDescription": {
+    "message": "Open Site in Firefox Private Window"
+  },
+  "shortcutPageLaunchBrowserDescription": {
+    "message": "Open Site in your Selected Browser"
   }
 }

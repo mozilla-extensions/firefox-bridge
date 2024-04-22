@@ -9,11 +9,11 @@ startup_event:
     description: |
       The date and time the extension was started up
     bugs:
-      - https://linktobugs.page
+      - https://github.com/mozilla-extensions/firefox-bridge/issues/87
     data_reviews:
-      - https://linktodatareviews.page
+      - https://github.com/mozilla-extensions/firefox-bridge/issues/87
     notification_emails:
-      - gsherman@mozilla.com
+      - dual-browser-owner@mozilla.com
     expires: never
   browser_type:
     type: string
@@ -23,11 +23,11 @@ startup_event:
     description: |
       The name of the browser the extension is running on
     bugs:
-      - https://linktobugs.page
+      - https://github.com/mozilla-extensions/firefox-bridge/issues/87
     data_reviews:
-      - https://linktodatareviews.page
+      - https://github.com/mozilla-extensions/firefox-bridge/issues/87
     notification_emails:
-      - gsherman@mozilla.com
+      - dual-browser-owner@mozilla.com
     expires: never
   browser_language_locale:
     type: string
@@ -37,11 +37,11 @@ startup_event:
     description: |
       The user's preferred language of the browser
     bugs:
-      - https://linktobugs.page
+      - https://github.com/mozilla-extensions/firefox-bridge/issues/87
     data_reviews:
-      - https://linktodatareviews.page
+      - https://github.com/mozilla-extensions/firefox-bridge/issues/87
     notification_emails:
-      - gsherman@mozilla.com
+      - dual-browser-owner@mozilla.com
     expires: never
   extension_language_locale:
     type: string
@@ -51,11 +51,11 @@ startup_event:
     description: |
       The language of the extension
     bugs:
-      - https://linktobugs.page
+      - https://github.com/mozilla-extensions/firefox-bridge/issues/87
     data_reviews:
-      - https://linktodatareviews.page
+      - https://github.com/mozilla-extensions/firefox-bridge/issues/87
     notification_emails:
-      - gsherman@mozilla.com
+      - dual-browser-owner@mozilla.com
     expires: never
   is_pinned:
     type: boolean
@@ -65,11 +65,11 @@ startup_event:
     description: |
       Whether or not the action button is pinned to the toolbar
     bugs:
-      - https://linktobugs.page
+      - https://github.com/mozilla-extensions/firefox-bridge/issues/87
     data_reviews:
-      - https://linktodatareviews.page
+      - https://github.com/mozilla-extensions/firefox-bridge/issues/87
     notification_emails:
-      - gsherman@mozilla.com
+      - dual-browser-owner@mozilla.com
     expires: never
   hotkeys:
     type: labeled_string
@@ -79,11 +79,11 @@ startup_event:
     description: |
       Which hotkeys are set for each command
     bugs:
-      - https://linktobugs.page
+      - https://github.com/mozilla-extensions/firefox-bridge/issues/87
     data_reviews:
-      - https://linktodatareviews.page
+      - https://github.com/mozilla-extensions/firefox-bridge/issues/87
     notification_emails:
-      - gsherman@mozilla.com
+      - dual-browser-owner@mozilla.com
     expires: never
   browser_name:
     type: string
@@ -93,11 +93,11 @@ startup_event:
     description: |
       The name of the user's browser
     bugs:
-      - https://linktobugs.page
+      - https://github.com/mozilla-extensions/firefox-bridge/issues/87
     data_reviews:
-      - https://linktodatareviews.page
+      - https://github.com/mozilla-extensions/firefox-bridge/issues/87
     notification_emails:
-      - gsherman@mozilla.com
+      - dual-browser-owner@mozilla.com
     expires: never
   browser_version:
     type: string
@@ -107,11 +107,11 @@ startup_event:
     description: |
       The version of the user's browser
     bugs:
-      - https://linktobugs.page
+      - https://github.com/mozilla-extensions/firefox-bridge/issues/87
     data_reviews:
-      - https://linktodatareviews.page
+      - https://github.com/mozilla-extensions/firefox-bridge/issues/87
     notification_emails:
-      - gsherman@mozilla.com
+      - dual-browser-owner@mozilla.com
     expires: never
   external_browser:
     type: string
@@ -121,11 +121,11 @@ startup_event:
     description: |
       The name of the user's set external browser (Firefox only)
     bugs:
-      - https://linktobugs.page
+      - https://github.com/mozilla-extensions/firefox-bridge/issues/87
     data_reviews:
-      - https://linktodatareviews.page
+      - https://github.com/mozilla-extensions/firefox-bridge/issues/87
     notification_emails:
-      - gsherman@mozilla.com
+      - dual-browser-owner@mozilla.com
     expires: never
   os_name:
     type: string
@@ -135,11 +135,11 @@ startup_event:
     description: |
       The name of the user's OS
     bugs:
-      - https://linktobugs.page
+      - https://github.com/mozilla-extensions/firefox-bridge/issues/87
     data_reviews:
-      - https://linktodatareviews.page
+      - https://github.com/mozilla-extensions/firefox-bridge/issues/87
     notification_emails:
-      - gsherman@mozilla.com
+      - dual-browser-owner@mozilla.com
     expires: never
   os_version:
     type: string
@@ -149,11 +149,11 @@ startup_event:
     description: |
       The version of the user's OS
     bugs:
-      - https://linktobugs.page
+      - https://github.com/mozilla-extensions/firefox-bridge/issues/87
     data_reviews:
-      - https://linktodatareviews.page
+      - https://github.com/mozilla-extensions/firefox-bridge/issues/87
     notification_emails:
-      - gsherman@mozilla.com
+      - dual-browser-owner@mozilla.com
     expires: never
 launch_event:
   browser_launch:
@@ -162,11 +162,11 @@ launch_event:
     description: |
       The user launched the browser from the action button
     bugs:
-      - https://linktobugs.page
+      - https://github.com/mozilla-extensions/firefox-bridge/issues/87
     data_reviews:
-      - https://linktodatareviews.page
+      - https://github.com/mozilla-extensions/firefox-bridge/issues/87
     notification_emails:
-      - gsherman@mozilla.com
+      - dual-browser-owner@mozilla.com
     expires: never
     extra_keys:
       browser:
@@ -181,15 +181,16 @@ launch_event:
     description: |
       The browser did not launch due to a native messaging host fault. (Chromium Only)
     bugs:
-      - https://linktobugs.page
+      - https://github.com/mozilla-extensions/firefox-bridge/issues/87
     data_reviews:
-      - https://linktodatareviews.page
+      - https://github.com/mozilla-extensions/firefox-bridge/issues/87
     notification_emails:
-      - gsherman@mozilla.com
+      - dual-browser-owner@mozilla.com
     expires: never
     extra_keys:
       command:
         description: The command used within the NMH. LaunchFirefox/LaunchFirefoxPrivate
+        type: string
       native_messaging_host:
         description: The id of the NMH used to launch the browser, which equates to the build channel and only to the build channel.
         type: string
@@ -202,11 +203,11 @@ setting_event:
     lifetime: ping
     description: The external browser has been changed
     bugs:
-      - https://linktobugs.page
+      - https://github.com/mozilla-extensions/firefox-bridge/issues/87
     data_reviews:
-      - https://linktodatareviews.page
+      - https://github.com/mozilla-extensions/firefox-bridge/issues/87
     notification_emails:
-      - gsherman@mozilla.com
+      - dual-browser-owner@mozilla.com
     extra_keys:
       from:
         description: The previously set browser
@@ -226,9 +227,9 @@ telemetry_event:
       - events
     description: The ID used to link the extensions and firefox together
     bugs:
-      - https://linktobugs.page
+      - https://github.com/mozilla-extensions/firefox-bridge/issues/87
     data_reviews:
-      - https://linktodatareviews.page
+      - https://github.com/mozilla-extensions/firefox-bridge/issues/87
     notification_emails:
-      - gsherman@mozilla.com
+      - dual-browser-owner@mozilla.com
     expires: never
