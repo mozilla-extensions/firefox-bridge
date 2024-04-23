@@ -22,7 +22,7 @@
     "description": "'Firefox Bridge' is the name of the extension. Do not translate 'Firefox Bridge'."
   },
   "leaveFeedbackContextMenu": {
-    "message": "Invia un commento"
+    "message": "Invia feedback"
   },
   "manageExternalSitesContextMenus": {
     "message": "Gestisci i miei siti esterni"
@@ -141,10 +141,10 @@
     "message": "Trova le scorciatoie per questa estensione nelle <a>impostazioni dell’estensione</a>."
   },
   "welcomePageTryOtherExtensionFirefox": {
-    "message": "Vuoi tornare a Firefox da un altro browser? <a>Prova la nostra estensione per Chrome.</a>"
+    "message": "Vuoi passare velocemente a Firefox da un altro browser? <a>Prova la nostra estensione per Chromium.</a>"
   },
   "welcomePageTryOtherExtensionChromium": {
-    "message": "Torna a questo browser con la nostra <a>estensione in Firefox.</a>"
+    "message": "Passa velocemente a questo browser con la nostra <a>estensione per Firefox</a>."
   },
   "welcomePageDefaultBrowser": {
     "message": "(Browser predefinito)"
@@ -159,9 +159,9 @@
     "message": "Apri sito in Firefox"
   },
   "shortcutPageLaunchFirefoxPrivateDescription": {
-    "message": "Apri il sito nella finestra anonima di Firefox"
+    "message": "Apri sito in una finestra anonima di Firefox"
   },
   "shortcutPageLaunchBrowserDescription": {
-    "message": "Apri il sito nel browser selezionato"
+    "message": "Apri sito nel browser selezionato"
   }
 }
