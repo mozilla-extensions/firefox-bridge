@@ -21,6 +21,9 @@
     "message": "Bienvenue dans Firefox Bridge",
     "description": "'Firefox Bridge' is the name of the extension. Do not translate 'Firefox Bridge'."
   },
+  "leaveFeedbackContextMenu": {
+    "message": "Donner mon avis"
+  },
   "manageExternalSitesContextMenus": {
     "message": "Gérer mes sites externes"
   },
@@ -137,11 +140,11 @@
   "welcomePageManageShortcutsChromium": {
     "message": "Retrouvez les raccourcis de cette extension en vous rendant dans les <a>paramètres de l’extension</a>."
   },
-  "welcomePageTryFirefox": {
-    "message": "Vous voulez revenir sur Firefox ? <a>Essayez notre extension Chromium.</a>"
+  "welcomePageTryOtherExtensionFirefox": {
+    "message": "Vous voulez revenir sur Firefox depuis un autre navigateur ? <a>Essayez notre extension Chromium.</a>"
   },
-  "welcomePageTryChromium": {
-    "message": "Revenez rapidement dans ce navigateur grâce à <a>notre extension dans Firefox.</a>"
+  "welcomePageTryOtherExtensionChromium": {
+    "message": "Revenez rapidement sur ce navigateur grâce à <a>notre extension dans Firefox.</a>"
   },
   "welcomePageDefaultBrowser": {
     "message": "(Navigateur par défaut)"
@@ -151,5 +154,14 @@
   },
   "welcomePageNoExternalBrowserErrorFirefox": {
     "message": "Il semble que vous n’ayez pas d’autre navigateur installé sur cet appareil"
+  },
+  "shortcutPageLaunchFirefoxDescription": {
+    "message": "Ouvrir le site dans Firefox"
+  },
+  "shortcutPageLaunchFirefoxPrivateDescription": {
+    "message": "Ouvrir le site dans une fenêtre de navigation privée de Firefox"
+  },
+  "shortcutPageLaunchBrowserDescription": {
+    "message": "Ouvrir le site avec le navigateur sélectionné"
   }
 }
