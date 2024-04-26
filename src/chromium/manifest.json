@@ -15,12 +15,9 @@
     "contextMenus",
     "tabs",
     "storage",
-    "notifications",
-    "declarativeNetRequest",
     "declarativeContent",
     "nativeMessaging"
   ],
-  "host_permissions": ["<all_urls>"],
   "background": {
     "service_worker": "background.bundle.js",
     "type": "module"

@@ -7,8 +7,6 @@
     "contextMenus",
     "tabs",
     "storage",
-    "notifications",
-    "declarativeNetRequest",
     "webNavigation",
     "mozillaAddons"
   ],
