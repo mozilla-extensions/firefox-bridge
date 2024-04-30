@@ -4,8 +4,8 @@ A Chromium and Firefox extension that allows the user to open Firefox from Chrom
 
 ## Requirements
 
-- Firefox Nightly or Developer Edition 122+
-- Some Chromium browser 88+ 
+- Firefox Nightly or Developer Edition 122+ (for the Firefox extension) or 126+ (to be able to launch pages in Firefox from the chromium extension)
+- Some Chromium browser 97+
 
 ## Development
 
@@ -24,6 +24,15 @@ To see changes made to the extension, first build the extension, then reload the
 
 To see console logs, inspect the service worker.
 
+To be able to launch pages in Firefox, native messaging must be enabled. To do so:
+
+1. Ensure you have Firefox Nightly v126 or later installed. You can find this out in `about:preferences` and search “Update”
+2. Load the extension into your chromium browser and take note of the ID. It will look something like this: `ID: idlakildeggleoomlepepihnnilkckob`
+3. On Firefox Nightly, navigate to `about:config` and set `browser.firefoxbridge.enabled` to `true` and change the field in `browser.firefoxbridge.extensionOrigins` to “chrome-extension://`your-id-here`/“. 
+4. Completely close and reopen Firefox Nightly. Now, the native messaging host will be installed for that extension ID. If the incorrect ID is used or the configs are not set, then the extension will think Firefox is not installed.
+
+Repeat step 2 & 4 any time the ID changes.
+
 ### Run in Firefox
 
 Since Firefox Bridge for Firefox uses experimental APIs, you will need to use Firefox Nightly or Beta, then:
@@ -37,7 +46,7 @@ To load the extension:
 
 1. Go to `about:debugging#/runtime/this-firefox`
 2. Click on "Load Temporary Add-on..."
-3. Select the `build/firefox/manifest.json` file or the `dist/firefox.zip` file.
+3. Select the `build/firefox/manifest.json` file.
 4. Click `Inspect` to see the console logs.
 
 ### Tests
@@ -48,12 +57,12 @@ The tests use the files in the `build` folder. Since the shared logic is the sam
 
 ### Building
 
-Since the Firefox and Chromium extension has a lot of shared logic, but also independent logic, the build process is a bit complicated. 
+Since the Firefox and Chromium extension has a lot of shared logic, but also independent logic, the build process is a bit complicated.
 
-- The `src` folder contains the `shared`, `_locales`, `firefox`, and `chromium` folders. 
+- The `src` folder contains the `shared`, `_locales`, `firefox`, and `chromium` folders.
 - The `chromium` and `firefox` folders contain an `interfaces` folder that contains the interfaces for the shared logic.
-- The import statements within the `shared` folder will always point to the code in the `chromium/interfaces` folder. This is to simplify development within the IDE.
-- The `build` directory holds the built extension and the `dist` folder holds the zipped version.
+- Within shared files, imports from respective interfaces are done through the `Interfaces` alias. This resolves to the correct interface at build time.
+- The `build` directory holds the built extension and the `dist` folder holds the packaged versions.
 
 ## Experimental APIs
 
