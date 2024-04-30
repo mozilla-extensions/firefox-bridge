@@ -24,6 +24,7 @@
     "type": "module",
     "persistent": false
   },
+  "browser_action": {},
   "commands": {
     "launchBrowser": {
       "suggested_key": {

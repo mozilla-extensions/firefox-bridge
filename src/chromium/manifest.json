@@ -25,11 +25,7 @@
     "service_worker": "background.bundle.js",
     "type": "module"
   },
-  "action": {
-    "default_icon": {
-      "32": "images/firefox/firefox32.png"
-    }
-  },
+  "action": {},
   "commands": {
     "launchBrowser": {
       "suggested_key": {
