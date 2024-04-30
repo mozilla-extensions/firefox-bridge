@@ -58,7 +58,6 @@ global.browser = {
     setUninstallURL: jest.fn(),
   },
   action: {
-    setIcon: jest.fn(),
     onClicked: {
       addListener: jest.fn(),
     },
@@ -66,7 +65,6 @@ global.browser = {
     disable: jest.fn(),
   },
   browserAction: {
-    setIcon: jest.fn(),
     onClicked: {
       addListener: jest.fn(),
     },
