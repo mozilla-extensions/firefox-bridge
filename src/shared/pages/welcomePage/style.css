@@ -101,6 +101,12 @@ span {
   margin-top: 5px;
 }
 
+p[data-locale="welcomePagePrivacyPolicyIntro"],
+p[data-locale="welcomePagePrivacyPolicyDescription"],
+p[data-locale="welcomePagePrivacyPolicyInteractionData"] {
+  font-size: 14px;
+}
+
 /* Shortcuts List Styling */
 #shortcuts-list {
   margin-top: -20px;
