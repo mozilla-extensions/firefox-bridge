@@ -1,6 +1,5 @@
 import {
   getInstalledFirefoxVariant,
-  getDefaultIconPath,
   getTelemetryID,
 } from "../../../src/chromium/interfaces/getters.js";
 
@@ -59,24 +58,6 @@ describe("chromium/interfaces/getters.js", () => {
 
       const result = await getInstalledFirefoxVariant();
       expect(result).toBe("org.mozilla.firefox_bridge_nmh_dev"); // this is the first variant in the list
-    });
-  });
-
-  describe("getDefaultIconPath()", () => {
-    it("should return the firefox icon path", async () => {
-      await setStorage("currentExternalBrowser", "Firefox");
-      const result = await getDefaultIconPath();
-      expect(result).toStrictEqual({
-        32: browser.runtime.getURL("images/firefox/firefox32.png"),
-      });
-    });
-
-    it("should return the firefox private icon path", async () => {
-      await setStorage("currentExternalBrowser", "Firefox Private Browsing");
-      const result = await getDefaultIconPath();
-      expect(result).toStrictEqual({
-        32: browser.runtime.getURL("images/firefox-private/private32.png"),
-      });
     });
   });
 
