@@ -89,17 +89,17 @@
   "welcomePageAlwaysPrivateCheckbox": {
     "message": "Always open sites in a Firefox Private Window when switching"
   },
-  "welcomePageTelemetryCheckbox": {
+  "welcomePageTelemetryCheckboxNotice": {
     "message": "Allow Mozilla to collect information about how you use this extension so we can make it better."
   },
   "welcomePagePrivacyPolicyIntro": {
-    "message": "The Firefox Bridge Extension allows you to open a web page in the browser of your choice. The <a>Mozilla Privacy Policy</a> describes how we handle information that we receive from you."
+    "message": "The Firefox Bridge extension allows you to open a web page in the browser of your choice. The <a>Mozilla Privacy Policy</a> describes how we handle information that we receive from you."
   },
   "welcomePagePrivacyPolicyDescription": {
     "message": "Here are the key things you should know about how the Firefox Bridge Extension handles your data:"
   },
   "welcomePagePrivacyPolicyInteractionData": {
-    "message": "Interaction data. Mozilla receives information about your interaction with Firefox Bridge across all instances of Firefox Bridge on your device, including (1) Event Data and Metrics data, such as when and how many pages you open in a new browser (though not what those pages are), (2) Interactions with Firefox Bridge’s menus and icons, and (3) Length of time you use the extension.  We also receive your device, operating system, version, and language preference, etc."
+    "message": "Interaction data. Mozilla receives information about your interaction with Firefox Bridge across all instances of Firefox Bridge on your device, including (1) Event Data and Metrics data, such as when and how many pages you open in a new browser (though not what those pages are), (2) Interactions with Firefox Bridge’s menus and icons, and (3) Length of time you use the extension.  We also receive your device operating system, version, and language preference, etc."
   },
   "welcomePageNoShortcutsFirefox": {
     "message": "You don’t have any shortcuts set up for this extension. Create them by going to <a>extension settings.</a>"
