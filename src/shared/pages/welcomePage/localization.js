@@ -69,7 +69,7 @@ export function applyLocalization() {
   const elements = document.querySelectorAll("[data-locale]");
   const hrefMapping = {
     welcomePageErrorChromium: "https://mzl.la/dbe-fxinstall",
-    welcomePagePrivacyPolicyIntro: "https://www.mozilla.org/en-US/privacy/",
+    welcomePagePrivacyPolicyIntro: "https://www.mozilla.org/privacy/",
     welcomePageNoExternalBrowserErrorChromium:
       "https://www.mozilla.org/firefox/new/",
     welcomePageTryOtherExtensionChromium: "https://mzl.la/dbe-firefox",
