@@ -90,7 +90,7 @@
     "message": "Apri sempre i siti in una finestra anonima quando passi a Firefox"
   },
   "welcomePageTelemetryCheckboxNotice": {
-    "message": "Consenti a Mozilla di raccogliere informazioni su come utilizzi questa estensione per migliorarla."
+    "message": "Consenti a Mozilla di raccogliere informazioni su come utilizzi questa estensione per contribuire al suo miglioramento."
   },
   "welcomePagePrivacyPolicyIntro": {
     "message": "L’estensione per Firefox Bridge consente di aprire una pagina web nel browser che preferisci. L’<a>informativa sulla privacy di Mozilla</a> descrive come gestiamo le informazioni che riceviamo da te."
