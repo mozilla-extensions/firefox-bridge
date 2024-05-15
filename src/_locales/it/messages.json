@@ -89,8 +89,17 @@
   "welcomePageAlwaysPrivateCheckbox": {
     "message": "Apri sempre i siti in una finestra anonima quando passi a Firefox"
   },
-  "welcomePageTelemetryCheckbox": {
-    "message": "Consenti a Mozilla di raccogliere informazioni per contribuire al miglioramento di questa estensione. <a>Informativa sulla privacy</a>"
+  "welcomePageTelemetryCheckboxNotice": {
+    "message": "Consenti a Mozilla di raccogliere informazioni su come utilizzi questa estensione per migliorarla."
+  },
+  "welcomePagePrivacyPolicyIntro": {
+    "message": "L’estensione per Firefox Bridge consente di aprire una pagina web nel browser che preferisci. L’<a>informativa sulla privacy di Mozilla</a> descrive come gestiamo le informazioni che riceviamo da te."
+  },
+  "welcomePagePrivacyPolicyDescription": {
+    "message": "Ecco le principali informazioni che dovresti sapere su come l’estensione per Firefox Bridge gestisce i tuoi dati:"
+  },
+  "welcomePagePrivacyPolicyInteractionData": {
+    "message": "Dati di interazione. Mozilla riceve informazioni sulla tua interazione con Firefox Bridge in tutte le istanze di Firefox Bridge sul tuo dispositivo, inclusi (1) dati sugli eventi e dati sulle metriche, come quando e quante pagine apri in un nuovo browser (ma non quali sono queste pagine) , (2) Interazioni con i menu e le icone di Firefox Bridge e (3) Durata dell’utilizzo dell’estensione. Riceviamo anche il sistema operativo del dispositivo, la versione, la lingua preferita, ecc."
   },
   "welcomePageNoShortcutsFirefox": {
     "message": "Non sono state configurate scorciatoie per questa estensione. Puoi crearle nelle <a>impostazioni dell’estensione</a>."
