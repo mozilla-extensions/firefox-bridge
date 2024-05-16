@@ -89,8 +89,14 @@
   "welcomePageAlwaysPrivateCheckbox": {
     "message": "Toujours ouvrir les sites dans une fenêtre privée de Firefox lors du basculement"
   },
-  "welcomePageTelemetryCheckbox": {
-    "message": "Autoriser Mozilla à collecter des informations sur la façon dont vous utilisez cette extension, afin que nous puissions l’améliorer. <a>Politique de confidentialité</a>"
+  "welcomePageTelemetryCheckboxNotice": {
+    "message": "Autoriser Mozilla à collecter des informations sur la façon dont vous utilisez cette extension, afin que nous puissions l’améliorer."
+  },
+  "welcomePagePrivacyPolicyIntro": {
+    "message": "L’extension Firefox Bridge vous permet d’ouvrir une page web dans le navigateur de votre choix. La <a>Politique de confidentialité de Mozilla</a> décrit comment nous traitons les informations que nous recevons de votre part."
+  },
+  "welcomePagePrivacyPolicyDescription": {
+    "message": "Voici ce que vous devez savoir sur la façon dont l’extension Firefox Bridge gère vos données :"
   },
   "welcomePageNoShortcutsFirefox": {
     "message": "Vous n’avez aucun raccourci configuré pour cette extension. Vous pouvez en créer depuis les <a>paramètres de l’extension</a>."
