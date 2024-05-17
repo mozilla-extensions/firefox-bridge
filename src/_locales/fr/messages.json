@@ -98,6 +98,9 @@
   "welcomePagePrivacyPolicyDescription": {
     "message": "Voici ce que vous devez savoir sur la façon dont l’extension Firefox Bridge gère vos données :"
   },
+  "welcomePagePrivacyPolicyInteractionData": {
+    "message": "Données d’interaction. Mozilla reçoit des informations à propos de votre interaction avec Firefox Bridge pour toutes les instances de Firefox Bridge installées sur votre appareil, et notamment (1) des données d’évènements et de métriques, telles que quand et combien de pages vous ouvrez dans un nouveau navigateur (mais pas lesquels) , (2) les interactions avec les menus et les icônes de Firefox Bridge, et (3) la durée d’utilisation de l’extension. Nous recevons également le système d’exploitation de votre appareil, la version, vos préférences de langue, etc."
+  },
   "welcomePageNoShortcutsFirefox": {
     "message": "Vous n’avez aucun raccourci configuré pour cette extension. Vous pouvez en créer depuis les <a>paramètres de l’extension</a>."
   },
