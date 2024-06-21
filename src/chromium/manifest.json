@@ -5,31 +5,24 @@
   "description": "Easily switch from Chrome to Firefox when you want to use Firefox's extra privacy features.",
   "version": "0.1",
   "icons": {
-    "16": "images/firefox/firefox16.png",
-    "32": "images/firefox/firefox32.png",
-    "48": "images/firefox/firefox48.png",
-    "96": "images/firefox/firefox96.png",
-    "128": "images/firefox/firefox128.png"
+    "16": "images/16.png",
+    "32": "images/32.png",
+    "48": "images/48.png",
+    "64": "images/64.png",
+    "128": "images/128.png"
   },
   "permissions": [
     "contextMenus",
     "tabs",
     "storage",
-    "notifications",
-    "declarativeNetRequest",
     "declarativeContent",
     "nativeMessaging"
   ],
-  "host_permissions": ["<all_urls>"],
   "background": {
     "service_worker": "background.bundle.js",
     "type": "module"
   },
-  "action": {
-    "default_icon": {
-      "32": "images/firefox/firefox32.png"
-    }
-  },
+  "action": {},
   "commands": {
     "launchBrowser": {
       "suggested_key": {

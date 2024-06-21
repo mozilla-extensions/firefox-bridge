@@ -89,8 +89,17 @@
   "welcomePageAlwaysPrivateCheckbox": {
     "message": "Websites beim Wechseln immer in einem privaten Fenster von Firefox öffnen"
   },
-  "welcomePageTelemetryCheckbox": {
-    "message": "Erlauben Sie Mozilla, Daten darüber zu sammeln, wie Sie diese Erweiterung verwenden, damit wir sie verbessern können. <a>Datenschutzhinweis</a>"
+  "welcomePageTelemetryCheckboxNotice": {
+    "message": "Mozilla erlauben, Informationen darüber zu sammeln, wie Sie diese Erweiterung verwenden, damit wir sie verbessern können."
+  },
+  "welcomePagePrivacyPolicyIntro": {
+    "message": "Die Firefox-Bedge-Erweiterung ermöglicht es Ihnen, eine Webseite in dem Browser Ihrer Wahl zu öffnen. Die <a>Mozilla-Datenschutzrichtlinie</a> beschreibt, wie wir mit Daten umgehen, die wir von Ihnen erhalten."
+  },
+  "welcomePagePrivacyPolicyDescription": {
+    "message": "Hier sind die wichtigsten Dinge, die Sie über den Umgang der Firefox-Brigde-Erweiterung mit Ihren Daten wissen sollten:"
+  },
+  "welcomePagePrivacyPolicyInteractionData": {
+    "message": "Interaktionsdaten. Mozilla erhält Informationen über Ihre Interaktion mit Firefox Bridge über alle Instanzen von Firefox Bridge auf Ihrem Gerät, einschließlich (1) Ereignisdaten und Metrik-Daten, wie zum Beispiel wann und wie viele Seiten Sie in einem neuen Browser öffnen (aber nicht, welche Seiten dies sind) , (2) Interaktionen mit den Menüs und Symbolen von Firefox Bridge und (3) die Zeit, in der Sie die Erweiterung verwenden. Wir erhalten auch das Betriebssystem, die Version, die bevorzugte Sprache, usw. Ihres Geräts."
   },
   "welcomePageNoShortcutsFirefox": {
     "message": "Für diese Erweiterung sind keine Tastenkombinationen eingerichtet. Erstellen Sie sie in den <a>Erweiterungseinstellungen</a>."

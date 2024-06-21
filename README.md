@@ -7,11 +7,15 @@ A Chromium and Firefox extension that allows the user to open Firefox from Chrom
 - Firefox Nightly or Developer Edition 122+ (for the Firefox extension) or 126+ (to be able to launch pages in Firefox from the chromium extension)
 - Some Chromium browser 97+
 
+
 ## Development
 
 Run `npm i` to install dependencies.
 
 Run `npm run build` to build the extension.
+
+> [!WARNING]
+> `npm run build` requires python < 3.12. You may want to specify a different python version if your default python version is 3.12 or above: `GLEAN_PYTHON=python3.11 npm run build`
 
 To see changes made to the extension, first build the extension, then reload the extension in the browser.
 
