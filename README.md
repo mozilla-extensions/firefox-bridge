@@ -5,13 +5,16 @@ A Chromium and Firefox extension that allows the user to open Firefox from Chrom
 ## Requirements
 
 - Firefox Nightly or Developer Edition 122+
-- Some Chromium browser 88+ 
+- Some Chromium browser 88+
 
 ## Development
 
 Run `npm i` to install dependencies.
 
 Run `npm run build` to build the extension.
+
+> [!WARNING]
+> `npm run build` requires python < 3.12. You may want to specify a different python version if your default python version is 3.12 or above: `GLEAN_PYTHON=python3.11 npm run build`
 
 To see changes made to the extension, first build the extension, then reload the extension in the browser.
 
@@ -48,9 +51,9 @@ The tests use the files in the `build` folder. Since the shared logic is the sam
 
 ### Building
 
-Since the Firefox and Chromium extension has a lot of shared logic, but also independent logic, the build process is a bit complicated. 
+Since the Firefox and Chromium extension has a lot of shared logic, but also independent logic, the build process is a bit complicated.
 
-- The `src` folder contains the `shared`, `_locales`, `firefox`, and `chromium` folders. 
+- The `src` folder contains the `shared`, `_locales`, `firefox`, and `chromium` folders.
 - The `chromium` and `firefox` folders contain an `interfaces` folder that contains the interfaces for the shared logic.
 - The import statements within the `shared` folder will always point to the code in the `chromium/interfaces` folder. This is to simplify development within the IDE.
 - The `build` directory holds the built extension and the `dist` folder holds the zipped version.
